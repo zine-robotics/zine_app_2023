@@ -120,7 +120,7 @@ class _DashboardState extends State<Dashboard> {
                                             color: Color(0xff646464))),
                                   ])),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         Flexible(

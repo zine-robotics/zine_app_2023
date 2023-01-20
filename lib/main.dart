@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:zineapp2023/screens/dashboard/dashboard.dart';
 import 'package:zineapp2023/screens/onboarding/landing.dart';
+import 'package:zineapp2023/screens/home.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Poppins',
         primarySwatch: Colors.blue,
       ),
-      home: Dashboard(),
+      home: Home(),
     );
   }
 }
