@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'login_screen.dart';
+
 class LandingScreen extends StatelessWidget {
   const LandingScreen({Key? key}) : super(key: key);
 
@@ -69,55 +71,64 @@ class LandingScreen extends StatelessWidget {
                       color: Colors.white,
                     ),
                   ),
-                  SizedBox(height: 110.0,),
+                  const SizedBox(
+                    height: 110.0,
+                  ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       ElevatedButton(
-                        onPressed: () {},
-                        child: Text(
-                          "Login",
-                          style: TextStyle(
-                            color: Color(0xff0c72b0),
-                            fontFamily: "Poppins",
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.w400
-                          ),
-                        ),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => LoginPage()));
+                        },
                         style: ButtonStyle(
-                          padding: MaterialStateProperty.all(EdgeInsets.all(20.0)),
+                          padding:
+                              MaterialStateProperty.all(EdgeInsets.all(20.0)),
                           backgroundColor:
                               MaterialStateProperty.all(Colors.white),
-                          shape: MaterialStateProperty.all<
-                              RoundedRectangleBorder>(
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(28.0),
                             ),
                           ),
                         ),
+                        child: const Text(
+                          "Login",
+                          style: TextStyle(
+                              color: Color(0xff0c72b0),
+                              fontFamily: "Poppins",
+                              fontSize: 20.0,
+                              fontWeight: FontWeight.w400),
+                        ),
                       ),
-                      SizedBox(height: 20.0,),
+                      const SizedBox(
+                        height: 20.0,
+                      ),
                       ElevatedButton(
                         onPressed: () {},
-                        child: Text(
+                        style: ButtonStyle(
+                          padding:
+                              MaterialStateProperty.all(EdgeInsets.all(20.0)),
+                          backgroundColor:
+                              MaterialStateProperty.all(Colors.white),
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(28.0),
+                            ),
+                          ),
+                        ),
+                        child: const Text(
                           "Explore",
                           style: TextStyle(
                               color: Color(0xff0c72b0),
                               fontFamily: "Poppins",
                               fontSize: 20.0,
-                              fontWeight: FontWeight.w400
-                          ),
-                        ),
-                        style: ButtonStyle(
-                          padding: MaterialStateProperty.all(EdgeInsets.all(20.0)),
-                          backgroundColor:
-                          MaterialStateProperty.all(Colors.white),
-                          shape: MaterialStateProperty.all<
-                              RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(28.0),
-                            ),
-                          ),
+                              fontWeight: FontWeight.w400),
                         ),
                       ),
                     ],
