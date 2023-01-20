@@ -39,6 +39,8 @@ dependencies:
   table_calendar: ^3.0.9
   flutter_neat_and_clean_calendar: ^0.3.13+28
   carousel_slider: ^4.2.1
+  provider: ^6.0.5
+  decorated_icon: ^1.2.1
 
 dev_dependencies:
   flutter_test:
