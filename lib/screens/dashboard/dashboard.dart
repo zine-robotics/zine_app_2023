@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_neat_and_clean_calendar/flutter_neat_and_clean_calendar.dart';
-import 'package:zineapp2023/screens/dashboard/dashCalendar.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
 class Dashboard extends StatefulWidget {
