@@ -79,21 +79,55 @@ class _DashboardState extends State<Dashboard> {
                       height: 15,
                     ),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Flexible(
                           flex: 2,
                           fit: FlexFit.tight,
                           child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(24.0),
-                              color: Color.fromARGB(255, 110, 108, 108),
-                            ),
-                          ),
+                              height: 220,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(24.0),
+                                color: Color.fromARGB(255, 255, 255, 255),
+                              ),
+                              child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  // ignore: prefer_const_literals_to_create_immutables
+                                  children: <Widget>[
+                                    const SizedBox(
+                                      height: 15,
+                                    ),
+                                    const Text(
+                                      "15 JAN",
+                                      style: TextStyle(
+                                          fontSize: 26.0,
+                                          fontWeight: FontWeight.w700,
+                                          color: Color(0xff0C72B0)),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    // ignore: prefer_const_constructors
+                                    SizedBox(
+                                      height: 15,
+                                    ),
+                                    const Text("Events Today:",
+                                        style: TextStyle(
+                                            height: 0.9,
+                                            letterSpacing: 0.3,
+                                            fontSize: 17.0,
+                                            fontWeight: FontWeight.w300,
+                                            color: Color(0xff646464))),
+                                  ])),
+                        ),
+                        SizedBox(
+                          width: 10,
                         ),
                         Flexible(
                           flex: 2,
                           fit: FlexFit.tight,
                           child: Container(
+                              height: 220,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(24.0),
                                 color: Color.fromARGB(255, 255, 255, 255),
