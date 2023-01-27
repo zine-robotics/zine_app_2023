@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:zineapp2023/screens/chat/chat_home.dart';
+import 'package:zineapp2023/screens/projects.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Poppins',
         primarySwatch: Colors.blue,
       ),
-      home: ChatHome(),
+      home: Projects(),
       debugShowCheckedModeBanner: false,
     );
   }
