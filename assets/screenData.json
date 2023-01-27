@@ -1,6 +1,16 @@
 {
 	"achivement": [
 		{
+			"title": "Cosmo Clench",
+			"description": "Bagged the 2nd position in a manual-bot competition hosted by IIT Bombay Techfest. Designed a 20x25cm manual gripper robot to traverse various terrains , used frequency remote to control and arduino to process the signals.",
+			"date": "December 2022"
+		},
+		{
+			"title": "Weld Right",
+			"description": "Ranked Top 10 in India for a machine learning hackathon organized by Godrej & Boyce. Created a DNN Model to classify welding defects (multilable) based upon welding parameters,and provide the TCO and ROI of model deployment.",
+			"date": "December 2022"
+		},
+		{
 			"title": "IEEE Research paper",
 			"description": "A research paper on Shortest Path Evaluation with Enhanced Linear Graph and Dijkstra Algorithm was presented at 59th Annual Conference of SICE.",
 			"date": "November 2020"
