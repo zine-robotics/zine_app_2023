@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Home extends StatelessWidget {
-  const Home({super.key});
+  const Home({Key? key }): super(key:key);
 
   static const cards = [
     {"name": "Team", "image": "assets/images/team.png"},
@@ -74,7 +74,7 @@ class Home extends StatelessWidget {
                       child: Container(
                         height: MediaQuery.of(context).size.height / 2 + 60,
                         width: MediaQuery.of(context).size.width,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           color: Color(0xFFEFEFEF),
                           borderRadius: BorderRadius.vertical(
                             top: Radius.circular(20),
@@ -95,7 +95,7 @@ class Home extends StatelessWidget {
                                 return Padding(
                                   padding: const EdgeInsets.all(5),
                                   child: Container(
-                                    decoration: BoxDecoration(
+                                    decoration: const BoxDecoration(
                                       color: Colors.white,
                                       borderRadius: BorderRadius.all(
                                         Radius.circular(10),
@@ -103,7 +103,7 @@ class Home extends StatelessWidget {
                                       boxShadow: [
                                         BoxShadow(
                                           color: Color.fromRGBO(0, 0, 0, 0.1),
-                                          offset: const Offset(
+                                          offset: Offset(
                                             5.0,
                                             15.0,
                                           ),

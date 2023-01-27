@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zineapp2023/components/gradient.dart';
 
 import 'login_screen.dart';
 
@@ -11,14 +12,8 @@ class LandingScreen extends StatelessWidget {
       body: Center(
         child: Container(
           decoration: const BoxDecoration(
-              gradient: LinearGradient(
-            begin: Alignment.centerRight,
-            end: Alignment.centerLeft,
-            colors: [
-              Color(0xff268CCB),
-              Color(0xff003D63),
-            ],
-          )),
+              gradient: mainGrad
+          ),
           child: SafeArea(
             child: Padding(
               padding: const EdgeInsets.all(30.0),

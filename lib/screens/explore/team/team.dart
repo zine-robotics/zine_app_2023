@@ -1,9 +1,9 @@
 import "package:flutter/material.dart";
 import 'package:zineapp2023/components/gradient.dart';
 import 'package:zineapp2023/components/tab_tiles.dart';
-import 'package:zineapp2023/screens/explore/team_tile.dart';
+import 'package:zineapp2023/screens/explore/team/team_tile.dart';
 
-import '../../theme/color.dart';
+import '../../../theme/color.dart';
 
 class TeamScreen extends StatelessWidget {
   const TeamScreen({Key? key}) : super(key: key);
@@ -24,6 +24,9 @@ class TeamScreen extends StatelessWidget {
         child: Scaffold(
           backgroundColor: backgroundGrey,
           appBar: AppBar(
+            shape: const RoundedRectangleBorder(
+                borderRadius:
+                BorderRadius.vertical(bottom: Radius.circular(35.0))),
             elevation: 0,
             toolbarHeight: MediaQuery.of(context).size.height * 0.1,
             flexibleSpace: Container(
@@ -36,7 +39,7 @@ class TeamScreen extends StatelessWidget {
                   fontFamily: 'Poppins-Black',
                   fontWeight: FontWeight.w900,
                   letterSpacing: 0.8,
-                  fontSize: 25.0),
+                  fontSize: 30.0),
             ),
             bottom: const TabBar(
               labelColor: Colors.white,

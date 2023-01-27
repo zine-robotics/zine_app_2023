@@ -196,5 +196,84 @@
 			"description": "Some special people are usually deprived of normal communication with other people in the society. It has been observed that they find it really difficult at times to interact with normal people with their gestures , as only a very few of those are recognized by most people. Since people with hearing impairment cannot talk like normal people so they have to depend on some sort of visual communication in most of the time. Visual-gestural language is their primary means of expression which involves various hand gestures , facial expressions like eyebrow movement and lip-mouth movement. What we aim to achieve ? The idea is to make computers to understand human language and develop a user friendly human computer interfaces (HCI). Making a computer understand speech, facial expressions and human gestures are some steps towards it thereby making a translation system that can successfully convert this visual gestural language into digital English text or speech."
 		}
 	],
-	"team": []
+	"team": [
+		[
+			{
+				"name": "Harshit Sandilya",
+				"email": "2021UCP1382"
+			},
+			{
+				"name": "Rupesh Yadav",
+				"email": "2021UEC1533"
+			},
+			{
+				"name": "Priyansh Kothari",
+				"email": "2021UCP1013"
+			},
+			{
+				"name": "Kasvala Meet",
+				"email": "2021UEE1378"
+			},
+			{
+				"name": "Yug Modi",
+				"email": "2021KUCP1110"
+			},
+			{
+				"name": "Granth Gupta",
+				"email": "2021KUCP1015"
+			}
+		],
+		[
+			{
+				"name": "Divyansh Garg",
+				"email": "2021"
+			},
+			{
+				"name": "Rupesh Yadav",
+				"email": "2021"
+			},
+			{
+				"name": "Priyansh",
+				"email": "2021"
+			},
+			{
+				"name": "Meet",
+				"email": "2021"
+			},
+			{
+				"name": "Yug",
+				"email": "2021"
+			},
+			{
+				"name": "Granth",
+				"email": "2021"
+			}
+		],
+		[
+			{
+				"name": "Divyansh Garg",
+				"email": "2021"
+			},
+			{
+				"name": "Rupesh Yadav",
+				"email": "2021"
+			},
+			{
+				"name": "Priyansh",
+				"email": "2021"
+			},
+			{
+				"name": "Meet",
+				"email": "2021"
+			},
+			{
+				"name": "Yug",
+				"email": "2021"
+			},
+			{
+				"name": "Granth",
+				"email": "2021"
+			}
+		]
+	]
 }

@@ -53,7 +53,7 @@ class ChatCard extends StatelessWidget {
         ),
         width: MediaQuery.of(context).size.width - 50,
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(16.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
