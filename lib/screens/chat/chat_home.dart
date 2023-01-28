@@ -13,6 +13,7 @@ class ChatHome extends StatelessWidget {
         backgroundColor: backgroundGrey,
         appBar: AppBar(
           elevation: 0,
+          toolbarHeight: MediaQuery.of(context).size.height * 0.1,
           backgroundColor: Colors.transparent,
           leading: Icon(
             Icons.arrow_back,

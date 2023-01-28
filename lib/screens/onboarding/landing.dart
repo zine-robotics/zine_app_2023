@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:zineapp2023/components/gradient.dart';
 
+import '../../common/routing.dart';
 import 'login_screen.dart';
 
 class LandingScreen extends StatelessWidget {
@@ -11,14 +13,8 @@ class LandingScreen extends StatelessWidget {
       body: Center(
         child: Container(
           decoration: const BoxDecoration(
-              gradient: LinearGradient(
-            begin: Alignment.centerRight,
-            end: Alignment.centerLeft,
-            colors: [
-              Color(0xff268CCB),
-              Color(0xff003D63),
-            ],
-          )),
+              gradient: mainGrad
+          ),
           child: SafeArea(
             child: Padding(
               padding: const EdgeInsets.all(30.0),
@@ -109,7 +105,7 @@ class LandingScreen extends StatelessWidget {
                         height: 20.0,
                       ),
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () => Navigator.of(context).push(Routes.exploreScreen()) ,
                         style: ButtonStyle(
                           padding:
                               MaterialStateProperty.all(EdgeInsets.all(20.0)),
