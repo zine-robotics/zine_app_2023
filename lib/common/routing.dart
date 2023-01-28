@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:zineapp2023/screens/explore/about/about.dart';
+import 'package:zineapp2023/screens/explore/project.dart';
 import 'package:zineapp2023/screens/explore/team/team.dart';
 import 'package:zineapp2023/screens/explore/explore.dart';
 
@@ -25,7 +26,9 @@ class Routes {
       cupertinoRoute(RouteName.teamScreen, (ctx) => const TeamScreen());
 
   // static Route achievementScreen() => cupertinoRoute(RouteName.achievementScreen, (ctx)=> const TeamScreen());
-  // static Route projectScreen() => cupertinoRoute(RouteName.projectScreen, (ctx)=> const TeamScreen());
+  static Route projectScreen() =>
+      cupertinoRoute(RouteName.projectScreen, (ctx) => const ProjectScreen());
+
   static Route aboutMe() =>
       cupertinoRoute(RouteName.aboutMe, (ctx) => const AboutScreen());
 

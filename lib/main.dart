@@ -13,7 +13,7 @@ import 'package:zineapp2023/screens/explore/explore.dart';
 import 'package:zineapp2023/screens/chat/chat_home.dart';
 import 'package:zineapp2023/screens/onboarding/login_screen.dart';
 
-import 'package:zineapp2023/screens/projects.dart';
+import 'package:zineapp2023/screens/explore/project.dart';
 
 
 void main() {

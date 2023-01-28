@@ -33,6 +33,9 @@ class Explore extends StatelessWidget {
       case RouteName.aboutMe:
         await Navigator.of(context).push(Routes.aboutMe());
         break;
+      case RouteName.projectScreen:
+        await Navigator.of(context).push(Routes.projectScreen());
+        break;
     }
   }
 
