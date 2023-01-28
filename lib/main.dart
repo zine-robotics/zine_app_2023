@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:provider/provider.dart';
 import 'package:zineapp2023/dictionary/about.dart';
 import 'package:zineapp2023/screens/dashboard/dashboard.dart';
@@ -11,6 +12,8 @@ import 'package:zineapp2023/screens/onboarding/landing.dart';
 import 'package:zineapp2023/screens/explore/explore.dart';
 import 'package:zineapp2023/screens/chat/chat_home.dart';
 import 'package:zineapp2023/screens/onboarding/login_screen.dart';
+
+import 'package:zineapp2023/screens/projects.dart';
 
 
 void main() {
