@@ -1,4 +1,3 @@
-import 'package:decorated_icon/decorated_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neat_and_clean_calendar/flutter_neat_and_clean_calendar.dart';
 import 'package:provider/provider.dart';
@@ -8,7 +7,7 @@ import 'package:zineapp2023/screens/dashboard/view_models/dashboard_vm.dart';
 import 'package:zineapp2023/theme/color.dart';
 
 class Dashboard extends StatelessWidget {
-  Dashboard({Key? key}) : super(key: key);
+  const Dashboard({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,65 +15,6 @@ class Dashboard extends StatelessWidget {
       builder: (context,dashboardVm,_) {
         return Scaffold(
           extendBody: true,
-          bottomNavigationBar: BottomNavigationBar(
-            elevation: 0,
-            backgroundColor: Colors.transparent,
-            items: const <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                activeIcon: DecoratedIcon(
-                  Icons.home,
-                  color: textColor,
-                  shadows: [
-                    BoxShadow(
-                      blurRadius: 42.0,
-                      color: Color(0xb40c72b0),
-                    ),
-                  ],
-                ),
-                label: 'Home',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.account_circle),
-                activeIcon: DecoratedIcon(
-                  Icons.account_circle,
-                  color: textColor,
-                  shadows: [
-                    BoxShadow(
-                      blurRadius: 42.0,
-                      color: Color(0xb40c72b0),
-                    ),
-                  ],
-                ),
-                label: 'Profile',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.access_time_filled),
-                activeIcon: DecoratedIcon(
-                  Icons.access_time_filled,
-                  color: textColor,
-                  shadows: [
-                    BoxShadow(
-                      blurRadius: 42.0,
-                      color: Color(0xb40c72b0),
-                    ),
-                  ],
-                ),
-                label: 'timeline',
-              ),
-            ],
-            currentIndex: dashboardVm.selectedIndex,
-            showSelectedLabels: false,
-            showUnselectedLabels: false,
-            // selectedItemColor: textColor,
-            unselectedIconTheme: IconThemeData(
-              size: 25.0
-            ),
-            selectedIconTheme: IconThemeData(
-                size: 30.0
-            ),
-            onTap: dashboardVm.onItemTapped,
-          ),
           body: Center(
             child: Container(
               decoration: const BoxDecoration(
@@ -83,13 +23,12 @@ class Dashboard extends StatelessWidget {
               height: double.infinity,
               child: SafeArea(
                 child: SingleChildScrollView(
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.fromLTRB(30.0,30.0,30.0,0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        GestureDetector(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(30.0,30.0,30.0,0),
+                        child: GestureDetector(
                           onTap: () {
                             print("Profile Section");
                           },
@@ -131,20 +70,26 @@ class Dashboard extends StatelessWidget {
                             ],
                           ),
                         ),
-                        const SizedBox(
-                          height: 50.0,
-                        ),
-                        const Text("EVENT",
+                      ),
+                      const SizedBox(
+                        height: 40.0,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(30.0,0,30.0,0),
+                        child: Text("EVENT",
                             style: TextStyle(
                                 height: 0.9,
                                 letterSpacing: 0.3,
                                 fontSize: 20.0,
                                 fontWeight: FontWeight.w700,
                                 color: greyText)),
-                        const SizedBox(
-                          height: 15,
-                        ),
-                        Row(
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(30.0,0,30.0,0),
+                        child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
@@ -272,46 +217,49 @@ class Dashboard extends StatelessWidget {
                             ),
                           ],
                         ),
-                        SizedBox(height: 10.0,),
-                        CarouselSlider(
-                          options: CarouselOptions(
-                              height: 200.0, viewportFraction: 0.85),
-                          items: ["ALGORITHMS", "BEE", "BME", "AERO", "ICU-MCU"]
-                              .map((i) {
-                            return Builder(
-                              builder: (BuildContext context) {
-                                return Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10, vertical: 10),
-                                  child: Container(
-                                    width: MediaQuery.of(context).size.width,
-                                    height: 200.0,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(24.0),
-                                      color: Color.fromARGB(255, 255, 255, 255),
-                                    ),
-                                    child: Center(
-                                      child: Text(
-                                        i,
-                                        style: const TextStyle(
-                                            height: 0.9,
-                                            letterSpacing: 0.3,
-                                            fontSize: 25.0,
-                                            fontWeight: FontWeight.w600,
-                                            color: textColor),
-                                        textAlign: TextAlign.center,
-                                      ),
+                      ),
+                      SizedBox(height: 10.0,),
+                      CarouselSlider(
+                        options: CarouselOptions(
+                            height: 200.0, viewportFraction: 0.87),
+                        items: ["ALGORITHMS", "BEE", "BME", "AERO", "ICU-MCU"]
+                            .map((i) {
+                          return Builder(
+                            builder: (BuildContext context) {
+                              return Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 5.5, vertical: 10),
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  height: 200.0,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(24.0),
+                                    color: Color.fromARGB(255, 255, 255, 255),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      i,
+                                      style: const TextStyle(
+                                          height: 0.9,
+                                          letterSpacing: 0.3,
+                                          fontSize: 25.0,
+                                          fontWeight: FontWeight.w600,
+                                          color: textColor),
+                                      textAlign: TextAlign.center,
                                     ),
                                   ),
-                                );
-                              },
-                            );
-                          }).toList(),
-                        ),
-                        SizedBox(
-                          height:10,
-                        ),
-                        Row(
+                                ),
+                              );
+                            },
+                          );
+                        }).toList(),
+                      ),
+                      SizedBox(
+                        height:10,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(30.0,0,30.0,0),
+                        child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             Container(
@@ -385,9 +333,9 @@ class Dashboard extends StatelessWidget {
                               ),
                             )
                           ],
-                        )
-                      ],
-                    ),
+                        ),
+                      )
+                    ],
                   ),
                 ),
               ),

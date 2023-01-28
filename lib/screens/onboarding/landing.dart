@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:zineapp2023/components/gradient.dart';
 
+import '../../common/routing.dart';
 import 'login_screen.dart';
 
 class LandingScreen extends StatelessWidget {
@@ -104,7 +105,7 @@ class LandingScreen extends StatelessWidget {
                         height: 20.0,
                       ),
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () => Navigator.of(context).push(Routes.exploreScreen()) ,
                         style: ButtonStyle(
                           padding:
                               MaterialStateProperty.all(EdgeInsets.all(20.0)),

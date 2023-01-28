@@ -37,7 +37,13 @@ class ZineInfo extends StatelessWidget {
             ),
             SizedBox(height: 20.0,),
             Text(
-                "rem Ipsum on lihtsalt proovitekst, mida kasutatakse printimis- ja ladumistööstuses. See on olnud tööstuse põhiline proovitekst Lorem Ipsum on lihtsalt proovitekst, mida kasutatakse printimis- ja ladumistööstuses. See on olnud tööstuse põhiline proovitekst Lorem Ipsum on lihtsalt proovitekst, mida kasutatakse printimis- ja ladumistööstuses. See on olnud tööstuse põhiline proovitekst Lorem Ipsum on lihtsalt proovitekst, mida kasutatakse printimis- ja ladumistööstuses. See on olnud tööstuse põhiline proovitekst Lorem ",
+                "rem Ipsum on lihtsalt proovitekst, mida kasutatakse printimis- ja ladumistööstuses. "
+                "See on olnud tööstuse põhiline proovitekst Lorem Ipsum on lihtsalt proovitekst, "
+                "mida kasutatakse printimis- ja ladumistööstuses. See on olnud tööstuse põhiline "
+                "proovitekst Lorem Ipsum on lihtsalt proovitekst, mida kasutatakse printimis- ja "
+                "ladumistööstuses. See on olnud tööstuse põhiline proovitekst Lorem Ipsum on lihtsalt"
+                " proovitekst, mida kasutatakse printimis- ja ladumistööstuses. See on olnud tööstuse"
+                " põhiline proovitekst Lorem ",
               style: TextStyle(
                 color: textDarkBlue,
                 fontFamily: 'Poppins',

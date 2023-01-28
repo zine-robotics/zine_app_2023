@@ -66,7 +66,7 @@ class AboutScreen extends StatelessWidget {
             ],
           ),
         ),
-        body: TabBarView(
+        body: const TabBarView(
           children: [
             ZineInfo(),
             MentorInfo(),
