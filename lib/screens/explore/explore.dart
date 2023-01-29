@@ -18,6 +18,9 @@ class Explore extends StatelessWidget {
       case RouteName.projectScreen:
         await Navigator.of(context).push(Routes.projectScreen());
         break;
+      case RouteName.achievementScreen:
+        await Navigator.of(context).push(Routes.achievementScreen());
+        break;
     }
   }
 
@@ -90,8 +93,8 @@ class Explore extends StatelessWidget {
                                   ],
                                 ),
                                 child: InkWell(
-                                  onTap: () =>
-                                      routeMe(context, exploreCards[index]["route"]!),
+                                  onTap: () => routeMe(
+                                      context, exploreCards[index]["route"]!),
                                   child: Center(
                                     child: Column(
                                       mainAxisAlignment:
@@ -107,8 +110,13 @@ class Explore extends StatelessWidget {
                                           height: 10,
                                         ),
                                         Text(
-                                          exploreCards[index]["name"]!,
-                                          style: const TextStyle(fontSize: 18),
+                                          exploreCards[index]["name"]!
+                                              .toUpperCase(),
+                                          style: const TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold,
+                                            color: Color(0xff767D81),
+                                          ),
                                         )
                                       ],
                                     ),

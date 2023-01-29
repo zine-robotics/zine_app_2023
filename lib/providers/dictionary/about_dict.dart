@@ -1,16 +1,16 @@
-class AboutScreen {
+class AboutScreenDict {
   List<About>? about;
 
-  AboutScreen({
+  AboutScreenDict({
     this.about,
   });
 
-  factory AboutScreen.fromJson(List<dynamic> json) {
+  factory AboutScreenDict.fromJson(List<dynamic> json) {
     var ab = <About>[];
     for (var v in json) {
       ab.add(About.fromJson(v));
     }
-    return AboutScreen(
+    return AboutScreenDict(
       about: ab
     );
   }

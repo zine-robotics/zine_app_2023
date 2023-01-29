@@ -1,137 +1,164 @@
 {
-	"achivement": [
+	"achievement": [
 		{
 			"title": "Cosmo Clench",
+			"type": "competition",
 			"description": "Bagged the 2nd position in a manual-bot competition hosted by IIT Bombay Techfest. Designed a 20x25cm manual gripper robot to traverse various terrains , used frequency remote to control and arduino to process the signals.",
 			"date": "December 2022"
 		},
 		{
 			"title": "Weld Right",
+			"type": "hackathon",
 			"description": "Ranked Top 10 in India for a machine learning hackathon organized by Godrej & Boyce. Created a DNN Model to classify welding defects (multilable) based upon welding parameters,and provide the TCO and ROI of model deployment.",
 			"date": "December 2022"
 		},
 		{
 			"title": "IEEE Research paper",
+			"type": "paper",
 			"description": "A research paper on Shortest Path Evaluation with Enhanced Linear Graph and Dijkstra Algorithm was presented at 59th Annual Conference of SICE.",
 			"date": "November 2020"
 		},
 		{
 			"title": "CSAW Hack3D Hackathon 2020",
+			"type": "hackathon",
 			"description": "2nd Place in a global virtual hackathon event",
 			"date": "November 2020"
 		},
 		{
 			"title": "Indian Drone Racing League StayAtHome Season 2",
+			"type": "drone",
 			"description": "1st Place in Virtual Drone Race conducted on Velocidrone simulator",
 			"date": "October 2020"
 		},
 		{
 			"title": "HackJaipur Virtual Hackathon 2020",
+			"type": "hackathon",
 			"description": "1st Place among 2200+ participants and 360+ teams",
 			"date": "August 2020"
 		},
 		{
 			"title": "Indian Drone Racing League 28, NIT Goa",
+			"type": "drone",
 			"description": "2nd Place in Pro Class Race",
 			"date": "March 2020"
 		},
 		{
 			"title": "India Drone Festival 2.0, ITDA, Dehradun",
+			"type": "drone",
 			"description": "2nd Place in Tie the Knot",
 			"date": "March 2020"
 		},
 		{
 			"title": "Indian Drone Racing League 27, ITDA, Dehradun",
+			"type": "drone",
 			"description": "1st Place in Pro Class Race",
 			"date": "March 2020"
 		},
 		{
 			"title": "Indian Drone Racing League 26, BITS PIlani Goa",
+			"type": "drone",
 			"description": "2nd Place in Pro Class Race",
 			"date": "February 2020"
 		},
 		{
 			"title": "Kshitij 2020, IIT Kharagpur",
+			"type": "competition",
 			"description": "2nd Place in Tesseract (autonomous event)",
 			"date": "January 2020"
 		},
 		{
 			"title": "Indian Drone Racing League 24, VJTI, Mumbai",
+			"type": "drone",
 			"description": "1st Place in Pro Class Race",
 			"date": "December 2019"
 		},
 		{
 			"title": "Research Paper",
+			"type": "paper",
 			"description": "A research paper on A novel mobile based hybrid skin tone classification algorithm for Cancer detection was presented at REDSET 19 Conference held at GD Goenka.",
 			"date": "December 2019"
 		},
 		{
 			"title": "Indian Drone Racing League 23, PDPU, Gandhinagar",
+			"type": "drone",
 			"description": "1st Place and 3rd Place in Pro Class Race",
 			"date": "November 2019"
 		},
 		{
 			"title": "Sphinx 2019, MNIT Jaipur",
+			"type": "competition",
 			"description": "1st Place in Robotryst.1st Place and 3rd Place in Drone Rush",
 			"date": "November 2019"
 		},
 		{
 			"title": "Asia Drone League, Malaysia",
+			"type": "drone",
 			"description": "Qualified into Top 32, 18th Overall amongst the top 70 pilots in Asia",
 			"date": "October 2019"
 		},
 		{
 			"title": "Indian Drone Racing League 22, IIT Gandhinagar",
+			"type": "drone",
 			"description": "1st Place in Pro Class Race",
 			"date": "October 2019"
 		},
 		{
 			"title": "Indian Drone Racing League 21, VIT Vellore",
+			"type": "drone",
 			"description": "2nd Place in Pro Class Race",
 			"date": "October 2019"
 		},
 		{
 			"title": "Indian Drone Racing League 20, GEU Dehradun",
+			"type": "drone",
 			"description": "2nd Place in Pro Class Race",
 			"date": "June 2019"
 		},
 		{
 			"title": "Drone Race, Techidate 2019, Manipal University Jaipur",
+			"type": "drone",
 			"description": "1st Place",
 			"date": "March 2019"
 		},
 		{
 			"title": "Game of Drones, JECRC College, Jaipur",
+			"type": "drone",
 			"description": "1st Place and 3rd Place",
 			"date": "March 2019"
 		},
 		{
 			"title": "Drone TechX , JECRC University, Jaipur",
+			"type": "drone",
 			"description": "2nd Place and 3rd Place",
 			"date": "March 2019"
 		},
 		{
 			"title": "Indian Drone Racing League 19, IIT Delhi",
+			"type": "drone",
 			"description": "2nd Place in Pro Class Race",
 			"date": "March 2019"
 		},
 		{
 			"title": "Aerial Drones, BML Munjal, Delhi NCR",
+			"type": "drone",
 			"description": "1st Place and 2nd Place",
 			"date": "February 2019"
 		},
 		{
 			"title": "Indian Drone Racing League 17, BITS Pilani, Goa Campus",
+			"type": "drone",
 			"description": "3rd Place in Pro Class Race",
 			"date": "February 2019"
 		},
 		{
 			"title": "Kshitij 2019, IIT-Kharagpur",
+			"type": "competition",
 			"description": "1st Place in Zenith (manual event)",
 			"date": "January 2019"
 		},
 		{
 			"title": "Plinth 2019, LNMIIT, Jaipur",
+			"type": "competition",
 			"description": "1st Place and 3rd Place in Drone Obstruction",
 			"date": "January 2019"
 		}

@@ -1,30 +1,35 @@
-class GetAchivement {
-  List<Achivement>? achivement;
+class AchievementScreenDict {
+  List<Achievement>? achievement;
 
-  GetAchivement({this.achivement});
+  AchievementScreenDict({this.achievement});
 
-  GetAchivement.fromJson(Map<String, dynamic> json) {
-    if (json['achivement'] != null) {
-      achivement = <Achivement>[];
-      json['achivement'].forEach((v) {
-        achivement!.add(new Achivement.fromJson(v));
-      });
+  factory AchievementScreenDict.fromJson(List<dynamic> json) {
+    var achieve = <Achievement>[];
+    for (var v in json) {
+      achieve.add(Achievement.fromJson(v));
     }
+    return AchievementScreenDict(achievement: achieve);
   }
-
 }
 
-class Achivement {
+class Achievement {
   String? title;
+  String? type;
   String? description;
   String? date;
 
-  Achivement({this.title, this.description, this.date});
+  Achievement({
+    this.title = "",
+    this.type = "",
+    this.description = "",
+    this.date = "",
+  });
 
-  Achivement.fromJson(Map<String, dynamic> json) {
-    title = json['title'];
-    description = json['description'];
-    date = json['date'];
+  factory Achievement.fromJson(Map<String, dynamic> json) {
+    return Achievement(
+        title: json['title'],
+        type: json["type"],
+        description: json['description'],
+        date: json['date']);
   }
-
 }

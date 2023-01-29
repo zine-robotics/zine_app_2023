@@ -6,17 +6,21 @@ import 'package:zineapp2023/providers/dictionary/about_dict.dart';
 import 'package:zineapp2023/providers/dictionary/project_dict.dart';
 import 'package:zineapp2023/providers/dictionary/team_dict.dart';
 
+import 'dictionary/achievements_dict.dart';
+
 class Language extends ChangeNotifier {
 
-  late AboutScreen aboutScreen;
-  late ProjectScreen projectScreen;
-  late TeamScreen teamScreen;
+  late AboutScreenDict aboutScreen;
+  late ProjectScreenDict projectScreen;
+  late TeamScreenDict teamScreen;
+  late AchievementScreenDict achievementScreen;
 
   init() async {
     var json = await loadLanguageJSON();
-    aboutScreen = AboutScreen.fromJson(json["about"]);
-    projectScreen = ProjectScreen.fromJson(json["project"]);
-    teamScreen = TeamScreen.fromJson(json["team"]);
+    aboutScreen = AboutScreenDict.fromJson(json["about"]);
+    projectScreen = ProjectScreenDict.fromJson(json["project"]);
+    teamScreen = TeamScreenDict.fromJson(json["team"]);
+    achievementScreen = AchievementScreenDict.fromJson(json["achievement"]);
     notifyListeners();
   }
 

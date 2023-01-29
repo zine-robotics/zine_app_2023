@@ -4,8 +4,12 @@ import 'package:provider/provider.dart';
 import 'package:zineapp2023/providers/dictionary.dart';
 import 'package:zineapp2023/screens/dashboard/profile.dart';
 import 'package:zineapp2023/screens/dashboard/view_models/dashboard_vm.dart';
+import 'package:zineapp2023/screens/explore/achievements.dart';
 import 'package:zineapp2023/screens/home/home_screen.dart';
 import 'package:zineapp2023/screens/home/view_models/home_view_model.dart';
+import 'package:zineapp2023/screens/onboarding/landing.dart';
+import 'package:zineapp2023/screens/onboarding/reset_password/email_screen.dart';
+import 'package:zineapp2023/screens/onboarding/reset_password/reset_password_screen.dart';
 
 final Language _language = Language();
 
@@ -36,7 +40,7 @@ class MyApp extends StatelessWidget {
           fontFamily: 'Poppins',
           primarySwatch: Colors.blue,
         ),
-        home: Home(),
+        home: ResetPasswordScreen(),
       ),
     );
   }

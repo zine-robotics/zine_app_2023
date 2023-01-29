@@ -1,14 +1,14 @@
-class ProjectScreen {
+class ProjectScreenDict {
   List<Project>? projects;
 
-  ProjectScreen({this.projects});
+  ProjectScreenDict({this.projects});
 
-  factory ProjectScreen.fromJson(List<dynamic> json) {
+  factory ProjectScreenDict.fromJson(List<dynamic> json) {
     var proj = <Project>[];
     for (var v in json) {
       proj.add(Project.fromJson(v));
     }
-    return ProjectScreen(projects: proj);
+    return ProjectScreenDict(projects: proj);
   }
 }
 

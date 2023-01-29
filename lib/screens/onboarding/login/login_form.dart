@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../common/routing.dart';
 import '../../../theme/color.dart';
 
 class LoginForm extends StatefulWidget {
@@ -90,7 +91,9 @@ class _LoginFormState extends State<LoginForm> {
                 height: 20.0,
               ),
               GestureDetector(
-                onTap: () {},
+                onTap: () async{
+                  await Navigator.of(context).push(Routes.emailScreen());
+                },
                 child: const Text(
                   "Forgot Password ?",
                   style: TextStyle(

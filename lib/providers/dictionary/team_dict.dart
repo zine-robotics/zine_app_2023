@@ -1,9 +1,9 @@
-class TeamScreen {
+class TeamScreenDict {
   List<List<Team>>? team;
 
-  TeamScreen({this.team});
+  TeamScreenDict({this.team});
 
-  factory TeamScreen.fromJson(List<dynamic> json) {
+  factory TeamScreenDict.fromJson(List<dynamic> json) {
     var tea = <List<Team>>[];
     var temp = <Team>[];
     for (var year in json) {
@@ -13,7 +13,7 @@ class TeamScreen {
       tea.add(temp);
       temp = [];
     }
-    return TeamScreen(team: tea);
+    return TeamScreenDict(team: tea);
   }
 }
 

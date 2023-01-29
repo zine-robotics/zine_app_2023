@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
+import 'package:zineapp2023/screens/explore/achievements.dart';
 import 'package:zineapp2023/screens/explore/team/team.dart';
 import 'package:zineapp2023/screens/explore/explore.dart';
+import 'package:zineapp2023/screens/onboarding/reset_password/email_screen.dart';
+import 'package:zineapp2023/screens/onboarding/reset_password/otp_screen.dart';
 
 import '../screens/dashboard/profile.dart';
 import '../screens/explore/about/about.dart';
@@ -15,6 +18,8 @@ class RouteName {
   static const exploreScreen = "explore";
   static const homeScreen = "home";
   static const profileScreen = "profile";
+  static const emailScreen = "email";
+  static const otpScreen = "otp";
 }
 
 class Routes {
@@ -28,7 +33,8 @@ class Routes {
   static Route teamScreen() =>
       cupertinoRoute(RouteName.teamScreen, (ctx) => const TeamScreen());
 
-  // static Route achievementScreen() => cupertinoRoute(RouteName.achievementScreen, (ctx)=> const TeamScreen());
+  static Route achievementScreen() => cupertinoRoute(
+      RouteName.achievementScreen, (ctx) => const AchievementScreen());
 
   static Route projectScreen() =>
       cupertinoRoute(RouteName.projectScreen, (ctx) => const ProjectScreen());
@@ -36,11 +42,18 @@ class Routes {
   static Route aboutMe() =>
       cupertinoRoute(RouteName.aboutMe, (ctx) => const AboutScreen());
 
-  // static Route workshopTimeline() => cupertinoRoute(RouteName.wokrshopTimeline, (ctx)=> const TeamScreen());
+  // static Route workshopTimeline() => cupertinoRoute(RouteName.wokrshopTimeline, (ctx)=> const ());
 
   static Route exploreScreen() =>
       cupertinoRoute(RouteName.exploreScreen, (ctx) => const Explore());
 
   static Route profileScreen() =>
       cupertinoRoute(RouteName.profileScreen, (ctx) => const ProfileScreen());
+
+  static Route emailScreen() =>
+      cupertinoRoute(RouteName.emailScreen, (ctx) => EmailScreen());
+
+  static Route otpScreen() =>
+      cupertinoRoute(RouteName.otpScreen, (ctx) => OTPScreen());
+
 }
