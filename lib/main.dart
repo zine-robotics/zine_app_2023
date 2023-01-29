@@ -1,22 +1,19 @@
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
-import 'package:zineapp2023/dictionary/about.dart';
-import 'package:zineapp2023/screens/dashboard/dashboard.dart';
+import 'package:zineapp2023/providers/dictionary.dart';
+import 'package:zineapp2023/screens/dashboard/profile.dart';
 import 'package:zineapp2023/screens/dashboard/view_models/dashboard_vm.dart';
-import 'package:zineapp2023/screens/explore/about/about.dart';
-import 'package:zineapp2023/screens/explore/team/team.dart';
 import 'package:zineapp2023/screens/home/home_screen.dart';
 import 'package:zineapp2023/screens/home/view_models/home_view_model.dart';
-import 'package:zineapp2023/screens/onboarding/landing.dart';
-import 'package:zineapp2023/screens/explore/explore.dart';
-import 'package:zineapp2023/screens/chat/chat_home.dart';
-import 'package:zineapp2023/screens/onboarding/login_screen.dart';
 
-import 'package:zineapp2023/screens/explore/project.dart';
+final Language _language = Language();
 
+Future<void> main() async{
 
-void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  await _language.init();
+
   runApp(const MyApp());
 }
 
@@ -28,8 +25,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_)=>DashboardVm()),
-        ChangeNotifierProvider(create: (_)=>HomeVm())
+        ChangeNotifierProvider<DashboardVm>(create: (_)=>DashboardVm()),
+        ChangeNotifierProvider<HomeVm>(create: (_)=>HomeVm()),
+        ChangeNotifierProvider<Language>(create: (_)=>_language)
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

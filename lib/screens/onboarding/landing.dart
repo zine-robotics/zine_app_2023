@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:zineapp2023/components/gradient.dart';
 
 import '../../common/routing.dart';
-import 'login_screen.dart';
+import 'login/login_screen.dart';
 
 class LandingScreen extends StatelessWidget {
   const LandingScreen({Key? key}) : super(key: key);

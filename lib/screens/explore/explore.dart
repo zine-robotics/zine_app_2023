@@ -1,29 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:zineapp2023/components/constants.dart';
 import 'package:zineapp2023/screens/explore/zine_logo_widget.dart';
 
 import '../../common/routing.dart';
 
 class Explore extends StatelessWidget {
   const Explore({Key? key}) : super(key: key);
-
-  static const cards = [
-    {"name": "Team", "route": "team", "image": "assets/images/team.png"},
-    {
-      "name": "Achievements",
-      "route": "achievement",
-      "image": "assets/images/achievements.png"
-    },
-    {
-      "name": "Projects",
-      "route": "project",
-      "image": "assets/images/projects.png"
-    },
-    {
-      "name": "Workshops",
-      "route": "workshop",
-      "image": "assets/images/workshop.png"
-    },
-  ];
 
   Future<dynamic> routeMe(BuildContext context, String route) async {
     switch (route) {
@@ -42,6 +24,7 @@ class Explore extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBody: true,
       body: Center(
         child: Container(
           decoration: const BoxDecoration(
@@ -66,7 +49,7 @@ class Explore extends StatelessWidget {
                     const ZineWhiteLogoWidget(),
                     Expanded(
                       child: Container(
-                        height: MediaQuery.of(context).size.height / 2 + 60,
+                        height: MediaQuery.of(context).size.height,
                         width: MediaQuery.of(context).size.width,
                         decoration: const BoxDecoration(
                           color: Color(0xFFEFEFEF),
@@ -76,9 +59,10 @@ class Explore extends StatelessWidget {
                           ),
                         ),
                         child: GridView.builder(
+                          shrinkWrap: true,
                           physics: NeverScrollableScrollPhysics(),
                           padding: EdgeInsets.all(35.0),
-                          itemCount: cards.length,
+                          itemCount: exploreCards.length,
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
@@ -107,7 +91,7 @@ class Explore extends StatelessWidget {
                                 ),
                                 child: InkWell(
                                   onTap: () =>
-                                      routeMe(context, cards[index]["route"]!),
+                                      routeMe(context, exploreCards[index]["route"]!),
                                   child: Center(
                                     child: Column(
                                       mainAxisAlignment:
@@ -116,14 +100,14 @@ class Explore extends StatelessWidget {
                                           CrossAxisAlignment.center,
                                       children: [
                                         Image.asset(
-                                          cards[index]["image"]!,
+                                          exploreCards[index]["image"]!,
                                           height: 50,
                                         ),
                                         const SizedBox(
                                           height: 10,
                                         ),
                                         Text(
-                                          cards[index]["name"]!,
+                                          exploreCards[index]["name"]!,
                                           style: const TextStyle(fontSize: 18),
                                         )
                                       ],

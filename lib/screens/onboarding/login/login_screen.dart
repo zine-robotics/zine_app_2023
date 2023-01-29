@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:zineapp2023/screens/onboarding/register_form.dart';
-
-import '../../theme/color.dart';
-import 'login_form.dart';
+import './register_form.dart';
+import '../../../theme/color.dart';
+import './login_form.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -60,7 +59,7 @@ class LoginPage extends StatelessWidget {
           ),
         ),
         backgroundColor: backgroundGrey,
-        body: const TabBarView(
+        body: TabBarView(
           children: [
             LoginForm(),
             RegisterForm(),

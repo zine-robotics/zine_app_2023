@@ -210,78 +210,101 @@
 		[
 			{
 				"name": "Harshit Sandilya",
-				"email": "2021UCP1382"
+				"image": "harshit",
+				"email": "2021UCP1382@mnit.ac.in"
 			},
 			{
 				"name": "Rupesh Yadav",
-				"email": "2021UEC1533"
+				"image": "rupesh",
+				"email": "2021UEC1533@mnit.ac.in"
 			},
 			{
 				"name": "Priyansh Kothari",
-				"email": "2021UCP1013"
+				"image": "priyansh",
+				"email": "2021UCP1013@mnit.ac.in"
 			},
 			{
 				"name": "Kasvala Meet",
-				"email": "2021UEE1378"
+				"image": "meet",
+				"email": "2021UEE1378@mnit.ac.in"
 			},
 			{
 				"name": "Yug Modi",
-				"email": "2021KUCP1110"
+				"image": "yug",
+				"email": "2021KUCP1110@iiitk.ac.in"
 			},
 			{
 				"name": "Granth Gupta",
-				"email": "2021KUCP1015"
+				"image": "granth",
+				"email": "2021KUCP1015@iiitk.ac.in"
 			}
 		],
 		[
 			{
 				"name": "Divyansh Garg",
+				"image": "divyansh",
 				"email": "2021"
 			},
 			{
-				"name": "Rupesh Yadav",
+				"name": "Sudeshna Sonkar",
+				"image": "sudeshna",
 				"email": "2021"
 			},
 			{
-				"name": "Priyansh",
+				"name": "Mahak Garg",
+				"image": "mahak",
 				"email": "2021"
 			},
 			{
-				"name": "Meet",
+				"name": "Abhinav Kumar",
+				"image": "abhinav",
 				"email": "2021"
 			},
 			{
-				"name": "Yug",
+				"name": "Pranjali Srivastava",
+				"image": "pranjali",
 				"email": "2021"
 			},
 			{
-				"name": "Granth",
+				"name": "Ashok Saini",
+				"image": "ashok",
+				"email": "2021"
+			},
+			{
+				"name": "Nishant Garg",
+				"image": "nishant",
 				"email": "2021"
 			}
 		],
 		[
 			{
 				"name": "Divyansh Garg",
+				"image": "harshit",
 				"email": "2021"
 			},
 			{
 				"name": "Rupesh Yadav",
+				"image": "harshit",
 				"email": "2021"
 			},
 			{
 				"name": "Priyansh",
+				"image": "harshit",
 				"email": "2021"
 			},
 			{
 				"name": "Meet",
+				"image": "harshit",
 				"email": "2021"
 			},
 			{
 				"name": "Yug",
+				"image": "harshit",
 				"email": "2021"
 			},
 			{
 				"name": "Granth",
+				"image": "harshit",
 				"email": "2021"
 			}
 		]

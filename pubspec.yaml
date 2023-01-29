@@ -71,6 +71,9 @@ flutter:
       - assets/images/
       - assets/icons/
       - assets/images/projects/
+      - assets/images/second/
+      - assets/images/third/
+      - assets/images/fourth/
 
         # For details regarding adding assets from package dependencies, see
         # https://flutter.dev/assets-and-images/#from-packages

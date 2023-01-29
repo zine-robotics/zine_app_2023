@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 
-import '../../theme/color.dart';
+import '../../../theme/color.dart';
 
-class RegisterForm extends StatefulWidget {
-  const RegisterForm({Key? key}) : super(key: key);
+class LoginForm extends StatefulWidget {
+  const LoginForm({Key? key}) : super(key: key);
 
   @override
-  State<RegisterForm> createState() => _RegisterFormState();
+  State<LoginForm> createState() => _LoginFormState();
 }
 
-class _RegisterFormState extends State<RegisterForm> {
-
+class _LoginFormState extends State<LoginForm> {
   final _formKey = GlobalKey<FormState>();
 
   bool _passwordVisible = false;
@@ -36,32 +35,8 @@ class _RegisterFormState extends State<RegisterForm> {
             // mainAxisAlignment: MainAxisAlignment.start,
             children: [
               const Text(
-                "Name",
-                style: TextStyle(color: greyText, fontSize: 15.0),
-              ),
-              TextFormField(
-                style: const TextStyle(
-                  color: Colors.black,
-                  letterSpacing: 1.5,
-                ),
-                textInputAction: TextInputAction.next,
-                keyboardType: TextInputType.name,
-                cursorColor: textColor,
-                decoration: const InputDecoration(
-                  contentPadding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 15.0),
-                  floatingLabelBehavior: FloatingLabelBehavior.never,
-                  label: Text(
-                    "Anakin Skywalker",
-                    style: TextStyle(color: Color(0xffD9D9D9)),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 15.0,
-              ),
-              const Text(
                 "Email address",
-                style: TextStyle(color: greyText, fontSize: 15.0),
+                style: TextStyle(color: greyText, fontSize: 18.0),
               ),
               TextFormField(
                 style: const TextStyle(
@@ -81,11 +56,11 @@ class _RegisterFormState extends State<RegisterForm> {
                 ),
               ),
               const SizedBox(
-                height: 15.0,
+                height: 20.0,
               ),
               const Text(
                 "Password",
-                style: TextStyle(color: greyText, fontSize: 15.0),
+                style: TextStyle(color: greyText, fontSize: 18.0),
               ),
               TextFormField(
                 style: const TextStyle(
@@ -112,45 +87,27 @@ class _RegisterFormState extends State<RegisterForm> {
               ),
 
               const SizedBox(
-                height: 15.0,
+                height: 20.0,
               ),
-              const Text(
-                "Confirm Password",
-                style: TextStyle(color: greyText, fontSize: 15.0),
-              ),
-              TextFormField(
-                style: const TextStyle(
-                  color: Colors.black,
-                  letterSpacing: 1.5,
-                ),
-                obscureText: _passwordVisible,
-                obscuringCharacter: '*',
-                decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 15.0),
-                  floatingLabelBehavior: FloatingLabelBehavior.never,
-                  label: const Text(
-                    "•••••",
-                    style: TextStyle(color: Color(0xffD9D9D9)),
-                  ),
-                  suffixIcon: IconButton(
-                    icon: ImageIcon(
-                      const AssetImage('assets/icons/eye.png'),
-                      color: _passwordVisible ? greyText : Colors.black,
-                    ),
-                    onPressed: _toggle,
-                  ),
+              GestureDetector(
+                onTap: () {},
+                child: const Text(
+                  "Forgot Password ?",
+                  style: TextStyle(
+                      color: textColor,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18.0),
                 ),
               ),
-
               const SizedBox(
-                height: 15.0,
+                height: 20.0,
               ),
               //Error Text In case of error returning from the Server
               const Text(
                 "",
               ),
               const SizedBox(
-                height: 15.0,
+                height: 25.0,
               ),
               ElevatedButton(
                 onPressed: () {},
@@ -164,7 +121,7 @@ class _RegisterFormState extends State<RegisterForm> {
                   ),
                 ),
                 child: const Text(
-                  "Sign-Up",
+                  "Login",
                   style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w400),
                 ),
               )

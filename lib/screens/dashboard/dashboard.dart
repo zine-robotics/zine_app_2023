@@ -6,6 +6,8 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:zineapp2023/screens/dashboard/view_models/dashboard_vm.dart';
 import 'package:zineapp2023/theme/color.dart';
 
+import '../../common/routing.dart';
+
 class Dashboard extends StatelessWidget {
   const Dashboard({Key? key}) : super(key: key);
 
@@ -26,12 +28,12 @@ class Dashboard extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(30.0,30.0,30.0,0),
-                        child: GestureDetector(
-                          onTap: () {
-                            print("Profile Section");
-                          },
+                      GestureDetector(
+                        onTap: () async{
+                           await Navigator.of(context).push(Routes.profileScreen());
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(30.0,30.0,30.0,0),
                           child: Row(
                             children: <Widget>[
                               // SizedBox(

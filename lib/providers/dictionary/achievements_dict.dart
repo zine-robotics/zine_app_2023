@@ -12,13 +12,6 @@ class GetAchivement {
     }
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.achivement != null) {
-      data['achivement'] = this.achivement!.map((v) => v.toJson()).toList();
-    }
-    return data;
-  }
 }
 
 class Achivement {
@@ -34,11 +27,4 @@ class Achivement {
     date = json['date'];
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['title'] = this.title;
-    data['description'] = this.description;
-    data['date'] = this.date;
-    return data;
-  }
 }

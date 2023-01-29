@@ -15,11 +15,11 @@ class ChatHome extends StatelessWidget {
           elevation: 0,
           toolbarHeight: MediaQuery.of(context).size.height * 0.1,
           backgroundColor: Colors.transparent,
-          leading: Icon(
-            Icons.arrow_back,
-            size: 20,
-            color: greyText,
-          ),
+          // leading: Icon(
+          //   Icons.arrow_back,
+          //   size: 20,
+          //   color: greyText,
+          // ),
           title: TabBar(
             labelColor: Color.fromRGBO(12, 114, 176, 0.949375),
             labelStyle: TextStyle(
