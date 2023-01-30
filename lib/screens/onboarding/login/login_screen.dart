@@ -11,7 +11,7 @@ class LoginPage extends StatelessWidget {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        resizeToAvoidBottomInset:true,
+        resizeToAvoidBottomInset: true,
         appBar: AppBar(
           backgroundColor: Colors.white,
           toolbarHeight: 250.0,
