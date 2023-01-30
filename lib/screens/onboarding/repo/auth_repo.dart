@@ -4,18 +4,18 @@ import '../../../models/user.dart';
 class AuthRepo {
   final auth.FirebaseAuth _firebaseAuth = auth.FirebaseAuth.instance;
 
-  User? _userFromFirebase(auth.User? user) {
+  UserModel? _userFromFirebase({required auth.User? user, String? name}) {
     if (user == null) {
       return null;
     }
-    return User(user.uid, user.email);
+    return UserModel(user.uid, user.email,name);
   }
 
-  Stream<User?>? get user {
-    return _firebaseAuth.authStateChanges().map(_userFromFirebase);
-  }
+  // Stream<UserModel?>? get user {
+  //   return _firebaseAuth.authStateChanges().map(_userFromFirebase);
+  // }
 
-  Future<User?> signInWithEmailAndPassword(
+  Future<UserModel?> signInWithEmailAndPassword(
     String email,
     String password,
   ) async {
@@ -23,10 +23,11 @@ class AuthRepo {
       email: email,
       password: password,
     );
-    return _userFromFirebase(credential.user);
+    return _userFromFirebase(user: credential.user);
   }
 
-  Future<User?> createUserWithEmailAndPassword(
+  Future<UserModel?> createUserWithEmailAndPassword(
+      String name,
     String email,
     String password,
   ) async {
@@ -34,7 +35,7 @@ class AuthRepo {
       email: email,
       password: password,
     );
-    return _userFromFirebase(credential.user);
+    return _userFromFirebase(user: credential.user,name: name);
   }
 
   Future<void> signOut() async {

@@ -9,18 +9,21 @@ class LandingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+
     return Scaffold(
       body: Center(
         child: Container(
+          height: double.infinity,
           decoration: const BoxDecoration(gradient: mainGrad),
           child: SafeArea(
             child: Padding(
-              padding: const EdgeInsets.all(30.0),
+              padding: const EdgeInsets.all(20.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(
-                    height: 20.0,
+                    height: 20,
                   ),
                   Row(
                     children: const [
@@ -65,9 +68,7 @@ class LandingScreen extends StatelessWidget {
                       color: Colors.white,
                     ),
                   ),
-                  const SizedBox(
-                    height: 110.0,
-                  ),
+                  Spacer(),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
@@ -83,8 +84,8 @@ class LandingScreen extends StatelessWidget {
                               MaterialStateProperty.all(EdgeInsets.all(20.0)),
                           backgroundColor:
                               MaterialStateProperty.all(Colors.white),
-                          shape: MaterialStateProperty.all<
-                              RoundedRectangleBorder>(
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(28.0),
                             ),
@@ -95,7 +96,7 @@ class LandingScreen extends StatelessWidget {
                           style: TextStyle(
                               color: Color(0xff0c72b0),
                               fontFamily: "Poppins",
-                              fontSize: 20.0,
+                              fontSize: 20,
                               fontWeight: FontWeight.w400),
                         ),
                       ),
@@ -103,15 +104,15 @@ class LandingScreen extends StatelessWidget {
                         height: 20.0,
                       ),
                       ElevatedButton(
-                        onPressed: () => Navigator.of(context)
-                            .push(Routes.exploreScreen()),
+                        onPressed: () =>
+                            Navigator.of(context).push(Routes.exploreScreen()),
                         style: ButtonStyle(
                           padding:
                               MaterialStateProperty.all(EdgeInsets.all(20.0)),
                           backgroundColor:
                               MaterialStateProperty.all(Colors.white),
-                          shape: MaterialStateProperty.all<
-                              RoundedRectangleBorder>(
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(28.0),
                             ),

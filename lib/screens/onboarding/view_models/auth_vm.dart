@@ -3,14 +3,17 @@ import 'package:flutter/foundation.dart';
 import '../../../models/user.dart';
 import '../repo/auth_repo.dart';
 import 'package:provider/provider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AuthViewModel with ChangeNotifier {
   final _myRepo = AuthRepo();
 
   bool _loading = false;
+
   bool get loading => _loading;
 
   bool _signUpLoading = false;
+
   bool get signUpLoading => _signUpLoading;
 
   setLoading(bool value) {
@@ -21,6 +24,17 @@ class AuthViewModel with ChangeNotifier {
   setSignUpLoading(bool value) {
     _signUpLoading = value;
     notifyListeners();
+  }
+
+  Future<void> postDetailsToFirestore(UserModel userModel) async {
+    print('create user called');
+
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+
+    await firebaseFirestore
+        .collection("users")
+        .doc(userModel.uid)
+        .set(userModel.toJson());
   }
 
   Future<void> loginApi(dynamic data, BuildContext context) async {
@@ -51,23 +65,31 @@ class AuthViewModel with ChangeNotifier {
     setSignUpLoading(true);
 
     _myRepo
-        .createUserWithEmailAndPassword(data['email'], data['password'])
+        .createUserWithEmailAndPassword(data['name'],data['email'], data['password'])
         .then((value) {
+      print("account called");
       setSignUpLoading(false);
+      print(data['name']);
       print("account created");
-      print(value);
+
+      String? uid = value?.uid;
+      print(value!.uid);
+      UserModel userModel = UserModel(uid, data['email'], data['name']);
+      postDetailsToFirestore(userModel);
+      // postUser();
       // Utils.flushBarErrorMessage('SignUp Successfully', context);
       // Navigator.pushNamed(context, RoutesName.home);
-      if (kDebugMode) {
-        print(value.toString());
-      }
+      // if (kDebugMode) {
+      //   print(value.toString());
+      // }
     }).onError((error, stackTrace) {
       setSignUpLoading(false);
+      print(error);
       print("account failed");
       // Utils.flushBarErrorMessage(error.toString(), context);
-      if (kDebugMode) {
-        print(error.toString());
-      }
+      // if (kDebugMode) {
+      //   print(error.toString());
+      // }
     });
   }
 }

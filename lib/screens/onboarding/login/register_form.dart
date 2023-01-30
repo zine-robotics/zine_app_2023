@@ -43,6 +43,7 @@ class RegisterForm extends StatelessWidget {
           Map data = {
             'email': _emailController.text.toString(),
             'password': _passwordController.text.toString(),
+            'name':_nameController.text.toString()
           };
 
           // Map data = {
@@ -68,6 +69,7 @@ class RegisterForm extends StatelessWidget {
                   style: TextStyle(color: greyText, fontSize: 15.0),
                 ),
                 TextFormField(
+                  controller: _nameController,
                   style: const TextStyle(
                     color: Colors.black,
                     letterSpacing: 1.5,
@@ -92,12 +94,14 @@ class RegisterForm extends StatelessWidget {
                   style: TextStyle(color: greyText, fontSize: 15.0),
                 ),
                 TextFormField(
+                  controller: _emailController,
                   style: const TextStyle(
                     color: Colors.black,
                     letterSpacing: 1.5,
                   ),
                   textInputAction: TextInputAction.next,
                   keyboardType: TextInputType.emailAddress,
+
                   cursorColor: textColor,
                   decoration: const InputDecoration(
                     contentPadding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 15.0),
@@ -120,6 +124,7 @@ class RegisterForm extends StatelessWidget {
                     color: Colors.black,
                     letterSpacing: 1.5,
                   ),
+                  controller: _passwordController,
                   obscureText: _passwordVisible,
                   obscuringCharacter: '*',
                   decoration: InputDecoration(
@@ -152,6 +157,7 @@ class RegisterForm extends StatelessWidget {
                     color: Colors.black,
                     letterSpacing: 1.5,
                   ),
+                  controller: _confirmController,
                   obscureText: _passwordVisible,
                   obscuringCharacter: '*',
                   decoration: InputDecoration(
@@ -183,7 +189,7 @@ class RegisterForm extends StatelessWidget {
                   height: 15.0,
                 ),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: validateSubmit,
                   style: ButtonStyle(
                     padding:
                         MaterialStateProperty.all(const EdgeInsets.all(20.0)),
