@@ -183,7 +183,9 @@ class RegisterForm extends StatelessWidget {
                   height: 15.0,
                 ),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    print("Sign up");
+                  },
                   style: ButtonStyle(
                     padding:
                         MaterialStateProperty.all(const EdgeInsets.all(20.0)),

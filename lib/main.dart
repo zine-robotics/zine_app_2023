@@ -12,6 +12,8 @@ import 'package:zineapp2023/screens/onboarding/reset_password/email_screen.dart'
 import 'package:zineapp2023/screens/onboarding/reset_password/reset_password_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 
+import 'common/loaderScreen.dart';
+
 final Language _language = Language();
 
 Future<void> main() async {
