@@ -30,7 +30,7 @@ class TeamTile extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.circular(20.0), //or 15.0
                 child: Image.asset(
-                  'assets/images/${year}/${image}.png',
+                  'assets/images/${year}/${image}.webp',
                   height: 75.0,
                 ),
               ),

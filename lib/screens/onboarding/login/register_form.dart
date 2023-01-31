@@ -1,46 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:zineapp2023/screens/onboarding/view_models/auth_vm.dart';
-
+import 'package:zineapp2023/screens/onboarding/login/view_models/register_auth_vm.dart';
+import '../../../components/constants.dart';
 import '../../../theme/color.dart';
 
 
 class RegisterForm extends StatelessWidget {
-  // const RegisterForm({Key? key}) : super(key: key);
+
+  RegisterForm({Key? key}) : super(key: key);
 
   final _formKey = GlobalKey<FormState>();
 
-  bool _passwordVisible = false;
 
-  String? _password;
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmController = TextEditingController();
 
-  // Toggles the password show status
-  void _toggle() {
-    _passwordVisible = !_passwordVisible;
-  }
-
-  TextEditingController _nameController = TextEditingController();
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
-  TextEditingController _confirmController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<AuthViewModel>(builder: (context, authVm, _) {
+
+    return Consumer<RegisterAuthViewModel>(builder: (context, authVm, _) {
+
+      _nameController.text = authVm.name;
+      _emailController.text = authVm.email;
+      _passwordController.text = authVm.password;
+      _confirmController.text = authVm.confirmPass;
+
       void validateSubmit() {
-        print("validate submit");
-        if (_emailController.text.isEmpty) {
-          print("email empty");
-          // Utils.flushBarErrorMessage('Please enter email', context);
-        } else if (_passwordController.text.isEmpty) {
-          // Utils.flushBarErrorMessage('Please enter password', context);
 
-        } else if (_passwordController.text != _confirmController.text) {
-        } else if (_passwordController.text.length < 6) {
-          // Utils.flushBarErrorMessage('Please enter 6 digit password', context);
-
-        } else {
-          Map data = {
+        Map data = {
             'email': _emailController.text.toString(),
             'password': _passwordController.text.toString(),
             'name':_nameController.text.toString()
@@ -51,8 +41,8 @@ class RegisterForm extends StatelessWidget {
           //   'password' : 'cityslicka',
           // };
 
-          authVm.signUpApi(data, context);
-        }
+          // authVm.signUpApi(data, context);
+
       }
 
       return SingleChildScrollView(
@@ -74,6 +64,13 @@ class RegisterForm extends StatelessWidget {
                     color: Colors.black,
                     letterSpacing: 1.5,
                   ),
+                  onChanged: (value) => authVm.setName(value),
+                  validator: (value){
+                   if(value == null || value.isEmpty){
+                     return "Please enter your name";
+                   }
+                   return null;
+                  },
                   textInputAction: TextInputAction.next,
                   keyboardType: TextInputType.name,
                   cursorColor: textColor,
@@ -99,9 +96,17 @@ class RegisterForm extends StatelessWidget {
                     color: Colors.black,
                     letterSpacing: 1.5,
                   ),
+                  onChanged: (value)=> authVm.setEmail(value),
+                  validator: (value){
+                    if (value == null || value.isEmpty) {
+                      return "Please enter an email address";
+                    } else if (!emailReg.hasMatch(authVm.email)) {
+                      return "Not a valid Email. Use College Email to Login";
+                    }
+                    return null;
+                  },
                   textInputAction: TextInputAction.next,
                   keyboardType: TextInputType.emailAddress,
-
                   cursorColor: textColor,
                   decoration: const InputDecoration(
                     contentPadding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 15.0),
@@ -125,7 +130,25 @@ class RegisterForm extends StatelessWidget {
                     letterSpacing: 1.5,
                   ),
                   controller: _passwordController,
-                  obscureText: _passwordVisible,
+                  obscureText: !authVm.passwordVisible,
+                  textInputAction: TextInputAction.next,
+                  keyboardType: TextInputType.text,
+                  onChanged: (value)=>authVm.setPassword(value),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "Please enter a password";
+                    } else if (value.length < 6) {
+                      return "Password should be at least 6 characters in length";
+                    } else if (value.length > 12) {
+                      return "Password is too long";
+                    }
+                    else if (!passwordReg.hasMatch(authVm.password)) {
+                      return "Password should "
+                          "\n  - be >6 & <12 characters in length"
+                          "\n  - be a alphanumeric character";
+                    }
+                    return null;
+                  },
                   obscuringCharacter: '*',
                   decoration: InputDecoration(
                     contentPadding:
@@ -138,13 +161,12 @@ class RegisterForm extends StatelessWidget {
                     suffixIcon: IconButton(
                       icon: ImageIcon(
                         const AssetImage('assets/icons/eye.png'),
-                        color: _passwordVisible ? greyText : Colors.black,
+                        color: ! authVm.passwordVisible ? greyText : Colors.black,
                       ),
-                      onPressed: _toggle,
+                      onPressed: authVm.toggleVisible,
                     ),
                   ),
                 ),
-
                 const SizedBox(
                   height: 15.0,
                 ),
@@ -157,8 +179,18 @@ class RegisterForm extends StatelessWidget {
                     color: Colors.black,
                     letterSpacing: 1.5,
                   ),
+                  textInputAction: TextInputAction.done,
                   controller: _confirmController,
-                  obscureText: _passwordVisible,
+                  obscureText: !authVm.passwordVisible,
+                  onChanged: (value)=>authVm.setConfirmPass(value),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "Please confirm your password";
+                    } else if (value != authVm.password) {
+                      return "Passwords do not match";
+                    }
+                    return null;
+                  },
                   obscuringCharacter: '*',
                   decoration: InputDecoration(
                     contentPadding:
@@ -171,27 +203,27 @@ class RegisterForm extends StatelessWidget {
                     suffixIcon: IconButton(
                       icon: ImageIcon(
                         const AssetImage('assets/icons/eye.png'),
-                        color: _passwordVisible ? greyText : Colors.black,
+                        color: !authVm.passwordVisible ? greyText : Colors.black,
                       ),
-                      onPressed: _toggle,
+                      onPressed: authVm.toggleVisible,
                     ),
                   ),
                 ),
 
                 const SizedBox(
-                  height: 15.0,
+                  height: 40.0,
                 ),
-                //Error Text In case of error returning from the Server
-                const Text(
-                  "",
-                ),
-                const SizedBox(
-                  height: 15.0,
-                ),
+
                 ElevatedButton(
 
-                  onPressed: () {
-                    print("Sign up");
+                  onPressed: () async{
+                    if (_formKey.currentState!.validate()) {
+                      print("Valid");
+                      await authVm.signUpApi(context);
+
+                    } else {
+                      print("InValid");
+                    }
                   },
                   style: ButtonStyle(
                     padding:

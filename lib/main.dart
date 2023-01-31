@@ -13,6 +13,7 @@ import 'package:zineapp2023/screens/onboarding/reset_password/reset_password_scr
 import 'package:firebase_core/firebase_core.dart';
 
 import 'common/loaderScreen.dart';
+import 'common/navigator.dart';
 
 final Language _language = Language();
 
@@ -32,6 +33,7 @@ class MyApp extends StatelessWidget {
     return AppProviders(
         language: _language,
         child: MaterialApp(
+          navigatorKey: NavigationService.navigatorKey,
           title: 'Flutter Demo',
           theme: ThemeData(
             fontFamily: 'Poppins',

@@ -23,7 +23,7 @@ class LandingScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(
-                    height: 20,
+                    height: 35,
                   ),
                   Row(
                     children: const [
@@ -54,9 +54,7 @@ class LandingScreen extends StatelessWidget {
                       )
                     ],
                   ),
-                  const SizedBox(
-                    height: 100.0,
-                  ),
+                  const Spacer(flex: 3,),
                   const Text(
                     'DESIGN.\nCREATE.\nINNOVATE.\n',
                     style: TextStyle(
@@ -68,7 +66,7 @@ class LandingScreen extends StatelessWidget {
                       color: Colors.white,
                     ),
                   ),
-                  Spacer(),
+                  const Spacer(flex:2),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
@@ -77,11 +75,11 @@ class LandingScreen extends StatelessWidget {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => LoginPage()));
+                                  builder: (context) => const LoginPage()));
                         },
                         style: ButtonStyle(
                           padding:
-                              MaterialStateProperty.all(EdgeInsets.all(20.0)),
+                              MaterialStateProperty.all(const EdgeInsets.all(20.0)),
                           backgroundColor:
                               MaterialStateProperty.all(Colors.white),
                           shape:
@@ -108,7 +106,7 @@ class LandingScreen extends StatelessWidget {
                             Navigator.of(context).push(Routes.exploreScreen()),
                         style: ButtonStyle(
                           padding:
-                              MaterialStateProperty.all(EdgeInsets.all(20.0)),
+                              MaterialStateProperty.all(const EdgeInsets.all(20.0)),
                           backgroundColor:
                               MaterialStateProperty.all(Colors.white),
                           shape:
@@ -127,6 +125,7 @@ class LandingScreen extends StatelessWidget {
                               fontWeight: FontWeight.w400),
                         ),
                       ),
+                      const SizedBox(height: 30.0,)
                     ],
                   )
                 ],
