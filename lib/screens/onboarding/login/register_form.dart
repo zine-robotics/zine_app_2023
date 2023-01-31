@@ -28,22 +28,6 @@ class RegisterForm extends StatelessWidget {
       _passwordController.text = authVm.password;
       _confirmController.text = authVm.confirmPass;
 
-      void validateSubmit() {
-
-        Map data = {
-            'email': _emailController.text.toString(),
-            'password': _passwordController.text.toString(),
-            'name':_nameController.text.toString()
-          };
-
-          // Map data = {
-          //   'email' : 'eve.holt@reqres.in',
-          //   'password' : 'cityslicka',
-          // };
-
-          // authVm.signUpApi(data, context);
-
-      }
 
       return SingleChildScrollView(
         child: Form(

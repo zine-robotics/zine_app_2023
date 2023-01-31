@@ -63,8 +63,8 @@ class Explore extends StatelessWidget {
                         ),
                         child: GridView.builder(
                           shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                          padding: EdgeInsets.all(35.0),
+                          physics: const NeverScrollableScrollPhysics(),
+                          padding: const EdgeInsets.all(35.0),
                           itemCount: exploreCards.length,
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(

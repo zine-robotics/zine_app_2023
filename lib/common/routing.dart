@@ -64,5 +64,5 @@ class Routes {
       cupertinoRoute(RouteName.emailScreen, (ctx) => EmailScreen());
 
   static Route otpScreen() =>
-      cupertinoRoute(RouteName.otpScreen, (ctx) => OTPScreen());
+      cupertinoRoute(RouteName.otpScreen, (ctx) => const OTPScreen());
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:zineapp2023/theme/color.dart';
 
-const Chats = [
+const chats = [
   {
     "name": "Rupesh",
     "lastTime": "18:31",
@@ -36,6 +36,7 @@ const Chats = [
 
 class ChatCard extends StatelessWidget {
   const ChatCard({super.key, this.index});
+
   final index;
 
   @override
@@ -44,12 +45,12 @@ class ChatCard extends StatelessWidget {
       padding: const EdgeInsets.all(5.0),
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(
+          borderRadius: const BorderRadius.all(
             Radius.circular(6),
           ),
-          color: Chats[index]["newMsg"] == 0
-              ? Color.fromRGBO(170, 170, 170, 0.1)
-              : Color.fromRGBO(47, 128, 237, 0.1),
+          color: chats[index]["newMsg"] == 0
+              ? const Color.fromRGBO(170, 170, 170, 0.1)
+              : const Color.fromRGBO(47, 128, 237, 0.1),
         ),
         width: MediaQuery.of(context).size.width - 50,
         child: Padding(
@@ -59,16 +60,16 @@ class ChatCard extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  CircleAvatar(
+                  const CircleAvatar(
                     backgroundColor: Colors.white,
                     radius: 20,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
                   Text(
-                    Chats[index]["name"].toString(),
-                    style: TextStyle(
+                    chats[index]["name"].toString(),
+                    style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w700,
                     ),
@@ -77,35 +78,35 @@ class ChatCard extends StatelessWidget {
               ),
               Row(
                 children: [
-                  Chats[index]["newMsg"] != 0
+                  chats[index]["newMsg"] != 0
                       ? Row(
                           children: [
                             Container(
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
-                                color: Color.fromRGBO(47, 128, 237, 1),
+                                color: const Color.fromRGBO(47, 128, 237, 1),
                               ),
                               height: 20,
                               width: 20,
                               child: Center(
                                 child: Text(
-                                  Chats[index]["newMsg"].toString(),
-                                  style: TextStyle(
+                                  chats[index]["newMsg"].toString(),
+                                  style: const TextStyle(
                                     color: Colors.white,
                                     fontSize: 12,
                                   ),
                                 ),
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 10,
                             )
                           ],
                         )
                       : Container(),
                   Text(
-                    Chats[index]["lastTime"].toString(),
-                    style: TextStyle(
+                    chats[index]["lastTime"].toString(),
+                    style: const TextStyle(
                       fontSize: 10,
                       fontWeight: FontWeight.w400,
                       color: Color.fromRGBO(51, 51, 51, 0.5),
@@ -135,43 +136,43 @@ class ChatsList extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              const Text(
                 "Personal",
                 style: TextStyle(
                   color: greyText,
                   fontSize: 16,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               ListView.builder(
                 shrinkWrap: true,
-                itemCount: Chats.length,
+                itemCount: chats.length,
                 itemBuilder: ((context, index) {
-                  return Chats[index]["type"] == "Personal"
+                  return chats[index]["type"] == "Personal"
                       ? ChatCard(index: index)
                       : Container();
                 }),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
-              Text(
+              const Text(
                 "Groups",
                 style: TextStyle(
                   color: greyText,
                   fontSize: 16,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               ListView.builder(
                 shrinkWrap: true,
-                itemCount: Chats.length,
+                itemCount: chats.length,
                 itemBuilder: ((context, index) {
-                  return Chats[index]["type"] == "Group"
+                  return chats[index]["type"] == "Group"
                       ? ChatCard(index: index)
                       : Container();
                 }),

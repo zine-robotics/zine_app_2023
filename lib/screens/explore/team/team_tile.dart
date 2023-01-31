@@ -30,7 +30,7 @@ class TeamTile extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.circular(20.0), //or 15.0
                 child: Image.asset(
-                  'assets/images/${year}/${image}.webp',
+                  'assets/images/$year/$image.webp',
                   height: 75.0,
                 ),
               ),
@@ -42,17 +42,17 @@ class TeamTile extends StatelessWidget {
                   children: [
                     Text(
                       name,
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontSize: 20.0,
                           color: textDarkBlue,
                           fontWeight: FontWeight.bold),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 5.0,
                     ),
                     Text(
                       id,
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontSize: 15.0,
                           color: textColor,
                           fontWeight: FontWeight.w300),

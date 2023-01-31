@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 // import 'package:flutter_neat_and_clean_calendar/flutter_neat_and_clean_calendar.dart';
 import 'package:provider/provider.dart';
 import 'package:zineapp2023/screens/dashboard/dashCalendar.dart';
@@ -77,8 +78,8 @@ class Dashboard extends StatelessWidget {
                     const SizedBox(
                       height: 40.0,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(30.0, 0, 30.0, 0),
+                    const Padding(
+                      padding: EdgeInsets.fromLTRB(30.0, 0, 30.0, 0),
                       child: Text("EVENT",
                           style: TextStyle(
                               height: 0.9,
@@ -145,7 +146,7 @@ class Dashboard extends StatelessWidget {
                                 height: 200,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(24.0),
-                                  color: Color.fromARGB(255, 255, 255, 255),
+                                  color: const Color.fromARGB(255, 255, 255, 255),
                                 ),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.end,
@@ -204,7 +205,7 @@ class Dashboard extends StatelessWidget {
                                                       200, 255, 255, 255)),
                                               textAlign: TextAlign.center,
                                             ),
-                                            SizedBox(
+                                            const SizedBox(
                                               height: 10,
                                             ),
                                             const Text(
@@ -224,13 +225,13 @@ class Dashboard extends StatelessWidget {
                         ],
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10.0,
                     ),
                     CarouselSlider(
                       options: CarouselOptions(
                           height: 200.0, viewportFraction: 0.87),
-                      items: ["ALGORITHMS", "BEE", "BME", "AERO", "ICU-MCU"]
+                      items: ["ALGORITHMS", "BEE", "BME", "AEROMODELLING", "ICU-MCU","CYBERSECURITY","WEB DEVELOPMENT"]
                           .map((i) {
                         return Builder(
                           builder: (BuildContext context) {
@@ -241,8 +242,11 @@ class Dashboard extends StatelessWidget {
                                 width: MediaQuery.of(context).size.width,
                                 height: 200.0,
                                 decoration: BoxDecoration(
+                                  image: const DecorationImage(
+                                      image: AssetImage(
+                                          "assets/images/blog_card.png")),
                                   borderRadius: BorderRadius.circular(24.0),
-                                  color: Color.fromARGB(255, 255, 255, 255),
+                                  color: const Color.fromARGB(255, 255, 255, 255),
                                 ),
                                 child: Center(
                                   child: Text(
@@ -262,7 +266,7 @@ class Dashboard extends StatelessWidget {
                         );
                       }).toList(),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Padding(

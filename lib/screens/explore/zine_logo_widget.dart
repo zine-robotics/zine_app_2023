@@ -5,7 +5,7 @@ class ZineWhiteLogoWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: MediaQuery.of(context).size.height / 2 - 60,
       width: MediaQuery.of(context).size.width,
       child: Padding(

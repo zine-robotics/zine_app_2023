@@ -91,16 +91,16 @@ class ProfileScreen extends StatelessWidget {
                               child:
                                   Image.asset("assets/images/card_image.png"),
                             ),
-                            CircleAvatar(
+                            const CircleAvatar(
                               backgroundColor: Colors.white,
                               radius: 45.0,
                             ),
                           ],
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 20.0,
                         ),
-                        Text(
+                        const Text(
                           "2021 UCP 1031",
                           style: TextStyle(
                             color: Colors.white,
@@ -109,10 +109,10 @@ class ProfileScreen extends StatelessWidget {
                             letterSpacing: 0.8,
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 5.0,
                         ),
-                        Text(
+                        const Text(
                           "Priyansh Kothari",
                           style: TextStyle(
                             color: Colors.white,
@@ -136,7 +136,7 @@ class ProfileScreen extends StatelessWidget {
                   const EdgeInsets.symmetric(horizontal: 30.0, vertical: 20.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
+                children: const [
                   Text(
                     "WORKSHOP",
                     style: TextStyle(
@@ -170,7 +170,7 @@ class ProfileScreen extends StatelessWidget {
                 const EdgeInsets.symmetric(horizontal: 30.0, vertical: 20.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+              children: const [
                 Text(
                   "Name",
                   style: TextStyle(
@@ -219,7 +219,7 @@ class ProfileScreen extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 0),
             child: TextButton(
               onPressed: () {},
-              child: Text(
+              child: const Text(
                 "Change Password",
                 style: TextStyle(
                   fontWeight: FontWeight.w500,

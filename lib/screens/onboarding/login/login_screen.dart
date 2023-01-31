@@ -33,7 +33,7 @@ class LoginPage extends StatelessWidget {
                       alignment: Alignment.center,
                       children: [
                         Positioned(
-                          child: Container(
+                          child: SizedBox(
                               height: 190.0,
                               child: Image.asset(
                                 'assets/images/zine_logo.png',
