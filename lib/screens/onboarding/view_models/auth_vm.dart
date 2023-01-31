@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import '../../../common/routing.dart';
 import '../../../models/user.dart';
 import '../repo/auth_repo.dart';
 import 'package:provider/provider.dart';
@@ -21,10 +22,6 @@ class AuthViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  setSignUpLoading(bool value) {
-    _signUpLoading = value;
-    notifyListeners();
-  }
 
   Future<void> postDetailsToFirestore(UserModel userModel) async {
     print('create user called');
@@ -48,7 +45,7 @@ class AuthViewModel with ChangeNotifier {
       // userPreference.saveUser(UserModel(token: value['token'].toString()));
       print(value);
       // Utils.flushBarErrorMessage('Login Successfully', context);
-      // Navigator.pushNamed(context, RoutesName.home);
+      Navigator.of(context).pushAndRemoveUntil(Routes.homeScreen(), (Route<dynamic> route) => false);
       // if (kDebugMode) {
       //   print(value.toString());
       // }
@@ -62,14 +59,14 @@ class AuthViewModel with ChangeNotifier {
   }
 
   Future<void> signUpApi(dynamic data, BuildContext context) async {
-    setSignUpLoading(true);
+    setLoading(true);
 
     _myRepo
         .createUserWithEmailAndPassword(data['name'],data['email'], data['password'])
         .then((value) {
       print("account called");
-      setSignUpLoading(false);
       print(data['name']);
+      setLoading(false);
       print("account created");
 
       String? uid = value?.uid;
@@ -83,8 +80,8 @@ class AuthViewModel with ChangeNotifier {
       //   print(value.toString());
       // }
     }).onError((error, stackTrace) {
-      setSignUpLoading(false);
       print(error);
+      setLoading(false);
       print("account failed");
       // Utils.flushBarErrorMessage(error.toString(), context);
       // if (kDebugMode) {

@@ -6,19 +6,24 @@ import '../../../theme/color.dart';
 import '../../../common/routing.dart';
 
 class LoginForm extends StatelessWidget {
+
+  LoginForm({Key? key}) : super(key:key);
+
+  final _formKey = GlobalKey<FormState>();
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+
+  bool _passwordVisible = false;
+
+  String? _password;
+
+  void _toggle() {
+    _passwordVisible = !_passwordVisible;
+  }
+
   @override
   Widget build(BuildContext context) {
-    final _formKey = GlobalKey<FormState>();
-    TextEditingController _emailController = TextEditingController();
-    TextEditingController _passwordController = TextEditingController();
 
-    bool _passwordVisible = false;
-
-    String? _password;
-
-    void _toggle() {
-      _passwordVisible = !_passwordVisible;
-    }
 
     return Consumer<AuthViewModel>(builder: (context, authVm, _) {
       void validateSubmit() {

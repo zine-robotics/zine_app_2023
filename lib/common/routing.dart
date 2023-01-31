@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:zineapp2023/screens/explore/achievements.dart';
 import 'package:zineapp2023/screens/explore/team/team.dart';
 import 'package:zineapp2023/screens/explore/explore.dart';
+import 'package:zineapp2023/screens/home/home_screen.dart';
 import 'package:zineapp2023/screens/onboarding/reset_password/email_screen.dart';
 import 'package:zineapp2023/screens/onboarding/reset_password/otp_screen.dart';
 
@@ -30,6 +31,9 @@ class Routes {
         builder: (context) => widgetProvider(context),
       );
 
+  static Route homeScreen() =>
+      cupertinoRoute(RouteName.homeScreen, (ctx) => const Home());
+
   static Route teamScreen() =>
       cupertinoRoute(RouteName.teamScreen, (ctx) => const TeamScreen());
 
@@ -55,5 +59,4 @@ class Routes {
 
   static Route otpScreen() =>
       cupertinoRoute(RouteName.otpScreen, (ctx) => OTPScreen());
-
 }

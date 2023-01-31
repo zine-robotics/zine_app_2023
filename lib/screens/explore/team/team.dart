@@ -10,6 +10,8 @@ import '../../../theme/color.dart';
 class TeamScreen extends StatelessWidget {
   const TeamScreen({Key? key}) : super(key: key);
 
+  static const year = ["second", "third", "fourth"];
+
   @override
   Widget build(BuildContext context) {
     return Consumer<Language>(builder: (context, dict, _) {
@@ -63,36 +65,22 @@ class TeamScreen extends StatelessWidget {
             ),
             body: TabBarView(
               children: [
-                ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: dict.teamScreen.team![0].length,
-                    itemBuilder: (context, index) {
-                      return TeamTile(
-                        image: dict.teamScreen.team![0][index].image!,
-                        name: dict.teamScreen.team![0][index].name!,
-                        id: dict.teamScreen.team![0][index].email!,
-                      );
-                    }),
-                ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: dict.teamScreen.team![1].length,
-                    itemBuilder: (context, index) {
-                      return TeamTile(
-                        image: dict.teamScreen.team![1][index].image!,
-                        name: dict.teamScreen.team![1][index].name!,
-                        id: dict.teamScreen.team![1][index].email!,
-                      );
-                    }),
-                ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: dict.teamScreen.team![2].length,
-                    itemBuilder: (context, index) {
-                      return TeamTile(
-                        image: dict.teamScreen.team![2][index].image!,
-                        name: dict.teamScreen.team![2][index].name!,
-                        id: dict.teamScreen.team![2][index].email!,
-                      );
-                    })
+                for (int i = 0; i < 3; i++)
+                  ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: dict.teamScreen.team![i].length + 1,
+                      itemBuilder: (context, index) {
+                        return index == dict.teamScreen.team![i].length
+                            ? const SizedBox(
+                                height: 10.0,
+                              )
+                            : TeamTile(
+                                year: year[i],
+                                image: dict.teamScreen.team![i][index].image!,
+                                name: dict.teamScreen.team![i][index].name!,
+                                id: dict.teamScreen.team![i][index].email!,
+                              );
+                      })
               ],
             ),
           ));

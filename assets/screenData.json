@@ -236,19 +236,14 @@
 	"team": [
 		[
 			{
+				"name": "Granth Gupta",
+				"image": "granth",
+				"email": "2021KUCP1015@iiitkota.ac.in"
+			},
+			{
 				"name": "Harshit Sandilya",
 				"image": "harshit",
 				"email": "2021UCP1382@mnit.ac.in"
-			},
-			{
-				"name": "Rupesh Yadav",
-				"image": "rupesh",
-				"email": "2021UEC1533@mnit.ac.in"
-			},
-			{
-				"name": "Priyansh Kothari",
-				"image": "priyansh",
-				"email": "2021UCP1013@mnit.ac.in"
 			},
 			{
 				"name": "Kasvala Meet",
@@ -256,83 +251,108 @@
 				"email": "2021UEE1378@mnit.ac.in"
 			},
 			{
-				"name": "Yug Modi",
-				"image": "yug",
-				"email": "2021KUCP1110@iiitk.ac.in"
+				"name": "Priyansh Kothari",
+				"image": "priyansh",
+				"email": "2021UCP1013@mnit.ac.in"
 			},
 			{
-				"name": "Granth Gupta",
-				"image": "granth",
-				"email": "2021KUCP1015@iiitk.ac.in"
+				"name": "Rupesh Yadav",
+				"image": "rupesh",
+				"email": "2021UEC1533@mnit.ac.in"
+			},
+			{
+				"name": "Yug Modi",
+				"image": "yug",
+				"email": "2021KUCP1110@iiitkota.ac.in"
 			}
 		],
 		[
 			{
-				"name": "Divyansh Garg",
-				"image": "divyansh",
-				"email": "2021"
-			},
-			{
-				"name": "Sudeshna Sonkar",
-				"image": "sudeshna",
-				"email": "2021"
-			},
-			{
-				"name": "Mahak Garg",
-				"image": "mahak",
-				"email": "2021"
-			},
-			{
 				"name": "Abhinav Kumar",
 				"image": "abhinav",
-				"email": "2021"
-			},
-			{
-				"name": "Pranjali Srivastava",
-				"image": "pranjali",
-				"email": "2021"
+				"email": "2020uee1476@mnit.ac.in"
 			},
 			{
 				"name": "Ashok Saini",
 				"image": "ashok",
-				"email": "2021"
+				"email": "2020uee1992@mnit.ac.in"
+			},
+			{
+				"name": "Divyansh Garg",
+				"image": "divyansh",
+				"email": "2020kuec2018@iiitkota.ac.in"
+			},
+			{
+				"name": "Mahak Garg",
+				"image": "mahak",
+				"email": "2020uee1312@mnit.ac.in"
 			},
 			{
 				"name": "Nishant Garg",
 				"image": "nishant",
-				"email": "2021"
+				"email": "2020ucp1869@mnit.ac.in"
+			},
+			{
+				"name": "Pranjali Srivastava",
+				"image": "pranjali",
+				"email": "2020ume1941@mnit.ac.in"
+			},
+			{
+				"name": "Sudeshna Sonkar",
+				"image": "sudeshna",
+				"email": "2020ume1225@mnit.ac.in"
+			},
+			{
+				"name": "Vinamra Vashistha",
+				"image": "vinamra",
+				"email": "2020kucp1046@iiitkota.ac.in"
 			}
 		],
 		[
 			{
-				"name": "Divyansh Garg",
-				"image": "harshit",
-				"email": "2021"
+				"name": "Apoorv Raj",
+				"image": "apoorv",
+				"email": "2019ume1219@mnit.ac.in"
 			},
 			{
-				"name": "Rupesh Yadav",
-				"image": "harshit",
-				"email": "2021"
+				"name": "Aryaman Singh",
+				"image": "aryaman",
+				"email": "2019uee1722@mnit.ac.in"
 			},
 			{
-				"name": "Priyansh",
-				"image": "harshit",
-				"email": "2021"
+				"name": "Chirayu Rankawat",
+				"image": "chirayu",
+				"email": "2019ume1357@mnit.ac.in"
 			},
 			{
-				"name": "Meet",
+				"name": "Darhsan Dusad",
 				"image": "harshit",
-				"email": "2021"
+				"email": "2019ucp1416@mnit.ac.in"
 			},
 			{
-				"name": "Yug",
-				"image": "harshit",
-				"email": "2021"
+				"name": "Devansh Garg",
+				"image": "devansh",
+				"email": "2019ume1883@mnit.ac.in"
 			},
 			{
-				"name": "Granth",
+				"name": "Harshit Garg",
 				"image": "harshit",
-				"email": "2021"
+				"email": "2019ume1205@mnit.ac.in"
+			},
+			{
+				"name": "Puneet Singh",
+				"image": "puneet",
+				"email": "2019uec1355@mnit.ac.in"
+			},
+			{
+				"name": "Pavnesh Chaturvedi",
+				"image": "pavnesh",
+				"email": "2019kuec2037@iiitkota.ac.in"
+			},
+			{
+				"name": "Rahul Raj",
+				"image": "rahul",
+				"email": "2019ume1141@mnit.ac.in"
 			}
 		]
 	]

@@ -11,7 +11,7 @@ class AuthRepo {
     return UserModel(user.uid, user.email,name);
   }
 
-  // Stream<UserModel?>? get user {
+  // Stream<User?>? get user {
   //   return _firebaseAuth.authStateChanges().map(_userFromFirebase);
   // }
 

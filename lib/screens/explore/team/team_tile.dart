@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:zineapp2023/theme/color.dart';
 
 class TeamTile extends StatelessWidget {
+  final String year;
   final String name;
   final String id;
   final String image;
 
   const TeamTile({
     Key? key,
+    required this.year,
     required this.image,
     required this.name,
     required this.id,
@@ -28,7 +30,7 @@ class TeamTile extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.circular(20.0), //or 15.0
                 child: Image.asset(
-                  'assets/images/second/${image}.png',
+                  'assets/images/${year}/${image}.png',
                   height: 75.0,
                 ),
               ),
