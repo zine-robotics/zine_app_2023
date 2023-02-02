@@ -5,7 +5,7 @@ import '../../../components/gradient.dart';
 import '../../../theme/color.dart';
 
 class OTPScreen extends StatefulWidget {
-  OTPScreen({Key? key}) : super(key: key);
+  const OTPScreen({Key? key}) : super(key: key);
 
   @override
   State<OTPScreen> createState() => _OTPScreenState();
@@ -72,7 +72,7 @@ class _OTPScreenState extends State<OTPScreen> {
         ),
       ),
       body: SingleChildScrollView(
-        physics: NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 0),
           child: Column(
@@ -175,6 +175,5 @@ class _OTPScreenState extends State<OTPScreen> {
         ),
       ),
     );
-    ;
   }
 }

@@ -14,8 +14,8 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
 
   bool _passwordVisible = false;
 
-  String? _password;
-
+  // String? _password;
+  //
   // Toggles the password show status
   void _toggle() {
     setState(() {

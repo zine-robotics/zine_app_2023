@@ -1,18 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:zineapp2023/app_providers.dart';
 import 'package:zineapp2023/providers/dictionary.dart';
-import 'package:zineapp2023/screens/dashboard/profile.dart';
-import 'package:zineapp2023/screens/dashboard/view_models/dashboard_vm.dart';
-import 'package:zineapp2023/screens/explore/achievements.dart';
-import 'package:zineapp2023/screens/home/home_screen.dart';
-import 'package:zineapp2023/screens/home/view_models/home_view_model.dart';
 import 'package:zineapp2023/screens/onboarding/landing.dart';
-import 'package:zineapp2023/screens/onboarding/reset_password/email_screen.dart';
-import 'package:zineapp2023/screens/onboarding/reset_password/reset_password_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
-
-import 'common/loaderScreen.dart';
+import 'common/navigator.dart';
 
 final Language _language = Language();
 
@@ -32,12 +23,13 @@ class MyApp extends StatelessWidget {
     return AppProviders(
         language: _language,
         child: MaterialApp(
+          navigatorKey: NavigationService.navigatorKey,
           title: 'Flutter Demo',
           theme: ThemeData(
             fontFamily: 'Poppins',
             primarySwatch: Colors.blue,
           ),
-          home: LandingScreen(),
+          home: const LandingScreen(),
         ));
   }
 }

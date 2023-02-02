@@ -20,7 +20,7 @@ class ChatHome extends StatelessWidget {
           //   size: 20,
           //   color: greyText,
           // ),
-          title: TabBar(
+          title: const TabBar(
             labelColor: Color.fromRGBO(12, 114, 176, 0.949375),
             labelStyle: TextStyle(
               fontSize: 20,
@@ -40,26 +40,22 @@ class ChatHome extends StatelessWidget {
             indicatorSize: TabBarIndicatorSize.label,
             indicatorColor: Color.fromRGBO(12, 114, 176, 0.949375),
             tabs: [
-              Container(
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Text(
-                    "Chats",
-                  ),
+              Padding(
+                padding: EdgeInsets.all(10.0),
+                child: Text(
+                  "Chats",
                 ),
               ),
-              Container(
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Text(
-                    "Tasks",
-                  ),
+              Padding(
+                padding: EdgeInsets.all(10.0),
+                child: Text(
+                  "Tasks",
                 ),
               ),
             ],
           ),
         ),
-        body: TabBarView(
+        body: const TabBarView(
           children: [
             ChatsList(),
             SingleChildScrollView(),

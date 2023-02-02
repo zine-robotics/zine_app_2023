@@ -1,10 +1,15 @@
 import "package:flutter/material.dart";
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:zineapp2023/components/gradient.dart';
+import 'package:zineapp2023/screens/onboarding/repo/auth_repo.dart';
 import 'package:zineapp2023/theme/color.dart';
 
+import '../../common/routing.dart';
+
 class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({Key? key}) : super(key: key);
+  ProfileScreen({Key? key}) : super(key: key);
+
+  final AuthRepo _authRepo = AuthRepo();
 
   @override
   Widget build(BuildContext context) {
@@ -86,16 +91,16 @@ class ProfileScreen extends StatelessWidget {
                               child:
                                   Image.asset("assets/images/card_image.png"),
                             ),
-                            CircleAvatar(
+                            const CircleAvatar(
                               backgroundColor: Colors.white,
                               radius: 45.0,
                             ),
                           ],
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 20.0,
                         ),
-                        Text(
+                        const Text(
                           "2021 UCP 1031",
                           style: TextStyle(
                             color: Colors.white,
@@ -104,31 +109,17 @@ class ProfileScreen extends StatelessWidget {
                             letterSpacing: 0.8,
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 5.0,
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "Priyansh Kothari",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 13,
-                                fontWeight: FontWeight.w500,
-                                letterSpacing: 0.8,
-                              ),
-                            ),
-                            Text(
-                              "21/06",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 15,
-                                fontWeight: FontWeight.w900,
-                                letterSpacing: 0.8,
-                              ),
-                            ),
-                          ],
+                        const Text(
+                          "Priyansh Kothari",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 13,
+                            fontWeight: FontWeight.w500,
+                            letterSpacing: 0.8,
+                          ),
                         ),
                       ],
                     ),
@@ -145,7 +136,7 @@ class ProfileScreen extends StatelessWidget {
                   const EdgeInsets.symmetric(horizontal: 30.0, vertical: 20.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
+                children: const [
                   Text(
                     "WORKSHOP",
                     style: TextStyle(
@@ -179,9 +170,9 @@ class ProfileScreen extends StatelessWidget {
                 const EdgeInsets.symmetric(horizontal: 30.0, vertical: 20.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+              children: const [
                 Text(
-                  "Phone no.",
+                  "Name",
                   style: TextStyle(
                     fontWeight: FontWeight.w500,
                     color: Colors.grey,
@@ -192,7 +183,7 @@ class ProfileScreen extends StatelessWidget {
                   height: 5.0,
                 ),
                 Text(
-                  "+91 9660728966",
+                  "Priyansh Kothari",
                   style: TextStyle(
                     fontWeight: FontWeight.w500,
                     color: Color(0xff767D81),
@@ -228,7 +219,7 @@ class ProfileScreen extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 0),
             child: TextButton(
               onPressed: () {},
-              child: Text(
+              child: const Text(
                 "Change Password",
                 style: TextStyle(
                   fontWeight: FontWeight.w500,
@@ -242,7 +233,12 @@ class ProfileScreen extends StatelessWidget {
             padding:
                 const EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () async {
+                await _authRepo.signOut();
+
+                Navigator.of(context).pushAndRemoveUntil(
+                    Routes.landingScreen(), (route) => false);
+              },
               style: ButtonStyle(
                 padding: MaterialStateProperty.all(const EdgeInsets.all(20.0)),
                 backgroundColor: MaterialStateProperty.all(Colors.white),

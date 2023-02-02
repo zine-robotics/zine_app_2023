@@ -1,43 +1,64 @@
 import 'package:firebase_auth/firebase_auth.dart' as auth;
+import 'package:firebase_auth/firebase_auth.dart';
 import '../../../models/user.dart';
 
 class AuthRepo {
   final auth.FirebaseAuth _firebaseAuth = auth.FirebaseAuth.instance;
 
-  User? _userFromFirebase(auth.User? user) {
+  UserModel? _userFromFirebase({
+    required auth.User? user,
+    String? name,
+  }) {
     if (user == null) {
       return null;
     }
-    return User(user.uid, user.email);
+    return UserModel(
+      uid: user.uid,
+      email: user.email,
+      name: name,
+    );
   }
 
   // Stream<User?>? get user {
   //   return _firebaseAuth.authStateChanges().map(_userFromFirebase);
   // }
 
-  Future<User?> signInWithEmailAndPassword(
-    String email,
-    String password,
-  ) async {
+  Future<UserModel?> signInWithEmailAndPassword({
+    String? email,
+    String? password,
+  }) async {
     final credential = await _firebaseAuth.signInWithEmailAndPassword(
-      email: email,
-      password: password,
+      email: email!,
+      password: password!,
     );
-    return _userFromFirebase(credential.user);
+    print(credential.toString());
+
+    //TODO - Uncomment before Release
+    // if(!credential.user!.emailVerified){
+    //   signOut();
+    //   print("User Logged out");
+    //   throw FirebaseAuthException(code: 'unverified-email');
+    // }
+
+    return _userFromFirebase(user: credential.user);
   }
 
-  Future<User?> createUserWithEmailAndPassword(
-    String email,
-    String password,
-  ) async {
+  Future<UserModel?> createUserWithEmailAndPassword({
+    String? name,
+    String? email,
+    String? password,
+  }) async {
     final credential = await _firebaseAuth.createUserWithEmailAndPassword(
-      email: email,
-      password: password,
+      email: email!,
+      password: password!,
     );
-    return _userFromFirebase(credential.user);
+    return _userFromFirebase(
+      user: credential.user,
+      name: name,
+    );
   }
 
   Future<void> signOut() async {
-    return await _firebaseAuth.signOut();
+    await _firebaseAuth.signOut();
   }
 }

@@ -7,11 +7,11 @@ class Routers {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case 'home':
-        return MaterialPageRoute(builder: (_) => Home());
+        return MaterialPageRoute(builder: (_) => const Home());
       case 'landing':
-        return MaterialPageRoute(builder: (_) => LandingScreen());
+        return MaterialPageRoute(builder: (_) => const LandingScreen());
       case 'dashboard':
-        return MaterialPageRoute(builder: (_) => Dashboard());
+        return MaterialPageRoute(builder: (_) => const Dashboard());
       default:
         return MaterialPageRoute(builder: (_) {
           return Scaffold(

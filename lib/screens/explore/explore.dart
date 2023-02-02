@@ -21,6 +21,10 @@ class Explore extends StatelessWidget {
       case RouteName.achievementScreen:
         await Navigator.of(context).push(Routes.achievementScreen());
         break;
+      case RouteName.wokrshopTimeline:
+        await Navigator.of(context).push(Routes.workshopTimeline());
+        break;
+
     }
   }
 
@@ -63,8 +67,8 @@ class Explore extends StatelessWidget {
                         ),
                         child: GridView.builder(
                           shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                          padding: EdgeInsets.all(35.0),
+                          physics: const NeverScrollableScrollPhysics(),
+                          padding: const EdgeInsets.all(35.0),
                           itemCount: exploreCards.length,
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(

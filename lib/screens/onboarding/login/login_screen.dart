@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zineapp2023/common/loaderScreen.dart';
+import 'package:zineapp2023/screens/onboarding/login/view_models/login_auth_vm.dart';
+import 'package:zineapp2023/screens/onboarding/login/view_models/register_auth_vm.dart';
 import 'package:zineapp2023/screens/onboarding/repo/auth_repo.dart';
-import 'package:zineapp2023/screens/onboarding/view_models/auth_vm.dart';
+import '../../../common/routing.dart';
 import './register_form.dart';
 import '../../../theme/color.dart';
 import './login_form.dart';
@@ -12,10 +14,12 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<AuthViewModel>(builder: (context, authVm, _) {
-      return authVm.loading
-          ? Loader()
+    return Consumer2<LoginAuthViewModel, RegisterAuthViewModel>(
+        builder: (context, logAuthVm, regAuthVm, _) {
+      return logAuthVm.loading || regAuthVm.loading
+          ? const Loader()
           : DefaultTabController(
+              initialIndex: 0,
               length: 2,
               child: Scaffold(
                 resizeToAvoidBottomInset: true,
@@ -30,7 +34,7 @@ class LoginPage extends StatelessWidget {
                       alignment: Alignment.center,
                       children: [
                         Positioned(
-                          child: Container(
+                          child: SizedBox(
                               height: 190.0,
                               child: Image.asset(
                                 'assets/images/zine_logo.png',

@@ -1,56 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import './../view_models/auth_vm.dart';
+import 'package:zineapp2023/components/constants.dart';
+import 'package:zineapp2023/screens/onboarding/login/view_models/login_auth_vm.dart';
 import '../../../theme/color.dart';
 
 import '../../../common/routing.dart';
 
 class LoginForm extends StatelessWidget {
 
-  LoginForm({Key? key}) : super(key:key);
+  LoginForm({Key? key}) : super(key: key);
 
   final _formKey = GlobalKey<FormState>();
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
-  bool _passwordVisible = false;
 
-  String? _password;
-
-  void _toggle() {
-    _passwordVisible = !_passwordVisible;
-  }
 
   @override
   Widget build(BuildContext context) {
-
-
-    return Consumer<AuthViewModel>(builder: (context, authVm, _) {
-      void validateSubmit() {
-        print("validate submit");
-        if (_emailController.text.isEmpty) {
-          print("email empty");
-          // Utils.flushBarErrorMessage('Please enter email', context);
-        } else if (_passwordController.text.isEmpty) {
-          // Utils.flushBarErrorMessage('Please enter password', context);
-
-        } else if (_passwordController.text.length < 6) {
-          // Utils.flushBarErrorMessage('Please enter 6 digit password', context);
-
-        } else {
-          Map data = {
-            'email': _emailController.text.toString(),
-            'password': _passwordController.text.toString(),
-          };
-
-          // Map data = {
-          //   'email' : 'eve.holt@reqres.in',
-          //   'password' : 'cityslicka',
-          // };
-
-          authVm.loginApi(data, context);
-        }
-      }
+    return Consumer<LoginAuthViewModel>(builder: (context, authVm, _) {
+      _emailController.text = authVm.email;
+      _passwordController.text = authVm.password;
 
       return SingleChildScrollView(
         child: Form(
@@ -72,6 +42,17 @@ class LoginForm extends StatelessWidget {
                     letterSpacing: 1.5,
                   ),
                   controller: _emailController,
+                  onChanged: (value) {
+                    authVm.setEmail(value);
+                  },
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "Please enter an email address";
+                    } else if (!emailReg.hasMatch(authVm.email)) {
+                      return "Not a valid Email. Use College Email to Login";
+                    }
+                    return null;
+                  },
                   textInputAction: TextInputAction.next,
                   keyboardType: TextInputType.emailAddress,
                   cursorColor: textColor,
@@ -97,7 +78,18 @@ class LoginForm extends StatelessWidget {
                     color: Colors.black,
                     letterSpacing: 1.5,
                   ),
-                  obscureText: _passwordVisible,
+                  onChanged: (value) => authVm.setPassword(value),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "Please enter a password";
+                    } else if (value.length < 6) {
+                      return "Password is too short";
+                    } else if (value.length > 12) {
+                      return "Password is too long";
+                    }
+                    return null;
+                  },
+                  obscureText: !authVm.passwordVisible,
                   obscuringCharacter: '*',
                   decoration: InputDecoration(
                     contentPadding:
@@ -110,9 +102,9 @@ class LoginForm extends StatelessWidget {
                     suffixIcon: IconButton(
                       icon: ImageIcon(
                         const AssetImage('assets/icons/eye.png'),
-                        color: _passwordVisible ? greyText : Colors.black,
+                        color: !authVm.passwordVisible ? greyText : Colors.black,
                       ),
-                      onPressed: _toggle,
+                      onPressed: authVm.toggleVisible,
                     ),
                   ),
                 ),
@@ -132,18 +124,17 @@ class LoginForm extends StatelessWidget {
                         fontSize: 18.0),
                   ),
                 ),
+
                 const SizedBox(
-                  height: 20.0,
-                ),
-                //Error Text In case of error returning from the Server
-                const Text(
-                  "",
-                ),
-                const SizedBox(
-                  height: 25.0,
+                  height: 45.0,
                 ),
                 ElevatedButton(
-                  onPressed: validateSubmit,
+                  onPressed: () async{
+                    if (_formKey.currentState!.validate()) {
+                      await authVm.loginApi(context);
+
+                    }
+                  },
                   style: ButtonStyle(
                     padding:
                         MaterialStateProperty.all(const EdgeInsets.all(20.0)),

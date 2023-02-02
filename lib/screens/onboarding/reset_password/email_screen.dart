@@ -65,7 +65,7 @@ class EmailScreen extends StatelessWidget {
         ),
       ),
       body: SingleChildScrollView(
-        physics: NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 0),
           child: Column(
@@ -124,7 +124,7 @@ class EmailScreen extends StatelessWidget {
                             ),
                           ),
                         ),
-                        SizedBox(height: 20.0,),
+                        const SizedBox(height: 20.0,),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [

@@ -1,6 +1,12 @@
 {
 	"achievement": [
 		{
+			"title": "Meshmerize",
+			"type": "competition",
+			"description": "1st position in a autonomous bot competition hosted by IIT Bombay Techfest. Designed an autonomous line follower robot to traverse a given maze, and then traverse it using the most optimized path.",
+			"date": "December 2022"
+		},
+		{
 			"title": "Cosmo Clench",
 			"type": "competition",
 			"description": "Bagged the 2nd position in a manual-bot competition hosted by IIT Bombay Techfest. Designed a 20x25cm manual gripper robot to traverse various terrains , used frequency remote to control and arduino to process the signals.",
@@ -326,7 +332,7 @@
 			},
 			{
 				"name": "Darhsan Dusad",
-				"image": "harshit",
+				"image": "darshan",
 				"email": "2019ucp1416@mnit.ac.in"
 			},
 			{
