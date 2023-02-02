@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:zineapp2023/screens/explore/achievements.dart';
 import 'package:zineapp2023/screens/explore/team/team.dart';
 import 'package:zineapp2023/screens/explore/explore.dart';
+import 'package:zineapp2023/screens/explore/workshops.dart';
 import 'package:zineapp2023/screens/home/home_screen.dart';
 import 'package:zineapp2023/screens/onboarding/landing.dart';
 import 'package:zineapp2023/screens/onboarding/reset_password/email_screen.dart';
@@ -17,7 +18,7 @@ class RouteName {
   static const achievementScreen = "achievement";
   static const projectScreen = "project";
   static const aboutMe = "about";
-  static const wokrshopTimeline = "timeline";
+  static const wokrshopTimeline = "workshop";
   static const exploreScreen = "explore";
   static const homeScreen = "home";
   static const profileScreen = "profile";
@@ -26,7 +27,6 @@ class RouteName {
 }
 
 class Routes {
-
   static cupertinoRoute(
           String name, Widget Function(BuildContext) widgetProvider) =>
       CupertinoPageRoute(
@@ -34,8 +34,8 @@ class Routes {
         builder: (context) => widgetProvider(context),
       );
 
-  static Route landingScreen()=>
-  cupertinoRoute(RouteName.landingScreen, (ctx) => const LandingScreen());
+  static Route landingScreen() =>
+      cupertinoRoute(RouteName.landingScreen, (ctx) => const LandingScreen());
 
   static Route homeScreen() =>
       cupertinoRoute(RouteName.homeScreen, (ctx) => const Home());
@@ -52,7 +52,8 @@ class Routes {
   static Route aboutMe() =>
       cupertinoRoute(RouteName.aboutMe, (ctx) => const AboutScreen());
 
-  // static Route workshopTimeline() => cupertinoRoute(RouteName.wokrshopTimeline, (ctx)=> const ());
+  static Route workshopTimeline() => cupertinoRoute(
+      RouteName.wokrshopTimeline, (ctx) => const WorkshopScreen());
 
   static Route exploreScreen() =>
       cupertinoRoute(RouteName.exploreScreen, (ctx) => const Explore());

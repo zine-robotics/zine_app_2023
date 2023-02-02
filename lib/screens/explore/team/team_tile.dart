@@ -32,6 +32,8 @@ class TeamTile extends StatelessWidget {
                 child: Image.asset(
                   'assets/images/$year/$image.webp',
                   height: 75.0,
+                  width: 75.0,
+                  fit: BoxFit.cover,
                 ),
               ),
               Padding(

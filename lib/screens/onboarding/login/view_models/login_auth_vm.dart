@@ -73,10 +73,13 @@ class LoginAuthViewModel with ChangeNotifier {
         password: data['password'],
       );
 
+      print(value);
+
+
       setLoading(false);
       // final userPreference = Provider.of<UserViewModel>(context, listen: false);
       // userPreference.saveUser(UserModel(token: value['token'].toString()));
-      print(value);
+      // print(value);
 
       Navigator.of(NavigationService.navigatorKey.currentContext!,rootNavigator: true).pushAndRemoveUntil(
           Routes.homeScreen(), (Route<dynamic> route) => false);

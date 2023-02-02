@@ -235,6 +235,7 @@ class ProfileScreen extends StatelessWidget {
             child: ElevatedButton(
               onPressed: () async {
                 await _authRepo.signOut();
+
                 Navigator.of(context).pushAndRemoveUntil(
                     Routes.landingScreen(), (route) => false);
               },

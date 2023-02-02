@@ -17,6 +17,7 @@ class ProjectScreen extends StatelessWidget {
         return Scaffold(
           backgroundColor: backgroundGrey,
           appBar: AppBar(
+            elevation: 0,
             centerTitle: true,
             toolbarHeight: MediaQuery.of(context).size.height * 0.08,
             title: const Text(

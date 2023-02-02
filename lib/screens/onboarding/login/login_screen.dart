@@ -19,6 +19,7 @@ class LoginPage extends StatelessWidget {
       return logAuthVm.loading || regAuthVm.loading
           ? const Loader()
           : DefaultTabController(
+              initialIndex: 0,
               length: 2,
               child: Scaffold(
                 resizeToAvoidBottomInset: true,
