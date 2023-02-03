@@ -7,7 +7,7 @@ class DashboardVm extends ChangeNotifier {
 
   String getData(String param) {
     String? data = store.getString(param);
-    return data!;
+    return data.toString();
   }
 
   // get password => _password;
