@@ -3,10 +3,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zineapp2023/app_providers.dart';
 import 'package:zineapp2023/common/data_store.dart';
 import 'package:zineapp2023/providers/dictionary.dart';
+
 import 'package:zineapp2023/screens/chat/chat_room.dart';
+
+import 'package:zineapp2023/providers/user_info.dart';
+
 import 'package:zineapp2023/screens/onboarding/landing.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:zineapp2023/screens/onboarding/login/login_form.dart';
+import 'package:zineapp2023/screens/onboarding/splash/splash.dart';
 // import 'package:firebase_messaging/firebase_messaging.dart';
 
 import 'common/navigator.dart';
@@ -29,19 +34,23 @@ Future<void> main() async {
   // );
   // ignore: unused_local_variable
   DataStore store = DefaultStore(await SharedPreferences.getInstance());
+  UserProv userProv = UserProv(dataStore: store);
 
   // print('User granted permission: ${settings.authorizationStatus}');
   runApp(MyApp(
     store: store,
+    userProv: userProv,
   ));
 }
 
 class MyApp extends StatelessWidget {
   // final SharedPreferences prefs;
   final DataStore store;
+  final UserProv userProv;
   const MyApp({
     super.key,
     required this.store,
+    required this.userProv,
 
     // required this.prefs,
   });
@@ -50,6 +59,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppProviders(
         language: _language,
+        userProv: userProv,
         store: store,
         child: MaterialApp(
           navigatorKey: NavigationService.navigatorKey,
@@ -58,7 +68,7 @@ class MyApp extends StatelessWidget {
             fontFamily: 'Poppins',
             primarySwatch: Colors.blue,
           ),
-          home: LandingScreen(),
+          home: SplashScreen(),
         ));
   }
 }

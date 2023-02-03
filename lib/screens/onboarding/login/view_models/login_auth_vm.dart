@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:zineapp2023/providers/user_info.dart';
 import '../../../../common/navigator.dart';
 import '../../../../common/routing.dart';
 import '../../../../models/user.dart';
@@ -78,14 +79,12 @@ class LoginAuthViewModel with ChangeNotifier {
         email: data['email'],
         password: data['password'],
       );
-
+      print('found model');
       print(value);
-
+      userProvider.updateUserInfo(value);
+      print('set current user');
+      print(userProvider.getUserInfo());
       setLoading(false);
-      // final userPreference = Provider.of<UserViewModel>(context, listen: false);
-      // userPreference.saveUser(UserModel(token: value['token'].toString()));
-      // print(value);
-
       clearValues();
 
       await Navigator.of(NavigationService.navigatorKey.currentContext!,

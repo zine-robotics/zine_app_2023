@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 // import 'package:flutter_neat_and_clean_calendar/flutter_neat_and_clean_calendar.dart';
 import 'package:provider/provider.dart';
+import 'package:zineapp2023/models/user.dart';
+import 'package:zineapp2023/providers/user_info.dart';
 import 'package:zineapp2023/screens/dashboard/dashCalendar.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:zineapp2023/screens/dashboard/view_models/dashboard_vm.dart';
@@ -14,10 +16,12 @@ class Dashboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<DashboardVm>(builder: (context, dashboardVm, _) {
-      String name = dashboardVm.getData('name');
-      String email = dashboardVm.getData('email');
-      print(email);
+    return Consumer2<DashboardVm, UserProv>(
+        builder: (context, dashboardVm, userProv, _) {
+      UserModel currUser = userProv.getUserInfo();
+
+      // String email = dashboardVm.getData('email');
+      // print(email);
       return Scaffold(
         extendBody: true,
         body: Center(
@@ -57,7 +61,7 @@ class Dashboard extends StatelessWidget {
                                 SizedBox(
                                   height: 4,
                                 ),
-                                Text(name,
+                                Text(currUser.name.toString(),
                                     style: TextStyle(
                                         height: 0.9,
                                         letterSpacing: 0.3,
