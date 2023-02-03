@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zineapp2023/app_providers.dart';
 import 'package:zineapp2023/common/data_store.dart';
 import 'package:zineapp2023/providers/dictionary.dart';
+import 'package:zineapp2023/screens/chat/chat_room.dart';
 import 'package:zineapp2023/screens/onboarding/landing.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:zineapp2023/screens/onboarding/login/login_form.dart';
@@ -57,7 +58,7 @@ class MyApp extends StatelessWidget {
             fontFamily: 'Poppins',
             primarySwatch: Colors.blue,
           ),
-          home: LandingScreen(),
+          home: ChatRoom(),
         ));
   }
 }
