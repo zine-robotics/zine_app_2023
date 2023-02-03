@@ -43,13 +43,12 @@ class AuthRepo {
       email: email!,
       password: password!,
     );
-    print(credential);
-    store.setString('uid', credential.user!.uid);
-    // store.setString('uid', credential.user!.name);
-    print('hello');
-
-    getUserbyId(credential.user!.uid);
-    print(await store.getString('uid'));
+    // print(credential);
+    // store.setString('uid', credential.user!.uid);
+    // // store.setString('uid', credential.user!.name);
+    // print('hello');
+    // getUserbyId(credential.user!.uid);
+    // print(await store.getString('uid'));
 
     //TODO - Uncomment before Release
     // if(!credential.user!.emailVerified){
@@ -70,9 +69,6 @@ class AuthRepo {
         name: user['name'],
         dp: user['dp']);
 
-    print(user['dp']);
-    store.setString('name', user['name']);
-    print(store.getString('name'));
     return userMod;
   }
 
@@ -91,5 +87,7 @@ class AuthRepo {
 
   Future<void> signOut() async {
     await _firebaseAuth.signOut();
+    store.delete(key: 'uid');
+    store.delete(key: 'loggedIn');
   }
 }
