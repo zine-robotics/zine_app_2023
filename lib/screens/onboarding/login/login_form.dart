@@ -7,14 +7,11 @@ import '../../../theme/color.dart';
 import '../../../common/routing.dart';
 
 class LoginForm extends StatelessWidget {
-
   LoginForm({Key? key}) : super(key: key);
 
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +32,6 @@ class LoginForm extends StatelessWidget {
                   "Email address",
                   style: TextStyle(color: greyText, fontSize: 18.0),
                 ),
-
                 TextFormField(
                   style: const TextStyle(
                     color: Colors.black,
@@ -102,13 +98,13 @@ class LoginForm extends StatelessWidget {
                     suffixIcon: IconButton(
                       icon: ImageIcon(
                         const AssetImage('assets/icons/eye.png'),
-                        color: !authVm.passwordVisible ? greyText : Colors.black,
+                        color:
+                            !authVm.passwordVisible ? greyText : Colors.black,
                       ),
                       onPressed: authVm.toggleVisible,
                     ),
                   ),
                 ),
-
                 const SizedBox(
                   height: 20.0,
                 ),
@@ -124,15 +120,13 @@ class LoginForm extends StatelessWidget {
                         fontSize: 18.0),
                   ),
                 ),
-
                 const SizedBox(
                   height: 45.0,
                 ),
                 ElevatedButton(
-                  onPressed: () async{
+                  onPressed: () async {
                     if (_formKey.currentState!.validate()) {
                       await authVm.loginApi(context);
-
                     }
                   },
                   style: ButtonStyle(

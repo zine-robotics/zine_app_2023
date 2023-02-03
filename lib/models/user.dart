@@ -3,6 +3,7 @@ class UserModel {
   String? uid;
   String? type;
   String? name;
+  bool? registered;
   List<dynamic>? tasks = [];
   int? dp;
 

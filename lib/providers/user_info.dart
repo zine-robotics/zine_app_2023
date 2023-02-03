@@ -1,10 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../utilities/string_formatters.dart';
 
 import '../common/data_store.dart';
 
-class User extends ChangeNotifier {
-  final DataStore _dataStore;
+class UserProv extends ChangeNotifier {
+  final DataStore dataStore;
   bool _isLoggedIn = false;
 
   String name = "null";
@@ -12,19 +13,19 @@ class User extends ChangeNotifier {
   String uid = "null";
   String type = "null";
 
-  User(this._dataStore);
+  UserProv({required this.dataStore});
 
   bool get isLoggedIn => _isLoggedIn;
 
   void updateUserInfo(
-      String name,
-      String email,
-      String type,
-      ) async {
+    String name,
+    String email,
+    String type,
+  ) async {
     _isLoggedIn = true;
     name = name.toTitleCase();
     this.email = email;
-    await _dataStore.setString("name", name);
+    await dataStore.setString("name", name);
 
     notifyListeners();
   }

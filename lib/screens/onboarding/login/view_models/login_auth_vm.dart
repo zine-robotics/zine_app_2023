@@ -10,7 +10,9 @@ import '../../repo/auth_repo.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class LoginAuthViewModel with ChangeNotifier {
-  final _myRepo = AuthRepo();
+  final myRepo;
+  final userProvider;
+  LoginAuthViewModel({required this.myRepo, required this.userProvider});
 
   String errorText = "";
 
@@ -47,7 +49,7 @@ class LoginAuthViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  void clearValues(){
+  void clearValues() {
     _email = "";
     _password = "";
   }
@@ -71,15 +73,13 @@ class LoginAuthViewModel with ChangeNotifier {
 
     setLoading(true);
 
-    try{
-      var value = await _myRepo
-          .signInWithEmailAndPassword(
+    try {
+      var value = await myRepo.signInWithEmailAndPassword(
         email: data['email'],
         password: data['password'],
       );
 
       print(value);
-
 
       setLoading(false);
       // final userPreference = Provider.of<UserViewModel>(context, listen: false);
@@ -88,11 +88,11 @@ class LoginAuthViewModel with ChangeNotifier {
 
       clearValues();
 
-      await Navigator.of(NavigationService.navigatorKey.currentContext!,rootNavigator: true).pushAndRemoveUntil(
-          Routes.homeScreen(), (Route<dynamic> route) => false);
-
-
-    } on FirebaseAuthException catch (e){
+      await Navigator.of(NavigationService.navigatorKey.currentContext!,
+              rootNavigator: true)
+          .pushAndRemoveUntil(
+              Routes.homeScreen(), (Route<dynamic> route) => false);
+    } on FirebaseAuthException catch (e) {
       switch (e.code) {
         case "invalid-email":
           errorText = "Your email address appears to be malformed";
@@ -129,13 +129,9 @@ class LoginAuthViewModel with ChangeNotifier {
       print(errorText);
 
       Fluttertoast.showToast(
-        msg: errorText,
-        toastLength: Toast.LENGTH_LONG,
-        backgroundColor: Colors.red
-      );
+          msg: errorText,
+          toastLength: Toast.LENGTH_LONG,
+          backgroundColor: Colors.red);
     }
   }
-
-
-
 }

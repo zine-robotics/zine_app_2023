@@ -15,11 +15,14 @@ class Dashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<DashboardVm>(builder: (context, dashboardVm, _) {
+      String name = dashboardVm.getData('name');
+      String email = dashboardVm.getData('email');
+      print(email);
       return Scaffold(
         extendBody: true,
         body: Center(
           child: Container(
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               color: backgroundGrey,
             ),
             height: double.infinity,
@@ -34,7 +37,7 @@ class Dashboard extends StatelessWidget {
                             .push(Routes.profileScreen());
                       },
                       child: Padding(
-                        padding: const EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 0),
+                        padding: EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 0),
                         child: Row(
                           children: <Widget>[
                             // SizedBox(
@@ -43,7 +46,7 @@ class Dashboard extends StatelessWidget {
                             Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              children: const <Widget>[
+                              children: <Widget>[
                                 Text("hi",
                                     style: TextStyle(
                                         height: 0.9,
@@ -54,7 +57,7 @@ class Dashboard extends StatelessWidget {
                                 SizedBox(
                                   height: 4,
                                 ),
-                                Text("Priyansh",
+                                Text(name,
                                     style: TextStyle(
                                         height: 0.9,
                                         letterSpacing: 0.3,
@@ -146,7 +149,8 @@ class Dashboard extends StatelessWidget {
                                 height: 200,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(24.0),
-                                  color: const Color.fromARGB(255, 255, 255, 255),
+                                  color:
+                                      const Color.fromARGB(255, 255, 255, 255),
                                 ),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.end,
@@ -231,8 +235,15 @@ class Dashboard extends StatelessWidget {
                     CarouselSlider(
                       options: CarouselOptions(
                           height: 200.0, viewportFraction: 0.87),
-                      items: ["ALGORITHMS", "BEE", "BME", "AEROMODELLING", "ICU-MCU","CYBERSECURITY","WEB DEVELOPMENT"]
-                          .map((i) {
+                      items: [
+                        "ALGORITHMS",
+                        "BEE",
+                        "BME",
+                        "AEROMODELLING",
+                        "ICU-MCU",
+                        "CYBERSECURITY",
+                        "WEB DEVELOPMENT"
+                      ].map((i) {
                         return Builder(
                           builder: (BuildContext context) {
                             return Padding(
@@ -246,7 +257,8 @@ class Dashboard extends StatelessWidget {
                                       image: AssetImage(
                                           "assets/images/blog_card.png")),
                                   borderRadius: BorderRadius.circular(24.0),
-                                  color: const Color.fromARGB(255, 255, 255, 255),
+                                  color:
+                                      const Color.fromARGB(255, 255, 255, 255),
                                 ),
                                 child: Center(
                                   child: Text(
