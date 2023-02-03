@@ -1,28 +1,35 @@
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:zineapp2023/common/data_store.dart';
+import 'package:zineapp2023/providers/user_info.dart';
 import '../../../models/user.dart';
 
 class AuthRepo {
-
   final auth.FirebaseAuth _firebaseAuth = auth.FirebaseAuth.instance;
+  final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
 
-  Future<void> sendResetEmail(String email)async{
+  late DataStore store;
+
+  AuthRepo({required this.store});
+
+  Future<void> sendResetEmail(String email) async {
     await _firebaseAuth.sendPasswordResetEmail(email: email);
   }
 
-  UserModel? _userFromFirebase({
-    required auth.User? user,
-    String? name,
-  }) {
+  Future<UserModel?> _userFromFirebase({required auth.User? user}) async {
     if (user == null) {
       return null;
     }
-    return UserModel(
-      uid: user.uid,
-      email: user.email,
-      name: name,
-    );
+    UserModel? userMod = await getUserbyId(user.uid);
+
+    return userMod;
   }
+
+  // String? getUserFirebaseId() {
+  //   return prefs.getString(FirestoreConstants.id);
+  // }
 
   // Stream<User?>? get user {
   //   return _firebaseAuth.authStateChanges().map(_userFromFirebase);
@@ -36,7 +43,13 @@ class AuthRepo {
       email: email!,
       password: password!,
     );
-    print(credential.toString());
+    print(credential);
+    store.setString('uid', credential.user!.uid);
+    // store.setString('uid', credential.user!.name);
+    print('hello');
+
+    getUserbyId(credential.user!.uid);
+    print(await store.getString('uid'));
 
     //TODO - Uncomment before Release
     // if(!credential.user!.emailVerified){
@@ -46,6 +59,21 @@ class AuthRepo {
     // }
 
     return _userFromFirebase(user: credential.user);
+  }
+
+  Future<UserModel?> getUserbyId(String uid) async {
+    var user = await _firebaseFirestore.collection('users').doc(uid).get();
+
+    UserModel userMod = UserModel(
+        uid: user['uid'],
+        email: user['email'],
+        name: user['name'],
+        dp: user['dp']);
+
+    print(user['dp']);
+    store.setString('name', user['name']);
+    print(store.getString('name'));
+    return userMod;
   }
 
   Future<UserModel?> createUserWithEmailAndPassword({
@@ -58,13 +86,7 @@ class AuthRepo {
       password: password!,
     );
 
-    //TODO - Uncomment before Release
-    // credential.user!.sendEmailVerification();
-
-    return _userFromFirebase(
-      user: credential.user,
-      name: name,
-    );
+    return _userFromFirebase(user: credential.user);
   }
 
   Future<void> signOut() async {

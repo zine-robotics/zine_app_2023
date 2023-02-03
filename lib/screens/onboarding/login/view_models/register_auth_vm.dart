@@ -7,11 +7,17 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:zineapp2023/screens/onboarding/login/verify_email.dart';
 import '../../../../common/navigator.dart';
+import 'package:zineapp2023/common/data_store.dart';
+import 'package:zineapp2023/providers/user_info.dart';
 import '../../../../models/user.dart';
 import '../../repo/auth_repo.dart';
 
 class RegisterAuthViewModel extends ChangeNotifier {
-  final _myRepo = AuthRepo();
+  final AuthRepo myRepo;
+  final DataStore store;
+  final UserProv userProvider;
+  RegisterAuthViewModel(
+      {required this.store, required this.myRepo, required this.userProvider});
 
   String _name = "";
   String _email = "";
@@ -93,7 +99,7 @@ class RegisterAuthViewModel extends ChangeNotifier {
     setLoading(true);
 
     try {
-      var value = await _myRepo.createUserWithEmailAndPassword(
+      var value = await myRepo.createUserWithEmailAndPassword(
         name: data['name'],
         email: data['email'],
         password: data['password'],

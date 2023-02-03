@@ -1,9 +1,11 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class DataStore {
+  DataStore(SharedPreferences sharedPreferences);
+
   Future<void> setString(String key, String value);
 
-  Future<String?> getString(String key);
+  String? getString(String key);
 
   Future<void> delete({required String key});
 }
@@ -19,10 +21,11 @@ class DefaultStore implements DataStore {
   }
 
   @override
-  Future<String?> getString(String key) async {
+  String? getString(String key) {
     return _sharedPreferences.getString(key);
   }
 
   @override
-  Future<void> delete({required String key}) async => await _sharedPreferences.remove(key);
+  Future<void> delete({required String key}) async =>
+      await _sharedPreferences.remove(key);
 }

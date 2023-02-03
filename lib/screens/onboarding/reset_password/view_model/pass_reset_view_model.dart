@@ -8,7 +8,9 @@ import 'package:zineapp2023/screens/onboarding/repo/auth_repo.dart';
 import '../confirm_password_mail.dart';
 
 class PasswordResetVm extends ChangeNotifier {
-  final AuthRepo _myRepo = AuthRepo();
+  final AuthRepo myRepo;
+
+  PasswordResetVm({required this.myRepo});
 
   String _email = "";
 
@@ -28,13 +30,13 @@ class PasswordResetVm extends ChangeNotifier {
   Future<void> sendPasswordReset() async {
     setLoading(true);
     try {
-      _myRepo.sendResetEmail(_email);
+      myRepo.sendResetEmail(_email);
 
       setLoading(false);
 
       Navigator.of(NavigationService.navigatorKey.currentContext!)
-          .pushReplacement(CupertinoPageRoute(builder: (ctx) => PasswordResetConfirm()));
-
+          .pushReplacement(
+              CupertinoPageRoute(builder: (ctx) => PasswordResetConfirm()));
     } on FirebaseAuthException catch (e) {
       setLoading(false);
       Fluttertoast.showToast(

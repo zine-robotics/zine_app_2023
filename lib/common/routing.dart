@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:zineapp2023/screens/chat/chat_room.dart';
 import 'package:zineapp2023/screens/explore/achievements.dart';
 import 'package:zineapp2023/screens/explore/team/team.dart';
 import 'package:zineapp2023/screens/explore/explore.dart';
@@ -56,7 +57,7 @@ class Routes {
       RouteName.wokrshopTimeline, (ctx) => const WorkshopScreen());
 
   static Route exploreScreen() =>
-      cupertinoRoute(RouteName.exploreScreen, (ctx) => const Explore());
+      cupertinoRoute(RouteName.exploreScreen, (ctx) => Explore());
 
   static Route profileScreen() =>
       cupertinoRoute(RouteName.profileScreen, (ctx) => ProfileScreen());
