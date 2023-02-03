@@ -37,7 +37,9 @@ class ChatRoomViewModel extends ChangeNotifier {
 
   void send() {
     // getChats();
-    chatP.sendMessage(from, roomId, _text);
+    _text.isEmpty ? null : chatP.sendMessage(from, roomId, _text);
+    _text = "";
+    notifyListeners();
     print(_text);
   }
 }
