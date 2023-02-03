@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:zineapp2023/components/tab_tiles.dart';
 import 'package:zineapp2023/screens/chat/chats_list.dart';
 import 'package:zineapp2023/theme/color.dart';
+
+import '../tasks/task_screen.dart';
 
 class ChatHome extends StatelessWidget {
   const ChatHome({super.key});
@@ -37,28 +40,18 @@ class ChatHome extends StatelessWidget {
                 ),
               ),
             ),
-            indicatorSize: TabBarIndicatorSize.label,
+            indicatorSize: TabBarIndicatorSize.tab,
             indicatorColor: Color.fromRGBO(12, 114, 176, 0.949375),
             tabs: [
-              Padding(
-                padding: EdgeInsets.all(10.0),
-                child: Text(
-                  "Chats",
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.all(10.0),
-                child: Text(
-                  "Tasks",
-                ),
-              ),
+              WhiteTabTile(label: "Chats"),
+              WhiteTabTile(label: "Tasks"),
             ],
           ),
         ),
         body: const TabBarView(
           children: [
             ChatsList(),
-            SingleChildScrollView(),
+            TaskScreen(),
           ],
         ),
       ),

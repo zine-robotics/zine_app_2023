@@ -6,6 +6,7 @@ import 'package:zineapp2023/screens/home/view_models/home_view_model.dart';
 import 'package:zineapp2023/screens/onboarding/login/view_models/login_auth_vm.dart';
 import 'package:zineapp2023/screens/onboarding/login/view_models/register_auth_vm.dart';
 import 'package:zineapp2023/screens/onboarding/repo/auth_repo.dart';
+import 'package:zineapp2023/screens/onboarding/reset_password/view_model/pass_reset_view_model.dart';
 
 class AppProviders extends StatelessWidget {
   final Widget child;
@@ -24,7 +25,8 @@ class AppProviders extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => RegisterAuthViewModel()),
         ChangeNotifierProvider<DashboardVm>(create: (_) => DashboardVm()),
         ChangeNotifierProvider<HomeVm>(create: (_) => HomeVm()),
-        ChangeNotifierProvider<Language>(create: (_) => language)
+        ChangeNotifierProvider<Language>(create: (_) => language),
+        ChangeNotifierProvider<PasswordResetVm>(create: (_)=> PasswordResetVm())
       ],
       child: child,
     );

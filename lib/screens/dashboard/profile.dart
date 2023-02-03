@@ -165,6 +165,7 @@ class ProfileScreen extends StatelessWidget {
               ),
             ),
           ),
+          Spacer(),
           Padding(
             padding:
                 const EdgeInsets.symmetric(horizontal: 30.0, vertical: 20.0),
@@ -229,6 +230,7 @@ class ProfileScreen extends StatelessWidget {
               ),
             ),
           ),
+          Spacer(),
           Padding(
             padding:
                 const EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),

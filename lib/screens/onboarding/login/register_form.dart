@@ -115,7 +115,7 @@ class RegisterForm extends StatelessWidget {
                   ),
                   controller: _passwordController,
                   obscureText: !authVm.passwordVisible,
-                  textInputAction: TextInputAction.next,
+                  textInputAction: TextInputAction.done,
                   keyboardType: TextInputType.text,
                   onChanged: (value)=>authVm.setPassword(value),
                   validator: (value) {

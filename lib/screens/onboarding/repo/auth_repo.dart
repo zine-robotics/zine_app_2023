@@ -3,7 +3,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import '../../../models/user.dart';
 
 class AuthRepo {
+
   final auth.FirebaseAuth _firebaseAuth = auth.FirebaseAuth.instance;
+
+  Future<void> sendResetEmail(String email)async{
+    await _firebaseAuth.sendPasswordResetEmail(email: email);
+  }
 
   UserModel? _userFromFirebase({
     required auth.User? user,
@@ -52,6 +57,10 @@ class AuthRepo {
       email: email!,
       password: password!,
     );
+
+    //TODO - Uncomment before Release
+    // credential.user!.sendEmailVerification();
+
     return _userFromFirebase(
       user: credential.user,
       name: name,

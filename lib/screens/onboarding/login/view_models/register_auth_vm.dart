@@ -2,8 +2,11 @@ import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:zineapp2023/screens/onboarding/login/verify_email.dart';
+import '../../../../common/navigator.dart';
 import '../../../../models/user.dart';
 import '../../repo/auth_repo.dart';
 
@@ -59,6 +62,12 @@ class RegisterAuthViewModel extends ChangeNotifier {
 
   String errorText = "";
 
+  void clearValues() {
+    _password = "";
+    _email = "";
+    _name = "";
+    _confirmPass = "";
+  }
 
   Future<void> postDetailsToFirestore(UserModel userModel) async {
     print('create user called');
@@ -72,58 +81,51 @@ class RegisterAuthViewModel extends ChangeNotifier {
   }
 
   Future<void> signUpApi(BuildContext context) async {
-
-    var intValue = Random().nextInt(26)+1;
+    var intValue = Random().nextInt(26) + 1;
 
     Map data = {
-      'email': _email,
-      'password': _password,
-      'name': _name,
-      'dp':intValue,
+      'email': _email.trim(),
+      'password': _password.trim(),
+      'name': _name.trim(),
+      'dp': intValue,
     };
 
     setLoading(true);
 
     try {
-      var value = await _myRepo
-          .createUserWithEmailAndPassword(
+      var value = await _myRepo.createUserWithEmailAndPassword(
         name: data['name'],
         email: data['email'],
         password: data['password'],
       );
 
       setLoading(false);
-      String? uid = value?.uid;
-      print(uid);
-      print(value!.uid);
 
-      print("account called");
-      print(data['name']);
-      print("account created");
+      String? uid = value?.uid;
 
       UserModel userModel = UserModel(
-          uid: uid,
-          email: data['email'],
-          name: data['name'],
-          dp: data['dp'],
+        uid: uid,
+        email: data['email'],
+        name: data['name'],
+        dp: data['dp'],
       );
       postDetailsToFirestore(userModel);
-      // postUser();
-      // Utils.flushBarErrorMessage('SignUp Successfully', context);
-      // Navigator.pushNamed(context, RoutesName.home);
-      // Navigator.of(context,rootNavigator: true).pushAndRemoveUntil(
-      //     Routes.homeScreen(), (Route<dynamic> route) => false);
 
-    }on FirebaseAuthException catch (e){
+      await Navigator.of(NavigationService.navigatorKey.currentContext!,
+              rootNavigator: true)
+          .push(
+              CupertinoPageRoute(builder: (ctx) => const VerifyEmailScreen()));
+    } on FirebaseAuthException catch (e) {
       switch (e.code) {
         case "email-already-in-use":
-          errorText = "This E-Mail is already in use. Contact Team Zine";
+          errorText = "This email is already in use, Contact Team Zine";
           break;
         case "internal-error":
           errorText = "An internal error occurred. Please try again later.";
           break;
         case "network-request-failed":
-          errorText = "Network Request Error. Please check your internet and try again";
+          errorText =
+              "Network Request Error. Please check your internet and try again";
           break;
         case "user-disabled":
           errorText = "User with this email has been disabled";
@@ -150,8 +152,7 @@ class RegisterAuthViewModel extends ChangeNotifier {
       Fluttertoast.showToast(
           msg: errorText,
           toastLength: Toast.LENGTH_LONG,
-          backgroundColor: Colors.red
-      );
+          backgroundColor: Colors.red);
     }
   }
 }

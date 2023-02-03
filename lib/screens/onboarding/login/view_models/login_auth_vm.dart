@@ -47,6 +47,11 @@ class LoginAuthViewModel with ChangeNotifier {
     notifyListeners();
   }
 
+  void clearValues(){
+    _email = "";
+    _password = "";
+  }
+
   Future<void> postDetailsToFirestore(UserModel userModel) async {
     print('create user called');
 
@@ -60,8 +65,8 @@ class LoginAuthViewModel with ChangeNotifier {
 
   Future<void> loginApi(BuildContext context) async {
     Map data = {
-      'email': _email,
-      'password': _password,
+      'email': _email.trim(),
+      'password': _password.trim(),
     };
 
     setLoading(true);
@@ -81,7 +86,9 @@ class LoginAuthViewModel with ChangeNotifier {
       // userPreference.saveUser(UserModel(token: value['token'].toString()));
       // print(value);
 
-      Navigator.of(NavigationService.navigatorKey.currentContext!,rootNavigator: true).pushAndRemoveUntil(
+      clearValues();
+
+      await Navigator.of(NavigationService.navigatorKey.currentContext!,rootNavigator: true).pushAndRemoveUntil(
           Routes.homeScreen(), (Route<dynamic> route) => false);
 
 
