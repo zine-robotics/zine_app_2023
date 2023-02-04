@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:zineapp2023/components/gradient.dart';
 
+import '/components/gradient.dart';
 import '../../common/routing.dart';
 import 'login/login_screen.dart';
 

@@ -1,11 +1,12 @@
-import 'package:decorated_icon/decorated_icon.dart';
 import 'package:flutter/material.dart';
+import 'package:decorated_icon/decorated_icon.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:zineapp2023/screens/chat/chat_home.dart';
-import 'package:zineapp2023/screens/dashboard/dashboard.dart';
-import '../explore/explore.dart';
 import 'view_models/home_view_model.dart';
+
+import '../explore/explore.dart';
+import '../../screens/chat/chat_home.dart';
+import '../../screens/dashboard/dashboard.dart';
 import '../../theme/color.dart';
 
 class Home extends StatelessWidget {

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:zineapp2023/components/constants.dart';
-import 'package:zineapp2023/screens/explore/zine_logo_widget.dart';
 
 import '../../common/routing.dart';
+import '../../../components/constants.dart';
+import '../../../screens/explore/zine_logo_widget.dart';
 
 class Explore extends StatelessWidget {
   const Explore({Key? key}) : super(key: key);

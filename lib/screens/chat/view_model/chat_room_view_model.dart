@@ -33,8 +33,6 @@ class ChatRoomViewModel extends ChangeNotifier {
 
   void getChats() async {
     allData = await chatP.getChatStream(_roomId);
-    print(allData.length);
-    print("current messages");
   }
 
   void getData() {
@@ -48,7 +46,6 @@ class ChatRoomViewModel extends ChangeNotifier {
     // getChats();
     _text.isEmpty ? null : chatP.sendMessage(from, _roomId, _text);
     setText("");
-    print(_text);
     notifyListeners();
   }
 

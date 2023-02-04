@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:zineapp2023/theme/color.dart';
+import '../theme/color.dart';
 
 class Loader extends StatelessWidget {
   const Loader({Key? key}) : super(key: key);

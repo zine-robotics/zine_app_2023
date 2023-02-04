@@ -1,9 +1,9 @@
 import "package:flutter/material.dart";
 import 'package:provider/provider.dart';
-import 'package:zineapp2023/components/gradient.dart';
-import 'package:zineapp2023/components/tab_tiles.dart';
-import 'package:zineapp2023/screens/explore/team/team_tile.dart';
 
+import '../../../components/gradient.dart';
+import '../../../components/tab_tiles.dart';
+import '../../../screens/explore/team/team_tile.dart';
 import '../../../providers/dictionary.dart';
 import '../../../theme/color.dart';
 

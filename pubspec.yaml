@@ -37,6 +37,7 @@ dependencies:
   firebase_core: ^2.4.1
   flutter:
     sdk: flutter
+  flutter_native_splash: ^2.2.17
   fluttertoast: ^8.1.2
   font_awesome_flutter: ^10.3.0
   pin_code_fields: ^7.4.0
@@ -53,7 +54,8 @@ dev_dependencies:
     # activated in the `analysis_options.yaml` file located at the root of your
     # package. See that file for information about deactivating specific lint
     # rules and activating additional ones.
-
+flutter_native_splash:
+  background_image: "assets/grad.png"
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 # The following section is specific to Flutter packages.

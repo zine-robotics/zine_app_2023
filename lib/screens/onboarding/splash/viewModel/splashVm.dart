@@ -1,15 +1,17 @@
 import "package:flutter/material.dart";
-import 'package:zineapp2023/common/data_store.dart';
-import 'package:zineapp2023/common/navigator.dart';
-import 'package:zineapp2023/common/routing.dart';
-import 'package:zineapp2023/models/user.dart';
-import 'package:zineapp2023/providers/user_info.dart';
-import 'package:zineapp2023/screens/onboarding/repo/auth_repo.dart';
+
+import '/common/data_store.dart';
+import '/common/navigator.dart';
+import '/common/routing.dart';
+import '/models/user.dart';
+import '/providers/user_info.dart';
+import '/screens/onboarding/repo/auth_repo.dart';
 
 class SplashVM extends ChangeNotifier {
   final DataStore store;
   final UserProv userProv;
   final AuthRepo authRepo;
+
   SplashVM(
       {required this.store, required this.userProv, required this.authRepo});
 
@@ -23,22 +25,16 @@ class SplashVM extends ChangeNotifier {
     String? uid = store.getString('uid');
 
     if (logged != null && logged.toString() == 'true') {
-      print(uid.toString());
       UserModel? currUser = await authRepo.getUserbyId(uid.toString());
-      print(currUser);
       userProv.updateUserInfo(currUser as UserModel);
       await Navigator.of(NavigationService.navigatorKey.currentContext!,
               rootNavigator: true)
-          .pushAndRemoveUntil(
-              Routes.homeScreen(), (Route<dynamic> route) => false);
+          .pushReplacement(Routes.homeScreen());
     } else {
       await Navigator.of(NavigationService.navigatorKey.currentContext!,
               rootNavigator: true)
-          .pushAndRemoveUntil(
-              Routes.landingScreen(), (Route<dynamic> route) => false);
+          .pushReplacement(Routes.landingScreen());
     }
   }
-
-  // get password => _password;
 
 }

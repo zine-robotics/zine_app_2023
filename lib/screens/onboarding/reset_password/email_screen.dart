@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:zineapp2023/providers/user_info.dart';
 import 'package:zineapp2023/screens/onboarding/reset_password/view_model/pass_reset_view_model.dart';
-import '../../../common/routing.dart';
 import '../../../components/constants.dart';
 import '../../../components/gradient.dart';
 import '../../../theme/color.dart';
@@ -10,10 +10,16 @@ class EmailScreen extends StatelessWidget {
   EmailScreen({Key? key}) : super(key: key);
 
   final _formKey = GlobalKey<FormState>();
+  final TextEditingController emailController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<PasswordResetVm>(builder: (context, passVm, _) {
+    return Consumer2<PasswordResetVm, UserProv>(
+        builder: (context, passVm, userProv, _) {
+      if (userProv.isLoggedIn) {
+        passVm.setEmail(userProv.currUser.email!) ;
+        emailController.text = userProv.currUser.email!;
+      }
       return Scaffold(
         resizeToAvoidBottomInset: true,
         backgroundColor: backgroundGrey,
@@ -84,17 +90,17 @@ class EmailScreen extends StatelessWidget {
                   style: TextStyle(
                     color: textColor,
                     fontWeight: FontWeight.bold,
-                    fontSize: 30.0,
+                    fontSize: 25.0,
                   ),
                 ),
                 const SizedBox(
-                  height: 8.0,
+                  height: 20.0,
                 ),
                 const Text("We will send a OTP on the registered email address",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontWeight: FontWeight.w200,
-                      fontSize: 15.0,
+                      fontSize: 16.0,
                     )),
                 const SizedBox(
                   height: 25.0,
@@ -114,6 +120,8 @@ class EmailScreen extends StatelessWidget {
                             style: TextStyle(color: greyText, fontSize: 16.0),
                           ),
                           TextFormField(
+                            controller: emailController,
+                            enabled: userProv.isLoggedIn ? false : true,
                             style: const TextStyle(
                               color: Colors.black,
                               letterSpacing: 1.5,
@@ -126,11 +134,14 @@ class EmailScreen extends StatelessWidget {
                               if (value == null || value.isEmpty) {
                                 return "Please enter an email address";
                               } else if (!emailReg.hasMatch(passVm.email)) {
-                                return "Not a valid Email. Use College Email to Login";
+                                return "Not a valid email. Use College email to Login";
                               }
                               return null;
                             },
                             decoration: const InputDecoration(
+                              errorStyle: TextStyle(
+                                color: Colors.red
+                              ),
                               contentPadding:
                                   EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 15.0),
                               floatingLabelBehavior:
@@ -156,6 +167,7 @@ class EmailScreen extends StatelessWidget {
                               ),
                               ElevatedButton(
                                   onPressed: () async {
+                                    // print(passVm.email);
                                     if (_formKey.currentState!.validate()) {
                                       await passVm.sendPasswordReset();
                                     }

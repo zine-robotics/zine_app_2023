@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:collection/collection.dart';
 import 'package:provider/provider.dart';
-import 'package:zineapp2023/components/gradient.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:zineapp2023/providers/dictionary.dart';
-import 'package:zineapp2023/theme/color.dart';
+
+import '../../../components/gradient.dart';
+import '../../../providers/dictionary.dart';
+import '../../../theme/color.dart';
 
 class ProjectScreen extends StatelessWidget {
   const ProjectScreen({super.key});

@@ -1,33 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:zineapp2023/screens/onboarding/login/view_models/register_auth_vm.dart';
+
+import '../../../screens/onboarding/login/view_models/register_auth_vm.dart';
 import '../../../components/constants.dart';
 import '../../../theme/color.dart';
 
-
 class RegisterForm extends StatelessWidget {
-
   RegisterForm({Key? key}) : super(key: key);
 
   final _formKey = GlobalKey<FormState>();
-
 
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmController = TextEditingController();
 
-
   @override
   Widget build(BuildContext context) {
-
     return Consumer<RegisterAuthViewModel>(builder: (context, authVm, _) {
-
       _nameController.text = authVm.name;
       _emailController.text = authVm.email;
       _passwordController.text = authVm.password;
       _confirmController.text = authVm.confirmPass;
-
 
       return SingleChildScrollView(
         child: Form(
@@ -49,11 +43,11 @@ class RegisterForm extends StatelessWidget {
                     letterSpacing: 1.5,
                   ),
                   onChanged: (value) => authVm.setName(value),
-                  validator: (value){
-                   if(value == null || value.isEmpty){
-                     return "Please enter your name";
-                   }
-                   return null;
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "Please enter your name";
+                    }
+                    return null;
                   },
                   textInputAction: TextInputAction.next,
                   keyboardType: TextInputType.name,
@@ -80,8 +74,8 @@ class RegisterForm extends StatelessWidget {
                     color: Colors.black,
                     letterSpacing: 1.5,
                   ),
-                  onChanged: (value)=> authVm.setEmail(value),
-                  validator: (value){
+                  onChanged: (value) => authVm.setEmail(value),
+                  validator: (value) {
                     if (value == null || value.isEmpty) {
                       return "Please enter an email address";
                     } else if (!emailReg.hasMatch(authVm.email)) {
@@ -117,7 +111,7 @@ class RegisterForm extends StatelessWidget {
                   obscureText: !authVm.passwordVisible,
                   textInputAction: TextInputAction.done,
                   keyboardType: TextInputType.text,
-                  onChanged: (value)=>authVm.setPassword(value),
+                  onChanged: (value) => authVm.setPassword(value),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return "Please enter a password";
@@ -125,8 +119,7 @@ class RegisterForm extends StatelessWidget {
                       return "Password should be at least 6 characters in length";
                     } else if (value.length > 12) {
                       return "Password is too long";
-                    }
-                    else if (!passwordReg.hasMatch(authVm.password)) {
+                    } else if (!passwordReg.hasMatch(authVm.password)) {
                       return "Password should "
                           "\n  - be >6 & <12 characters in length"
                           "\n  - be a alphanumeric character";
@@ -145,7 +138,8 @@ class RegisterForm extends StatelessWidget {
                     suffixIcon: IconButton(
                       icon: ImageIcon(
                         const AssetImage('assets/icons/eye.png'),
-                        color: ! authVm.passwordVisible ? greyText : Colors.black,
+                        color:
+                            !authVm.passwordVisible ? greyText : Colors.black,
                       ),
                       onPressed: authVm.toggleVisible,
                     ),
@@ -166,7 +160,7 @@ class RegisterForm extends StatelessWidget {
                   textInputAction: TextInputAction.done,
                   controller: _confirmController,
                   obscureText: !authVm.passwordVisible,
-                  onChanged: (value)=>authVm.setConfirmPass(value),
+                  onChanged: (value) => authVm.setConfirmPass(value),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return "Please confirm your password";
@@ -187,26 +181,20 @@ class RegisterForm extends StatelessWidget {
                     suffixIcon: IconButton(
                       icon: ImageIcon(
                         const AssetImage('assets/icons/eye.png'),
-                        color: !authVm.passwordVisible ? greyText : Colors.black,
+                        color:
+                            !authVm.passwordVisible ? greyText : Colors.black,
                       ),
                       onPressed: authVm.toggleVisible,
                     ),
                   ),
                 ),
-
                 const SizedBox(
                   height: 40.0,
                 ),
-
                 ElevatedButton(
-
-                  onPressed: () async{
+                  onPressed: () async {
                     if (_formKey.currentState!.validate()) {
-                      print("Valid");
                       await authVm.signUpApi(context);
-
-                    } else {
-                      print("InValid");
                     }
                   },
                   style: ButtonStyle(

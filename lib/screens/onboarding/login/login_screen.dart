@@ -3,8 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:zineapp2023/common/loaderScreen.dart';
 import 'package:zineapp2023/screens/onboarding/login/view_models/login_auth_vm.dart';
 import 'package:zineapp2023/screens/onboarding/login/view_models/register_auth_vm.dart';
-import 'package:zineapp2023/screens/onboarding/repo/auth_repo.dart';
-import '../../../common/routing.dart';
 import './register_form.dart';
 import '../../../theme/color.dart';
 import './login_form.dart';

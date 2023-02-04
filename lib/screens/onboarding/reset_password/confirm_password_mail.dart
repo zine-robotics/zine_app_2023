@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:zineapp2023/screens/onboarding/reset_password/view_model/pass_reset_view_model.dart';
 
+import '/screens/onboarding/reset_password/view_model/pass_reset_view_model.dart';
 import '../../../theme/color.dart';
 
 class PasswordResetConfirm extends StatelessWidget {

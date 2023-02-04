@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:zineapp2023/screens/onboarding/login/view_models/login_auth_vm.dart';
-import 'package:zineapp2023/screens/onboarding/login/view_models/register_auth_vm.dart';
-import 'package:zineapp2023/theme/color.dart';
+
+import '../../../screens/onboarding/login/view_models/login_auth_vm.dart';
+import '../../../screens/onboarding/login/view_models/register_auth_vm.dart';
+import '../../../theme/color.dart';
 
 class VerifyEmailScreen extends StatelessWidget {
   const VerifyEmailScreen({Key? key}) : super(key: key);

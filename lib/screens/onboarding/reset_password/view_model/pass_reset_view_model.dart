@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+
 import 'package:zineapp2023/common/navigator.dart';
 import 'package:zineapp2023/screens/onboarding/repo/auth_repo.dart';
 
@@ -36,7 +36,7 @@ class PasswordResetVm extends ChangeNotifier {
 
       Navigator.of(NavigationService.navigatorKey.currentContext!)
           .pushReplacement(
-              CupertinoPageRoute(builder: (ctx) => PasswordResetConfirm()));
+              MaterialPageRoute(builder: (ctx) => const PasswordResetConfirm()));
     } on FirebaseAuthException catch (e) {
       setLoading(false);
       Fluttertoast.showToast(

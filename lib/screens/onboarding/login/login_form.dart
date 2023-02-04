@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:zineapp2023/components/constants.dart';
-import 'package:zineapp2023/screens/onboarding/login/view_models/login_auth_vm.dart';
-import '../../../theme/color.dart';
 
+import '../../../components/constants.dart';
+import '../../../screens/onboarding/login/view_models/login_auth_vm.dart';
+import '../../../theme/color.dart';
 import '../../../common/routing.dart';
 
 class LoginForm extends StatelessWidget {

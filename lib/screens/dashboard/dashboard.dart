@@ -8,7 +8,9 @@ import 'package:zineapp2023/screens/dashboard/dashCalendar.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:zineapp2023/screens/dashboard/view_models/dashboard_vm.dart';
 import 'package:zineapp2023/theme/color.dart';
+import 'package:zineapp2023/utilities/DateTime.dart';
 import 'package:zineapp2023/utilities/string_formatters.dart';
+import 'package:intl/intl.dart';
 
 import '../../common/routing.dart';
 
@@ -20,14 +22,14 @@ class Dashboard extends StatelessWidget {
     return Consumer2<DashboardVm, UserProv>(
         builder: (context, dashboardVm, userProv, _) {
       UserModel currUser = userProv.getUserInfo();
-
+      String month = DateFormat.MMM().format(DateTime.now());
       // String email = dashboardVm.getData('email');
       // print(email);
       return Scaffold(
         extendBody: true,
         body: Center(
           child: Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: backgroundGrey,
             ),
             height: double.infinity,
@@ -42,7 +44,7 @@ class Dashboard extends StatelessWidget {
                             .push(Routes.profileScreen());
                       },
                       child: Padding(
-                        padding: EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 0),
+                        padding: const EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 0),
                         child: Row(
                           children: <Widget>[
                             // SizedBox(
@@ -52,18 +54,18 @@ class Dashboard extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                Text("hi",
+                                const Text("hi",
                                     style: TextStyle(
                                         height: 0.9,
                                         letterSpacing: 0.3,
                                         fontSize: 20.0,
                                         fontWeight: FontWeight.w400,
                                         color: Color(0xff646464))),
-                                SizedBox(
+                                const SizedBox(
                                   height: 4,
                                 ),
                                 Text(currUser.name.toString().firstName(),
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         height: 0.9,
                                         letterSpacing: 0.3,
                                         fontSize: 25.0,
@@ -126,8 +128,8 @@ class Dashboard extends StatelessWidget {
                                       const SizedBox(
                                         height: 15,
                                       ),
-                                      const Text(
-                                        "15 JAN",
+                                      Text(
+                                        "${DateTime.now().day.toString()} $month",
                                         style: TextStyle(
                                             fontSize: 26.0,
                                             fontWeight: FontWeight.w700,
@@ -307,13 +309,13 @@ class Dashboard extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: const [
                                 Text(
-                                  "5",
+                                  "0",
                                   style: TextStyle(
                                       height: 0.9,
                                       letterSpacing: 0.3,
                                       fontSize: 30.0,
                                       fontWeight: FontWeight.w600,
-                                      color: textColor),
+                                      color: greyText),
                                   textAlign: TextAlign.center,
                                 ),
                                 SizedBox(
@@ -342,7 +344,7 @@ class Dashboard extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: const [
                                 Text(
-                                  "2",
+                                  "1",
                                   style: TextStyle(
                                       height: 0.9,
                                       letterSpacing: 0.3,

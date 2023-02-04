@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:zineapp2023/theme/color.dart';
 
+import '../../../theme/color.dart';
 import '../../components/gradient.dart';
 
 class WorkshopScreen extends StatelessWidget {

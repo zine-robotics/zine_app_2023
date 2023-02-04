@@ -1,9 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart' as auth;
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:zineapp2023/common/data_store.dart';
-import 'package:zineapp2023/providers/user_info.dart';
+
+import '/common/data_store.dart';
 import '../../../models/user.dart';
 
 class AuthRepo {
@@ -27,14 +25,6 @@ class AuthRepo {
     return userMod;
   }
 
-  // String? getUserFirebaseId() {
-  //   return prefs.getString(FirestoreConstants.id);
-  // }
-
-  // Stream<User?>? get user {
-  //   return _firebaseAuth.authStateChanges().map(_userFromFirebase);
-  // }
-
   Future<UserModel?> signInWithEmailAndPassword({
     String? email,
     String? password,
@@ -43,12 +33,6 @@ class AuthRepo {
       email: email!,
       password: password!,
     );
-    // print(credential);
-    // store.setString('uid', credential.user!.uid);
-    // // store.setString('uid', credential.user!.name);
-    // print('hello');
-    // getUserbyId(credential.user!.uid);
-    // print(await store.getString('uid'));
 
     //TODO - Uncomment before Release
     // if(!credential.user!.emailVerified){
@@ -83,6 +67,9 @@ class AuthRepo {
       email: email!,
       password: password!,
     );
+
+    // TODO : Uncomment before release
+    // credential.user!.sendEmailVerification();
 
     return UserModel(
       uid: credential.user!.uid,
