@@ -8,6 +8,7 @@ import 'package:zineapp2023/screens/dashboard/dashCalendar.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:zineapp2023/screens/dashboard/view_models/dashboard_vm.dart';
 import 'package:zineapp2023/theme/color.dart';
+import 'package:zineapp2023/utilities/string_formatters.dart';
 
 import '../../common/routing.dart';
 
@@ -61,7 +62,7 @@ class Dashboard extends StatelessWidget {
                                 SizedBox(
                                   height: 4,
                                 ),
-                                Text(currUser.name.toString(),
+                                Text(currUser.name.toString().firstName(),
                                     style: TextStyle(
                                         height: 0.9,
                                         letterSpacing: 0.3,
@@ -71,10 +72,13 @@ class Dashboard extends StatelessWidget {
                               ],
                             ),
                             const Spacer(),
-                            const CircleAvatar(
-                                radius: 30,
-                                backgroundColor:
-                                    Color.fromARGB(255, 96, 93, 93)),
+                            CircleAvatar(
+                              radius: 30,
+                              backgroundColor: iconTile,
+                              backgroundImage: AssetImage(
+                                "assets/images/dp/${currUser.dp}.png",
+                              ),
+                            ),
                             const SizedBox(
                               width: 10.0,
                             ),

@@ -3,18 +3,18 @@ class UserModel {
   String? uid;
   String? type;
   String? name;
-  bool? registered;
+  bool? registered = false;
   List<dynamic>? tasks = [];
   int? dp;
 
-  UserModel({
-    this.uid,
-    this.email,
-    this.name,
-    this.type = "user",
-    this.dp,
-    this.tasks,
-  });
+  UserModel(
+      {this.uid,
+      this.email,
+      this.name,
+      this.type = "user",
+      this.dp,
+      this.tasks,
+      this.registered});
 
   UserModel.fromJson(Map<String, dynamic> json) {
     email = json['email'];
@@ -23,6 +23,7 @@ class UserModel {
     type = json['type'];
     tasks = json['tasks'];
     dp = json['dp'];
+    registered = json['registered'];
   }
 
   Map<String, dynamic> toJson() {
@@ -33,6 +34,7 @@ class UserModel {
     data['type'] = type;
     data['tasks'] = tasks;
     data['dp'] = dp;
+    data['registered'] = registered;
 
     return data;
   }

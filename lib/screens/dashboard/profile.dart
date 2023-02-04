@@ -2,9 +2,12 @@ import "package:flutter/material.dart";
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:zineapp2023/components/gradient.dart';
+import 'package:zineapp2023/models/user.dart';
+import 'package:zineapp2023/providers/user_info.dart';
 import 'package:zineapp2023/screens/onboarding/login/view_models/register_auth_vm.dart';
 import 'package:zineapp2023/screens/onboarding/repo/auth_repo.dart';
 import 'package:zineapp2023/theme/color.dart';
+import 'package:zineapp2023/utilities/string_formatters.dart';
 
 import '../../common/routing.dart';
 
@@ -13,8 +16,11 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<RegisterAuthViewModel>(builder: (context, regVm, _) {
+    return Consumer2<RegisterAuthViewModel, UserProv>(
+        builder: (context, regVm, userProv, _) {
       final AuthRepo _authRepo = AuthRepo(store: regVm.store);
+      UserModel currUser = userProv.getUserInfo();
+      print(currUser.registered as bool);
       return Scaffold(
         backgroundColor: backgroundGrey,
         appBar: AppBar(
@@ -94,8 +100,11 @@ class ProfileScreen extends StatelessWidget {
                                   child: Image.asset(
                                       "assets/images/card_image.png"),
                                 ),
-                                const CircleAvatar(
-                                  backgroundColor: Colors.white,
+                                CircleAvatar(
+                                  backgroundColor: iconTile,
+                                  backgroundImage: AssetImage(
+                                    "assets/images/dp/${currUser.dp}.png",
+                                  ),
                                   radius: 45.0,
                                 ),
                               ],
@@ -103,8 +112,8 @@ class ProfileScreen extends StatelessWidget {
                             const SizedBox(
                               height: 20.0,
                             ),
-                            const Text(
-                              "2021 UCP 1031",
+                            Text(
+                              currUser.email.toString().id().cardID(),
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 22,
@@ -115,8 +124,8 @@ class ProfileScreen extends StatelessWidget {
                             const SizedBox(
                               height: 5.0,
                             ),
-                            const Text(
-                              "Priyansh Kothari",
+                            Text(
+                              currUser.name.toString(),
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 13,
@@ -139,7 +148,7 @@ class ProfileScreen extends StatelessWidget {
                       horizontal: 30.0, vertical: 20.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
+                    children: [
                       Text(
                         "WORKSHOP",
                         style: TextStyle(
@@ -157,7 +166,7 @@ class ProfileScreen extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        "REGISTERED",
+                        currUser != null ? "REGISTERED" : 'NOT REGISTERED',
                         style: TextStyle(
                           color: textColor,
                           fontWeight: FontWeight.w500,
@@ -173,7 +182,7 @@ class ProfileScreen extends StatelessWidget {
                     horizontal: 30.0, vertical: 20.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
+                  children: [
                     Text(
                       "Name",
                       style: TextStyle(
@@ -186,7 +195,7 @@ class ProfileScreen extends StatelessWidget {
                       height: 5.0,
                     ),
                     Text(
-                      "Priyansh Kothari",
+                      currUser.name.toString(),
                       style: TextStyle(
                         fontWeight: FontWeight.w500,
                         color: Color(0xff767D81),
@@ -208,7 +217,7 @@ class ProfileScreen extends StatelessWidget {
                       height: 5.0,
                     ),
                     Text(
-                      "2020kuec2018@gmail.com",
+                      currUser.email.toString(),
                       style: TextStyle(
                         fontWeight: FontWeight.w500,
                         color: Color(0xff767D81),

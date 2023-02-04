@@ -74,6 +74,7 @@ flutter:
     - assets/images/fourth/
     - assets/images/achievements/
     - assets/images/explore/
+    - assets/images/dp/
     # For details regarding adding assets from package dependencies, see
     # https://flutter.dev/assets-and-images/#from-packages
     # To add custom fonts to your application, add a fonts section here,

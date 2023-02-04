@@ -9,8 +9,6 @@ import 'package:zineapp2023/theme/color.dart';
 import '../../components/gradient.dart';
 
 class ChatRoom extends StatelessWidget {
-  // required String this.roomId, required String this.name
-
   ChatRoom({Key? key}) : super(key: key);
 
   final TextEditingController messageController = TextEditingController();
@@ -55,13 +53,12 @@ class ChatRoom extends StatelessWidget {
                           //       )
                           //     :
                           leading: CircleAvatar(
-                                  backgroundColor: const Color(0x0f2F80ED),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(3.0),
-                                    child: Image.asset(
-                                        "assets/images/zine_logo.png"),
-                                  ),
-                                ),
+                            backgroundColor: const Color(0x0f2F80ED),
+                            child: Padding(
+                              padding: const EdgeInsets.all(3.0),
+                              child: Image.asset("assets/images/zine_logo.png"),
+                            ),
+                          ),
                           title: Wrap(
                             crossAxisAlignment: WrapCrossAlignment.end,
                             direction: Axis.horizontal,

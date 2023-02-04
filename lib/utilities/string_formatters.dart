@@ -6,4 +6,8 @@ extension StringExtension on String {
       .split(' ')
       .map((str) => str.toCapitalized())
       .join(' ');
+  String id() => split('@')[0];
+  String firstName() => split(' ').elementAt(0);
+  String cardID() =>
+      '${substring(0, 4)} ${substring(4, length - 4).toUpperCase()} ${substring(length - 4, length)}';
 }
