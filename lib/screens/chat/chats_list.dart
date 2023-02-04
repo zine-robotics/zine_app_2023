@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:zineapp2023/screens/chat/chat_room.dart';
 import 'package:zineapp2023/screens/chat/repo/chat_repo.dart';
+import 'package:zineapp2023/screens/chat/view_model/chat_room_view_model.dart';
 import 'package:zineapp2023/theme/color.dart';
 
 import 'chat_card.dart';
@@ -12,96 +14,98 @@ const announceChannelName = 'Zine Channel';
 class Channel extends StatelessWidget {
   final name;
   final roomId;
-  const Channel({super.key, required this.name, required this.roomId});
+  const Channel({super.key, this.name, this.roomId});
 
   @override
   Widget build(BuildContext context) {
-    final chatProvider = ChatRepo();
-
-    return Padding(
-      padding: const EdgeInsets.all(5.0),
-      child: GestureDetector(
-        onTap: () => {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => ChatRoom(name: name, roomId: roomId)))
-        },
-        child: Container(
-          decoration: const BoxDecoration(
-            borderRadius: BorderRadius.all(
-              Radius.circular(6),
+    return Consumer<ChatRoomViewModel>(builder: (context, chatVm, _) {
+      return Padding(
+        padding: const EdgeInsets.all(5.0),
+        child: GestureDetector(
+          onTap: () {
+            // chatVm.setRoomId(roomId);
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => ChatRoom()));
+          },
+          child: Container(
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.all(
+                Radius.circular(6),
+              ),
+              color: Color.fromRGBO(170, 170, 170, 0.1),
+              // : const Color.fromRGBO(47, 128, 237, 0.1),
             ),
-            color: Color.fromRGBO(170, 170, 170, 0.1),
-            // : const Color.fromRGBO(47, 128, 237, 0.1),
-          ),
-          width: MediaQuery.of(context).size.width - 50,
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    const CircleAvatar(
-                      backgroundColor: Colors.white,
-                      radius: 20,
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Text(
-                      name,
-                      style: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Row(
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: const Color.fromRGBO(47, 128, 237, 1),
-                          ),
-                          height: 20,
-                          width: 20,
-                          child: const Center(
-                            child: Text(
-                              '',
-                              // chats[index]["newMsg"].toString(),
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 12,
-                              ),
-                            ),
-                          ),
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      CircleAvatar(
+                        backgroundColor: Colors.white,
+                        child: Padding(
+                          padding: const EdgeInsets.all(3.0),
+                          child: Image.asset("assets/images/zine_logo.png"),
                         ),
-                        const SizedBox(
-                          width: 10,
-                        )
-                      ],
-                    ),
-                    // Text(
-                    //   chats[index]["lastTime"].toString(),
-                    //   style: const TextStyle(
-                    //     fontSize: 10,
-                    //     fontWeight: FontWeight.w400,
-                    //     color: Color.fromRGBO(51, 51, 51, 0.5),
-                    //   ),
-                    // ),
-                  ],
-                )
-              ],
+                        radius: 20,
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Text(
+                        chatVm.name,
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Row(
+                        children: [
+                          // Container(
+                          //   decoration: BoxDecoration(
+                          //     borderRadius: BorderRadius.circular(10),
+                          //     color: const Color.fromRGBO(47, 128, 237, 1),
+                          //   ),
+                          //   height: 20,
+                          //   width: 20,
+                          //   child: const Center(
+                          //     child: Text(
+                          //       '',
+                          //       // chats[index]["newMsg"].toString(),
+                          //       style: TextStyle(
+                          //         color: Colors.white,
+                          //         fontSize: 12,
+                          //       ),
+                          //     ),
+                          //   ),
+                          // ),
+                          const SizedBox(
+                            width: 10,
+                          )
+                        ],
+                      ),
+                      // Text(
+                      //   chats[0]["lastTime"].toString(),
+                      //   style: const TextStyle(
+                      //     fontSize: 10,
+                      //     fontWeight: FontWeight.w400,
+                      //     color: Color.fromRGBO(51, 51, 51, 0.5),
+                      //   ),
+                      // ),
+                    ],
+                  )
+                ],
+              ),
             ),
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 }
 
@@ -119,30 +123,30 @@ class ChatsList extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                "Channels",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: greyText,
-                  fontSize: 16,
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: const Text(
+                  "Channels",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: greyText,
+                    fontSize: 16,
+                  ),
                 ),
               ),
-              Channel(
-                name: announceChannelName,
-                roomId: announceChannelId,
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              ListView.builder(
-                shrinkWrap: true,
-                itemCount: chats.length,
-                itemBuilder: ((context, index) {
-                  return chats[index]["type"] == "Personal"
-                      ? ChatCard(index: index)
-                      : Container();
-                }),
-              ),
+              Channel(),
+              // const SizedBox(
+              //   height: 20,
+              // ),
+              // ListView.builder(
+              //   shrinkWrap: true,
+              //   itemCount: chats.length,
+              //   itemBuilder: ((context, index) {
+              //     return chats[index]["type"] == "Personal"
+              //         ? ChatCard(index: index)
+              //         : Container();
+              //   }),
+              // ),
               // const Text(
               //   "Personal",
               //   style: TextStyle(

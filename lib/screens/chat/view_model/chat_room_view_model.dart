@@ -7,8 +7,14 @@ class ChatRoomViewModel extends ChangeNotifier {
 
   dynamic allData;
 
-  final roomId = "Hn9GSQnvi5zh9wabLGuT";
-  final name = "Zine Channel";
+  String _roomId = "Hn9GSQnvi5zh9wabLGuT";
+  final name = "Announcement";
+
+  get roomId => _roomId;
+
+  void setRoomId(String value){
+    _roomId = value;
+  }
 
   var _data;
 
@@ -23,13 +29,13 @@ class ChatRoomViewModel extends ChangeNotifier {
   }
 
   void getChats() async {
-    allData = await chatP.getChatStream(roomId);
+    allData = await chatP.getChatStream(_roomId);
     print(allData.length);
     print("current messages");
   }
 
   void getData() {
-    _data = chatP.getChatStream(roomId);
+    _data = chatP.getChatStream(_roomId);
   }
 
   final from = "Rupesh Yadav";
@@ -37,9 +43,9 @@ class ChatRoomViewModel extends ChangeNotifier {
 
   void send() {
     // getChats();
-    _text.isEmpty ? null : chatP.sendMessage(from, roomId, _text);
-    _text = "";
-    notifyListeners();
+    _text.isEmpty ? null : chatP.sendMessage(from, _roomId, _text);
+    setText("");
     print(_text);
+    notifyListeners();
   }
 }
