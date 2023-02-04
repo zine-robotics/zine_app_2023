@@ -1,36 +1,36 @@
 import "package:flutter/material.dart";
 
 const chats = [
-  {
-    "name": "Rupesh",
-    "lastTime": "18:31",
-    "newMsg": 0,
-    "type": "Personal",
-  },
-  {
-    "name": "Priyansh",
-    "lastTime": "18:02",
-    "newMsg": 3,
-    "type": "Personal",
-  },
-  {
-    "name": "BME",
-    "lastTime": "18:31",
-    "newMsg": 0,
-    "type": "Group",
-  },
-  {
-    "name": "BEE",
-    "lastTime": "18:31",
-    "newMsg": 2,
-    "type": "Group",
-  },
-  {
-    "name": "Areomodelling",
-    "lastTime": "18:31",
-    "newMsg": 4,
-    "type": "Group",
-  },
+  // {
+  //   "name": "Rupesh",
+  //   "lastTime": "18:31",
+  //   "newMsg": 0,
+  //   "type": "Personal",
+  // },
+  // {
+  //   "name": "Priyansh",
+  //   "lastTime": "18:02",
+  //   "newMsg": 3,
+  //   "type": "Personal",
+  // },
+  // {
+  //   "name": "BME",
+  //   "lastTime": "18:31",
+  //   "newMsg": 0,
+  //   "type": "Group",
+  // },
+  // {
+  //   "name": "BEE",
+  //   "lastTime": "18:31",
+  //   "newMsg": 2,
+  //   "type": "Group",
+  // },
+  // {
+  //   "name": "Areomodelling",
+  //   "lastTime": "18:31",
+  //   "newMsg": 4,
+  //   "type": "Group",
+  // },
 ];
 
 class ChatCard extends StatelessWidget {
@@ -79,29 +79,29 @@ class ChatCard extends StatelessWidget {
                 children: [
                   chats[index]["newMsg"] != 0
                       ? Row(
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: const Color.fromRGBO(47, 128, 237, 1),
-                        ),
-                        height: 20,
-                        width: 20,
-                        child: Center(
-                          child: Text(
-                            chats[index]["newMsg"].toString(),
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 12,
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: const Color.fromRGBO(47, 128, 237, 1),
+                              ),
+                              height: 20,
+                              width: 20,
+                              child: Center(
+                                child: Text(
+                                  chats[index]["newMsg"].toString(),
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      )
-                    ],
-                  )
+                            const SizedBox(
+                              width: 10,
+                            )
+                          ],
+                        )
                       : Container(),
                   Text(
                     chats[index]["lastTime"].toString(),

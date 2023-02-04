@@ -5,6 +5,7 @@ import 'package:zineapp2023/common/data_store.dart';
 import 'package:zineapp2023/providers/dictionary.dart';
 import 'package:zineapp2023/providers/user_info.dart';
 import 'package:zineapp2023/screens/chat/repo/chat_repo.dart';
+import 'package:zineapp2023/screens/chat/view_model/chat_room_view_model.dart';
 import 'package:zineapp2023/screens/dashboard/view_models/dashboard_vm.dart';
 import 'package:zineapp2023/screens/home/view_models/home_view_model.dart';
 import 'package:zineapp2023/screens/onboarding/login/view_models/login_auth_vm.dart';
@@ -56,7 +57,8 @@ class AppProviders extends StatelessWidget {
         ChangeNotifierProvider<HomeVm>(create: (_) => HomeVm()),
         ChangeNotifierProvider<Language>(create: (_) => language),
         ChangeNotifierProvider<PasswordResetVm>(
-            create: (_) => PasswordResetVm(myRepo: AuthRepo(store: store)))
+            create: (_) => PasswordResetVm(myRepo: AuthRepo(store: store))),
+        ChangeNotifierProvider<ChatRoomViewModel>(create: (_)=> ChatRoomViewModel())
       ],
       child: child,
     );
