@@ -1,7 +1,7 @@
 class UserModel {
   String? email;
   String? uid;
-  String? type;
+  String? type = 'user';
   String? name;
   bool? registered = false;
   List<dynamic>? tasks = [];
@@ -11,7 +11,7 @@ class UserModel {
       {this.uid,
       this.email,
       this.name,
-      this.type = "user",
+      this.type,
       this.dp,
       this.tasks,
       this.registered});

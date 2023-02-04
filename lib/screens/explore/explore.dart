@@ -24,7 +24,6 @@ class Explore extends StatelessWidget {
       case RouteName.wokrshopTimeline:
         await Navigator.of(context).push(Routes.workshopTimeline());
         break;
-
     }
   }
 
@@ -55,80 +54,82 @@ class Explore extends StatelessWidget {
                   children: [
                     const ZineWhiteLogoWidget(),
                     Expanded(
-                      child: Container(
-                        height: MediaQuery.of(context).size.height,
-                        width: MediaQuery.of(context).size.width,
-                        decoration: const BoxDecoration(
-                          color: Color(0xFFEFEFEF),
-                          borderRadius: BorderRadius.vertical(
-                            top: Radius.circular(20),
-                            bottom: Radius.circular(0),
+                      child: SingleChildScrollView(
+                        child: Container(
+                          // height: MediaQuery.of(context).size.height,
+                          width: MediaQuery.of(context).size.width,
+                          decoration: const BoxDecoration(
+                            color: Color(0xFFEFEFEF),
+                            borderRadius: BorderRadius.vertical(
+                              top: Radius.circular(20),
+                              bottom: Radius.circular(0),
+                            ),
                           ),
-                        ),
-                        child: GridView.builder(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          padding: const EdgeInsets.all(35.0),
-                          itemCount: exploreCards.length,
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            crossAxisSpacing: 20,
-                            mainAxisSpacing: 20,
-                          ),
-                          itemBuilder: (BuildContext ctx, index) {
-                            return Padding(
-                              padding: const EdgeInsets.all(5),
-                              child: Container(
-                                decoration: const BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(10),
-                                  ),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Color.fromRGBO(0, 0, 0, 0.1),
-                                      offset: Offset(
-                                        5.0,
-                                        15.0,
+                          child: GridView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            padding: const EdgeInsets.all(35.0),
+                            itemCount: exploreCards.length,
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              crossAxisSpacing: 20,
+                              mainAxisSpacing: 20,
+                            ),
+                            itemBuilder: (BuildContext ctx, index) {
+                              return Padding(
+                                padding: const EdgeInsets.all(5),
+                                child: Container(
+                                  decoration: const BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(10),
+                                    ),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Color.fromRGBO(0, 0, 0, 0.1),
+                                        offset: Offset(
+                                          5.0,
+                                          15.0,
+                                        ),
+                                        blurRadius: 20.0,
                                       ),
-                                      blurRadius: 20.0,
-                                    ),
-                                  ],
-                                ),
-                                child: InkWell(
-                                  onTap: () => routeMe(
-                                      context, exploreCards[index]["route"]!),
-                                  child: Center(
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Image.asset(
-                                          exploreCards[index]["image"]!,
-                                          height: 50,
-                                        ),
-                                        const SizedBox(
-                                          height: 10,
-                                        ),
-                                        Text(
-                                          exploreCards[index]["name"]!
-                                              .toUpperCase(),
-                                          style: const TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.bold,
-                                            color: Color(0xff767D81),
+                                    ],
+                                  ),
+                                  child: InkWell(
+                                    onTap: () => routeMe(
+                                        context, exploreCards[index]["route"]!),
+                                    child: Center(
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Image.asset(
+                                            exploreCards[index]["image"]!,
+                                            height: 50,
                                           ),
-                                        )
-                                      ],
+                                          const SizedBox(
+                                            height: 10,
+                                          ),
+                                          Text(
+                                            exploreCards[index]["name"]!
+                                                .toUpperCase(),
+                                            style: const TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold,
+                                              color: Color(0xff767D81),
+                                            ),
+                                          )
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            );
-                          },
+                              );
+                            },
+                          ),
                         ),
                       ),
                     ),

@@ -1,4 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import "package:flutter/material.dart";
+import 'package:zineapp2023/models/message.dart';
+import 'package:zineapp2023/utilities/DateTime.dart';
 
 import '../repo/chat_repo.dart';
 
@@ -12,7 +15,7 @@ class ChatRoomViewModel extends ChangeNotifier {
 
   get roomId => _roomId;
 
-  void setRoomId(String value){
+  void setRoomId(String value) {
     _roomId = value;
   }
 
@@ -44,5 +47,20 @@ class ChatRoomViewModel extends ChangeNotifier {
     _text.isEmpty ? null : chatP.sendMessage(from, _roomId, _text);
     setText("");
     notifyListeners();
+  }
+
+  String _lastChatTime = "";
+
+  get lastChatTime => _lastChatTime;
+
+  void setTimeChat(String value) {
+    _lastChatTime = value;
+  }
+
+  void getLastMessage() {
+    chatP.getLastChat(roomId).then((value) {
+      setTimeChat(getTime(value.timeStamp!));
+      notifyListeners();
+    });
   }
 }

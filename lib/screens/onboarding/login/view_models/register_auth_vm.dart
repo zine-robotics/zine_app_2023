@@ -93,6 +93,8 @@ class RegisterAuthViewModel extends ChangeNotifier {
       'password': _password.trim(),
       'name': _name.trim(),
       'dp': intValue,
+      'type': 'user',
+      'registered': false,
     };
 
     setLoading(true);
@@ -109,11 +111,12 @@ class RegisterAuthViewModel extends ChangeNotifier {
       String? uid = value?.uid;
 
       UserModel userModel = UserModel(
-        uid: uid,
-        email: data['email'],
-        name: data['name'],
-        dp: data['dp'],
-      );
+          uid: uid,
+          email: data['email'],
+          name: data['name'],
+          dp: data['dp'],
+          type: data['type'],
+          registered: data['registered']);
       postDetailsToFirestore(userModel);
 
       await Navigator.of(NavigationService.navigatorKey.currentContext!,
