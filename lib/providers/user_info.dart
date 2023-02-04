@@ -17,6 +17,7 @@ class UserProv extends ChangeNotifier {
   void updateUserInfo(UserModel userModel) async {
     _isLoggedIn = true;
     currUser = userModel;
+    print(currUser.type);
     await dataStore.setString("loggedIn", 'true');
     await dataStore.setString('uid', currUser.uid.toString());
     // name = name.toTitleCase();

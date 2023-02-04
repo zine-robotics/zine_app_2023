@@ -3,8 +3,11 @@ import 'package:flutter/gestures.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:zineapp2023/models/message.dart';
+import 'package:zineapp2023/models/user.dart';
+import 'package:zineapp2023/providers/user_info.dart';
 import 'package:zineapp2023/screens/chat/view_model/chat_room_view_model.dart';
 import 'package:zineapp2023/theme/color.dart';
+import '../../utilities/DateTime.dart';
 
 import '../../components/gradient.dart';
 
@@ -15,6 +18,7 @@ class ChatRoom extends StatelessWidget {
 
   Widget ChatV(var data, BuildContext context) {
     // print(data);
+
     return StreamBuilder<QuerySnapshot>(
       stream: data,
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -59,13 +63,22 @@ class ChatRoom extends StatelessWidget {
                               child: Image.asset("assets/images/zine_logo.png"),
                             ),
                           ),
+                          subtitle: Text(
+                            getTime(chats[chats.length - index - 1].timeStamp!),
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 10.0,
+                              color: Color.fromARGB(255, 92, 20, 20),
+                            ),
+                            textAlign: TextAlign.left,
+                          ),
                           title: Wrap(
                             crossAxisAlignment: WrapCrossAlignment.end,
                             direction: Axis.horizontal,
                             children: [
                               Container(
                                 decoration: const BoxDecoration(
-                                  color: Color(0xdfAAAAAA),
+                                  color: Color(0xdf0C72B0),
                                   borderRadius: BorderRadius.only(
                                     topLeft: Radius.circular(20.0),
                                     topRight: Radius.circular(20.0),
@@ -110,10 +123,12 @@ class ChatRoom extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ChatRoomViewModel>(
-      builder: (context, chatVm, _) {
+    return Consumer2<ChatRoomViewModel, UserProv>(
+      builder: (context, chatVm, userProv, _) {
         chatVm.getData();
-        messageController.text = chatVm.text;
+        UserModel currUser = userProv.getUserInfo();
+        print(currUser.type);
+        // messageController.text = chatVm.text;
         return Scaffold(
           backgroundColor: backgroundGrey,
           appBar: AppBar(
@@ -149,7 +164,7 @@ class ChatRoom extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ChatV(chatVm.data, context),
-                  chatVm.userType == 'user'
+                  currUser.type == 'user'
                       ? Container()
                       : Align(
                           alignment: Alignment.bottomLeft,
@@ -189,6 +204,7 @@ class ChatRoom extends StatelessWidget {
                                       horizontal: 4.0, vertical: 1.0),
                                   padding: EdgeInsets.zero,
                                   onPressed: () {
+                                    messageController.text = "";
                                     chatVm.send();
                                   },
                                   iconSize: 20.0,

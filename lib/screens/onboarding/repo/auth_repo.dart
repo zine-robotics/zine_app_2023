@@ -67,7 +67,9 @@ class AuthRepo {
         uid: user['uid'],
         email: user['email'],
         name: user['name'],
-        dp: user['dp']);
+        dp: user['dp'],
+        type: user['type'],
+        registered: user['registered']);
 
     return userMod;
   }

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:zineapp2023/models/message.dart';
 import 'package:zineapp2023/screens/chat/chat_room.dart';
 import 'package:zineapp2023/screens/chat/repo/chat_repo.dart';
 import 'package:zineapp2023/screens/chat/view_model/chat_room_view_model.dart';
 import 'package:zineapp2023/theme/color.dart';
+import 'package:zineapp2023/utilities/DateTime.dart';
 
 import 'chat_card.dart';
 
@@ -19,6 +21,7 @@ class Channel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<ChatRoomViewModel>(builder: (context, chatVm, _) {
+      chatVm.getLastMessage();
       return Padding(
         padding: const EdgeInsets.all(5.0),
         child: GestureDetector(
@@ -89,14 +92,14 @@ class Channel extends StatelessWidget {
                           )
                         ],
                       ),
-                      // Text(
-                      //   chats[0]["lastTime"].toString(),
-                      //   style: const TextStyle(
-                      //     fontSize: 10,
-                      //     fontWeight: FontWeight.w400,
-                      //     color: Color.fromRGBO(51, 51, 51, 0.5),
-                      //   ),
-                      // ),
+                      Text(
+                        chatVm.lastChatTime,
+                        style: const TextStyle(
+                          fontSize: 10,
+                          fontWeight: FontWeight.w400,
+                          color: Color.fromRGBO(51, 51, 51, 0.5),
+                        ),
+                      ),
                     ],
                   )
                 ],

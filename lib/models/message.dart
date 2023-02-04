@@ -1,8 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class MessageModel {
   String? message;
   String? group;
   String? from;
-  String? timeStamp;
+  Timestamp? timeStamp;
 
   MessageModel({
     this.message,

@@ -32,6 +32,18 @@ class ChatRepo {
     // .limit(limit)
   }
 
+  Future<MessageModel> getLastChat(String groupChatId) async {
+    var data = await _firebaseFirestore
+        .collection('rooms')
+        .doc(groupChatId)
+        .collection('messages')
+        .orderBy('timeStamp', descending: true)
+        .limit(1)
+        .get();
+    var lastChat;
+    return lastChat = MessageModel.store(data.docs[0]);
+  }
+
   Query<Map<String, dynamic>> getRooms(String groupChatId) {
     return _firebaseFirestore
         .collection('rooms')
@@ -53,11 +65,10 @@ class ChatRepo {
         .doc(DateTime.now().millisecondsSinceEpoch.toString());
 
     MessageModel messageChat = MessageModel(
-      from: from,
-      group: groupId,
-      message: message,
-      timeStamp: DateTime.now().millisecondsSinceEpoch.toString(),
-    );
+        from: from,
+        group: groupId,
+        message: message,
+        timeStamp: Timestamp.now());
 
     FirebaseFirestore.instance.runTransaction((transaction) async {
       transaction.set(
