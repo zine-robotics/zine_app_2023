@@ -1,18 +1,18 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:zineapp2023/providers/user_info.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+import '../../../../providers/user_info.dart';
 import '../../../../common/navigator.dart';
 import '../../../../common/routing.dart';
 import '../../../../models/user.dart';
 import '../../repo/auth_repo.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class LoginAuthViewModel with ChangeNotifier {
-  final myRepo;
-  final userProvider;
+  final AuthRepo myRepo;
+  final UserProv userProvider;
+
   LoginAuthViewModel({required this.myRepo, required this.userProvider});
 
   String errorText = "";
@@ -56,7 +56,6 @@ class LoginAuthViewModel with ChangeNotifier {
   }
 
   Future<void> postDetailsToFirestore(UserModel userModel) async {
-    print('create user called');
 
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
@@ -79,12 +78,11 @@ class LoginAuthViewModel with ChangeNotifier {
         email: data['email'],
         password: data['password'],
       );
-      print('found model');
-      print(value);
-      userProvider.updateUserInfo(value);
-      print('set current user');
-      print(userProvider.getUserInfo());
+
+      userProvider.updateUserInfo(value!);
+
       setLoading(false);
+
       clearValues();
 
       await Navigator.of(NavigationService.navigatorKey.currentContext!,
@@ -124,8 +122,6 @@ class LoginAuthViewModel with ChangeNotifier {
           errorText = "An undefined Error happened";
       }
       setLoading(false);
-
-      print(errorText);
 
       Fluttertoast.showToast(
           msg: errorText,

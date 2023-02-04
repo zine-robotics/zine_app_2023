@@ -27,7 +27,7 @@ class Dashboard extends StatelessWidget {
         extendBody: true,
         body: Center(
           child: Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: backgroundGrey,
             ),
             height: double.infinity,
@@ -42,7 +42,7 @@ class Dashboard extends StatelessWidget {
                             .push(Routes.profileScreen());
                       },
                       child: Padding(
-                        padding: EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 0),
+                        padding: const EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 0),
                         child: Row(
                           children: <Widget>[
                             // SizedBox(
@@ -52,18 +52,18 @@ class Dashboard extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                Text("hi",
+                                const Text("hi",
                                     style: TextStyle(
                                         height: 0.9,
                                         letterSpacing: 0.3,
                                         fontSize: 20.0,
                                         fontWeight: FontWeight.w400,
                                         color: Color(0xff646464))),
-                                SizedBox(
+                                const SizedBox(
                                   height: 4,
                                 ),
                                 Text(currUser.name.toString().firstName(),
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         height: 0.9,
                                         letterSpacing: 0.3,
                                         fontSize: 25.0,

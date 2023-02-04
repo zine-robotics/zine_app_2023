@@ -1,7 +1,5 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:zineapp2023/models/user.dart';
-import '../utilities/string_formatters.dart';
 
 import '../common/data_store.dart';
 
@@ -19,10 +17,6 @@ class UserProv extends ChangeNotifier {
     currUser = userModel;
     await dataStore.setString("loggedIn", 'true');
     await dataStore.setString('uid', currUser.uid.toString());
-    // name = name.toTitleCase();
-
-    // this.email = email;
-    // await dataStore.setString("name", name);
 
     notifyListeners();
   }

@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:zineapp2023/screens/chat/chat_room.dart';
 import 'package:zineapp2023/screens/chat/repo/chat_repo.dart';
 import 'package:zineapp2023/screens/chat/view_model/chat_room_view_model.dart';
 import 'package:zineapp2023/theme/color.dart';
-
 import 'chat_card.dart';
 
 const announceChannelId = 'Hn9GSQnvi5zh9wabLGuT';

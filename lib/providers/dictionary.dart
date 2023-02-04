@@ -1,11 +1,10 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:zineapp2023/providers/dictionary/about_dict.dart';
-import 'package:zineapp2023/providers/dictionary/project_dict.dart';
-import 'package:zineapp2023/providers/dictionary/team_dict.dart';
 
+import 'dictionary/about_dict.dart';
+import 'dictionary/project_dict.dart';
+import 'dictionary/team_dict.dart';
 import 'dictionary/achievements_dict.dart';
 
 class Language extends ChangeNotifier {

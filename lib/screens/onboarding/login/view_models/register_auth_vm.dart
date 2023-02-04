@@ -76,7 +76,6 @@ class RegisterAuthViewModel extends ChangeNotifier {
   }
 
   Future<void> postDetailsToFirestore(UserModel userModel) async {
-    print('create user called');
 
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
@@ -153,7 +152,6 @@ class RegisterAuthViewModel extends ChangeNotifier {
       }
       setLoading(false);
 
-      print(errorText);
 
       Fluttertoast.showToast(
           msg: errorText,
@@ -161,4 +159,10 @@ class RegisterAuthViewModel extends ChangeNotifier {
           backgroundColor: Colors.red);
     }
   }
+
+  void signOut(){
+    myRepo.signOut();
+  }
+
+
 }

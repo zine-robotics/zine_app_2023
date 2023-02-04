@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:timelines/timelines.dart';
-import 'package:zineapp2023/theme/color.dart';
+
 import '../../components/gradient.dart';
 import '../../providers/dictionary.dart';
+import '../../../theme/color.dart';
 
 class AchievementScreen extends StatelessWidget {
   const AchievementScreen({Key? key}) : super(key: key);

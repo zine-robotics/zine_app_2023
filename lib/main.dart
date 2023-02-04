@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:zineapp2023/app_providers.dart';
-import 'package:zineapp2023/common/data_store.dart';
-import 'package:zineapp2023/providers/dictionary.dart';
-import 'package:zineapp2023/providers/user_info.dart';
-import 'package:zineapp2023/screens/chat/chat_room.dart';
-import 'package:zineapp2023/screens/onboarding/landing.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:zineapp2023/screens/onboarding/login/login_form.dart';
-import 'package:zineapp2023/screens/onboarding/splash/splash.dart';
-// import 'package:firebase_messaging/firebase_messaging.dart';
 
-import 'common/navigator.dart';
+import './screens/onboarding/splash/splash.dart';
+import './app_providers.dart';
+import './common/data_store.dart';
+import './providers/dictionary.dart';
+import './providers/user_info.dart';
+import './common/navigator.dart';
 
 final Language _language = Language();
 
@@ -33,6 +29,7 @@ Future<void> main() async {
   DataStore store = DefaultStore(await SharedPreferences.getInstance());
   UserProv userProv = UserProv(dataStore: store);
 
+
   // print('User granted permission: ${settings.authorizationStatus}');
   runApp(MyApp(
     store: store,
@@ -48,8 +45,6 @@ class MyApp extends StatelessWidget {
     super.key,
     required this.store,
     required this.userProv,
-
-    // required this.prefs,
   });
 
   @override
@@ -65,7 +60,7 @@ class MyApp extends StatelessWidget {
             fontFamily: 'Poppins',
             primarySwatch: Colors.blue,
           ),
-          home: SplashScreen(),
+          home: const SplashScreen(),
         ));
   }
 }

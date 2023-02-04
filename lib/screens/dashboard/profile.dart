@@ -5,7 +5,6 @@ import 'package:zineapp2023/components/gradient.dart';
 import 'package:zineapp2023/models/user.dart';
 import 'package:zineapp2023/providers/user_info.dart';
 import 'package:zineapp2023/screens/onboarding/login/view_models/register_auth_vm.dart';
-import 'package:zineapp2023/screens/onboarding/repo/auth_repo.dart';
 import 'package:zineapp2023/theme/color.dart';
 import 'package:zineapp2023/utilities/string_formatters.dart';
 
@@ -18,9 +17,7 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer2<RegisterAuthViewModel, UserProv>(
         builder: (context, regVm, userProv, _) {
-      final AuthRepo _authRepo = AuthRepo(store: regVm.store);
       UserModel currUser = userProv.getUserInfo();
-      print(currUser.registered as bool);
       return Scaffold(
         backgroundColor: backgroundGrey,
         appBar: AppBar(
@@ -114,7 +111,7 @@ class ProfileScreen extends StatelessWidget {
                             ),
                             Text(
                               currUser.email.toString().id().cardID(),
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 22,
                                 fontWeight: FontWeight.w900,
@@ -126,7 +123,7 @@ class ProfileScreen extends StatelessWidget {
                             ),
                             Text(
                               currUser.name.toString(),
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 13,
                                 fontWeight: FontWeight.w500,
@@ -149,7 +146,7 @@ class ProfileScreen extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
+                      const Text(
                         "WORKSHOP",
                         style: TextStyle(
                           color: textDarkBlue,
@@ -157,7 +154,7 @@ class ProfileScreen extends StatelessWidget {
                           fontSize: 20.0,
                         ),
                       ),
-                      Text(
+                      const Text(
                         " : ",
                         style: TextStyle(
                           color: greyText,
@@ -170,7 +167,7 @@ class ProfileScreen extends StatelessWidget {
                                 currUser.registered as bool)
                             ? "REGISTERED"
                             : 'NOT REGISTERED',
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: textColor,
                           fontWeight: FontWeight.w500,
                           fontSize: 20.0,
@@ -180,13 +177,16 @@ class ProfileScreen extends StatelessWidget {
                   ),
                 ),
               ),
+              const SizedBox(
+                height: 20.0,
+              ),
               Padding(
                 padding: const EdgeInsets.symmetric(
                     horizontal: 30.0, vertical: 20.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       "Name",
                       style: TextStyle(
                         fontWeight: FontWeight.w500,
@@ -194,21 +194,21 @@ class ProfileScreen extends StatelessWidget {
                         fontSize: 15,
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 5.0,
                     ),
                     Text(
                       currUser.name.toString(),
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontWeight: FontWeight.w500,
                         color: Color(0xff767D81),
                         fontSize: 18,
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 15.0,
                     ),
-                    Text(
+                    const Text(
                       "College Email ID",
                       style: TextStyle(
                         fontWeight: FontWeight.w500,
@@ -216,12 +216,12 @@ class ProfileScreen extends StatelessWidget {
                         fontSize: 15,
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 5.0,
                     ),
                     Text(
                       currUser.email.toString(),
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontWeight: FontWeight.w500,
                         color: Color(0xff767D81),
                         fontSize: 18,
@@ -234,7 +234,9 @@ class ProfileScreen extends StatelessWidget {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20.0, vertical: 0),
                 child: TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).push(Routes.emailScreen());
+                  },
                   child: const Text(
                     "Change Password",
                     style: TextStyle(
@@ -245,12 +247,15 @@ class ProfileScreen extends StatelessWidget {
                   ),
                 ),
               ),
+              const SizedBox(
+                height: 20.0,
+              ),
               Padding(
                 padding: const EdgeInsets.symmetric(
                     horizontal: 10.0, vertical: 20.0),
                 child: ElevatedButton(
-                  onPressed: () async {
-                    await _authRepo.signOut();
+                  onPressed: () {
+                    regVm.signOut();
 
                     Navigator.of(context).pushAndRemoveUntil(
                         Routes.landingScreen(), (route) => false);

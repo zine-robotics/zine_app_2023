@@ -13,7 +13,7 @@ class MentorInfo extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Card(
-            shape: RoundedRectangleBorder(
+            shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(
               Radius.circular(15.0),
             )),
@@ -24,23 +24,23 @@ class MentorInfo extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ClipRRect(
-                      borderRadius: BorderRadius.vertical(
+                      borderRadius: const BorderRadius.vertical(
                         top: Radius.circular(15.0),
                       ),
                       child: Image.asset(
                         "assets/images/rajesh_sir.webp",
                         fit: BoxFit.contain,
                       )),
-                  SizedBox(height: 10.0,),
-                  Text("Dr. Rajesh Kumar",style: TextStyle(
+                  const SizedBox(height: 10.0,),
+                  const Text("Dr. Rajesh Kumar",style: TextStyle(
                     color: textDarkBlue,
                     fontWeight: FontWeight.w900,
                     fontSize: 25.0
                   ),),
-                  SizedBox(height: 10.0,),
+                  const SizedBox(height: 10.0,),
 
                   Text(dict.aboutScreen.about![1].infoBody!,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: textDarkBlue
                   ),)
                 ],
