@@ -101,7 +101,7 @@ class ProfileScreen extends StatelessWidget {
                                       "assets/images/card_image.png"),
                                 ),
                                 CircleAvatar(
-                                  backgroundColor: iconTile,
+                                  backgroundColor: Colors.white,
                                   backgroundImage: AssetImage(
                                     "assets/images/dp/${currUser.dp}.png",
                                   ),
@@ -166,7 +166,10 @@ class ProfileScreen extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        currUser != null ? "REGISTERED" : 'NOT REGISTERED',
+                        (currUser.registered != null &&
+                                currUser.registered as bool)
+                            ? "REGISTERED"
+                            : 'NOT REGISTERED',
                         style: TextStyle(
                           color: textColor,
                           fontWeight: FontWeight.w500,
