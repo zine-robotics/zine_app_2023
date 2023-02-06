@@ -56,7 +56,7 @@ class Explore extends StatelessWidget {
                     Expanded(
                       child: SingleChildScrollView(
                         child: Container(
-                          // height: MediaQuery.of(context).size.height,
+                          height: MediaQuery.of(context).size.height*0.53,
                           width: MediaQuery.of(context).size.width,
                           decoration: const BoxDecoration(
                             color: Color(0xFFEFEFEF),
