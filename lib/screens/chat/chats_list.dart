@@ -15,7 +15,7 @@ const announceChannelName = 'Zine Channel';
 class Channel extends StatelessWidget {
   final name;
   final roomId;
-  const Channel({super.key, this.name, this.roomId});
+  const Channel({super.key, required this.name, this.roomId});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,11 @@ class Channel extends StatelessWidget {
           onTap: () {
             // chatVm.setRoomId(roomId);
             Navigator.push(
-                context, MaterialPageRoute(builder: (context) => ChatRoom()));
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ChatRoom(
+                          roomName: name,
+                        )));
           },
           child: Container(
             decoration: const BoxDecoration(
@@ -56,7 +60,7 @@ class Channel extends StatelessWidget {
                         width: 10,
                       ),
                       Text(
-                        chatVm.name,
+                        name,
                         style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w700,
@@ -136,7 +140,9 @@ class ChatsList extends StatelessWidget {
                   ),
                 ),
               ),
-              Channel(),
+              Channel(
+                name: "Announcements",
+              ),
               // const SizedBox(
               //   height: 20,
               // ),

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:zineapp2023/api.dart';
 import 'package:zineapp2023/models/message.dart';
 
 class ChatRepo {
@@ -76,5 +77,6 @@ class ChatRepo {
         messageChat.toJson(),
       );
     });
+    sendFCMMessage("Announcement", from, message);
   }
 }

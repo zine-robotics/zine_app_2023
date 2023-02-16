@@ -39,12 +39,9 @@ class ChatRoomViewModel extends ChangeNotifier {
     _data = chatP.getChatStream(_roomId);
   }
 
-  final from = "Rupesh Yadav";
-  final userType = 'admin';
-
-  void send() {
+  void send({from, roomId}) {
     // getChats();
-    _text.isEmpty ? null : chatP.sendMessage(from, _roomId, _text);
+    _text.isEmpty ? null : chatP.sendMessage(from, roomId, _text);
     setText("");
     notifyListeners();
   }

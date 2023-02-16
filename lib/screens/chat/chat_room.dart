@@ -12,7 +12,8 @@ import '../../utilities/DateTime.dart';
 import '../../components/gradient.dart';
 
 class ChatRoom extends StatelessWidget {
-  ChatRoom({Key? key}) : super(key: key);
+  final roomName;
+  ChatRoom({Key? key, required this.roomName}) : super(key: key);
 
   final TextEditingController messageController = TextEditingController();
 
@@ -136,7 +137,7 @@ class ChatRoom extends StatelessWidget {
             centerTitle: true,
             toolbarHeight: MediaQuery.of(context).size.height * 0.1,
             title: Text(
-              chatVm.name,
+              roomName,
               style: const TextStyle(
                 color: Colors.white,
                 fontSize: 25,
@@ -205,7 +206,9 @@ class ChatRoom extends StatelessWidget {
                                   padding: EdgeInsets.zero,
                                   onPressed: () {
                                     messageController.text = "";
-                                    chatVm.send();
+                                    chatVm.send(
+                                        from: userProv.currUser.name,
+                                        roomId: roomName);
                                   },
                                   iconSize: 20.0,
                                   icon: const ImageIcon(
