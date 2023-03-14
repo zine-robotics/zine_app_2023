@@ -126,9 +126,12 @@ class ChatRoom extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer2<ChatRoomViewModel, UserProv>(
       builder: (context, chatVm, userProv, _) {
-        chatVm.getData();
+        var data = chatVm.getData(roomName);
+
         UserModel currUser = userProv.getUserInfo();
         print(currUser.type);
+        print(chatVm.allData);
+        // print(RoomData);
         // messageController.text = chatVm.text;
         return Scaffold(
           backgroundColor: backgroundGrey,
@@ -164,8 +167,8 @@ class ChatRoom extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  ChatV(chatVm.data, context),
-                  currUser.type == 'user'
+                  ChatV(data, context),
+                  currUser.type == 'user' && roomName == "Announcements"
                       ? Container()
                       : Align(
                           alignment: Alignment.bottomLeft,

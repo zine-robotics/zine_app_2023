@@ -76,7 +76,6 @@ class RegisterAuthViewModel extends ChangeNotifier {
   }
 
   Future<void> postDetailsToFirestore(UserModel userModel) async {
-
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
     await firebaseFirestore
@@ -155,7 +154,6 @@ class RegisterAuthViewModel extends ChangeNotifier {
       }
       setLoading(false);
 
-
       Fluttertoast.showToast(
           msg: errorText,
           toastLength: Toast.LENGTH_LONG,
@@ -163,9 +161,7 @@ class RegisterAuthViewModel extends ChangeNotifier {
     }
   }
 
-  void signOut(){
+  void signOut() {
     myRepo.signOut();
   }
-
-
 }

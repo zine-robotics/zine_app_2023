@@ -7,6 +7,7 @@ const String serverKey =
 
 Future<void> sendFCMMessage(String topic, String title, String body) async {
   // Define the message body
+  print('/topics/$topic');
   final Map<String, dynamic> message = <String, dynamic>{
     'notification': <String, dynamic>{
       'title': title,

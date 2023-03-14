@@ -21,28 +21,54 @@ class ChatRepo {
         .update(dataNeedUpdate);
   }
 
-  Stream<QuerySnapshot<Map<String, dynamic>>> getChatStream(
-      String groupChatId) {
+  Future<String?> getRoomId(String groupName) {
     return _firebaseFirestore
         .collection('rooms')
-        .doc(groupChatId)
-        .collection('messages')
-        .snapshots();
-    // .get();
-    // chats = List.from(data.docs.map((doc) => MessageModel.store(doc)));
-    // .limit(limit)
+        .where('name', isEqualTo: groupName)
+        .limit(1) // Assuming there is only one group with the given name
+        .get()
+        .then((querySnapshot) {
+      if (querySnapshot.docs.isNotEmpty) {
+        return querySnapshot.docs.first.id;
+      }
+    });
   }
 
-  Future<MessageModel> getLastChat(String groupChatId) async {
+  dynamic getChatStream(String groupName) async {
+    return _firebaseFirestore
+        .collection('rooms')
+        .where('name', isEqualTo: groupName)
+        .limit(1) // Assuming there is only one group with the given name
+        .get()
+        .then((querySnapshot) {
+      if (querySnapshot.docs.isNotEmpty) {
+        final groupChatId = querySnapshot.docs.first.id;
+        return _firebaseFirestore
+            .collection('rooms')
+            .doc(groupChatId)
+            .collection('messages')
+            .snapshots();
+      } else {
+        throw Exception('No matching documents');
+      }
+    });
+  }
+
+  dynamic getLastChat(String roomName) async {
+    String? groupChatId = await getRoomId(roomName);
+    print(groupChatId.toString());
     var data = await _firebaseFirestore
         .collection('rooms')
-        .doc(groupChatId)
+        .doc(groupChatId.toString())
         .collection('messages')
         .orderBy('timeStamp', descending: true)
         .limit(1)
         .get();
     var lastChat;
-    return lastChat = MessageModel.store(data.docs[0]);
+    print(data.docs);
+    if (data.docs != null && data.docs.length > 0)
+      return lastChat = MessageModel.store(data.docs[0]);
+    return null;
   }
 
   Query<Map<String, dynamic>> getRooms(String groupChatId) {
@@ -56,9 +82,11 @@ class ChatRepo {
 
   void sendMessage(
     String from,
-    String groupId,
+    String roomName,
     String message,
-  ) {
+  ) async {
+    String? groupId = await getRoomId(roomName);
+    groupId = groupId.toString();
     DocumentReference documentReference = _firebaseFirestore
         .collection('rooms')
         .doc(groupId)
@@ -77,6 +105,6 @@ class ChatRepo {
         messageChat.toJson(),
       );
     });
-    sendFCMMessage("Announcement", from, message);
+    sendFCMMessage(roomName, from, message);
   }
 }

@@ -27,6 +27,9 @@ class UserProv extends ChangeNotifier {
         print('Push Token: $t');
         updatePushToken();
         fMessaging.subscribeToTopic("Announcements");
+        for (var rooms in currUser.rooms!) {
+          fMessaging.subscribeToTopic(rooms);
+        }
       }
     });
 

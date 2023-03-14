@@ -6,18 +6,19 @@ class UserModel {
   bool? registered = false;
   String? pushToken;
   List<dynamic>? tasks = [];
+  List<dynamic>? rooms = [];
   int? dp;
 
-  UserModel({
-    this.uid,
-    this.email,
-    this.name,
-    this.type,
-    this.dp,
-    this.tasks,
-    this.registered,
-    this.pushToken,
-  });
+  UserModel(
+      {this.uid,
+      this.email,
+      this.name,
+      this.type,
+      this.dp,
+      this.tasks,
+      this.registered,
+      this.pushToken,
+      this.rooms});
 
   UserModel.fromJson(Map<String, dynamic> json) {
     email = json['email'];
@@ -28,6 +29,7 @@ class UserModel {
     dp = json['dp'];
     registered = json['registered'];
     pushToken = json['pushToken'];
+    rooms = json['rooms'];
   }
 
   Map<String, dynamic> toJson() {
@@ -40,6 +42,7 @@ class UserModel {
     data['dp'] = dp;
     data['registered'] = registered;
     data['pushToken'] = pushToken;
+    data['rooms'] = rooms;
 
     return data;
   }
