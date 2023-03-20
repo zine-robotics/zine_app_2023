@@ -17,7 +17,7 @@ class ChatRoom extends StatelessWidget {
 
   final TextEditingController messageController = TextEditingController();
 
-  Widget ChatV(var data, BuildContext context) {
+  Widget ChatV(var data, var currUser, BuildContext context) {
     // print(data);
 
     return StreamBuilder<QuerySnapshot>(
@@ -48,62 +48,74 @@ class ChatRoom extends StatelessWidget {
                 itemBuilder: (BuildContext context, int index) {
                   return chats[chats.length - index - 1].message!.isEmpty
                       ? Container()
-                      : ListTile(
-                          horizontalTitleGap: 6,
-                          contentPadding: EdgeInsets.zero,
-                          dense: true,
-                          // leading: index != 0
-                          //     ? const SizedBox(
-                          //         width: 20.0,
-                          //       )
-                          //     :
-                          leading: CircleAvatar(
-                            backgroundColor: const Color(0x0f2F80ED),
-                            child: Padding(
-                              padding: const EdgeInsets.all(3.0),
-                              child: Image.asset("assets/images/zine_logo.png"),
+                      : Container(
+                          alignment: currUser.name ==
+                                  chats[chats.length - index - 1].from
+                              ? Alignment.centerRight
+                              : Alignment.centerLeft,
+                          child: ListTile(
+                            horizontalTitleGap: 6,
+                            contentPadding: EdgeInsets.zero,
+                            dense: true,
+
+                            // leading: index != 0
+                            //     ? const SizedBox(
+                            //         width: 20.0,
+                            //       )
+                            //     :
+                            leading: CircleAvatar(
+                              backgroundColor: const Color(0x0f2F80ED),
+                              child: Padding(
+                                padding: const EdgeInsets.all(3.0),
+                                child:
+                                    Image.asset("assets/images/zine_logo.png"),
+                              ),
                             ),
-                          ),
-                          subtitle: Text(
-                            getTime(chats[chats.length - index - 1].timeStamp!),
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 10.0,
-                              color: Color.fromARGB(255, 92, 20, 20),
+                            subtitle: Text(
+                              getTime(
+                                  chats[chats.length - index - 1].timeStamp!),
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 10.0,
+                                color: Color.fromARGB(255, 92, 20, 20),
+                              ),
+                              textAlign: TextAlign.left,
                             ),
-                            textAlign: TextAlign.left,
-                          ),
-                          title: Wrap(
-                            crossAxisAlignment: WrapCrossAlignment.end,
-                            direction: Axis.horizontal,
-                            children: [
-                              Container(
-                                decoration: const BoxDecoration(
-                                  color: Color(0xdf0C72B0),
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(20.0),
-                                    topRight: Radius.circular(20.0),
-                                    bottomRight: Radius.circular(20.0),
+                            title: Wrap(
+                              crossAxisAlignment: WrapCrossAlignment.end,
+                              direction: Axis.horizontal,
+                              children: [
+                                Container(
+                                  decoration: BoxDecoration(
+                                    color: currUser.name ==
+                                            chats[chats.length - index - 1].from
+                                        ? Color.fromARGB(223, 12, 146, 176)
+                                        : Color(0xdf0C72B0),
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(20.0),
+                                      topRight: Radius.circular(20.0),
+                                      bottomRight: Radius.circular(20.0),
+                                    ),
+                                    // border: Border.all(color: greyText, width: 2.0),
                                   ),
-                                  // border: Border.all(color: greyText, width: 2.0),
-                                ),
-                                // margin: const EdgeInsets.all(8),
-                                padding: const EdgeInsets.all(4),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(10.0),
-                                  child: Text(
-                                    chats[chats.length - index - 1]
-                                        .message
-                                        .toString(),
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 18.0,
-                                      color: Colors.white,
+                                  // margin: const EdgeInsets.all(8),
+                                  padding: const EdgeInsets.all(4),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(10.0),
+                                    child: Text(
+                                      chats[chats.length - index - 1]
+                                          .message
+                                          .toString(),
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 18.0,
+                                        color: Colors.white,
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         );
                 },
@@ -127,7 +139,6 @@ class ChatRoom extends StatelessWidget {
     return Consumer2<ChatRoomViewModel, UserProv>(
       builder: (context, chatVm, userProv, _) {
         var data = chatVm.getData(roomName);
-
         UserModel currUser = userProv.getUserInfo();
         print(currUser.type);
         print(chatVm.allData);
@@ -167,7 +178,7 @@ class ChatRoom extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  ChatV(data, context),
+                  ChatV(data, currUser, context),
                   currUser.type == 'user' && roomName == "Announcements"
                       ? Container()
                       : Align(

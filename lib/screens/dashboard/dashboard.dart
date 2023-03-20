@@ -11,17 +11,20 @@ import 'package:zineapp2023/utilities/DateTime.dart';
 import 'package:zineapp2023/utilities/string_formatters.dart';
 import 'package:intl/intl.dart';
 import '../../common/routing.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Dashboard extends StatelessWidget {
   const Dashboard({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Consumer2<DashboardVm, UserProv>(
         builder: (context, dashboardVm, userProv, _) {
       UserModel currUser = userProv.getUserInfo();
       String month = DateFormat.MMM().format(DateTime.now());
-      // String email = dashboardVm.getData('email');
-      // print(email);
+
+      dashboardVm.getRecentEvent();
+
       return Scaffold(
         extendBody: true,
         body: Center(
@@ -166,24 +169,28 @@ class Dashboard extends StatelessWidget {
                                     const SizedBox(
                                       height: 15,
                                     ),
-                                    const Text("WORKSHOP",
-                                        style: TextStyle(
-                                            height: 0.9,
-                                            letterSpacing: 0.3,
-                                            fontSize: 14.0,
-                                            fontWeight: FontWeight.w300,
-                                            color: Color(0xff646464))),
+                                    dashboardVm.events.length != 0
+                                        ? Text(dashboardVm.events[0].eventType,
+                                            style: TextStyle(
+                                                height: 0.9,
+                                                letterSpacing: 0.3,
+                                                fontSize: 14.0,
+                                                fontWeight: FontWeight.w300,
+                                                color: Color(0xff646464)))
+                                        : Container(),
                                     const SizedBox(
                                       height: 10,
                                     ),
-                                    const Text(
-                                      "AEROMODELLING",
-                                      style: TextStyle(
-                                          fontSize: 16.0,
-                                          fontWeight: FontWeight.w700,
-                                          color: Color(0xff0C72B0)),
-                                      textAlign: TextAlign.center,
-                                    ),
+                                    dashboardVm.events.length != 0
+                                        ? Text(
+                                            dashboardVm.events[0]!.name,
+                                            style: TextStyle(
+                                                fontSize: 16.0,
+                                                fontWeight: FontWeight.w700,
+                                                color: Color(0xff0C72B0)),
+                                            textAlign: TextAlign.center,
+                                          )
+                                        : Container(),
                                     // const SizedBox(
                                     //   height: 0,
                                     // ),
@@ -207,8 +214,11 @@ class Dashboard extends StatelessWidget {
                                               CrossAxisAlignment.center,
                                           // ignore: prefer_const_literals_to_create_immutables
                                           children: <Widget>[
-                                            const Text(
-                                              "16 JAN",
+                                            Text(
+                                              dashboardVm.events.length > 0
+                                                  ? getDate(dashboardVm
+                                                      .events[0]!.timeDate)
+                                                  : "Date",
                                               style: TextStyle(
                                                   fontSize: 18.0,
                                                   fontWeight: FontWeight.w700,
@@ -219,8 +229,10 @@ class Dashboard extends StatelessWidget {
                                             const SizedBox(
                                               height: 10,
                                             ),
-                                            const Text(
-                                              "18:00\nVLTC",
+                                            Text(
+                                              dashboardVm.events.length > 0
+                                                  ? '${getTime(dashboardVm.events[0]!.timeDate)}\n ${dashboardVm.events[0]!.venue}'
+                                                  : "Venue",
                                               style: TextStyle(
                                                   fontSize: 23.0,
                                                   fontWeight: FontWeight.w700,
@@ -243,40 +255,46 @@ class Dashboard extends StatelessWidget {
                       options: CarouselOptions(
                           height: 200.0, viewportFraction: 0.87),
                       items: [
-                        "ALGORITHMS",
+                        "ALGO",
                         "BEE",
                         "BME",
                         "AEROMODELLING",
-                        "ICU-MCU",
+                        "IC-MCU",
                         "CYBERSECURITY",
                         "WEB DEVELOPMENT"
                       ].map((i) {
                         return Builder(
                           builder: (BuildContext context) {
-                            return Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 5.5, vertical: 10),
-                              child: Container(
-                                width: MediaQuery.of(context).size.width,
-                                height: 200.0,
-                                decoration: BoxDecoration(
-                                  image: const DecorationImage(
-                                      image: AssetImage(
-                                          "assets/images/blog_card.png")),
-                                  borderRadius: BorderRadius.circular(24.0),
-                                  color:
-                                      const Color.fromARGB(255, 255, 255, 255),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    i,
-                                    style: const TextStyle(
-                                        height: 0.9,
-                                        letterSpacing: 0.3,
-                                        fontSize: 25.0,
-                                        fontWeight: FontWeight.w600,
-                                        color: textColor),
-                                    textAlign: TextAlign.center,
+                            return GestureDetector(
+                              onTap: () {
+                                dashboardVm.launchUrl(
+                                    'https://zine.co.in/blogs/${i.toLowerCase()}');
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 5.5, vertical: 10),
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  height: 200.0,
+                                  decoration: BoxDecoration(
+                                    image: const DecorationImage(
+                                        image: AssetImage(
+                                            "assets/images/blog_card.png")),
+                                    borderRadius: BorderRadius.circular(24.0),
+                                    color: const Color.fromARGB(
+                                        255, 255, 255, 255),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      i,
+                                      style: const TextStyle(
+                                          height: 0.9,
+                                          letterSpacing: 0.3,
+                                          fontSize: 25.0,
+                                          fontWeight: FontWeight.w600,
+                                          color: textColor),
+                                      textAlign: TextAlign.center,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -328,39 +346,43 @@ class Dashboard extends StatelessWidget {
                               ],
                             ),
                           ),
-                          Container(
-                            width: MediaQuery.of(context).size.width / 2.45,
-                            height: 125.0,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(24.0),
-                              color: Colors.white,
-                            ),
-                            alignment: Alignment.center,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: const [
-                                Text(
-                                  "1",
-                                  style: TextStyle(
-                                      height: 0.9,
-                                      letterSpacing: 0.3,
-                                      fontSize: 30.0,
-                                      fontWeight: FontWeight.w600,
-                                      color: textColor),
-                                  textAlign: TextAlign.center,
-                                ),
-                                SizedBox(
-                                  height: 15,
-                                ),
-                                Text("Chats",
+                          GestureDetector(
+                            onTap: () =>
+                                {Navigator.of(context).push(Routes.chatHome())},
+                            child: Container(
+                              width: MediaQuery.of(context).size.width / 2.45,
+                              height: 125.0,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(24.0),
+                                color: Colors.white,
+                              ),
+                              alignment: Alignment.center,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: const [
+                                  Text(
+                                    "1",
                                     style: TextStyle(
                                         height: 0.9,
                                         letterSpacing: 0.3,
-                                        fontSize: 20.0,
+                                        fontSize: 30.0,
                                         fontWeight: FontWeight.w600,
-                                        color: greyText)),
-                              ],
+                                        color: textColor),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  SizedBox(
+                                    height: 15,
+                                  ),
+                                  Text("Chats",
+                                      style: TextStyle(
+                                          height: 0.9,
+                                          letterSpacing: 0.3,
+                                          fontSize: 20.0,
+                                          fontWeight: FontWeight.w600,
+                                          color: greyText)),
+                                ],
+                              ),
                             ),
                           )
                         ],

@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:zineapp2023/screens/chat/chat_home.dart';
 
 import '../screens/explore/achievements.dart';
 import '../screens/explore/team/team.dart';
@@ -22,6 +23,7 @@ class RouteName {
   static const homeScreen = "home";
   static const profileScreen = "profile";
   static const emailScreen = "email";
+  static const chatHome = "email";
 }
 
 class Routes {
@@ -49,6 +51,8 @@ class Routes {
 
   static Route aboutMe() =>
       cupertinoRoute(RouteName.aboutMe, (ctx) => const AboutScreen());
+  static Route chatHome() =>
+      cupertinoRoute(RouteName.chatHome, (ctx) => const ChatHome());
 
   static Route workshopTimeline() => cupertinoRoute(
       RouteName.wokrshopTimeline, (ctx) => const WorkshopScreen());
