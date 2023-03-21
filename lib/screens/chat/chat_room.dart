@@ -63,26 +63,49 @@ class ChatRoom extends StatelessWidget {
                             //         width: 20.0,
                             //       )
                             //     :
-                            leading: CircleAvatar(
-                              backgroundColor: const Color(0x0f2F80ED),
-                              child: Padding(
-                                padding: const EdgeInsets.all(3.0),
-                                child:
-                                    Image.asset("assets/images/zine_logo.png"),
+                            leading: currUser.name ==
+                                    chats[chats.length - index - 1].from
+                                ? null
+                                : CircleAvatar(
+                                    backgroundColor: const Color(0x0f2F80ED),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(3.0),
+                                      child: Image.asset(
+                                          "assets/images/zine_logo.png"),
+                                    ),
+                                  ),
+                            trailing: currUser.name !=
+                                    chats[chats.length - index - 1].from
+                                ? null
+                                : CircleAvatar(
+                                    backgroundColor: const Color(0x0f2F80ED),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(3.0),
+                                      child: Image.asset(
+                                          "assets/images/zine_logo.png"),
+                                    ),
+                                  ),
+                            subtitle: Padding(
+                              padding: const EdgeInsets.all(6.0),
+                              child: Align(
+                                alignment: currUser.name !=
+                                        chats[chats.length - index - 1].from
+                                    ? Alignment.bottomLeft
+                                    : Alignment.bottomRight,
+                                child: Text(
+                                  getTime(chats[chats.length - index - 1]
+                                      .timeStamp!),
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 10.0,
+                                    color: Color.fromARGB(255, 92, 20, 20),
+                                  ),
+                                ),
                               ),
-                            ),
-                            subtitle: Text(
-                              getTime(
-                                  chats[chats.length - index - 1].timeStamp!),
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w400,
-                                fontSize: 10.0,
-                                color: Color.fromARGB(255, 92, 20, 20),
-                              ),
-                              textAlign: TextAlign.left,
                             ),
                             title: Wrap(
                               crossAxisAlignment: WrapCrossAlignment.end,
+                              alignment: WrapAlignment.end,
                               direction: Axis.horizontal,
                               children: [
                                 Container(

@@ -18,13 +18,9 @@ class TaskVm extends ChangeNotifier {
   List<String> _members = [];
   String timeStamp = "";
   get name => _name;
-
   get type => _type;
-
   get description => _description;
-
   get status => _status;
-
   get tasks => _tasks;
   get dueDate => _dueDate;
 
