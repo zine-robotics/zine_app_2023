@@ -12,7 +12,8 @@ import '../../utilities/DateTime.dart';
 import '../../components/gradient.dart';
 
 class ChatRoom extends StatelessWidget {
-  ChatRoom({Key? key}) : super(key: key);
+  final roomName;
+  ChatRoom({Key? key, required this.roomName}) : super(key: key);
 
   final TextEditingController messageController = TextEditingController();
 
@@ -125,9 +126,12 @@ class ChatRoom extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer2<ChatRoomViewModel, UserProv>(
       builder: (context, chatVm, userProv, _) {
-        chatVm.getData();
+        var data = chatVm.getData(roomName);
+
         UserModel currUser = userProv.getUserInfo();
         print(currUser.type);
+        print(chatVm.allData);
+        // print(RoomData);
         // messageController.text = chatVm.text;
         return Scaffold(
           backgroundColor: backgroundGrey,
@@ -136,7 +140,7 @@ class ChatRoom extends StatelessWidget {
             centerTitle: true,
             toolbarHeight: MediaQuery.of(context).size.height * 0.1,
             title: Text(
-              chatVm.name,
+              roomName,
               style: const TextStyle(
                 color: Colors.white,
                 fontSize: 25,
@@ -163,8 +167,8 @@ class ChatRoom extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  ChatV(chatVm.data, context),
-                  currUser.type == 'user'
+                  ChatV(data, context),
+                  currUser.type == 'user' && roomName == "Announcements"
                       ? Container()
                       : Align(
                           alignment: Alignment.bottomLeft,
@@ -205,7 +209,9 @@ class ChatRoom extends StatelessWidget {
                                   padding: EdgeInsets.zero,
                                   onPressed: () {
                                     messageController.text = "";
-                                    chatVm.send();
+                                    chatVm.send(
+                                        from: userProv.currUser.name,
+                                        roomId: roomName);
                                   },
                                   iconSize: 20.0,
                                   icon: const ImageIcon(

@@ -53,7 +53,8 @@ class AuthRepo {
         name: user['name'],
         dp: user['dp'],
         type: user['type'],
-        registered: user['registered']);
+        registered: user['registered'],
+        rooms: user['rooms']);
 
     return userMod;
   }

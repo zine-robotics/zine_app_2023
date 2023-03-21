@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 // import 'package:flutter_neat_and_clean_calendar/flutter_neat_and_clean_calendar.dart';
 import 'package:provider/provider.dart';
 import 'package:zineapp2023/models/user.dart';
@@ -11,12 +10,10 @@ import 'package:zineapp2023/theme/color.dart';
 import 'package:zineapp2023/utilities/DateTime.dart';
 import 'package:zineapp2023/utilities/string_formatters.dart';
 import 'package:intl/intl.dart';
-
 import '../../common/routing.dart';
 
 class Dashboard extends StatelessWidget {
   const Dashboard({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Consumer2<DashboardVm, UserProv>(

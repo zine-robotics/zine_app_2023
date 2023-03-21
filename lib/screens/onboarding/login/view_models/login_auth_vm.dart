@@ -56,7 +56,6 @@ class LoginAuthViewModel with ChangeNotifier {
   }
 
   Future<void> postDetailsToFirestore(UserModel userModel) async {
-
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
     await firebaseFirestore
@@ -78,7 +77,7 @@ class LoginAuthViewModel with ChangeNotifier {
         email: data['email'],
         password: data['password'],
       );
-
+      print(value);
       userProvider.updateUserInfo(value!);
 
       setLoading(false);

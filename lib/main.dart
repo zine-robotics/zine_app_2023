@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_notification_channel/flutter_notification_channel.dart';
+import 'package:flutter_notification_channel/notification_importance.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -15,6 +17,12 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await _language.init();
   await Firebase.initializeApp();
+  await FlutterNotificationChannel.registerNotificationChannel(
+      description: 'For Showing Message Notification',
+      id: 'chats',
+      importance: NotificationImportance.IMPORTANCE_HIGH,
+      name: 'Chats');
+  // log('\nNotification Channel Result: $result');
   // FirebaseMessaging messaging = FirebaseMessaging.instance;
   // NotificationSettings settings = await messaging.requestPermission(
   //   alert: true,
@@ -28,7 +36,6 @@ Future<void> main() async {
   // ignore: unused_local_variable
   DataStore store = DefaultStore(await SharedPreferences.getInstance());
   UserProv userProv = UserProv(dataStore: store);
-
 
   // print('User granted permission: ${settings.authorizationStatus}');
   runApp(MyApp(

@@ -4,7 +4,9 @@ class UserModel {
   String? type = 'user';
   String? name;
   bool? registered = false;
+  String? pushToken;
   List<dynamic>? tasks = [];
+  List<dynamic>? rooms = [];
   int? dp;
 
   UserModel(
@@ -14,7 +16,9 @@ class UserModel {
       this.type,
       this.dp,
       this.tasks,
-      this.registered});
+      this.registered,
+      this.pushToken,
+      this.rooms});
 
   UserModel.fromJson(Map<String, dynamic> json) {
     email = json['email'];
@@ -24,6 +28,8 @@ class UserModel {
     tasks = json['tasks'];
     dp = json['dp'];
     registered = json['registered'];
+    pushToken = json['pushToken'];
+    rooms = json['rooms'];
   }
 
   Map<String, dynamic> toJson() {
@@ -35,6 +41,8 @@ class UserModel {
     data['tasks'] = tasks;
     data['dp'] = dp;
     data['registered'] = registered;
+    data['pushToken'] = pushToken;
+    data['rooms'] = rooms;
 
     return data;
   }

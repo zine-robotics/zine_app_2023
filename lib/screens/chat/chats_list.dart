@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zineapp2023/models/message.dart';
+import 'package:zineapp2023/providers/user_info.dart';
 import 'package:zineapp2023/screens/chat/chat_room.dart';
 import 'package:zineapp2023/screens/chat/repo/chat_repo.dart';
 import 'package:zineapp2023/screens/chat/view_model/chat_room_view_model.dart';
@@ -14,20 +15,23 @@ const announceChannelName = 'Zine Channel';
 
 class Channel extends StatelessWidget {
   final name;
-  final roomId;
-  const Channel({super.key, this.name, this.roomId});
+
+  const Channel({super.key, required this.name});
 
   @override
   Widget build(BuildContext context) {
     return Consumer<ChatRoomViewModel>(builder: (context, chatVm, _) {
-      chatVm.getLastMessage();
+      var lastSeen = chatVm.getLastMessage(name);
+      if (lastSeen == null) lastSeen = "";
       return Padding(
         padding: const EdgeInsets.all(5.0),
         child: GestureDetector(
           onTap: () {
             // chatVm.setRoomId(roomId);
             Navigator.push(
-                context, MaterialPageRoute(builder: (context) => ChatRoom()));
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ChatRoom(roomName: name)));
           },
           child: Container(
             decoration: const BoxDecoration(
@@ -56,7 +60,7 @@ class Channel extends StatelessWidget {
                         width: 10,
                       ),
                       Text(
-                        chatVm.name,
+                        name,
                         style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w700,
@@ -92,7 +96,7 @@ class Channel extends StatelessWidget {
                         ],
                       ),
                       Text(
-                        chatVm.lastChatTime,
+                        lastSeen,
                         style: const TextStyle(
                           fontSize: 10,
                           fontWeight: FontWeight.w400,
@@ -116,84 +120,110 @@ class ChatsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: backgroundGrey,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: const Text(
-                  "Channels",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: greyText,
-                    fontSize: 16,
+    return Consumer2<ChatRoomViewModel, UserProv>(
+        builder: (context, chatVm, userProv, _) {
+      var currUser = userProv.currUser;
+
+      return Container(
+        color: backgroundGrey,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: const Text(
+                    "Channels",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: greyText,
+                      fontSize: 16,
+                    ),
                   ),
                 ),
-              ),
-              Channel(),
-              // const SizedBox(
-              //   height: 20,
-              // ),
-              // ListView.builder(
-              //   shrinkWrap: true,
-              //   itemCount: chats.length,
-              //   itemBuilder: ((context, index) {
-              //     return chats[index]["type"] == "Personal"
-              //         ? ChatCard(index: index)
-              //         : Container();
-              //   }),
-              // ),
-              // const Text(
-              //   "Personal",
-              //   style: TextStyle(
-              //     color: greyText,
-              //     fontSize: 16,
-              //   ),
-              // ),
-              // const SizedBox(
-              //   height: 20,
-              // ),
-              // ListView.builder(
-              //   shrinkWrap: true,
-              //   itemCount: chats.length,
-              //   itemBuilder: ((context, index) {
-              //     return chats[index]["type"] == "Personal"
-              //         ? ChatCard(index: index)
-              //         : Container();
-              //   }),
-              // ),
-              // const SizedBox(
-              //   height: 20,
-              // ),
-              // const Text(
-              //   "Groups",
-              //   style: TextStyle(
-              //     color: greyText,
-              //     fontSize: 16,
-              //   ),
-              // ),
-              // const SizedBox(
-              //   height: 20,
-              // ),
-              // ListView.builder(
-              //   shrinkWrap: true,
-              //   itemCount: chats.length,
-              //   itemBuilder: ((context, index) {
-              //     return chats[index]["type"] == "Group"
-              //         ? ChatCard(index: index)
-              //         : Container();
-              //   }),
-              // ),
-            ],
+                Channel(
+                  name: "Announcements",
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: const Text(
+                    "Rooms",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: greyText,
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    if (currUser.rooms != null)
+                      for (var item in currUser.rooms!) Channel(name: item)
+                  ],
+                ),
+
+                // const SizedBox(
+                //   height: 20,
+                // ),
+                // ListView.builder(
+                //   shrinkWrap: true,
+                //   itemCount: chats.length,
+                //   itemBuilder: ((context, index) {
+                //     return chats[index]["type"] == "Personal"
+                //         ? ChatCard(index: index)
+                //         : Container();
+                //   }),
+                // ),
+                // const Text(
+                //   "Personal",
+                //   style: TextStyle(
+                //     color: greyText,
+                //     fontSize: 16,
+                //   ),
+                // ),
+                // const SizedBox(
+                //   height: 20,
+                // ),
+                // ListView.builder(
+                //   shrinkWrap: true,
+                //   itemCount: chats.length,
+                //   itemBuilder: ((context, index) {
+                //     return chats[index]["type"] == "Personal"
+                //         ? ChatCard(index: index)
+                //         : Container();
+                //   }),
+                // ),
+                // const SizedBox(
+                //   height: 20,
+                // ),
+                // const Text(
+                //   "Groups",
+                //   style: TextStyle(
+                //     color: greyText,
+                //     fontSize: 16,
+                //   ),
+                // ),
+                // const SizedBox(
+                //   height: 20,
+                // ),
+                // ListView.builder(
+                //   shrinkWrap: true,
+                //   itemCount: chats.length,
+                //   itemBuilder: ((context, index) {
+                //     return chats[index]["type"] == "Group"
+                //         ? ChatCard(index: index)
+                //         : Container();
+                //   }),
+                // ),
+              ],
+            ),
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 }
