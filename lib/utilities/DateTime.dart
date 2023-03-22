@@ -19,5 +19,5 @@ String getDate(Timestamp timeStamp) {
     'November',
     'December'
   ];
-  return '${timeStamp.toDate().day} ${months[timeStamp.toDate().month]}';
+  return '${timeStamp.toDate().day} ${months[timeStamp.toDate().month - 1]}';
 }

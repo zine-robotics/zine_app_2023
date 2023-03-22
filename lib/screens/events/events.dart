@@ -57,11 +57,13 @@ class Events extends StatelessWidget {
                       height: 20,
                     ),
 
-                    events.length > 0
-                        ? EventCard(
-                            event: events[0],
-                          )
-                        : Container()
+                    for (int i = 0; i < events.length; i++)
+                      EventCard(event: events[i])
+
+                    // ? EventCard(
+                    //     event: events[0],
+                    //   )
+                    // : Container()
                     // ListView.builder(
                     //   itemCount: events.length,
                     //   itemBuilder: (BuildContext context, int index) {

@@ -8,8 +8,10 @@ class EventsRepo {
 
   dynamic getEvents() async {
     print('get events called');
-    var querySnapshot =
-        await FirebaseFirestore.instance.collection("events").get();
+    var querySnapshot = await FirebaseFirestore.instance
+        .collection("events")
+        .orderBy('timeDate', descending: false)
+        .get();
     final _docData = querySnapshot.docs.map((doc) => Events.store(doc));
     return _docData.toList();
   }

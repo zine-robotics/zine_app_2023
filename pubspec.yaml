@@ -33,6 +33,8 @@ dependencies:
   cloud_firestore: ^4.3.1
   cupertino_icons: ^1.0.2
   decorated_icon: ^1.2.1
+  expansion_card: ^0.1.0
+  expansion_tile_card: ^2.0.0
   firebase_auth: ^4.2.5
   firebase_core: ^2.4.1
   firebase_messaging: ^14.2.1

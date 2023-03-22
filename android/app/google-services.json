@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:471463933365:android:7fea32ae84e3e12e1b95fc",
+        "mobilesdk_app_id": "1:471463933365:android:7ee886a00064ecf21b95fc",
         "android_client_info": {
-          "package_name": "com.example.zineapp2023"
+          "package_name": "co.zine.zineapp2023"
         }
       },
       "oauth_client": [

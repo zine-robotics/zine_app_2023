@@ -14,13 +14,10 @@ class DashboardVm extends ChangeNotifier {
 
   get events => _events;
 
-  String getData(String param) {
-    String? data = store.getString(param);
-    return data.toString();
-  }
+
 
   void getRecentEvent() async {
-    _events = await dashRepo.getEvents();
+    _events = await dashRepo.getLatestEvents();
     // notifyListeners();
   }
 

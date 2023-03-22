@@ -20,10 +20,9 @@ class Dashboard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer2<DashboardVm, UserProv>(
         builder: (context, dashboardVm, userProv, _) {
+      dashboardVm.getRecentEvent();
       UserModel currUser = userProv.getUserInfo();
       String month = DateFormat.MMM().format(DateTime.now());
-
-      dashboardVm.getRecentEvent();
 
       return Scaffold(
         extendBody: true,
