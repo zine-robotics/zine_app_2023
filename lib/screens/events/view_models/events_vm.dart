@@ -6,11 +6,15 @@ class EventsVm extends ChangeNotifier {
   final eventRepo = EventsRepo();
   EventsVm();
   List<Events> _events = [];
+  dynamic prev = 0;
 
   get events => _events;
 
   void getAllEvents() async {
     _events = await eventRepo.getEvents();
-    notifyListeners();
+    if (_events.length!=prev){
+      notifyListeners();
+      prev = _events.length;
+    }
   }
 }

@@ -7,11 +7,11 @@ import 'package:intl/intl.dart';
 class DashRepo {
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
 
-  dynamic getLatestEvents() async {
+  Future<List<Events>> getLatestEvents() async {
     DateTime currentDate = DateTime.now();
     Timestamp formattedDate = Timestamp.fromDate(currentDate);
     print('get events called');
-    var querySnapshot = await FirebaseFirestore.instance
+    var querySnapshot = await _firebaseFirestore
         .collection("events")
         .where('timeDate', isGreaterThanOrEqualTo: formattedDate)
         .get();

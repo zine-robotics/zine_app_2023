@@ -8,12 +8,13 @@ class EventCard extends StatefulWidget {
   final Events event;
 
   const EventCard({Key? key, required this.event}) : super(key: key);
+
   @override
   _EventCardState createState() => _EventCardState();
 }
 
 class _EventCardState extends State<EventCard> {
-  final GlobalKey<ExpansionTileCardState> cardA = new GlobalKey();
+  final GlobalKey<ExpansionTileCardState> cardA = GlobalKey();
   var isExpanded = false;
 
   @override
@@ -37,13 +38,13 @@ class _EventCardState extends State<EventCard> {
         fontWeight: FontWeight.w400);
 
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
       child: ExpansionTileCard(
-          contentPadding: EdgeInsets.symmetric(horizontal: 3, vertical: 0),
+          contentPadding: const EdgeInsets.symmetric(horizontal: 3, vertical: 0),
           trailing: !isExpanded
               ? Container(
                   width: MediaQuery.of(context).size.width * 0.1,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                       color: Color.fromARGB(255, 114, 176, 242),
                       borderRadius:
                           BorderRadius.horizontal(right: Radius.circular(15))),
@@ -54,17 +55,17 @@ class _EventCardState extends State<EventCard> {
                   width: MediaQuery.of(context).size.width * 0.1,
                   decoration: BoxDecoration(
                       color: isOld
-                          ? Color.fromARGB(255, 194, 255, 244)
+                          ? const Color.fromARGB(255, 194, 255, 244)
                           : Colors.grey,
                       borderRadius:
-                          BorderRadius.horizontal(left: Radius.circular(15))),
+                          const BorderRadius.horizontal(left: Radius.circular(15))),
                 )
               : SizedBox(width: MediaQuery.of(context).size.width * 0.1),
           initialPadding: EdgeInsets.zero,
-          borderRadius: BorderRadius.all(Radius.circular(20)),
-          baseColor: Color.fromARGB(255, 255, 255, 255),
-          expandedColor: Color.fromARGB(255, 12, 113, 176),
-          onExpansionChanged: (value) => {isExpanded = value},
+          borderRadius: const BorderRadius.all(Radius.circular(20)),
+          baseColor: const Color.fromARGB(255, 255, 255, 255),
+          expandedColor: const Color.fromARGB(255, 12, 113, 176),
+          onExpansionChanged: (value) => {setState(() => isExpanded = value)},
           key: cardA,
           // leading: CircleAvatar(child: Image.asset("assets/images/devs.jpg")),
           title: Column(
@@ -77,11 +78,11 @@ class _EventCardState extends State<EventCard> {
                     fontSize: 20,
                     color: isExpanded
                         ? Colors.white
-                        : Color.fromARGB(255, 12, 113, 176),
+                        : const Color.fromARGB(255, 12, 113, 176),
                     fontWeight: FontWeight.w700),
               ),
               !isExpanded
-                  ? SizedBox(
+                  ? const SizedBox(
                       height: 10,
                     )
                   : Container(),
@@ -90,47 +91,48 @@ class _EventCardState extends State<EventCard> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Spacer(),
+                    const Spacer(),
                     Text(
                       getDate(event.timeDate as Timestamp),
                       textAlign: TextAlign.center,
                       style: textStyle3,
                     ),
-                    Spacer(),
+                    const Spacer(),
                     Text(
                       getTime(event.timeDate as Timestamp),
                       textAlign: TextAlign.center,
                       style: textStyle3,
                     ),
-                    Spacer(),
+                    const Spacer(),
                     Text(
                       event.venue.toString(),
                       textAlign: TextAlign.center,
                       style: textStyle3,
                     ),
-                    Spacer(),
+                    const Spacer(),
                   ],
                 ),
-              SizedBox(
+              const SizedBox(
                 height: 5,
               ),
             ],
           ),
-          // subtitle: Text("FLUTTER DEVELOPMENT COMPANY"),
-          children: <Widget>[
+          children: [
             Container(
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                      bottomRight: Radius.circular(20),
-                      bottomLeft: Radius.circular(20)),
-                  gradient: LinearGradient(begin: Alignment.centerLeft, stops: [
-                    0.01,
-                    0.97
-                  ], colors: [
-                    Color.fromARGB(255, 194, 255, 244),
+                borderRadius: const BorderRadius.only(
+                    bottomRight: Radius.circular(20),
+                    bottomLeft: Radius.circular(20)),
+                gradient: LinearGradient(
+                  begin: Alignment.centerLeft,
+                  stops: [0.01, 0.97],
+                  colors: [
+                    const Color.fromARGB(255, 194, 255, 244),
                     Colors.white.withOpacity(1)
-                  ])),
+                  ],
+                ),
+              ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -138,11 +140,11 @@ class _EventCardState extends State<EventCard> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Spacer(),
+                      const Spacer(),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
+                        children: const [
                           Text(
                             "DATE",
                             textAlign: TextAlign.left,
@@ -160,7 +162,7 @@ class _EventCardState extends State<EventCard> {
                           )
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 10,
                       ),
                       Column(
@@ -184,15 +186,15 @@ class _EventCardState extends State<EventCard> {
                           ),
                         ],
                       ),
-                      Spacer(),
+                      const Spacer(),
                       Container(
-                        padding: EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(10),
                         width: 150,
                         child: Text(
                           event.description.toString(),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 10,
                       )
                     ],

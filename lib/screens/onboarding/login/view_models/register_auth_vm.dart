@@ -115,6 +115,7 @@ class RegisterAuthViewModel extends ChangeNotifier {
           name: data['name'],
           dp: data['dp'],
           type: data['type'],
+          rooms:[],
           registered: data['registered']);
       postDetailsToFirestore(userModel);
 

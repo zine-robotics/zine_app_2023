@@ -13,66 +13,50 @@ class Events extends StatelessWidget {
       eventsVm.getAllEvents();
       var events = eventsVm.events;
       return Scaffold(
-          extendBody: true,
-          body: Center(
-              child: Padding(
-            padding: const EdgeInsets.fromLTRB(10, 10, 10, 5),
-            child: Container(
-                decoration: const BoxDecoration(
-                  color: backgroundGrey,
-                ),
-                height: double.infinity,
-                child: SafeArea(
-                    child: SingleChildScrollView(
-                        child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        GestureDetector(
-                          onTap: () => {Navigator.pop(context)},
-                          child: Image.asset(
-                            "assets/images/backbtn.png",
-                            height: 30,
-                            color: Colors.black,
-                          ),
-                        ),
-                        Spacer(),
-                        const Padding(
-                          padding: EdgeInsets.fromLTRB(30.0, 0, 30.0, 0),
-                          child: Text("EVENT",
-                              style: TextStyle(
-                                  height: 0.9,
-                                  letterSpacing: 0.3,
-                                  fontSize: 30.0,
-                                  fontWeight: FontWeight.w700,
-                                  color: Color.fromARGB(225, 34, 33, 33))),
-                        ),
-                        Spacer(),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-
-                    for (int i = 0; i < events.length; i++)
-                      EventCard(event: events[i])
-
-                    // ? EventCard(
-                    //     event: events[0],
-                    //   )
-                    // : Container()
-                    // ListView.builder(
-                    //   itemCount: events.length,
-                    //   itemBuilder: (BuildContext context, int index) {
-                    //     return Text("data");
-                    //   },
-                    // )
-                  ],
-                )))),
-          )));
+        extendBody: true,
+        appBar: AppBar(
+          toolbarHeight: MediaQuery.of(context).size.height*0.1,
+          elevation: 0,
+          centerTitle: true,
+          backgroundColor: backgroundGrey,
+          leading: GestureDetector(
+            onTap: () => {Navigator.pop(context)},
+            child: Image.asset(
+              "assets/images/backbtn.png",
+              height: 30,
+              color: Colors.black,
+            ),
+          ),
+          title: const Text(
+            "EVENT",
+            style: TextStyle(
+              height: 0.9,
+              letterSpacing: 0.3,
+              fontSize: 30.0,
+              fontWeight: FontWeight.w700,
+              color: Color.fromARGB(225, 34, 33, 33),
+            ),
+          ),
+        ),
+        body: Container(
+          decoration: const BoxDecoration(
+            color: backgroundGrey,
+          ),
+          height: double.infinity,
+          child: SafeArea(
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  for (int i = 0; i < events.length; i++)
+                    EventCard(event: events[i])
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
     });
   }
 }
