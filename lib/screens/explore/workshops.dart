@@ -1,54 +1,83 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:zineapp2023/common/loaderScreen.dart';
+import 'package:zineapp2023/providers/dictionary.dart';
+import 'package:zineapp2023/providers/user_info.dart';
+import 'package:zineapp2023/screens/explore/view_model/timeline_vm.dart';
+import 'package:zineapp2023/screens/explore/workshop_tile.dart';
 
 import '../../../theme/color.dart';
 import '../../components/gradient.dart';
+import '../../models/user.dart';
 
 class WorkshopScreen extends StatelessWidget {
   const WorkshopScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: backgroundGrey,
-      appBar: AppBar(
-        elevation: 0,
-        centerTitle: true,
-        toolbarHeight: MediaQuery.of(context).size.height * 0.08,
-        title: const Text(
-          "Workshop",
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 25,
-            fontWeight: FontWeight.w900,
-            letterSpacing: 1,
-          ),
-        ),
-        flexibleSpace: Container(
-          decoration: const BoxDecoration(
-              gradient: mainGrad //need to replace with made component
+    return Consumer3<Language, UserProv, TimelineVm>(
+        builder: (context, dict, userProv, timeLineVm, _) {
+      UserModel currUser = userProv.getUserInfo();
+      return timeLineVm.isLoading?Loader():Scaffold(
+          bottomNavigationBar: (currUser.registered != null &&
+                  currUser.registered as bool)
+              ? null
+              : Container(
+                  color: backgroundGrey,
+                  child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      style: ButtonStyle(
+                        padding: MaterialStateProperty.all(
+                            const EdgeInsets.all(20.0)),
+                        backgroundColor: MaterialStateProperty.all(textColor),
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(28.0),
+                          ),
+                        ),
+                      ),
+                      child: const Text(
+                        "Register",
+                        style: TextStyle(
+                            fontSize: 20.0, fontWeight: FontWeight.w400),
+                      ),
+                    ),
+                  ),
+                ),
+          backgroundColor: backgroundGrey,
+          appBar: AppBar(
+            elevation: 0,
+            centerTitle: true,
+            toolbarHeight: MediaQuery.of(context).size.height * 0.08,
+            title: const Text(
+              "Workshop",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 25,
+                fontWeight: FontWeight.w900,
+                letterSpacing: 1,
               ),
-        ),
-      ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: const [
-          Icon(
-            Icons.handyman,
-            size: 150.0,
-            color: greyText,
+            ),
+            flexibleSpace: Container(
+              decoration: const BoxDecoration(
+                  gradient: mainGrad //need to replace with made component
+                  ),
+            ),
           ),
-          SizedBox(
-            height: 40.0,
-          ),
-          Text(
-            "Coming Soon\n Stay Tuned !",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-                fontWeight: FontWeight.w900, color: greyText, fontSize: 30.0),
-          )
-        ],
-      ),
-    );
+          body: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(10),
+              child: Column(
+                children: [
+                  for (int i = 0; i < 6; i++)
+                    WorkshopTile(events: timeLineVm.listEvents[i], i: i)
+                ],
+              ),
+            ),
+          ));
+    });
   }
 }

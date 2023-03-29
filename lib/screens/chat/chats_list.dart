@@ -22,7 +22,7 @@ class Channel extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<ChatRoomViewModel>(builder: (context, chatVm, _) {
       var lastSeen = chatVm.getLastMessage(name);
-      if (lastSeen == null) lastSeen = "";
+      lastSeen ??= "";
       return Padding(
         padding: const EdgeInsets.all(5.0),
         child: GestureDetector(
@@ -133,9 +133,9 @@ class ChatsList extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: const Text(
+                const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text(
                     "Channels",
                     textAlign: TextAlign.center,
                     style: TextStyle(
@@ -144,12 +144,12 @@ class ChatsList extends StatelessWidget {
                     ),
                   ),
                 ),
-                Channel(
+                const Channel(
                   name: "Announcements",
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: const Text(
+                const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text(
                     "Rooms",
                     textAlign: TextAlign.center,
                     style: TextStyle(

@@ -56,7 +56,7 @@ class ChatRepo {
 
   dynamic getLastChat(String roomName) async {
     String? groupChatId = await getRoomId(roomName);
-    print(groupChatId.toString());
+    // print(groupChatId.toString());
     var data = await _firebaseFirestore
         .collection('rooms')
         .doc(groupChatId.toString())
@@ -65,9 +65,10 @@ class ChatRepo {
         .limit(1)
         .get();
     var lastChat;
-    print(data.docs);
-    if (data.docs != null && data.docs.length > 0)
+    // print(data.docs);
+    if (data.docs != null && data.docs.length > 0) {
       return lastChat = MessageModel.store(data.docs[0]);
+    }
     return null;
   }
 

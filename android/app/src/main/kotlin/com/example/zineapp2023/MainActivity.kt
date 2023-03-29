@@ -1,4 +1,4 @@
-package com.example.zineapp2023
+package co.zine.zineapp2023
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -38,7 +38,7 @@ class ChatRoomViewModel extends ChangeNotifier {
   void getRoomId() async {}
 
   Stream<QuerySnapshot<Object?>> getData(roomName) async* {
-    print(roomName);
+    // print(roomName);
     allData = await chatP.getChatStream(roomName);
     yield* allData;
   }
@@ -58,12 +58,18 @@ class ChatRoomViewModel extends ChangeNotifier {
     _lastChatTime = value;
   }
 
+  bool rederDate(var index)
+  {
+
+    return false;
+  }
+
   dynamic getLastMessage(String roomName) {
-    print(chatP.getLastChat(roomName));
+    // print(chatP.getLastChat(roomName));
     if (chatP.getLastChat(roomName) != null) {
       chatP.getLastChat(roomName).then((value) {
         setTimeChat(getTime(value.timeStamp!));
-        print(chatP.getLastChat(roomName));
+        // print(chatP.getLastChat(roomName));
         return getTime(value.timeStamp!);
         // notifyListeners();
       });
