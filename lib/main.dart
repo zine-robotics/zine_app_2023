@@ -63,7 +63,7 @@ class MyApp extends StatelessWidget {
       store: store,
       child: MaterialApp(
         navigatorKey: NavigationService.navigatorKey,
-        title: 'Flutter Demo',
+        title: 'Zine Robotics & Research',
         theme: ThemeData(
           fontFamily: 'Poppins',
           primarySwatch: Colors.blue,
