@@ -58,6 +58,12 @@ class ChatRoomViewModel extends ChangeNotifier {
     _lastChatTime = value;
   }
 
+  bool rederDate(var index)
+  {
+
+    return false;
+  }
+
   dynamic getLastMessage(String roomName) {
     print(chatP.getLastChat(roomName));
     if (chatP.getLastChat(roomName) != null) {

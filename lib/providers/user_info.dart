@@ -22,7 +22,7 @@ class UserProv extends ChangeNotifier {
     await fMessaging.requestPermission();
 
     await fMessaging.getToken().then((t) {
-      if (t != null) {
+      if (t != null && currUser != null) {
         currUser.pushToken = t;
         print('Push Token: $t');
         updatePushToken();

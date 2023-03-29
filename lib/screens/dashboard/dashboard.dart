@@ -326,31 +326,36 @@ class Dashboard extends StatelessWidget {
                                 color: Colors.white,
                               ),
                               alignment: Alignment.center,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: const [
-                                  Text(
-                                    "0",
-                                    style: TextStyle(
-                                        height: 0.9,
-                                        letterSpacing: 0.3,
-                                        fontSize: 30.0,
-                                        fontWeight: FontWeight.w600,
-                                        color: greyText),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  SizedBox(
-                                    height: 15,
-                                  ),
-                                  Text("Submissions",
+                              child: GestureDetector(
+                                onTap: () => {
+                                  Navigator.of(context).push(Routes.tasks())
+                                },
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: const [
+                                    Text(
+                                      "0",
                                       style: TextStyle(
                                           height: 0.9,
                                           letterSpacing: 0.3,
-                                          fontSize: 20.0,
+                                          fontSize: 30.0,
                                           fontWeight: FontWeight.w600,
-                                          color: greyText)),
-                                ],
+                                          color: greyText),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    SizedBox(
+                                      height: 15,
+                                    ),
+                                    Text("Tasks",
+                                        style: TextStyle(
+                                            height: 0.9,
+                                            letterSpacing: 0.3,
+                                            fontSize: 20.0,
+                                            fontWeight: FontWeight.w600,
+                                            color: greyText)),
+                                  ],
+                                ),
                               ),
                             ),
                             GestureDetector(
