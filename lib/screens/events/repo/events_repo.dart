@@ -7,7 +7,7 @@ class EventsRepo {
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
 
   dynamic getEvents() async {
-    print('get events called');
+    // print('get events called');
     var querySnapshot = await FirebaseFirestore.instance
         .collection("events")
         .orderBy('timeDate', descending: false)

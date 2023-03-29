@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:timelines/timelines.dart';
+import 'package:zineapp2023/common/loaderScreen.dart';
 import 'package:zineapp2023/providers/dictionary.dart';
 import 'package:zineapp2023/providers/user_info.dart';
 import 'package:zineapp2023/screens/explore/view_model/timeline_vm.dart';
+import 'package:zineapp2023/screens/explore/workshop_tile.dart';
 
 import '../../../theme/color.dart';
 import '../../components/gradient.dart';
@@ -14,10 +15,10 @@ class WorkshopScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer3<Language, UserProv,TimelineVm>(builder: (context, dict, userProv,timeLineVm, _) {
+    return Consumer3<Language, UserProv, TimelineVm>(
+        builder: (context, dict, userProv, timeLineVm, _) {
       UserModel currUser = userProv.getUserInfo();
-      timeLineVm.getStagesEvents();
-      return Scaffold(
+      return timeLineVm.isLoading?Loader():Scaffold(
           bottomNavigationBar: (currUser.registered != null &&
                   currUser.registered as bool)
               ? null
@@ -66,75 +67,17 @@ class WorkshopScreen extends StatelessWidget {
                   ),
             ),
           ),
-          body:Padding(
-            padding: EdgeInsets.all(10),
-            child: Timeline.tileBuilder(
-            shrinkWrap: true,
-            builder: TimelineTileBuilder.connected(
-              contentsAlign: ContentsAlign.alternating,
-              oppositeContentsBuilder: (context, index) => Padding(
-                padding: const EdgeInsets.symmetric(
-                    vertical: 30.0, horizontal: 10.0),
-                child: Column(
-                  crossAxisAlignment: index % 2 == 0
-                      ? CrossAxisAlignment.end
-                      : CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      dict.achievementScreen.achievement![index].title!,
-                      textAlign:
-                      index % 2 == 0 ? TextAlign.right : TextAlign.left,
-                      style: const TextStyle(
-                          color: textColor,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18.0),
-                    ),
-                    const SizedBox(
-                      height: 6.0,
-                    ),
-                    Text(
-                      dict.achievementScreen.achievement![index].date!
-                          .toUpperCase(),
-                      textAlign:
-                      index % 2 == 0 ? TextAlign.right : TextAlign.left,
-                      style: const TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 13.0),
-                    ),
-                  ],
-                ),
+          body: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(10),
+              child: Column(
+                children: [
+                  for (int i = 0; i < 6; i++)
+                    WorkshopTile(events: timeLineVm.listEvents[i], i: i)
+                ],
               ),
-              contentsBuilder: (context, index) => Padding(
-                padding: const EdgeInsets.symmetric(
-                    vertical: 25.0, horizontal: 12.0),
-                child: Text(
-                  dict.achievementScreen.achievement![index].description!,
-                  textAlign: index % 2 != 0 ? TextAlign.right : TextAlign.left,
-                  style: const TextStyle(
-                      fontWeight: FontWeight.w400, fontSize: 14.0),
-                ),
-              ),
-              connectorBuilder: (context, index, ConnectorType c) =>
-              const SolidLineConnector(
-                color: Color(0xffAAAAAA),
-              ),
-              indicatorBuilder: (context, index) => Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: CircleAvatar(
-                  backgroundColor: iconTile,
-                  radius: 25.0,
-                  // child: ImageIcon(
-                  //   AssetImage(
-                  //       "assets/images/achievements/${dict.achievementScreen.achievement![index].type}.png"),
-                  //   color: Colors.black,
-                  // ),
-                ),
-              ),
-              itemCount: timeLineVm.listEvents!.length,
             ),
-          ),) );
-
-
+          ));
     });
   }
 }

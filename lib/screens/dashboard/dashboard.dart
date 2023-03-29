@@ -11,7 +11,19 @@ import 'package:intl/intl.dart';
 import '../../common/routing.dart';
 
 class Dashboard extends StatelessWidget {
-  const Dashboard({Key? key}) : super(key: key);
+  Dashboard({Key? key}) : super(key: key);
+
+  dynamic routes =  {
+    "ALGORITHMS":"ALGO",
+    "BEE":"BEE",
+    "BME":"BME",
+    "AEROMODELLING":"AERO",
+    "IC-MCU":"IC-MCU",
+    "CYBERSECURITY":"CYBERSECURITY",
+    "WEB DEVELOPEMENT":"WEBDEV",
+    "MACHINE LEARNING":"ML"
+
+};
 
   @override
   Widget build(BuildContext context) {
@@ -285,20 +297,21 @@ class Dashboard extends StatelessWidget {
                         options: CarouselOptions(
                             height: 200.0, viewportFraction: 0.87),
                         items: [
-                          "ALGO",
+                          "ALGORITHMS",
                           "BEE",
                           "BME",
                           "AEROMODELLING",
                           "IC-MCU",
-                          "CYBERSECURITY",
-                          "WEB DEVELOPMENT"
+                          // "CYBERSECURITY",
+                          "WEB DEVELOPMENT",
+                          "MACHINE LEARNING"
                         ].map((i) {
                           return Builder(
                             builder: (BuildContext context) {
                               return GestureDetector(
                                 onTap: () {
                                   dashboardVm.launchUrl(
-                                      'https://zine.co.in/blogs/${i.toLowerCase()}');
+                                      'https://zine.co.in/blogs/${routes[i].toLowerCase()}');
                                 },
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(

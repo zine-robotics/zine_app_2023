@@ -73,7 +73,7 @@ class ChatRoom extends StatelessWidget {
                                           .timeStamp!
                                           .toDate())
                                       .toString(),
-                                  style: TextStyle(color: greyText),
+                                  style: const TextStyle(color: greyText),
                                 ),
                               ),
                             Container(
@@ -224,8 +224,8 @@ class ChatRoom extends StatelessWidget {
       builder: (context, chatVm, userProv, _) {
         var data = chatVm.getData(roomName);
         UserModel currUser = userProv.getUserInfo();
-        print(currUser.type);
-        print(chatVm.allData);
+        // print(currUser.type);
+        // print(chatVm.allData);
         // print(RoomData);
         // messageController.text = chatVm.text;
         return Scaffold(
