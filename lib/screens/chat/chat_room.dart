@@ -13,6 +13,7 @@ import '../../components/gradient.dart';
 
 class ChatRoom extends StatelessWidget {
   final roomName;
+
   ChatRoom({Key? key, required this.roomName}) : super(key: key);
 
   final TextEditingController messageController = TextEditingController();
@@ -38,7 +39,7 @@ class ChatRoom extends StatelessWidget {
                 }
               },
               child: ListView.builder(
-                padding: EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(8.0),
                 reverse: true,
                 // physics: NeverScrollableScrollPhysics(),
                 dragStartBehavior: DragStartBehavior.down,
@@ -112,13 +113,21 @@ class ChatRoom extends StatelessWidget {
                                   decoration: BoxDecoration(
                                     color: currUser.name ==
                                             chats[chats.length - index - 1].from
-                                        ? Color.fromARGB(223, 12, 146, 176)
-                                        : Color(0xdf0C72B0),
+                                        ? const Color(0xff68a5ca)
+                                        : const Color(0xff0C72B0),
                                     borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(20.0),
-                                      topRight: Radius.circular(20.0),
-                                      bottomRight: Radius.circular(20.0),
-                                    ),
+                                        topLeft: const Radius.circular(20.0),
+                                        topRight: const Radius.circular(20.0),
+                                        bottomRight: currUser.name ==
+                                                chats[chats.length - index - 1]
+                                                    .from
+                                            ? const Radius.circular(0.0)
+                                            : const Radius.circular(20.0),
+                                        bottomLeft: currUser.name ==
+                                                chats[chats.length - index - 1]
+                                                    .from
+                                            ? const Radius.circular(20.0)
+                                            : const Radius.circular(0.0)),
                                     // border: Border.all(color: greyText, width: 2.0),
                                   ),
                                   // margin: const EdgeInsets.all(8),
