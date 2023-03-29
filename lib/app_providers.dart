@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zineapp2023/screens/events/view_models/events_vm.dart';
+import 'package:zineapp2023/screens/explore/view_model/timeline_vm.dart';
 
 import './common/data_store.dart';
 import './providers/dictionary.dart';
@@ -53,6 +54,7 @@ class AppProviders extends StatelessWidget {
         ChangeNotifierProvider<DashboardVm>(
             create: (_) => DashboardVm(store: store, userProv: userProv)),
         ChangeNotifierProvider<EventsVm>(create: (_) => EventsVm()),
+        ChangeNotifierProvider<TimelineVm>(create: (_) => TimelineVm()),
         ChangeNotifierProvider<HomeVm>(create: (_) => HomeVm()),
         ChangeNotifierProvider<Language>(create: (_) => language),
         ChangeNotifierProvider<PasswordResetVm>(

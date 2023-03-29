@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:timelines/timelines.dart';
 import 'package:zineapp2023/providers/dictionary.dart';
 import 'package:zineapp2023/providers/user_info.dart';
+import 'package:zineapp2023/screens/explore/view_model/timeline_vm.dart';
 
 import '../../../theme/color.dart';
 import '../../components/gradient.dart';
@@ -13,8 +14,9 @@ class WorkshopScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer2<Language, UserProv>(builder: (context, dict, userProv, _) {
+    return Consumer3<Language, UserProv,TimelineVm>(builder: (context, dict, userProv,timeLineVm, _) {
       UserModel currUser = userProv.getUserInfo();
+      timeLineVm.getStagesEvents();
       return Scaffold(
           bottomNavigationBar: (currUser.registered != null &&
                   currUser.registered as bool)
@@ -64,7 +66,9 @@ class WorkshopScreen extends StatelessWidget {
                   ),
             ),
           ),
-          body: Timeline.tileBuilder(
+          body:Padding(
+            padding: EdgeInsets.all(10),
+            child: Timeline.tileBuilder(
             shrinkWrap: true,
             builder: TimelineTileBuilder.connected(
               contentsAlign: ContentsAlign.alternating,
@@ -80,7 +84,7 @@ class WorkshopScreen extends StatelessWidget {
                     Text(
                       dict.achievementScreen.achievement![index].title!,
                       textAlign:
-                          index % 2 == 0 ? TextAlign.right : TextAlign.left,
+                      index % 2 == 0 ? TextAlign.right : TextAlign.left,
                       style: const TextStyle(
                           color: textColor,
                           fontWeight: FontWeight.bold,
@@ -93,7 +97,7 @@ class WorkshopScreen extends StatelessWidget {
                       dict.achievementScreen.achievement![index].date!
                           .toUpperCase(),
                       textAlign:
-                          index % 2 == 0 ? TextAlign.right : TextAlign.left,
+                      index % 2 == 0 ? TextAlign.right : TextAlign.left,
                       style: const TextStyle(
                           fontWeight: FontWeight.bold, fontSize: 13.0),
                     ),
@@ -111,7 +115,7 @@ class WorkshopScreen extends StatelessWidget {
                 ),
               ),
               connectorBuilder: (context, index, ConnectorType c) =>
-                  const SolidLineConnector(
+              const SolidLineConnector(
                 color: Color(0xffAAAAAA),
               ),
               indicatorBuilder: (context, index) => Padding(
@@ -119,16 +123,18 @@ class WorkshopScreen extends StatelessWidget {
                 child: CircleAvatar(
                   backgroundColor: iconTile,
                   radius: 25.0,
-                  child: ImageIcon(
-                    AssetImage(
-                        "assets/images/achievements/${dict.achievementScreen.achievement![index].type}.png"),
-                    color: Colors.black,
-                  ),
+                  // child: ImageIcon(
+                  //   AssetImage(
+                  //       "assets/images/achievements/${dict.achievementScreen.achievement![index].type}.png"),
+                  //   color: Colors.black,
+                  // ),
                 ),
               ),
-              itemCount: dict.achievementScreen.achievement!.length,
+              itemCount: timeLineVm.listEvents!.length,
             ),
-          ));
+          ),) );
+
+
     });
   }
 }
