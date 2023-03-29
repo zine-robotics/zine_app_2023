@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:zineapp2023/api.dart';
+import 'package:zineapp2023/providers/user_info.dart';
 import '../../../models/events.dart';
 import 'package:intl/intl.dart';
 
