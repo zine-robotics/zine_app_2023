@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:zineapp2023/models/message.dart';
@@ -61,131 +62,146 @@ class ChatRoom extends StatelessWidget {
 
                   return chats[chats.length - index - 1].message!.isEmpty
                       ? Container()
-                      : Column(children: [
-                          if (showDate)
-                            Text(getDDMMYY(
-                                    chats[chats.length - index - 1].timeStamp!)
-                                .toString()),
-                          Container(
-                            alignment: currUser.name ==
-                                    chats[chats.length - index - 1].from
-                                ? Alignment.centerRight
-                                : Alignment.centerLeft,
-                            child: ListTile(
-                              horizontalTitleGap: 6,
-                              contentPadding: EdgeInsets.zero,
-                              dense: true,
-
-                              // leading: index != 0
-                              //     ? const SizedBox(
-                              //         width: 20.0,
-                              //       )
-                              //     :
-                              leading: currUser.name ==
+                      : Column(
+                          children: [
+                            if (showDate)
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  DateFormat.yMMMMd()
+                                      .format(chats[chats.length - index - 1]
+                                          .timeStamp!
+                                          .toDate())
+                                      .toString(),
+                                  style: TextStyle(color: greyText),
+                                ),
+                              ),
+                            Container(
+                              alignment: currUser.name ==
                                       chats[chats.length - index - 1].from
-                                  ? null
-                                  : CircleAvatar(
-                                      backgroundColor: const Color(0x0f2F80ED),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(3.0),
-                                        child: Image.asset(
-                                            "assets/images/zine_logo.png"),
-                                      ),
-                                    ),
-                              trailing: currUser.name !=
-                                      chats[chats.length - index - 1].from
-                                  ? null
-                                  : group
-                                      ? CircleAvatar(
-                                          backgroundColor: Colors.transparent,
-                                        )
-                                      : CircleAvatar(
-                                          backgroundColor:
-                                              const Color(0x0f2F80ED),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(3.0),
-                                            child: Image.asset(
-                                                "assets/images/zine_logo.png"),
-                                          ),
+                                  ? Alignment.centerRight
+                                  : Alignment.centerLeft,
+                              child: ListTile(
+                                horizontalTitleGap: 6,
+                                contentPadding: EdgeInsets.zero,
+                                dense: true,
+                                leading: currUser.name ==
+                                        chats[chats.length - index - 1].from
+                                    ? null
+                                    : CircleAvatar(
+                                        backgroundColor:
+                                            const Color(0x0f2F80ED),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(3.0),
+                                          child: Image.asset(
+                                              "assets/images/zine_logo.png"),
                                         ),
-                              subtitle: group
-                                  ? null
-                                  : Padding(
-                                      padding: const EdgeInsets.all(6.0),
-                                      child: Align(
-                                        alignment: currUser.name !=
+                                      ),
+
+                                // * Because Priyansh Said So :) *
+
+                                // trailing: currUser.name !=
+                                //         chats[chats.length - index - 1].from
+                                //     ? null
+                                //     : group
+                                //         ? const CircleAvatar(
+                                //             backgroundColor: Colors.transparent,
+                                //           )
+                                //         : CircleAvatar(
+                                //             backgroundColor:
+                                //                 const Color(0x0f2F80ED),
+                                //             child: Padding(
+                                //               padding: const EdgeInsets.all(3.0),
+                                //               child: Image.asset(
+                                //                   "assets/images/zine_logo.png"),
+                                //             ),
+                                //           ),
+                                subtitle: group
+                                    ? null
+                                    : Padding(
+                                        padding: const EdgeInsets.all(6.0),
+                                        child: Align(
+                                          alignment: currUser.name !=
+                                                  chats[chats.length -
+                                                          index -
+                                                          1]
+                                                      .from
+                                              ? Alignment.bottomLeft
+                                              : Alignment.bottomRight,
+                                          child: group
+                                              ? const Text("")
+                                              : Text(
+                                                  getTime(chats[chats.length -
+                                                          index -
+                                                          1]
+                                                      .timeStamp!),
+                                                  style: const TextStyle(
+                                                    fontWeight: FontWeight.w400,
+                                                    fontSize: 10.0,
+                                                    color: Color.fromARGB(
+                                                        255, 92, 20, 20),
+                                                  ),
+                                                ),
+                                        ),
+                                      ),
+                                title: Wrap(
+                                  crossAxisAlignment: WrapCrossAlignment.end,
+                                  alignment: currUser.name ==
+                                          chats[chats.length - index - 1].from
+                                      ? WrapAlignment.end
+                                      : WrapAlignment.start,
+                                  direction: Axis.horizontal,
+                                  children: [
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        color: currUser.name ==
                                                 chats[chats.length - index - 1]
                                                     .from
-                                            ? Alignment.bottomLeft
-                                            : Alignment.bottomRight,
-                                        child: group
-                                            ? Text("")
-                                            : Text(
-                                                getTime(chats[chats.length -
-                                                        index -
-                                                        1]
-                                                    .timeStamp!),
-                                                style: const TextStyle(
-                                                  fontWeight: FontWeight.w400,
-                                                  fontSize: 10.0,
-                                                  color: Color.fromARGB(
-                                                      255, 92, 20, 20),
-                                                ),
-                                              ),
+                                            ? const Color(0xff68a5ca)
+                                            : const Color(0xff0C72B0),
+                                        borderRadius: BorderRadius.only(
+                                            topLeft:
+                                                const Radius.circular(20.0),
+                                            topRight:
+                                                const Radius.circular(20.0),
+                                            bottomRight: currUser.name ==
+                                                    chats[chats.length -
+                                                            index -
+                                                            1]
+                                                        .from
+                                                ? const Radius.circular(0.0)
+                                                : const Radius.circular(20.0),
+                                            bottomLeft: currUser.name ==
+                                                    chats[chats.length -
+                                                            index -
+                                                            1]
+                                                        .from
+                                                ? const Radius.circular(20.0)
+                                                : const Radius.circular(0.0)),
+                                        // border: Border.all(color: greyText, width: 2.0),
                                       ),
-                                    ),
-                              title: Wrap(
-                                crossAxisAlignment: WrapCrossAlignment.end,
-                                alignment: WrapAlignment.end,
-                                direction: Axis.horizontal,
-                                children: [
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      color: currUser.name ==
-                                              chats[chats.length - index - 1]
-                                                  .from
-                                          ? const Color(0xff68a5ca)
-                                          : const Color(0xff0C72B0),
-                                      borderRadius: BorderRadius.only(
-                                          topLeft: const Radius.circular(20.0),
-                                          topRight: const Radius.circular(20.0),
-                                          bottomRight: currUser.name ==
-                                                  chats[chats.length -
-                                                          index -
-                                                          1]
-                                                      .from
-                                              ? const Radius.circular(0.0)
-                                              : const Radius.circular(20.0),
-                                          bottomLeft: currUser.name ==
-                                                  chats[chats.length -
-                                                          index -
-                                                          1]
-                                                      .from
-                                              ? const Radius.circular(20.0)
-                                              : const Radius.circular(0.0)),
-                                      // border: Border.all(color: greyText, width: 2.0),
-                                    ),
-                                    // margin: const EdgeInsets.all(8),
-                                    padding: const EdgeInsets.all(4),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(10.0),
-                                      child: Text(
-                                        chats[chats.length - index - 1]
-                                            .message
-                                            .toString(),
-                                        style: const TextStyle(
-                                          fontWeight: FontWeight.w400,
-                                          fontSize: 18.0,
-                                          color: Colors.white,
+                                      // margin: const EdgeInsets.all(8),
+                                      padding: const EdgeInsets.all(4),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(10.0),
+                                        child: Text(
+                                          chats[chats.length - index - 1]
+                                              .message
+                                              .toString(),
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.w400,
+                                            fontSize: 18.0,
+                                            color: Colors.white,
+                                          ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                        ]);
+                          ],
+                        );
                 },
               ),
             ),

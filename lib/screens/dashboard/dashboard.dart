@@ -85,16 +85,19 @@ class Dashboard extends StatelessWidget {
                       const SizedBox(
                         height: 40.0,
                       ),
-                      const Padding(
-                        padding: EdgeInsets.fromLTRB(30.0, 0, 30.0, 0),
-                        child: Text("EVENT",
-                            style: TextStyle(
-                                height: 0.9,
-                                letterSpacing: 0.3,
-                                fontSize: 20.0,
-                                fontWeight: FontWeight.w700,
-                                color: greyText)),
-                      ),
+
+                      // * Priyansh ko Gaaliya :) *
+
+                      // const Padding(
+                      //   padding: EdgeInsets.fromLTRB(30.0, 0, 30.0, 0),
+                      //   child: Text("EVENTS",
+                      //       style: TextStyle(
+                      //           height: 0.9,
+                      //           letterSpacing: 0.3,
+                      //           fontSize: 20.0,
+                      //           fontWeight: FontWeight.w700,
+                      //           color: greyText)),
+                      // ),
                       const SizedBox(
                         height: 15,
                       ),
@@ -115,11 +118,31 @@ class Dashboard extends StatelessWidget {
                                 ),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.stretch,
                                   // ignore: prefer_const_literals_to_create_immutables
                                   children: <Widget>[
-                                    const SizedBox(
-                                      height: 15,
+                                    Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          0, 0, 25, 0),
+                                      child: Text(
+                                        10 <= DateTime.now().day &&
+                                                DateTime.now().day <= 20
+                                            ? "TH"
+                                            : DateTime.now().day % 10 == 1
+                                                ? "ST"
+                                                : DateTime.now().day % 10 == 2
+                                                    ? "ND"
+                                                    : DateTime.now().day % 10 ==
+                                                            3
+                                                        ? "RD"
+                                                        : "TH",
+                                        textAlign: TextAlign.right,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18.0,
+                                            color: Color(0xff0C72B0)),
+                                      ),
                                     ),
                                     Text(
                                       DateTime.now().day.toString(),
@@ -132,13 +155,13 @@ class Dashboard extends StatelessWidget {
                                       textAlign: TextAlign.center,
                                     ),
                                     Text(
-                                      month,
+                                      month.toUpperCase(),
                                       style: TextStyle(
                                           fontSize: MediaQuery.of(context)
                                                   .textScaleFactor *
                                               25,
                                           fontWeight: FontWeight.w700,
-                                          color: const Color(0xff0C72B0)),
+                                          color: const Color(0xffa3d0ec)),
                                       textAlign: TextAlign.center,
                                     ),
                                   ],
