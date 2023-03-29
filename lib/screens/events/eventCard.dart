@@ -28,7 +28,9 @@ class _EventCardState extends State<EventCard> {
             : true;
     var textStyleC = TextStyle(
         fontSize: 15,
-        color: !isOld ? Color.fromARGB(255, 12, 113, 176) : Color.fromARGB(255, 147, 146, 146),
+        color: !isOld
+            ? const Color.fromARGB(255, 12, 113, 176)
+            : const Color.fromARGB(255, 147, 146, 146),
         fontWeight: FontWeight.w700);
     const textStyleC2 = TextStyle(
         fontSize: 15,
@@ -200,9 +202,6 @@ class _EventCardState extends State<EventCard> {
                           event.description.toString(),
                         ),
                       ),
-                      const SizedBox(
-                        width: 10,
-                      )
                     ],
                   )
                 ],
