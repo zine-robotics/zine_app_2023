@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:zineapp2023/common/loaderScreen.dart';
 import 'package:zineapp2023/providers/dictionary.dart';
 import 'package:zineapp2023/providers/user_info.dart';
+import 'package:zineapp2023/screens/dashboard/view_models/dashboard_vm.dart';
 import 'package:zineapp2023/screens/explore/view_model/timeline_vm.dart';
 import 'package:zineapp2023/screens/explore/workshop_tile.dart';
 
@@ -15,69 +16,75 @@ class WorkshopScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer3<Language, UserProv, TimelineVm>(
-        builder: (context, dict, userProv, timeLineVm, _) {
+    return Consumer4<Language, UserProv, TimelineVm, DashboardVm>(
+        builder: (context, dict, userProv, timeLineVm, dashVm, _) {
       UserModel currUser = userProv.getUserInfo();
-      return timeLineVm.isLoading?Loader():Scaffold(
-          bottomNavigationBar: (currUser.registered != null &&
-                  currUser.registered as bool)
-              ? null
-              : Container(
-                  color: backgroundGrey,
-                  child: Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      style: ButtonStyle(
-                        padding: MaterialStateProperty.all(
-                            const EdgeInsets.all(20.0)),
-                        backgroundColor: MaterialStateProperty.all(textColor),
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(28.0),
+      return timeLineVm.isLoading
+          ? const Loader()
+          : Scaffold(
+              bottomNavigationBar:
+                  (currUser.registered != null && currUser.registered as bool)
+                      ? null
+                      : Container(
+                          color: backgroundGrey,
+                          child: Padding(
+                            padding: const EdgeInsets.all(20.0),
+                            child: ElevatedButton(
+                              onPressed: () {
+                                dashVm.launchUrl("https://zine.co.in/workshops/registration");
+                              },
+                              style: ButtonStyle(
+                                padding: MaterialStateProperty.all(
+                                    const EdgeInsets.all(20.0)),
+                                backgroundColor:
+                                    MaterialStateProperty.all(textColor),
+                                shape: MaterialStateProperty.all<
+                                    RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(28.0),
+                                  ),
+                                ),
+                              ),
+                              child: const Text(
+                                "Register",
+                                style: TextStyle(
+                                    fontSize: 20.0,
+                                    fontWeight: FontWeight.w400),
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                      child: const Text(
-                        "Register",
-                        style: TextStyle(
-                            fontSize: 20.0, fontWeight: FontWeight.w400),
-                      ),
-                    ),
+              backgroundColor: backgroundGrey,
+              appBar: AppBar(
+                elevation: 0,
+                centerTitle: true,
+                toolbarHeight: MediaQuery.of(context).size.height * 0.08,
+                title: const Text(
+                  "Recruitment",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 25,
+                    fontWeight: FontWeight.w900,
+                    letterSpacing: 1,
                   ),
                 ),
-          backgroundColor: backgroundGrey,
-          appBar: AppBar(
-            elevation: 0,
-            centerTitle: true,
-            toolbarHeight: MediaQuery.of(context).size.height * 0.08,
-            title: const Text(
-              "Workshop",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 25,
-                fontWeight: FontWeight.w900,
-                letterSpacing: 1,
+                flexibleSpace: Container(
+                  decoration: const BoxDecoration(
+                      gradient: mainGrad //need to replace with made component
+                      ),
+                ),
               ),
-            ),
-            flexibleSpace: Container(
-              decoration: const BoxDecoration(
-                  gradient: mainGrad //need to replace with made component
+              body: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: Column(
+                    children: [
+                      for (int i = 0; i < 6; i++)
+                        WorkshopTile(events: timeLineVm.listEvents[i], i: i)
+                    ],
                   ),
-            ),
-          ),
-          body: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(10),
-              child: Column(
-                children: [
-                  for (int i = 0; i < 6; i++)
-                    WorkshopTile(events: timeLineVm.listEvents[i], i: i)
-                ],
-              ),
-            ),
-          ));
+                ),
+              ));
     });
   }
 }

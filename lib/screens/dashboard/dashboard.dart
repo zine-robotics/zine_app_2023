@@ -20,7 +20,7 @@ class Dashboard extends StatelessWidget {
     "AEROMODELLING":"AERO",
     "IC-MCU":"IC-MCU",
     "CYBERSECURITY":"CYBERSECURITY",
-    "WEB DEVELOPEMENT":"WEBDEV",
+    "WEB DEVELOPMENT":"WEBDEV",
     "MACHINE LEARNING":"ML"
 
 };
@@ -251,12 +251,11 @@ class Dashboard extends StatelessWidget {
                                                   MainAxisAlignment.center,
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.center,
-                                              // ignore: prefer_const_literals_to_create_immutables
-                                              children: <Widget>[
+                                              children: [
                                                 Text(
                                                   dashboardVm.events.length > 0
-                                                      ? getDate(dashboardVm
-                                                          .events[0]!.timeDate)
+                                                      ? DateFormat.MMMMd().format(dashboardVm
+                                                      .events[0]!.timeDate.toDate())
                                                       : "Date",
                                                   style: const TextStyle(
                                                       fontSize: 18.0,
@@ -271,10 +270,10 @@ class Dashboard extends StatelessWidget {
                                                 ),
                                                 Text(
                                                   dashboardVm.events.length > 0
-                                                      ? '${getTime(dashboardVm.events[0]!.timeDate)}\n ${dashboardVm.events[0]!.venue}'
+                                                      ? '${DateFormat.jm().format(dashboardVm.events[0]!.timeDate.toDate())}\n ${dashboardVm.events[0]!.venue}'
                                                       : "Venue",
                                                   style: const TextStyle(
-                                                      fontSize: 23.0,
+                                                      fontSize: 18.0,
                                                       fontWeight:
                                                           FontWeight.w700,
                                                       color: Color.fromARGB(

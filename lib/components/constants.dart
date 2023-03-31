@@ -15,7 +15,7 @@ const exploreCards = [
     "image": "assets/images/explore/projects.png"
   },
   {
-    "name": "Workshops",
+    "name": "Recruitment",
     "route": "workshop",
     "image": "assets/images/explore/workshops.png"
   },

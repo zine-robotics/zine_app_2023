@@ -11,13 +11,13 @@ class WorkshopTile extends StatelessWidget {
   var name = {
     "Aptitute Test": "Aptitude Test",
     "Workshops": [
-      "bme",
-      "bee",
-      "ic mcu",
-      "aeromodelling",
-      "cyber security",
-      "machine learning",
-      "algorithms"
+      {"BME":"bme"},
+      {"BEE":"bee"},
+      {"ic mcu"},
+      {"aeromodelling"},
+      {"cyber security"},
+      {"machine learning"},
+      {"algorithms"}
     ],
     "Projects": "Projects",
     "Technical Screening": "Technical Screening",
@@ -139,7 +139,7 @@ class WorkshopTile extends StatelessWidget {
                 radius: 25.0,
                 child: ImageIcon(
                   AssetImage(
-                      "assets/images/timeline/${i == 1 ? image[1][index].toString().toLowerCase() : image[i].toString().toLowerCase()}.png"),
+                      "assets/images/timeline/${i == 1 ? events[index].name!.toLowerCase() : image[i].toString().toLowerCase()}.png"),
                   color: Colors.black,
                 ),
               ),
