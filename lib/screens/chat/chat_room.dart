@@ -131,10 +131,7 @@ class ChatRoom extends StatelessWidget {
                                           child: group
                                               ? const Text("")
                                               : Text(
-                                                  getTime(chats[chats.length -
-                                                          index -
-                                                          1]
-                                                      .timeStamp!),
+                                                  "${chats[chats.length - index - 1].from}     ${getTime(chats[chats.length - index - 1].timeStamp!)}",
                                                   style: const TextStyle(
                                                     fontWeight: FontWeight.w400,
                                                     fontSize: 10.0,
