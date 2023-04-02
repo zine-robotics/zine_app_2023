@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
+import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:zineapp2023/models/message.dart';
 import 'package:zineapp2023/models/user.dart';
 import 'package:zineapp2023/providers/user_info.dart';
 import 'package:zineapp2023/screens/chat/view_model/chat_room_view_model.dart';
+import 'package:zineapp2023/screens/dashboard/repo/dash_repo.dart';
+import 'package:zineapp2023/screens/dashboard/view_models/dashboard_vm.dart';
 import 'package:zineapp2023/theme/color.dart';
 import '../../utilities/DateTime.dart';
 
@@ -18,7 +21,7 @@ class ChatRoom extends StatelessWidget {
 
   final TextEditingController messageController = TextEditingController();
 
-  Widget ChatV(var data, var currUser, BuildContext context) {
+  Widget ChatV(var data, var currUser, var dashVm, BuildContext context) {
     // print(data);
 
     return StreamBuilder<QuerySnapshot>(
@@ -169,14 +172,21 @@ class ChatRoom extends StatelessWidget {
                                     padding: const EdgeInsets.all(4),
                                     child: Padding(
                                       padding: const EdgeInsets.all(10.0),
-                                      child: Text(
-                                        chats[chats.length - index - 1]
+                                      child: SelectableLinkify(
+                                        text: chats[chats.length - index - 1]
                                             .message
                                             .toString(),
                                         style: const TextStyle(
                                           fontWeight: FontWeight.w400,
                                           fontSize: 18.0,
                                           color: Colors.white,
+                                        ),
+                                        onOpen: (link) =>
+                                            dashVm.launchUrl(link.url),
+                                        linkStyle: const TextStyle(
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 18.0,
+                                          color: Colors.white70,
                                         ),
                                       ),
                                     ),
@@ -204,8 +214,8 @@ class ChatRoom extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer2<ChatRoomViewModel, UserProv>(
-      builder: (context, chatVm, userProv, _) {
+    return Consumer3<ChatRoomViewModel, DashboardVm, UserProv>(
+      builder: (context, chatVm, dashVm, userProv, _) {
         var data = chatVm.getData(roomName);
         UserModel currUser = userProv.getUserInfo();
         print(currUser.type);
@@ -246,14 +256,14 @@ class ChatRoom extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  ChatV(data, currUser, context),
+                  ChatV(data, currUser, dashVm, context),
                   currUser.type == 'user' && roomName == "Announcements"
                       ? Container()
                       : Align(
                           alignment: Alignment.bottomLeft,
                           child: Container(
-                            padding: const EdgeInsets.all(5),
-                            height: 60,
+                            padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
+                            // height: 60,
                             width: double.infinity,
                             decoration: BoxDecoration(
                               borderRadius:
@@ -268,7 +278,8 @@ class ChatRoom extends StatelessWidget {
                                 Expanded(
                                   child: TextField(
                                     keyboardType: TextInputType.multiline,
-                                    maxLines: null,
+                                    maxLines: 3,
+                                    minLines: 1,
                                     controller: messageController,
                                     onChanged: (value) => chatVm.setText(value),
                                     decoration: const InputDecoration(
