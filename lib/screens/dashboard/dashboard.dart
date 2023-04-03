@@ -13,17 +13,16 @@ import '../../common/routing.dart';
 class Dashboard extends StatelessWidget {
   Dashboard({Key? key}) : super(key: key);
 
-  dynamic routes =  {
-    "ALGORITHMS":"ALGO",
-    "BEE":"BEE",
-    "BME":"BME",
-    "AEROMODELLING":"AERO",
-    "IC-MCU":"IC-MCU",
-    "CYBERSECURITY":"CYBERSECURITY",
-    "WEB DEVELOPMENT":"WEBDEV",
-    "MACHINE LEARNING":"ML"
-
-};
+  dynamic routes = {
+    "ALGORITHMS": "ALGO",
+    "BEE": "BEE",
+    "BME": "BME",
+    "AEROMODELLING": "AERO",
+    "IC-MCU": "IC-MCU",
+    "CYBERSECURITY": "CYBERSECURITY",
+    "WEB DEVELOPMENT": "WEBDEV",
+    "MACHINE LEARNING": "ML"
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -152,7 +151,9 @@ class Dashboard extends StatelessWidget {
                                         textAlign: TextAlign.right,
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
-                                            fontSize: 18.0,
+                                            fontSize: MediaQuery.of(context)
+                                                .textScaleFactor *
+                                                18,
                                             color: Color(0xff0C72B0)),
                                       ),
                                     ),
@@ -191,99 +192,99 @@ class Dashboard extends StatelessWidget {
                                   Navigator.of(context).push(Routes.Event())
                                 },
                                 child: Container(
-                                    height: 200,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(24.0),
-                                      color: const Color.fromARGB(
-                                          255, 255, 255, 255),
-                                    ),
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: <Widget>[
-                                        const SizedBox(
-                                          height: 15,
-                                        ),
-                                        dashboardVm.events.length != 0
-                                            ? Text(
-                                                dashboardVm.events[0].eventType,
-                                                style: const TextStyle(
-                                                    height: 0.9,
-                                                    letterSpacing: 0.3,
-                                                    fontSize: 14.0,
-                                                    fontWeight: FontWeight.w300,
-                                                    color: Color(0xff646464)))
-                                            : Container(),
-                                        const SizedBox(
-                                          height: 10,
-                                        ),
-                                        dashboardVm.events.length != 0
-                                            ? Text(
-                                                dashboardVm.events[0]!.name,
-                                                style: const TextStyle(
-                                                    fontSize: 16.0,
-                                                    fontWeight: FontWeight.w700,
-                                                    color: Color(0xff0C72B0)),
-                                                textAlign: TextAlign.center,
-                                              )
-                                            : Container(),
-                                        // const SizedBox(
-                                        //   height: 0,
-                                        // ),
-                                        Container(
-                                            margin: const EdgeInsets.all(10),
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width /
+                                  height: 200,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(24.0),
+                                    color: const Color.fromARGB(
+                                        255, 255, 255, 255),
+                                  ),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: <Widget>[
+                                      const SizedBox(
+                                        height: 15,
+                                      ),
+                                      dashboardVm.events.length != 0
+                                          ? Text(
+                                              dashboardVm.events[0].eventType,
+                                              style: const TextStyle(
+                                                  height: 0.9,
+                                                  letterSpacing: 0.3,
+                                                  fontSize: 14.0,
+                                                  fontWeight: FontWeight.w300,
+                                                  color: Color(0xff646464)))
+                                          : Container(),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      dashboardVm.events.length != 0
+                                          ? Text(
+                                              dashboardVm.events[0]!.name,
+                                              style: const TextStyle(
+                                                  fontSize: 16.0,
+                                                  fontWeight: FontWeight.w700,
+                                                  color: Color(0xff0C72B0)),
+                                              textAlign: TextAlign.center,
+                                            )
+                                          : Container(),
+                                      // const SizedBox(
+                                      //   height: 0,
+                                      // ),
+                                      Container(
+                                        margin: const EdgeInsets.all(10),
+                                        width:
+                                            MediaQuery.of(context).size.width /
                                                 2.3,
-                                            height: 110,
-                                            decoration: const BoxDecoration(
-                                              borderRadius: BorderRadius.only(
-                                                  bottomLeft:
-                                                      Radius.circular(24.0),
-                                                  bottomRight:
-                                                      Radius.circular(24.0)),
-                                              color: Color(0xff0C72B0),
+                                        height: 110,
+                                        decoration: const BoxDecoration(
+                                          borderRadius: BorderRadius.only(
+                                              bottomLeft: Radius.circular(24.0),
+                                              bottomRight:
+                                                  Radius.circular(24.0)),
+                                          color: Color(0xff0C72B0),
+                                        ),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              dashboardVm.events.length > 0
+                                                  ? DateFormat.MMMMd().format(
+                                                      dashboardVm
+                                                          .events[0]!.timeDate
+                                                          .toDate())
+                                                  : "Date",
+                                              style: const TextStyle(
+                                                  fontSize: 18.0,
+                                                  fontWeight: FontWeight.w700,
+                                                  color: Color.fromARGB(
+                                                      200, 255, 255, 255)),
+                                              textAlign: TextAlign.center,
                                             ),
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: [
-                                                Text(
-                                                  dashboardVm.events.length > 0
-                                                      ? DateFormat.MMMMd().format(dashboardVm
-                                                      .events[0]!.timeDate.toDate())
-                                                      : "Date",
-                                                  style: const TextStyle(
-                                                      fontSize: 18.0,
-                                                      fontWeight:
-                                                          FontWeight.w700,
-                                                      color: Color.fromARGB(
-                                                          200, 255, 255, 255)),
-                                                  textAlign: TextAlign.center,
-                                                ),
-                                                const SizedBox(
-                                                  height: 10,
-                                                ),
-                                                Text(
-                                                  dashboardVm.events.length > 0
-                                                      ? '${DateFormat.jm().format(dashboardVm.events[0]!.timeDate.toDate())}\n ${dashboardVm.events[0]!.venue}'
-                                                      : "Venue",
-                                                  style: const TextStyle(
-                                                      fontSize: 18.0,
-                                                      fontWeight:
-                                                          FontWeight.w700,
-                                                      color: Color.fromARGB(
-                                                          255, 255, 255, 255)),
-                                                  textAlign: TextAlign.center,
-                                                ),
-                                              ],
-                                            )),
-                                      ],
-                                    )),
+                                            const SizedBox(
+                                              height: 10,
+                                            ),
+                                            Text(
+                                              dashboardVm.events.length > 0
+                                                  ? '${DateFormat.jm().format(dashboardVm.events[0]!.timeDate.toDate())}\n ${dashboardVm.events[0]!.venue}'
+                                                  : "Venue",
+                                              style: const TextStyle(
+                                                  fontSize: 18.0,
+                                                  fontWeight: FontWeight.w700,
+                                                  color: Color.fromARGB(
+                                                      255, 255, 255, 255)),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
                               ),
                             ),
                           ],
@@ -304,46 +305,49 @@ class Dashboard extends StatelessWidget {
                           // "CYBERSECURITY",
                           "WEB DEVELOPMENT",
                           "MACHINE LEARNING"
-                        ].map((i) {
-                          return Builder(
-                            builder: (BuildContext context) {
-                              return GestureDetector(
-                                onTap: () {
-                                  dashboardVm.launchUrl(
-                                      'https://zine.co.in/blogs/${routes[i].toLowerCase()}');
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 5.5, vertical: 10),
-                                  child: Container(
-                                    width: MediaQuery.of(context).size.width,
-                                    height: 200.0,
-                                    decoration: BoxDecoration(
-                                      image: const DecorationImage(
-                                          image: AssetImage(
-                                              "assets/images/blog_card.png")),
-                                      borderRadius: BorderRadius.circular(24.0),
-                                      color: const Color.fromARGB(
-                                          255, 255, 255, 255),
-                                    ),
-                                    child: Center(
-                                      child: Text(
-                                        i,
-                                        style: const TextStyle(
-                                            height: 0.9,
-                                            letterSpacing: 0.3,
-                                            fontSize: 25.0,
-                                            fontWeight: FontWeight.w600,
-                                            color: textColor),
-                                        textAlign: TextAlign.center,
+                        ].map(
+                          (i) {
+                            return Builder(
+                              builder: (BuildContext context) {
+                                return GestureDetector(
+                                  onTap: () {
+                                    dashboardVm.launchUrl(
+                                        'https://zine.co.in/blogs/${routes[i].toLowerCase()}');
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 5.5, vertical: 10),
+                                    child: Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      height: 200.0,
+                                      decoration: BoxDecoration(
+                                        image: const DecorationImage(
+                                            image: AssetImage(
+                                                "assets/images/blog_card.png")),
+                                        borderRadius:
+                                            BorderRadius.circular(24.0),
+                                        color: const Color.fromARGB(
+                                            255, 255, 255, 255),
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          i,
+                                          style: const TextStyle(
+                                              height: 0.9,
+                                              letterSpacing: 0.3,
+                                              fontSize: 25.0,
+                                              fontWeight: FontWeight.w600,
+                                              color: textColor),
+                                          textAlign: TextAlign.center,
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
-                              );
-                            },
-                          );
-                        }).toList(),
+                                );
+                              },
+                            );
+                          },
+                        ).toList(),
                       ),
                       const SizedBox(
                         height: 10,
