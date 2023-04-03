@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
+import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:zineapp2023/common/loaderScreen.dart';
 import 'package:zineapp2023/models/message.dart';
 import 'package:zineapp2023/models/user.dart';
 import 'package:zineapp2023/providers/user_info.dart';
 import 'package:zineapp2023/screens/chat/view_model/chat_room_view_model.dart';
+import 'package:zineapp2023/screens/dashboard/view_models/dashboard_vm.dart';
 import 'package:zineapp2023/theme/color.dart';
 import '../../utilities/DateTime.dart';
 
@@ -15,13 +18,11 @@ import '../../components/gradient.dart';
 class ChatRoom extends StatelessWidget {
   final roomName;
 
-  ChatRoom({Key? key, required this.roomName}) : super(key: key);
+  ChatRoom({required this.roomName, Key? key}) : super(key: key);
 
   final TextEditingController messageController = TextEditingController();
 
-  Widget ChatV(var data, var currUser, BuildContext context) {
-    // print(data);
-
+  Widget chatV(var data, var currUser, var dashVm, BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
       stream: data,
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -181,8 +182,8 @@ class ChatRoom extends StatelessWidget {
                                       padding: const EdgeInsets.all(4),
                                       child: Padding(
                                         padding: const EdgeInsets.all(10.0),
-                                        child: Text(
-                                          chats[chats.length - index - 1]
+                                        child: SelectableLinkify(
+                                          text: chats[chats.length - index - 1]
                                               .message
                                               .toString(),
                                           style: const TextStyle(
@@ -190,9 +191,16 @@ class ChatRoom extends StatelessWidget {
                                             fontSize: 18.0,
                                             color: Colors.white,
                                           ),
+                                          onOpen: (link) =>
+                                              dashVm.launchUrl(link.url),
+                                          linkStyle: const TextStyle(
+                                            fontWeight: FontWeight.w400,
+                                            fontSize: 18.0,
+                                            color: Colors.white70,
+                                          ),
                                         ),
                                       ),
-                                    ),
+                                    )
                                   ],
                                 ),
                               ),
@@ -206,25 +214,19 @@ class ChatRoom extends StatelessWidget {
         } else if (snapshot.hasError) {
           return Center(child: Text('$snapshot.error'));
         } else {
-          return const SizedBox();
+          return const Expanded(child: Loader());
         }
-
-        // print(chats);
-        // print(MessageModel.store());
       },
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer2<ChatRoomViewModel, UserProv>(
-      builder: (context, chatVm, userProv, _) {
+    return Consumer3<ChatRoomViewModel, DashboardVm, UserProv>(
+      builder: (context, chatVm, dashVm, userProv, _) {
         var data = chatVm.getData(roomName);
         UserModel currUser = userProv.getUserInfo();
-        // print(currUser.type);
-        // print(chatVm.allData);
-        // print(RoomData);
-        // messageController.text = chatVm.text;
+
         return Scaffold(
           backgroundColor: backgroundGrey,
           appBar: AppBar(
@@ -251,7 +253,6 @@ class ChatRoom extends StatelessWidget {
               borderRadius: BorderRadius.vertical(
                 top: Radius.circular(15.0),
               ),
-              // border: Border.all(color: greyText, width: 2.0),
             ),
             child: Padding(
               padding: const EdgeInsets.all(10.0),
@@ -259,14 +260,13 @@ class ChatRoom extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  ChatV(data, currUser, context),
+                  chatV(data, currUser, dashVm, context),
                   currUser.type == 'user' && roomName == "Announcements"
                       ? Container()
                       : Align(
                           alignment: Alignment.bottomLeft,
                           child: Container(
-                            padding: const EdgeInsets.all(5),
-                            height: 60,
+                            padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
                             width: double.infinity,
                             decoration: BoxDecoration(
                               borderRadius:
@@ -281,7 +281,8 @@ class ChatRoom extends StatelessWidget {
                                 Expanded(
                                   child: TextField(
                                     keyboardType: TextInputType.multiline,
-                                    maxLines: null,
+                                    maxLines: 3,
+                                    minLines: 1,
                                     controller: messageController,
                                     onChanged: (value) => chatVm.setText(value),
                                     decoration: const InputDecoration(
