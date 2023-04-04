@@ -15,7 +15,7 @@ class Events extends StatelessWidget {
       return Scaffold(
         extendBody: true,
         appBar: AppBar(
-          toolbarHeight: MediaQuery.of(context).size.height*0.1,
+          toolbarHeight: MediaQuery.of(context).size.height * 0.1,
           elevation: 0,
           centerTitle: true,
           backgroundColor: backgroundGrey,

@@ -6,35 +6,37 @@ import 'package:zineapp2023/screens/events/repo/events_repo.dart';
 class TimelineVm extends ChangeNotifier {
   final EventsRepo eventRepo = EventsRepo();
   List<dynamic> listEvents = [];
-  var prev=0;
-  void getStagesEvents() async {
-    print("called");
-    List<dynamic> list = await eventRepo.getEvents();
-    listEvents=[];
-    for (int i = 1; i <= 6; i++) {
+  bool isLoading = false;
+  var prev = 0;
 
-      List<dynamic>? subList = list.where((element) => element.stage == i)
-          .toList();
+  void setLoading(bool value) {
+    isLoading = value;
+    notifyListeners();
+  }
+
+  void getStagesEvents() async {
+    // print("called");
+    setLoading(true);
+    List<dynamic> list = await eventRepo.getEvents();
+    setLoading(false);
+    listEvents = [];
+    for (int i = 1; i <= 6; i++) {
+      List<dynamic>? subList =
+          list.where((element) => element.stage == i).toList();
       if (subList != null) {
         listEvents.add(subList);
         // if(listEvents[i].length>0)
         // {
         //   print(listEvents[i][0].name);
         // }
-      }
-      else {
+      } else {
         listEvents.add([]);
       }
     }
-    print(listEvents);
-    if(prev!=listEvents.length) {
-      prev=listEvents.length;
+    // print(listEvents);
+    if (prev != listEvents.length) {
+      prev = listEvents.length;
       notifyListeners();
     }
-      }
-
-
+  }
 }
-
-
-

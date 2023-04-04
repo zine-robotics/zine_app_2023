@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import '/common/data_store.dart';
 import '../../../models/user.dart';
@@ -36,11 +37,11 @@ class AuthRepo {
 
 
     //TODO - Uncomment before Release
-    // if(!credential.user!.emailVerified){
-    //   signOut();
-    //   print("User Logged out");
-    //   throw FirebaseAuthException(code: 'unverified-email');
-    // }
+    if(!credential.user!.emailVerified){
+      signOut();
+      print("User Logged out");
+      throw FirebaseAuthException(code: 'unverified-email');
+    }
 
     return _userFromFirebase(user: credential.user);
   }
@@ -81,7 +82,7 @@ class AuthRepo {
     );
 
     // TODO : Uncomment before release
-    // credential.user!.sendEmailVerification();
+    credential.user!.sendEmailVerification();
 
     return UserModel(
       uid: credential.user!.uid,
