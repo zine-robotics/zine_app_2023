@@ -226,6 +226,8 @@ class ChatRoom extends StatelessWidget {
       builder: (context, chatVm, dashVm, userProv, _) {
         var data = chatVm.getData(roomName);
         UserModel currUser = userProv.getUserInfo();
+        chatVm.addRouteListener(
+            context, roomName, userProv.currUser.email.toString(), userProv);
 
         return Scaffold(
           backgroundColor: backgroundGrey,

@@ -47,6 +47,7 @@ class ChatRepo {
             .collection('rooms')
             .doc(groupChatId)
             .collection('messages')
+            .orderBy('timeStamp')
             .snapshots();
       } else {
         throw Exception('No matching documents');
@@ -64,12 +65,11 @@ class ChatRepo {
         .orderBy('timeStamp', descending: true)
         .limit(1)
         .get();
-    var lastChat;
-    // print(data.docs);
+
     if (data.docs != null && data.docs.length > 0) {
-      return lastChat = MessageModel.store(data.docs[0]);
-    }
-    return null;
+      return MessageModel.store(data.docs[0]).timeStamp as Timestamp;
+    } else
+      return null;
   }
 
   Query<Map<String, dynamic>> getRooms(String groupChatId) {
@@ -79,6 +79,16 @@ class ChatRepo {
     // .get();
     // chats = List.from(data.docs.map((doc) => MessageModel.store(doc)));
     // .limit(limit)
+  }
+
+  void updateLastSeen(var user, var room) async {
+    await _firebaseFirestore
+        .collection("users")
+        .where("email", isEqualTo: user)
+        .get()
+        .then((value) => value.docs[0].reference.set({
+              "lastSeen": {room: Timestamp.fromDate(DateTime.now())}
+            }, SetOptions(merge: true)));
   }
 
   void sendMessage(

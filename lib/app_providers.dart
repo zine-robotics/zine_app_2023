@@ -32,7 +32,6 @@ class AppProviders extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return MultiProvider(
       providers: [
         Provider<AuthRepo>(create: (_) => AuthRepo(store: store)),
