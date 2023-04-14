@@ -2,10 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zineapp2023/api.dart';
 import 'package:zineapp2023/models/message.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class ChatRepo {
   // final SharedPreferences prefs;
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
+  final FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
   List<MessageModel> chats = [];
   // ChatProvider();
 
@@ -117,5 +119,17 @@ class ChatRepo {
       );
     });
     sendFCMMessage(roomName, from, message);
+  }
+
+  Future<String> uploadImageToFirebase(dynamic image) async {
+    Reference storageReference = _firebaseStorage
+        .ref()
+        .child('images/${DateTime.now().millisecondsSinceEpoch}.jpg');
+    final UploadTask uploadTask = storageReference.putFile(image);
+    final TaskSnapshot downloadUrl = (await uploadTask);
+    final String url =
+        (await downloadUrl.ref.getDownloadURL().catchError((e) => {null}));
+
+    return url;
   }
 }

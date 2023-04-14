@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import "package:flutter/material.dart";
+import 'package:image_picker/image_picker.dart';
 import 'package:zineapp2023/models/message.dart';
 import 'package:zineapp2023/models/user.dart';
 import 'package:zineapp2023/providers/user_info.dart';
@@ -16,6 +19,7 @@ class ChatRoomViewModel extends ChangeNotifier {
   String _roomId = "Hn9GSQnvi5zh9wabLGuT";
   final name = "Announcement";
   Map<String, dynamic> chatSubscription = {};
+  final picker = ImagePicker();
 
   get roomId => _roomId;
   Map<String, Timestamp> lastChats = {};
@@ -144,5 +148,16 @@ class ChatRoomViewModel extends ChangeNotifier {
       roomLeft(room, user, userProv);
       return Future.value(true);
     });
+  }
+
+  Future<void> pickImage(ImageSource source) async {
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    dynamic imageFile;
+
+    if (pickedFile != null) {
+      imageFile = File(pickedFile.path);
+
+      await chatP.uploadImageToFirebase(imageFile);
+    }
   }
 }

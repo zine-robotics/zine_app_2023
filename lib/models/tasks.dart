@@ -1,46 +1,56 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Tasks {
-  String? name;
+  String? title;
   String? description;
-  List<String>? members;
   String? type;
-  String? status;
   Timestamp? dueDate;
+  Timestamp? createdDate;
+  List<dynamic>? tags;
+  String? link;
+  String? submissionLink;
 
   Tasks(
-      {this.name,
+      {this.title,
       this.description,
       this.type,
       this.dueDate,
-      this.members,
-      this.status});
+      this.submissionLink,
+      this.createdDate,
+      this.tags,
+      this.link});
 
   Tasks.fromJson(Map<String, dynamic> json) {
-    name = json['name'];
+    title = json['title'];
     description = json['description'];
-    members = json['members'];
+    tags = json['tags'];
     dueDate = json['dueDate'];
+    createdDate = json['createdDate'];
     type = json['type'];
-    status = json['status'];
+    link = json['link'];
+    submissionLink = json['submissionLink'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['name'] = name;
+    data['title'] = title;
     data['description'] = description;
-    data['members'] = members;
-    data['time'] = dueDate;
+    data['tags'] = tags;
+    data['dueDate'] = dueDate;
+    data['createdDate'] = createdDate;
     data['type'] = type;
-    data['status'] = status;
+    data['link'] = link;
+
     return data;
   }
 
   Tasks.store(snapshot)
-      : members = snapshot.data()['members'],
+      : tags = snapshot.data()['tags'],
         description = snapshot.data()['description'],
         dueDate = snapshot.data()['dueDate'],
-        name = snapshot.data()['name'],
+        createdDate = snapshot.data()['createdDate'],
+        title = snapshot.data()['title'],
         type = snapshot.data()['type'],
-        status = snapshot.data()['status'];
+        link = snapshot.data()['link'],
+        submissionLink = snapshot.data()['submissionLink'];
 }

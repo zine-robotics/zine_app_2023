@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:zineapp2023/screens/chat/chat_home.dart';
+import 'package:zineapp2023/screens/tasks/taskDesc.dart';
 import 'package:zineapp2023/screens/tasks/task_screen.dart';
 import '../screens/explore/achievements.dart';
 import '../screens/explore/team/team.dart';
@@ -26,7 +27,8 @@ class RouteName {
   static const emailScreen = "email";
   static const chatHome = "chatHome";
   static const eventName = "eventName";
-  static const tasks="tasks";
+  static const tasks = "tasks";
+  static const taskDesc = "taskDesc";
 }
 
 class Routes {
@@ -60,7 +62,8 @@ class Routes {
       cupertinoRoute(RouteName.tasks, (ctx) => const ChatHome());
   static Route Event() =>
       cupertinoRoute(RouteName.eventName, (ctx) => Events());
-
+  static Route taskDesc() =>
+      cupertinoRoute(RouteName.taskDesc, (ctx) => TaskDesc());
   static Route workshopTimeline() => cupertinoRoute(
       RouteName.wokrshopTimeline, (ctx) => const WorkshopScreen());
 

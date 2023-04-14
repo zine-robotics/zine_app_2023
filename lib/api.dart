@@ -10,7 +10,7 @@ Future<void> sendFCMMessage(String topic, String title, String body) async {
   print('/topics/$topic');
   final Map<String, dynamic> message = <String, dynamic>{
     'notification': <String, dynamic>{
-      'title': title,
+      'title': topic,
       'body': body,
     },
     'to': '/topics/$topic',

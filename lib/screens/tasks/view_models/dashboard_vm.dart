@@ -1,63 +1,43 @@
+import 'dart:math';
+
 import "package:flutter/material.dart";
 import 'package:zineapp2023/models/tasks.dart';
+import 'package:zineapp2023/models/userTask.dart';
 import 'package:zineapp2023/screens/tasks/repo/task_repo.dart';
 import '../../../common/data_store.dart';
 import '../../../providers/user_info.dart';
 
 class TaskVm extends ChangeNotifier {
-  final DataStore store;
-  final UserProv userProv;
   final taskRepo = TaskRepo();
-  TaskVm({required this.store, required this.userProv});
-  List<Tasks> _tasks = [];
-  String _name = "";
-  String _description = "";
-  String _type = "";
-  String _status = "";
-  String _dueDate = "";
-  List<String> _members = [];
-  String timeStamp = "";
-  get name => _name;
-  get type => _type;
-  get description => _description;
-  get status => _status;
+
+  List<UserTask> _tasks = [];
+  List<dynamic> newTask = [];
+  int curr = 0;
+  int prevLen = 0;
   get tasks => _tasks;
-  get dueDate => _dueDate;
 
-  setName(String value) {
-    _name = value;
+  Future<Tasks> getTemp(UserTask e) async {
+    Tasks data = await e.task!.get().then((value) => Tasks.store(value));
+    return data;
   }
 
-  setType(String value) {
-    _type = value;
+  void getTasks(userId) async {
+    _tasks = await taskRepo.getTasks(userId);
+    List<Future<void>> futures = [];
+
+    for (var e in _tasks) {
+      futures.add(getTemp(e).then((value) => e.template = value));
+    }
+
+    await Future.wait(futures);
+    print(_tasks[0].template?.title);
+    if (prevLen != _tasks.length) {
+      notifyListeners();
+      prevLen = _tasks.length;
+    }
   }
 
-  setStatus(String value) {
-    _status = value;
-  }
-
-  setDescription(String value) {
-    _description = value;
-  }
-
-  setMembers(String value) {
-    _members.add(value);
-  }
-
-  void getRecentEvent() async {
-    _tasks = await taskRepo.getEvents();
-    notifyListeners();
-  }
-
-  void postNewTask() async {
-    var data = {
-      'name': _name,
-      'status': _status,
-      'type': _type,
-      'description': _description,
-      'members': _members,
-      'dueDate': _dueDate
-    };
-    taskRepo.postEvent(data);
+  UserTask getCurr() {
+    return _tasks[curr];
   }
 }
