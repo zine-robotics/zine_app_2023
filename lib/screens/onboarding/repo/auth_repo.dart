@@ -56,6 +56,7 @@ class AuthRepo {
 
   Future<UserModel?> getUserbyId(String uid) async {
     var user = await _firebaseFirestore.collection('users').doc(uid).get();
+    user.data()!.putIfAbsent("lastSeen", () => {});
 
     UserModel userMod = UserModel(
         uid: user['uid'],
@@ -65,7 +66,7 @@ class AuthRepo {
         type: user['type'],
         registered: user['registered'],
         rooms: user['rooms'],
-        lastSeen: user['lastSeen']);
+        lastSeen: user.data()!['lastSeen'] != null ? user['lastSeen'] : {});
     //
 
     return userMod;
