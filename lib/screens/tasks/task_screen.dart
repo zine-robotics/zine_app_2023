@@ -92,7 +92,7 @@ class TaskScreen extends StatelessWidget {
             ),
           ),
           DefaultTabController(
-            length: 4,
+            length: 3,
             initialIndex: 0,
             child: Expanded(
               child: Column(
