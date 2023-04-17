@@ -22,6 +22,7 @@ class DashRepo {
   }
 
   Future<void> launchUrlStart({required String url}) async {
+    if (url.length == 0) return;
     if (!await launchUrl(Uri.parse(url),
         mode: LaunchMode.externalApplication)) {
       throw 'Could not launch $url';

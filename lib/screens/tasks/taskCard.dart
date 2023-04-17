@@ -78,7 +78,6 @@ class TaskCard extends StatelessWidget {
                             borderRadius: BorderRadius.all(
                               Radius.circular(Checkbox.width),
                             ),
-                             
                           ),
                           color: iconTile,
                           elevation: 0,
@@ -97,7 +96,7 @@ class TaskCard extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(
-                      width:30,
+                      width: 30,
                     ),
                     Column(
                       children: [
@@ -106,7 +105,7 @@ class TaskCard extends StatelessWidget {
                         ),
                         Text(
                           curr.template != null
-                              ? getDate(curr.template!.createdDate as Timestamp)
+                              ? getDate(curr.template!.dueDate as Timestamp)
                               : "",
                           style: const TextStyle(
                             color: blurBlue,
