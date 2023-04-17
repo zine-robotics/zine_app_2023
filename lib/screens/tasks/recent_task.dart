@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import 'package:intl/intl.dart';
 
 import 'package:zineapp2023/models/userTask.dart';
 
@@ -59,25 +60,49 @@ class RecentTask extends StatelessWidget {
                       const SizedBox(
                         height: 50,
                       ),
-                      Card(
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(Checkbox.width),
-                          ),
-                        ),
-                        color: Colors.white,
-                        elevation: 0,
-                        child: Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Text(
-                            latest != null ? latest.status.toString() : "",
-                            // 'In progress',
-                            style: const TextStyle(
-                                color: Color(0xFF268CCB),
-                                fontSize: 15.0,
-                                fontWeight: FontWeight.w700),
-                          ),
-                        ),
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.6,
+                        child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Card(
+                                shape: const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(Checkbox.width),
+                                  ),
+                                ),
+                                color: Colors.white,
+                                elevation: 0,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Text(
+                                    latest != null
+                                        ? latest.status.toString()
+                                        : "",
+                                    // 'In progress',
+                                    style: const TextStyle(
+                                        color: Color(0xFF268CCB),
+                                        fontSize: 15.0,
+                                        fontWeight: FontWeight.w700),
+                                  ),
+                                ),
+                              ),
+                              Text(
+                                latest != null
+                                    ? getDate(latest.template!.dueDate!) +
+                                        "\n" +
+                                        DateFormat.y().format(
+                                            latest.template!.dueDate!.toDate())
+                                    : "",
+                                textAlign: TextAlign.right,
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ]),
                       ),
                     ],
                   ),
@@ -88,16 +113,6 @@ class RecentTask extends StatelessWidget {
                     children: [
                       const SizedBox(
                         height: 30,
-                      ),
-                      Text(
-                        latest != null
-                            ? getDate(latest.template!.dueDate!)
-                            : "",
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 17,
-                          fontWeight: FontWeight.w700,
-                        ),
                       ),
                     ],
                   ),

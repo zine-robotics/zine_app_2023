@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:zineapp2023/common/routing.dart';
 import 'package:zineapp2023/models/userTask.dart';
@@ -73,44 +74,50 @@ class TaskCard extends StatelessWidget {
                         const SizedBox(
                           height: 10,
                         ),
-                        Card(
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(Checkbox.width),
-                            ),
-                          ),
-                          color: iconTile,
-                          elevation: 0,
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Text(
-                              curr.status != null ? curr.status.toString() : "",
-                              // 'In progress',
-                              style: const TextStyle(
+                        Container(
+                          width: MediaQuery.of(context).size.width * 0.6,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Card(
+                                shape: const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(Checkbox.width),
+                                  ),
+                                ),
+                                color: iconTile,
+                                elevation: 0,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Text(
+                                    curr.status != null
+                                        ? curr.status.toString()
+                                        : "",
+                                    // 'In progress',
+                                    style: const TextStyle(
+                                        color: blurBlue,
+                                        fontSize: 15.0,
+                                        fontWeight: FontWeight.w700),
+                                  ),
+                                ),
+                              ),
+                              Text(
+                                curr.template != null
+                                    ? getDate(curr.template!.dueDate
+                                            as Timestamp) +
+                                        " \n" +
+                                        DateFormat.y().format((curr
+                                                .template!.dueDate as Timestamp)
+                                            .toDate())
+                                    : "",
+                                textAlign: TextAlign.right,
+                                style: const TextStyle(
                                   color: blurBlue,
-                                  fontSize: 15.0,
-                                  fontWeight: FontWeight.w700),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      width: 30,
-                    ),
-                    Column(
-                      children: [
-                        const SizedBox(
-                          height: 30,
-                        ),
-                        Text(
-                          curr.template != null
-                              ? getDate(curr.template!.dueDate as Timestamp)
-                              : "",
-                          style: const TextStyle(
-                            color: blurBlue,
-                            fontSize: 17,
-                            fontWeight: FontWeight.w700,
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ],

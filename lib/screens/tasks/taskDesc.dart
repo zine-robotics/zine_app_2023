@@ -130,7 +130,8 @@ class TaskDesc extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "    DUE DATE : ${curr.template != null ? getDate(curr.template!.dueDate as Timestamp) : ""}",
+                            "DUE DATE : ${curr.template != null ? getDate(curr.template!.dueDate as Timestamp) : ""}",
+                            textAlign: TextAlign.left,
                             style: TextStyle(
                               color: greyText,
                               fontSize: 17,
@@ -154,18 +155,21 @@ class TaskDesc extends StatelessWidget {
                     Card(
                       shape: RoundedRectangleBorder(
                           borderRadius:
-                              BorderRadius.all(Radius.circular(15.0))),
-                      color: iconTile,
+                              BorderRadius.all(Radius.circular(20.0))),
                       elevation: 0,
-                      child: Center(
-                        child: Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Text(
-                            curr.status.toString(),
-                            style: TextStyle(
-                              color: blurBlue,
-                              fontSize: 20.0,
-                              fontWeight: FontWeight.w700,
+                      color: iconTile,
+                      child: SizedBox(
+                        width: 200,
+                        child: Center(
+                          child: Padding(
+                            padding: EdgeInsets.all(12.0),
+                            child: Text(
+                              curr.status.toString(),
+                              style: TextStyle(
+                                color: blurBlue,
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.w700,
+                              ),
                             ),
                           ),
                         ),
@@ -181,16 +185,16 @@ class TaskDesc extends StatelessWidget {
                       child: Card(
                         shape: RoundedRectangleBorder(
                             borderRadius:
-                                BorderRadius.all(Radius.circular(15.0))),
-                        color: iconTile,
+                                BorderRadius.all(Radius.circular(20.0))),
+                        color: const Color(0xFF268CCB),
                         elevation: 0,
                         child: Center(
                           child: Padding(
-                            padding: EdgeInsets.all(8.0),
+                            padding: EdgeInsets.all(12.0),
                             child: Text(
                               "Submit",
                               style: TextStyle(
-                                color: blurBlue,
+                                color: Colors.white,
                                 fontSize: 20.0,
                                 fontWeight: FontWeight.w700,
                               ),
