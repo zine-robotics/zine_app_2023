@@ -62,9 +62,6 @@ class TaskCard extends StatelessWidget {
                           ),
                         ),
                         const InkWell(
-                          // onTap: () => const ProblemStantement(
-                          //   blogName: Text("Mechanical Engineering"),
-                          // ),
                           child: Text("Problem Statement",
                               style: TextStyle(
                                   color: Color(0xFF268CCB),

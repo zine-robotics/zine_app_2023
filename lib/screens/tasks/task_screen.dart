@@ -15,7 +15,7 @@ class TaskScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer2<UserProv, TaskVm>(builder: (context, userProv, taskVm, _) {
       taskVm.getTasks(userProv.currUser.uid);
-      
+
       return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -67,33 +67,32 @@ class TaskScreen extends StatelessWidget {
                           ),
                         )),
                   ),
-                  if (taskVm.tasks.length == 0)
-                    const Card(
-                      shape: RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.all(Radius.circular(15.0))),
-                      color: iconTile,
-                      elevation: 0,
-                      child: SizedBox(
-                        height: 220.0,
-                        child: Center(
-                          child: Text(
-                            "No tasks to show",
-                            style: TextStyle(
-                                color: backgroundGrey,
-                                fontSize: 25.0,
-                                fontWeight: FontWeight.w700),
-                          ),
+                  // if (taskVm.tasks.length == 0)
+                  const Card(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(15.0))),
+                    color: iconTile,
+                    elevation: 0,
+                    child: SizedBox(
+                      height: 220.0,
+                      child: Center(
+                        child: Text(
+                          "No tasks to show",
+                          style: TextStyle(
+                              color: backgroundGrey,
+                              fontSize: 25.0,
+                              fontWeight: FontWeight.w700),
                         ),
                       ),
                     ),
-                  RecentTask(taskVm: taskVm),
+                  ),
+                  // RecentTask(taskVm: taskVm),
                 ],
               ),
             ),
           ),
           DefaultTabController(
-            length: 1,
+            length: 4,
             initialIndex: 0,
             child: Expanded(
               child: Column(
@@ -114,9 +113,9 @@ class TaskScreen extends StatelessWidget {
                           fontSize: 15.0, fontWeight: FontWeight.w700),
                       indicatorColor: Colors.transparent,
                       tabs: [
-                        // Text("Completed"),
+                        Text("Completed"),
                         Text("All Tasks"),
-                        // Text("Incomplete"),
+                        Text("Incomplete"),
                       ]),
                   Expanded(
                     child: TabBarView(
@@ -124,50 +123,50 @@ class TaskScreen extends StatelessWidget {
                         SingleChildScrollView(
                           child: Column(
                             children: [
-                              if (taskVm.tasks.length == 0)
-                                const Text(
-                                  "No Tasks Assigned",
-                                  style: TextStyle(
-                                      color: iconTile,
-                                      fontSize: 30.0,
-                                      fontWeight: FontWeight.w700),
-                                ),
-                              for (int i = 0; i < taskVm.tasks.length; i++)
-                                TaskCard(
-                                  curr: taskVm.tasks[i],
-                                  index: i,
-                                ),
+                              // if (taskVm.tasks.length == 0)
+                              const Text(
+                                "No Tasks Assigned",
+                                style: TextStyle(
+                                    color: iconTile,
+                                    fontSize: 30.0,
+                                    fontWeight: FontWeight.w700),
+                              ),
+                              // for (int i = 0; i < taskVm.tasks.length; i++)
+                              //   TaskCard(
+                              //     curr: taskVm.tasks[i],
+                              //     index: i,
+                              //   ),
                             ],
                           ),
                         ),
-                        // Column(
-                        //   children: const [
-                        //     SizedBox(
-                        //       height: 130.0,
-                        //     ),
-                        //     Text(
-                        //       "No Tasks Assigned",
-                        //       style: TextStyle(
-                        //           color: iconTile,
-                        //           fontSize: 30.0,
-                        //           fontWeight: FontWeight.w700),
-                        //     ),
-                        //   ],
-                        // ),
-                        // Column(
-                        //   children: const [
-                        //     SizedBox(
-                        //       height: 130.0,
-                        //     ),
-                        //     Text(
-                        //       "No Tasks Assigned",
-                        //       style: TextStyle(
-                        //           color: iconTile,
-                        //           fontSize: 30.0,
-                        //           fontWeight: FontWeight.w700),
-                        //     ),
-                        //   ],
-                        // ),
+                        Column(
+                          children: const [
+                            SizedBox(
+                              height: 130.0,
+                            ),
+                            Text(
+                              "No Tasks Assigned",
+                              style: TextStyle(
+                                  color: iconTile,
+                                  fontSize: 30.0,
+                                  fontWeight: FontWeight.w700),
+                            ),
+                          ],
+                        ),
+                        Column(
+                          children: const [
+                            SizedBox(
+                              height: 130.0,
+                            ),
+                            Text(
+                              "No Tasks Assigned",
+                              style: TextStyle(
+                                  color: iconTile,
+                                  fontSize: 30.0,
+                                  fontWeight: FontWeight.w700),
+                            ),
+                          ],
+                        ),
                       ],
                     ),
                   )
