@@ -46,7 +46,7 @@ class TeamTile extends StatelessWidget {
                     Text(
                       name,
                       style: const TextStyle(
-                          fontSize: 20.0,
+                          fontSize: 18.0,
                           color: textDarkBlue,
                           fontWeight: FontWeight.bold),
                     ),
@@ -56,7 +56,7 @@ class TeamTile extends StatelessWidget {
                     Text(
                       id,
                       style: const TextStyle(
-                          fontSize: 15.0,
+                          fontSize: 12.0,
                           color: textColor,
                           fontWeight: FontWeight.w300),
                     )

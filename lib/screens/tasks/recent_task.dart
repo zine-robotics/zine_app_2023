@@ -14,16 +14,23 @@ class RecentTask extends StatelessWidget {
   TaskVm taskVm;
 
   RecentTask({super.key, required this.taskVm});
+  
   UserTask? findLatest() {
     UserTask? ans;
     if (taskVm.tasks.length != 0) ans = taskVm.tasks[0];
     for (UserTask userTask in taskVm.tasks) {
-      var one = getDateAndMonth(userTask.template!.dueDate!),
-          two = getDateAndMonth(ans!.template!.dueDate!);
-      if (one[1] < two[1]) {
+      var one = getDMY(userTask.template!.dueDate!),
+          two = getDMY(ans!.template!.dueDate!);
+      if (one[2] < two[2]) {
         ans = userTask;
-      } else if (one[1] == two[1]) {
-        if (one[0] < two[0]) ans = userTask;
+      } else if (one[2] == two[2]) {
+        if (one[1] < two[1]) {
+          ans = userTask;
+        } else if(one[1]==two[1]){
+          if(one[0]<two[0]){
+            ans = userTask;
+          }
+        }
       }
     }
     return ans ;
