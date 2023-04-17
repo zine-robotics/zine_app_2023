@@ -3,8 +3,9 @@ import 'package:provider/provider.dart';
 import 'package:zineapp2023/providers/user_info.dart';
 import 'package:zineapp2023/screens/tasks/taskCard.dart';
 import 'package:zineapp2023/screens/tasks/view_models/dashboard_vm.dart';
+import 'package:zineapp2023/common/routing.dart';
 import 'dart:math' as math;
-
+import 'recent_task.dart';
 import '../../theme/color.dart';
 
 class TaskScreen extends StatelessWidget {
@@ -14,6 +15,7 @@ class TaskScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer2<UserProv, TaskVm>(builder: (context, userProv, taskVm, _) {
       taskVm.getTasks(userProv.currUser.uid);
+      
       return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -26,44 +28,68 @@ class TaskScreen extends StatelessWidget {
               fontSize: 18.0,
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(18.0),
-            child: Stack(
-              children: [
-                Transform.rotate(
-                  angle: math.pi / 50,
-                  child: const Card(
+          GestureDetector(
+            onTap: () {
+              Navigator.of(context).push(Routes.taskDesc());
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(18.0),
+              child: Stack(
+                children: [
+                  if (taskVm.tasks.length == 0)
+                    Transform.rotate(
+                      angle: math.pi / 50,
+                      child: const Card(
+                          shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(15.0))),
+                          color: Color(0x69D9D9D9),
+                          elevation: 0,
+                          child: SizedBox(
+                            height: 220.0,
+                            child: Center(
+                              child: Text(""),
+                            ),
+                          )),
+                    ),
+                  Transform.rotate(
+                    angle: math.pi / 50,
+                    child: const Card(
+                        shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(15.0))),
+                        color: Color(0x66268CCB),
+                        elevation: 0,
+                        child: SizedBox(
+                          height: 220.0,
+                          child: Center(
+                            child: Text(""),
+                          ),
+                        )),
+                  ),
+                  if (taskVm.tasks.length == 0)
+                    const Card(
                       shape: RoundedRectangleBorder(
                           borderRadius:
                               BorderRadius.all(Radius.circular(15.0))),
-                      color: Color(0x69D9D9D9),
+                      color: iconTile,
                       elevation: 0,
                       child: SizedBox(
                         height: 220.0,
                         child: Center(
-                          child: Text("Zine Rocks !!!"),
+                          child: Text(
+                            "No tasks to show",
+                            style: TextStyle(
+                                color: backgroundGrey,
+                                fontSize: 25.0,
+                                fontWeight: FontWeight.w700),
+                          ),
                         ),
-                      )),
-                ),
-                const Card(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(15.0))),
-                  color: iconTile,
-                  elevation: 0,
-                  child: SizedBox(
-                    height: 220.0,
-                    child: Center(
-                      child: Text(
-                        "No tasks to show",
-                        style: TextStyle(
-                            color: backgroundGrey,
-                            fontSize: 25.0,
-                            fontWeight: FontWeight.w700),
                       ),
                     ),
-                  ),
-                ),
-              ],
+                  RecentTask(taskVm: taskVm),
+                ],
+              ),
             ),
           ),
           DefaultTabController(
@@ -99,7 +125,7 @@ class TaskScreen extends StatelessWidget {
                           child: Column(
                             children: [
                               if (taskVm.tasks.length == 0)
-                                Text(
+                                const Text(
                                   "No Tasks Assigned",
                                   style: TextStyle(
                                       color: iconTile,

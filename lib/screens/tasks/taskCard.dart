@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zineapp2023/common/routing.dart';
-import 'package:zineapp2023/models/tasks.dart';
 import 'package:zineapp2023/models/userTask.dart';
 import 'package:zineapp2023/screens/tasks/view_models/dashboard_vm.dart';
 import 'package:zineapp2023/utilities/DateTime.dart';
@@ -30,9 +29,6 @@ class TaskCard extends StatelessWidget {
             vertical: 5,
           ),
           child: InkWell(
-            // onTap: () => const ProblemStantement(
-            //   blogName: Text("Mechanical Engineering"),
-            // ),
             child: Card(
               shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(
@@ -43,7 +39,7 @@ class TaskCard extends StatelessWidget {
               elevation: 0,
               child: Padding(
                 padding: const EdgeInsets.only(
-                  left: 20,
+                  left: 35,
                   top: 20,
                   right: 10,
                   bottom: 10,
@@ -58,35 +54,40 @@ class TaskCard extends StatelessWidget {
                           curr.template != null
                               ? curr!.template!.title.toString()
                               : "",
-                          style: TextStyle(
-                              color: Colors.blue,
-                              fontSize: 25.0,
-                              fontWeight: FontWeight.w900),
+                          style: const TextStyle(
+                            color: Color(0xEE0C72B0),
+                            fontSize: 25.0,
+                            fontWeight: FontWeight.w900,
+                          ),
                         ),
-                        InkWell(
+                        const InkWell(
                           // onTap: () => const ProblemStantement(
                           //   blogName: Text("Mechanical Engineering"),
                           // ),
-                          child: const Text("Problem Statement",
+                          child: Text("Problem Statement",
                               style: TextStyle(
-                                  color: blurBlue,
-                                  fontSize: 15.0,
+                                  color: Color(0xFF268CCB),
+                                  fontSize: 10.0,
                                   fontWeight: FontWeight.w700)),
                         ),
                         const SizedBox(
                           height: 10,
                         ),
                         Card(
-                          shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(15.0))),
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(Checkbox.width),
+                            ),
+                             
+                          ),
                           color: iconTile,
                           elevation: 0,
                           child: Padding(
-                            padding: EdgeInsets.all(10.0),
+                            padding: const EdgeInsets.all(10.0),
                             child: Text(
                               curr.status != null ? curr.status.toString() : "",
-                              style: TextStyle(
+                              // 'In progress',
+                              style: const TextStyle(
                                   color: blurBlue,
                                   fontSize: 15.0,
                                   fontWeight: FontWeight.w700),
@@ -95,16 +96,19 @@ class TaskCard extends StatelessWidget {
                         ),
                       ],
                     ),
+                    const SizedBox(
+                      width:30,
+                    ),
                     Column(
                       children: [
-                        SizedBox(
+                        const SizedBox(
                           height: 30,
                         ),
                         Text(
                           curr.template != null
                               ? getDate(curr.template!.createdDate as Timestamp)
                               : "",
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: blurBlue,
                             fontSize: 17,
                             fontWeight: FontWeight.w700,

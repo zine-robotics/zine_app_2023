@@ -41,7 +41,7 @@ class TaskDesc extends StatelessWidget {
               letterSpacing: 0.3,
               fontSize: 30.0,
               fontWeight: FontWeight.w700,
-              color: Color.fromARGB(225, 34, 33, 33),
+              color: Color(0xFF268CCB),
             ),
           ),
         ),
@@ -72,34 +72,49 @@ class TaskDesc extends StatelessWidget {
                       color: blurBlue,
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
-                          vertical: 20,
+                          vertical: 30,
                           horizontal: 10,
                         ),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              curr.template != null
-                                  ? curr!.template!.title.toString()
-                                  : "",
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 25,
-                                fontWeight: FontWeight.w900,
-                              ),
+                            Row(
+                              children: [
+                                const SizedBox(
+                                  width: 20,
+                                ),
+                                Text(
+                                  curr.template != null
+                                      ? curr!.template!.title.toString()
+                                      : "",
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.w900,
+                                  ),
+                                ),
+                              ],
                             ),
                             InkWell(
                               onTap: () => {
                                 dashVm.launchUrl(curr.template!.link.toString())
                               },
-                              child: const Text(
-                                "Problem Statement",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w700,
-                                ),
+                              child: Row(
+                                children: const [
+                                  SizedBox(
+                                    width: 20,
+                                  ),
+                                  Text(
+                                    "Problem Statement",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w600,
+                                      decoration: TextDecoration.underline,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ],
@@ -115,20 +130,27 @@ class TaskDesc extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "DUE DATE : ${curr.template != null ? getDate(curr.template!.dueDate as Timestamp) : ""}",
+                            "    DUE DATE : ${curr.template != null ? getDate(curr.template!.dueDate as Timestamp) : ""}",
                             style: TextStyle(
                               color: greyText,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w800,
+                              fontSize: 17,
+                              fontWeight: FontWeight.w700,
                             ),
                           ),
                           SizedBox(
-                            height: 10,
+                            height: 18,
                           ),
-                          Text(curr.template!.description.toString()),
+                          Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Text(curr.template!.description.toString(),
+                                style: const TextStyle(
+                                  fontSize: 13,
+                                )),
+                          ),
                         ],
                       ),
                     ),
+                    Spacer(),
                     Card(
                       shape: RoundedRectangleBorder(
                           borderRadius:

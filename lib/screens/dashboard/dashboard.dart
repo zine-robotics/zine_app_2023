@@ -153,7 +153,7 @@ class Dashboard extends StatelessWidget {
                                             fontWeight: FontWeight.bold,
                                             fontSize: MediaQuery.of(context)
                                                 .textScaleFactor *
-                                                18,
+                                                15,
                                             color: Color(0xff0C72B0)),
                                       ),
                                     ),
@@ -162,7 +162,7 @@ class Dashboard extends StatelessWidget {
                                       style: TextStyle(
                                           fontSize: MediaQuery.of(context)
                                                   .textScaleFactor *
-                                              70,
+                                              50,
                                           fontWeight: FontWeight.w700,
                                           color: const Color(0xff0C72B0)),
                                       textAlign: TextAlign.center,
@@ -229,11 +229,11 @@ class Dashboard extends StatelessWidget {
                                               textAlign: TextAlign.center,
                                             )
                                           : Container(),
-                                      // const SizedBox(
-                                      //   height: 0,
-                                      // ),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
                                       Container(
-                                        margin: const EdgeInsets.all(10),
+                                        margin: const EdgeInsets.all(5),
                                         width:
                                             MediaQuery.of(context).size.width /
                                                 2.3,
