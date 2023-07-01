@@ -35,15 +35,14 @@ dependencies:
   cloud_firestore: ^4.3.1
   cupertino_icons: ^1.0.2
   decorated_icon: ^1.2.1
-  expansion_card: ^0.1.0
-  expansion_tile_card: ^2.0.0
+  expansion_tile_card: ^3.0.0
   firebase_auth: ^4.2.5
   firebase_core: ^2.4.1
   firebase_messaging: ^14.2.1
   firebase_storage: ^11.1.0
   flutter:
     sdk: flutter
-  flutter_linkify: ^5.0.2
+  flutter_linkify: ^6.0.0
   flutter_notification_channel: ^2.0.0
   fluttertoast: ^8.1.2
   font_awesome_flutter: ^10.3.0
@@ -57,7 +56,7 @@ dependencies:
   url_launcher: ^6.1.10
 
 dev_dependencies:
-  flutter_launcher_icons: "^0.11.0"
+  flutter_launcher_icons: ^0.13.1
   flutter_lints: ^2.0.0
   flutter_test:
     sdk: flutter

@@ -242,6 +242,11 @@
 	"team": [
 		[
 			{
+				"name": "Anmol Bansal",
+				"image": "anmol",
+				"email": "2021uee1064@mnit.ac.in"
+			},
+			{
 				"name": "Granth Gupta",
 				"image": "granth",
 				"email": "2021KUCP1015@iiitkota.ac.in"
@@ -255,6 +260,16 @@
 				"name": "Kasvala Meet",
 				"image": "meet",
 				"email": "2021UEE1378@mnit.ac.in"
+			},
+			{
+				"name": "Mashaal Sayeed",
+				"image": "mashaal",
+				"email": "2021ucp1011@mnit.ac.in"
+			},
+			{
+				"name": "Moordhan Songade",
+				"image": "moordhan",
+				"email": "2021ucp1072@mnit.ac.in"
 			},
 			{
 				"name": "Priyansh Kothari",
