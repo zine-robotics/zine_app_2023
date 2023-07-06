@@ -1,16 +1,15 @@
-# zineapp2023
+# Zine App 
 
-A new Flutter project.
+Zine is the robotics and research group of Malaviya National Institute of Technology, Jaipur with a motive to foster undergraduate students and provide them with a platform to learn, explore and bring their imaginations to life. Under the guidance of our mentor Dr. Rajesh Kumar, Professor, Electrical engineering department, the group is motivated to improve and apply the technical skills of individuals to solve contemporary problems and foster the growth of the society and hence the nation in the field of technology. 
 
-## Getting Started
+## Features
 
-This project is a starting point for a Flutter application.
+- Follows MVVM architecture using Provider Package
+- Integrates Firebase Cloud Messaging (FCM) for Anroid Push Notifications
+- Integrated with Fireabase Authentication & Real-Time Database 
+- Provides Real-Time messaging through Channels and rooms
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Available On Play Store
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+<a href='https://play.google.com/store/apps/details?id=in.co.zine.zineapp2023&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img align='middle' height=120 alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'/></a>
