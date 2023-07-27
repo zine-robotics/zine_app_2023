@@ -91,7 +91,7 @@ class TaskScreen extends StatelessWidget {
               ),
             ),
           ),
-          DefaultTabController(
+          const DefaultTabController(
             length: 3,
             initialIndex: 0,
             child: Expanded(
@@ -99,10 +99,10 @@ class TaskScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const SizedBox(
+                  SizedBox(
                     height: 15.0,
                   ),
-                  const TabBar(
+                  TabBar(
                       padding: EdgeInsets.all(8.0),
                       indicatorWeight: 0.1,
                       labelColor: blurBlue,
@@ -124,12 +124,19 @@ class TaskScreen extends StatelessWidget {
                           child: Column(
                             children: [
                               // if (taskVm.tasks.length == 0)
-                              const Text(
-                                "No Tasks Assigned",
-                                style: TextStyle(
-                                    color: iconTile,
-                                    fontSize: 30.0,
-                                    fontWeight: FontWeight.w700),
+                              Column(
+                                children: [
+                                  SizedBox(
+                                    height: 130.0,
+                                  ),
+                                  Text(
+                                    "No Tasks Assigned",
+                                    style: TextStyle(
+                                        color: iconTile,
+                                        fontSize: 30.0,
+                                        fontWeight: FontWeight.w700),
+                                  ),
+                                ],
                               ),
                               // for (int i = 0; i < taskVm.tasks.length; i++)
                               //   TaskCard(
@@ -140,7 +147,7 @@ class TaskScreen extends StatelessWidget {
                           ),
                         ),
                         Column(
-                          children: const [
+                          children: [
                             SizedBox(
                               height: 130.0,
                             ),
@@ -154,7 +161,7 @@ class TaskScreen extends StatelessWidget {
                           ],
                         ),
                         Column(
-                          children: const [
+                          children: [
                             SizedBox(
                               height: 130.0,
                             ),
