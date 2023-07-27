@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class UserModel {
   String? email;
   String? uid;
@@ -7,6 +9,7 @@ class UserModel {
   String? pushToken;
   List<dynamic>? tasks = [];
   List<dynamic>? rooms = [];
+  dynamic lastSeen;
   int? dp;
 
   UserModel(
@@ -18,6 +21,7 @@ class UserModel {
       this.tasks,
       this.registered,
       this.pushToken,
+      this.lastSeen,
       this.rooms});
 
   UserModel.fromJson(Map<String, dynamic> json) {
@@ -30,6 +34,7 @@ class UserModel {
     registered = json['registered'];
     pushToken = json['pushToken'];
     rooms = json['rooms'];
+    lastSeen = json['lastSeen'];
   }
 
   Map<String, dynamic> toJson() {
@@ -43,7 +48,7 @@ class UserModel {
     data['registered'] = registered;
     data['pushToken'] = pushToken;
     data['rooms'] = rooms;
-
+    data['lastSeen'] = lastSeen;
     return data;
   }
 }

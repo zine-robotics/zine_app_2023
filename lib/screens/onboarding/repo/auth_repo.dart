@@ -35,9 +35,8 @@ class AuthRepo {
       password: password!,
     );
 
-
     //TODO - Uncomment before Release
-    if(!credential.user!.emailVerified){
+    if (!credential.user!.emailVerified) {
       signOut();
       print("User Logged out");
       throw FirebaseAuthException(code: 'unverified-email');
@@ -46,18 +45,18 @@ class AuthRepo {
     return _userFromFirebase(user: credential.user);
   }
 
- Future <bool> isUserReg(String email)
-  async {
-    var user= await _firebaseFirestore.collection("registrations").where("email",isEqualTo: email).get();
-    if(user.size==1) return true;
+  Future<bool> isUserReg(String email) async {
+    var user = await _firebaseFirestore
+        .collection("registrations")
+        .where("email", isEqualTo: email)
+        .get();
+    if (user.size == 1) return true;
     return false;
-
   }
 
   Future<UserModel?> getUserbyId(String uid) async {
     var user = await _firebaseFirestore.collection('users').doc(uid).get();
-
-
+    user.data()!.putIfAbsent("lastSeen", () => {});
 
     UserModel userMod = UserModel(
         uid: user['uid'],
@@ -66,7 +65,9 @@ class AuthRepo {
         dp: user['dp'],
         type: user['type'],
         registered: user['registered'],
-        rooms: user['rooms']);
+        rooms: user['rooms'],
+        lastSeen: user.data()!['lastSeen'] != null ? user['lastSeen'] : {});
+    //
 
     return userMod;
   }

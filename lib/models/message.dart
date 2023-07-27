@@ -5,12 +5,14 @@ class MessageModel {
   String? group;
   String? from;
   Timestamp? timeStamp;
+  String? type;
 
   MessageModel({
     this.message,
     this.group,
     this.from,
     this.timeStamp,
+    this.type,
   });
 
   MessageModel.fromJson(Map<String, dynamic> json) {
@@ -18,6 +20,7 @@ class MessageModel {
     group = json['group'];
     from = json['from'];
     timeStamp = json['to'];
+    type = json['type'];
   }
 
   Map<String, dynamic> toJson() {
@@ -26,6 +29,7 @@ class MessageModel {
     data['group'] = group;
     data['from'] = from;
     data['timeStamp'] = timeStamp;
+    data['type'] = type;
     return data;
   }
 
@@ -33,5 +37,6 @@ class MessageModel {
       : from = snapshot.data()['from'],
         group = snapshot.data()['group'],
         timeStamp = snapshot.data()['timeStamp'],
+        type = snapshot.data()['type'],
         message = snapshot.data()['message'];
 }

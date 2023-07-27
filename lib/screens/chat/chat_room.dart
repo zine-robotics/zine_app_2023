@@ -12,7 +12,7 @@ import 'package:zineapp2023/screens/chat/view_model/chat_room_view_model.dart';
 import 'package:zineapp2023/screens/dashboard/view_models/dashboard_vm.dart';
 import 'package:zineapp2023/theme/color.dart';
 import '../../utilities/DateTime.dart';
-
+import 'package:image_picker/image_picker.dart';
 import '../../components/gradient.dart';
 
 class ChatRoom extends StatelessWidget {
@@ -226,6 +226,8 @@ class ChatRoom extends StatelessWidget {
       builder: (context, chatVm, dashVm, userProv, _) {
         var data = chatVm.getData(roomName);
         UserModel currUser = userProv.getUserInfo();
+        chatVm.addRouteListener(
+            context, roomName, userProv.currUser.email.toString(), userProv);
 
         return Scaffold(
           backgroundColor: backgroundGrey,
@@ -275,8 +277,12 @@ class ChatRoom extends StatelessWidget {
                             ),
                             child: Row(
                               children: <Widget>[
+                                // IconButton(
+                                //     onPressed: () =>
+                                //         {chatVm.pickImage(ImageSource.gallery)},
+                                //     icon: Icon(Icons.image)),
                                 const SizedBox(
-                                  width: 10.0,
+                                  width: 2.0,
                                 ),
                                 Expanded(
                                   child: TextField(
