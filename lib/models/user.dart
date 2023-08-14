@@ -9,6 +9,8 @@ class UserModel {
   String? pushToken;
   List<dynamic>? tasks = [];
   List<dynamic>? rooms = [];
+  List<dynamic>? roomIDs = [];
+  dynamic roomDetails = {};
   dynamic lastSeen;
   int? dp;
 
@@ -22,7 +24,9 @@ class UserModel {
       this.registered,
       this.pushToken,
       this.lastSeen,
-      this.rooms});
+      this.rooms,
+      this.roomIDs,
+      this.roomDetails});
 
   UserModel.fromJson(Map<String, dynamic> json) {
     email = json['email'];
@@ -34,6 +38,7 @@ class UserModel {
     registered = json['registered'];
     pushToken = json['pushToken'];
     rooms = json['rooms'];
+    roomIDs = json['roomids'];
     lastSeen = json['lastSeen'];
   }
 
@@ -48,6 +53,7 @@ class UserModel {
     data['registered'] = registered;
     data['pushToken'] = pushToken;
     data['rooms'] = rooms;
+    data['roomids']= roomIDs;
     data['lastSeen'] = lastSeen;
     return data;
   }

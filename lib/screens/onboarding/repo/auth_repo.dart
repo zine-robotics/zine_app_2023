@@ -54,9 +54,39 @@ class AuthRepo {
     return false;
   }
 
+
+  dynamic getRoomData(String groupID) {
+    return _firebaseFirestore
+        .collection('rooms')
+        // Assuming there is only one group with the given name
+        .doc(groupID)
+        .get()
+        .then((querySnapshot) {
+      if (querySnapshot.data != null) {
+        return querySnapshot.data();
+      }
+    });
+  }
+
+  dynamic getRoomMap(dynamic listRoomIds) async{
+   dynamic roomDetails={"group":{},"project":{}};
+    for(var item in listRoomIds){
+      // print(item);
+      dynamic temp = await getRoomData(item);
+      // print(temp['type']);
+
+      roomDetails[temp['type']][item] = temp['name'];
+
+    }
+    return roomDetails;
+  }
+
+
   Future<UserModel?> getUserbyId(String uid) async {
     var user = await _firebaseFirestore.collection('users').doc(uid).get();
     user.data()!.putIfAbsent("lastSeen", () => {});
+
+    var map = await getRoomMap(user['roomids']);
 
     UserModel userMod = UserModel(
         uid: user['uid'],
@@ -66,8 +96,10 @@ class AuthRepo {
         type: user['type'],
         registered: user['registered'],
         rooms: user['rooms'],
+        roomIDs: user['roomids'],
+        roomDetails: map,
         lastSeen: user.data()!['lastSeen'] != null ? user['lastSeen'] : {});
-    //
+
 
     return userMod;
   }

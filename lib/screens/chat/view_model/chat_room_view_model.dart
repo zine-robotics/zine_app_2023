@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import "package:flutter/material.dart";
 import 'package:image_picker/image_picker.dart';
-import 'package:zineapp2023/models/message.dart';
 import 'package:zineapp2023/models/user.dart';
 import 'package:zineapp2023/providers/user_info.dart';
 import 'package:zineapp2023/utilities/DateTime.dart';
@@ -56,28 +55,31 @@ class ChatRoomViewModel extends ChangeNotifier {
           .get()
           .then((value) => id = value.docs[0].id)
           .catchError((e) => {print(e)})
-          .whenComplete(() => {
-                if (id != null)
-                  {
-                    chatSubscription[name] = _rooms
-                        .doc(id)
-                        .collection("messages")
-                        .snapshots()
-                        .listen((QuerySnapshot snapshot) {
-                      snapshot.docChanges.forEach((DocumentChange change) {
-                        if (change.type == DocumentChangeType.added) {
-                          print("added");
-                          notifyListeners();
-                        } else if (change.type == DocumentChangeType.modified) {
-                          print("modified");
-                          notifyListeners();
-                        } else if (change.type == DocumentChangeType.removed) {
-                          notifyListeners();
+          .whenComplete(
+            () => {
+              if (id != null)
+                {
+                  chatSubscription[name] =
+                      _rooms.doc(id).collection("messages").snapshots().listen(
+                    (QuerySnapshot snapshot) {
+                      for (var change in snapshot.docChanges) {
+                          if (change.type == DocumentChangeType.added) {
+                            print("added");
+                            notifyListeners();
+                          } else if (change.type ==
+                              DocumentChangeType.modified) {
+                            print("modified");
+                            notifyListeners();
+                          } else if (change.type ==
+                              DocumentChangeType.removed) {
+                            notifyListeners();
+                          }
                         }
-                      });
-                    })
-                  }
-              });
+                    },
+                  )
+                }
+            },
+          );
     }
   }
 
@@ -139,7 +141,7 @@ class ChatRoomViewModel extends ChangeNotifier {
     chatP.updateLastSeen(user, room);
     userProv.updateLast(room);
     notifyListeners();
-    print('left ${room}');
+    print('left $room');
   }
 
   void addRouteListener(

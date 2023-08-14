@@ -36,6 +36,29 @@ class ChatRepo {
     });
   }
 
+  Future<String?> getRoomName(String groupID) {
+    return _firebaseFirestore
+        .collection('rooms')
+        .where('id', isEqualTo: groupID)
+        .limit(1) // Assuming there is only one group with the given name
+        .get()
+        .then((querySnapshot) {
+      if (querySnapshot.docs.isNotEmpty) {
+        return querySnapshot.docs.first.id;
+      }
+    });
+  }
+
+  dynamic getRoomData(String groupID) {
+    return _firebaseFirestore
+        .collection('rooms')
+        .doc(groupID)
+        .get()
+        .then((querySnapshot) {
+      return querySnapshot.data();
+    });
+  }
+
   dynamic getChatStream(String groupName) async {
     return _firebaseFirestore
         .collection('rooms')
@@ -73,6 +96,24 @@ class ChatRepo {
     } else
       return null;
   }
+
+
+  // dynamic getLastChat(String roomId) async {
+  //   String? groupChatId = roomId;
+  //
+  //   var data = await _firebaseFirestore
+  //       .collection('rooms')
+  //       .doc(groupChatId.toString())
+  //       .collection('messages')
+  //       .orderBy('timeStamp', descending: true)
+  //       .limit(1)
+  //       .get();
+  //
+  //   if (data.docs != null && data.docs.length > 0) {
+  //     return MessageModel.store(data.docs[0]).timeStamp as Timestamp;
+  //   } else
+  //     return null;
+  // }
 
   Query<Map<String, dynamic>> getRooms(String groupChatId) {
     return _firebaseFirestore
