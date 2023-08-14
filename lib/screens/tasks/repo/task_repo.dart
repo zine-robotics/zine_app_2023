@@ -14,6 +14,7 @@ class TaskRepo {
         .where("users", arrayContains: _firebaseFirestore.doc("/users/${uid}"));
     var data = await query.get();
     final docData = data.docs.map((doc) => UserTask.store(doc));
+    print(docData.toList());
     return docData.toList();
   }
 

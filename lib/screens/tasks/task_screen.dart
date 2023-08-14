@@ -2,7 +2,7 @@ import "package:flutter/material.dart";
 import 'package:provider/provider.dart';
 import 'package:zineapp2023/providers/user_info.dart';
 import 'package:zineapp2023/screens/tasks/taskCard.dart';
-import 'package:zineapp2023/screens/tasks/view_models/dashboard_vm.dart';
+import 'package:zineapp2023/screens/tasks/view_models/task_vm.dart';
 import 'package:zineapp2023/common/routing.dart';
 import 'dart:math' as math;
 import 'recent_task.dart';
@@ -67,7 +67,7 @@ class TaskScreen extends StatelessWidget {
                           ),
                         )),
                   ),
-                  // if (taskVm.tasks.length == 0)
+                  if (taskVm.tasks.length == 0)
                   const Card(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(15.0))),
@@ -86,12 +86,12 @@ class TaskScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  // RecentTask(taskVm: taskVm),
+                  RecentTask(taskVm: taskVm),
                 ],
               ),
             ),
           ),
-          const DefaultTabController(
+           DefaultTabController(
             length: 3,
             initialIndex: 0,
             child: Expanded(
@@ -123,7 +123,7 @@ class TaskScreen extends StatelessWidget {
                         SingleChildScrollView(
                           child: Column(
                             children: [
-                              // if (taskVm.tasks.length == 0)
+                              if (taskVm.tasks.length == 0)
                               Column(
                                 children: [
                                   SizedBox(
@@ -138,11 +138,11 @@ class TaskScreen extends StatelessWidget {
                                   ),
                                 ],
                               ),
-                              // for (int i = 0; i < taskVm.tasks.length; i++)
-                              //   TaskCard(
-                              //     curr: taskVm.tasks[i],
-                              //     index: i,
-                              //   ),
+                              for (int i = 0; i < taskVm.tasks.length; i++)
+                                TaskCard(
+                                  curr: taskVm.tasks[i],
+                                  index: i,
+                                ),
                             ],
                           ),
                         ),

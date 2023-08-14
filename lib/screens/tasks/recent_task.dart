@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 
 import 'package:zineapp2023/models/userTask.dart';
 
-import 'package:zineapp2023/screens/tasks/view_models/dashboard_vm.dart';
+import 'package:zineapp2023/screens/tasks/view_models/task_vm.dart';
 import 'package:zineapp2023/utilities/DateTime.dart';
 
 class RecentTask extends StatelessWidget {

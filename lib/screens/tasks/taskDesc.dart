@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zineapp2023/models/userTask.dart';
 import 'package:zineapp2023/screens/dashboard/view_models/dashboard_vm.dart';
-import 'package:zineapp2023/screens/tasks/view_models/dashboard_vm.dart';
+import 'package:zineapp2023/screens/tasks/view_models/task_vm.dart';
 import 'package:zineapp2023/theme/color.dart';
 import 'package:zineapp2023/utilities/DateTime.dart';
 
@@ -100,8 +100,8 @@ class TaskDesc extends StatelessWidget {
                               onTap: () => {
                                 dashVm.launchUrl(curr.template!.link.toString())
                               },
-                              child: Row(
-                                children: const [
+                              child: const Row(
+                                children: [
                                   SizedBox(
                                     width: 20,
                                   ),
@@ -132,13 +132,13 @@ class TaskDesc extends StatelessWidget {
                           Text(
                             "DUE DATE : ${curr.template != null ? getDate(curr.template!.dueDate as Timestamp) : ""}",
                             textAlign: TextAlign.left,
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: greyText,
                               fontSize: 17,
                               fontWeight: FontWeight.w700,
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 18,
                           ),
                           Padding(
@@ -151,9 +151,9 @@ class TaskDesc extends StatelessWidget {
                         ],
                       ),
                     ),
-                    Spacer(),
+                    const Spacer(),
                     Card(
-                      shape: RoundedRectangleBorder(
+                      shape: const RoundedRectangleBorder(
                           borderRadius:
                               BorderRadius.all(Radius.circular(20.0))),
                       elevation: 0,
@@ -162,10 +162,10 @@ class TaskDesc extends StatelessWidget {
                         width: 200,
                         child: Center(
                           child: Padding(
-                            padding: EdgeInsets.all(12.0),
+                            padding: const EdgeInsets.all(12.0),
                             child: Text(
                               curr.status.toString(),
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: blurBlue,
                                 fontSize: 20.0,
                                 fontWeight: FontWeight.w700,
@@ -175,18 +175,18 @@ class TaskDesc extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Spacer(),
+                    const Spacer(),
                     GestureDetector(
                       onTap: () => {
                         if (curr.template != null)
                           dashVm.launchUrl(
                               curr.template!.submissionLink.toString())
                       },
-                      child: Card(
+                      child: const Card(
                         shape: RoundedRectangleBorder(
                             borderRadius:
                                 BorderRadius.all(Radius.circular(20.0))),
-                        color: const Color(0xFF268CCB),
+                        color: Color(0xFF268CCB),
                         elevation: 0,
                         child: Center(
                           child: Padding(
