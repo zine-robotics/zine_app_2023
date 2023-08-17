@@ -51,7 +51,7 @@ class Events extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  for (int i = 0; i < events.length; i++)
+                  for (int i = events.length-1; i >=0 ; i--)
                     EventCard(event: events[i])
                 ],
               ),

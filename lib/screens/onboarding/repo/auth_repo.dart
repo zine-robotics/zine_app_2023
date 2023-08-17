@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:zineapp2023/models/tasks.dart';
+import 'package:zineapp2023/models/userTask.dart';
 
 import '/common/data_store.dart';
 import '../../../models/user.dart';
@@ -81,12 +83,48 @@ class AuthRepo {
     return roomDetails;
   }
 
+  Future<Tasks> getTemp(UserTask e) async {
+
+    DocumentSnapshot<Map<String, dynamic>> snapshot =
+    await e.task!.get() as DocumentSnapshot<Map<String, dynamic>>;
+
+    if (!snapshot.data()!.containsKey('link')) {
+      snapshot.data()!['links']=[];
+      await e.task!.update({'link': []});
+    }
+
+    Tasks data = Tasks.store(snapshot);
+
+    return data;
+  }
+
+
+  Future<List<UserTask>?> getTasks(uid) async {
+    var query = await _firebaseFirestore
+        .collection("userTasks")
+        .where("users", arrayContains: _firebaseFirestore.doc("/users/${uid}"));
+    var data = await query.get();
+    final docData = data.docs.map((doc) => UserTask.store(doc));
+    // print(docData.toList());
+    return docData.toList();
+  }
+
 
   Future<UserModel?> getUserbyId(String uid) async {
     var user = await _firebaseFirestore.collection('users').doc(uid).get();
     user.data()!.putIfAbsent("lastSeen", () => {});
 
     var map = await getRoomMap(user['roomids']);
+    var tasks=await getTasks(uid);
+    List<Future<void>> futures = [];
+    for (var e in tasks!) {
+      futures.add(getTemp(e).then((value) => e.template = value));
+    }
+
+    await Future.wait(futures);
+
+    // print(tasks);
+
 
     UserModel userMod = UserModel(
         uid: user['uid'],
@@ -95,6 +133,7 @@ class AuthRepo {
         dp: user['dp'],
         type: user['type'],
         registered: user['registered'],
+        tasks: tasks,
         rooms: user['rooms'],
         roomIDs: user['roomids'],
         roomDetails: map,
@@ -103,6 +142,8 @@ class AuthRepo {
 
     return userMod;
   }
+
+
 
   Future<UserModel?> createUserWithEmailAndPassword({
     String? name,

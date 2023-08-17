@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:zineapp2023/models/userTask.dart';
 
 class UserModel {
   String? email;
@@ -7,7 +8,7 @@ class UserModel {
   String? name;
   bool? registered = false;
   String? pushToken;
-  List<dynamic>? tasks = [];
+  List<UserTask>? tasks = [];
   List<dynamic>? rooms = [];
   List<dynamic>? roomIDs = [];
   dynamic roomDetails = {};

@@ -4,6 +4,7 @@ import 'package:zineapp2023/models/tasks.dart';
 
 class UserTask {
   List<dynamic>? checkpoints;
+  Map<String,dynamic>? links={};
   String? status;
   DocumentReference? task;
   List<dynamic>? users;
@@ -27,9 +28,12 @@ class UserTask {
     return data;
   }
 
+
+
   UserTask.store(snapshot)
       : checkpoints = snapshot.data()['checkpoints'],
         status = snapshot.data()['status'],
         task = snapshot.data()['task'],
-        users = snapshot.data()['users'];
+        users = snapshot.data()['users'],
+        links=snapshot.data()['links'];
 }

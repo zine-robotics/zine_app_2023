@@ -4,6 +4,9 @@ import 'package:zineapp2023/api.dart';
 import 'package:zineapp2023/models/message.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
+import '../../../models/rooms.dart';
+import '../../../models/user.dart';
+
 class ChatRepo {
   // final SharedPreferences prefs;
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
@@ -97,6 +100,24 @@ class ChatRepo {
       return null;
   }
 
+  Future<UserModel?> getUserDetailsByID(String uid) async{
+    var user = await _firebaseFirestore.collection('users').doc(uid).get();
+    UserModel userMod = UserModel(
+      uid: user['uid'],
+      email: user['email'],
+      name: user['name'],
+      dp: user['dp'],
+      type: user['type'],
+      // registered: user['registered'],
+      // tasks: tasks,
+      // rooms: user['rooms'],
+      // roomIDs: user['roomids'],
+      // roomDetails: map,
+      // lastSeen: user.data()!['lastSeen'] != null ? user['lastSeen'] : {});
+    );
+    return userMod;
+  }
+
 
   // dynamic getLastChat(String roomId) async {
   //   String? groupChatId = roomId;
@@ -115,10 +136,15 @@ class ChatRepo {
   //     return null;
   // }
 
-  Query<Map<String, dynamic>> getRooms(String groupChatId) {
-    return _firebaseFirestore
+  dynamic getRooms(String groupChatId) async{
+    var data= await   _firebaseFirestore
         .collection('rooms')
-        .where('name', isEqualTo: groupChatId);
+        .where('name', isEqualTo: groupChatId)
+        .limit(1).get();
+    if (data.docs != null && data.docs.length > 0) {
+      return Rooms.store(data.docs[0]);
+    } else
+      return null;
     // .get();
     // chats = List.from(data.docs.map((doc) => MessageModel.store(doc)));
     // .limit(limit)
@@ -138,6 +164,7 @@ class ChatRepo {
     String from,
     String roomName,
     String message,
+      dynamic reply,
   ) async {
     String? groupId = await getRoomId(roomName);
     groupId = groupId.toString();
@@ -147,11 +174,14 @@ class ChatRepo {
         .collection('messages')
         .doc(DateTime.now().millisecondsSinceEpoch.toString());
 
+    // print(reply);
     MessageModel messageChat = MessageModel(
         from: from,
         group: groupId,
         message: message,
-        timeStamp: Timestamp.now());
+        replyTo: reply?.toJson(),
+        timeStamp: Timestamp.now()
+    );
 
     FirebaseFirestore.instance.runTransaction((transaction) async {
       transaction.set(

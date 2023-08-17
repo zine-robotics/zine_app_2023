@@ -135,16 +135,16 @@ class _EventCardState extends State<EventCard> {
                 borderRadius: const BorderRadius.only(
                     bottomRight: Radius.circular(20),
                     bottomLeft: Radius.circular(20)),
-                gradient: !isOld
-                    ? null
-                    : LinearGradient(
-                        begin: Alignment.centerLeft,
-                        stops: [0.01, 0.97],
-                        colors: [
-                          const Color.fromARGB(255, 194, 255, 244),
-                          Colors.white.withOpacity(1)
-                        ],
-                      ),
+                // gradient: !isOld
+                //     ? null
+                //     : LinearGradient(
+                //         begin: Alignment.centerLeft,
+                //         stops: [0.01, 0.97],
+                //         colors: [
+                //           const Color.fromARGB(255, 194, 255, 244),
+                //           Colors.white.withOpacity(1)
+                //         ],
+                //       ),
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,

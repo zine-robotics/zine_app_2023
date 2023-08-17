@@ -8,17 +8,27 @@ import 'chat_room.dart';
 
 class ChatGroupTile extends StatelessWidget {
   ChatGroupTile(
-      {required this.roomId,
-      required this.name,
-      required this.lastSeen,
+      {
+        required this.name,
+        required this.chatVm,
+        required this.userProv,
+
       super.key});
 
-  String roomId;
+
   String name;
-  String lastSeen;
+  dynamic chatVm;
+  dynamic userProv;
+
+
 
   @override
   Widget build(BuildContext context) {
+    chatVm.getLastMessages(name);
+    var lastChat = chatVm.lastChatRoom(name);
+    bool unSeen = chatVm.unread(name, userProv.currUser);
+    chatVm.listenChanges(name);
+
     return Column(
       children: [
         Padding(
@@ -51,7 +61,7 @@ class ChatGroupTile extends StatelessWidget {
                 ),
                 // Spacer(),
                 Text(
-                  lastSeen,
+                  lastChat,
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: greyText.withOpacity(0.6)),
@@ -89,9 +99,25 @@ class ChatGroups extends StatelessWidget {
     return Consumer2<ChatRoomViewModel, UserProv>(
       builder: (context, chatVm, userProv, _) {
         var currUser = userProv.currUser;
-        var listOfuser = currUser.roomIDs;
+        // var listOfuser = currUser.roomIDs;
         var roomDetails = currUser.roomDetails;
+        var listOfRoomID = roomDetails["group"].keys.toList();
+        var listOfRoomName = roomDetails["group"].values.toList();
+        // chatVm.getLastMessages(roomName!);
+        // print(aList[0]);
 
+        // String? roomName = listOfRoomName[index];
+        //
+        // Map<dynamic,dynamic> lastChatList = {};
+        // for(var item in listOfRoomID){
+        //   String? roomName = roomDetails["group"][item];
+        //   var lastChat = chatVm.lastChatRoom(roomName);
+        //   bool unSeen = chatVm.unread(roomName!, userProv.currUser);
+        //   chatVm.listenChanges(roomName);
+        //   lastChatList[item] = [lastChat,unSeen];
+        // }
+        //
+        // print(lastChatList);
         // var name = chatVm.getData(roomName);
 
         return SizedBox(
@@ -101,13 +127,7 @@ class ChatGroups extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             itemCount: roomDetails["group"].length,
             itemBuilder: (BuildContext context, int index) {
-              // chatVm.getLastMessages(roomId);
-              // var lastChat = chatVm.lastChatRoom(roomId);
-              String roomName = roomDetails["group"][listOfuser?[index]];
-              chatVm.getLastMessages(roomName);
-              var lastChat = chatVm.lastChatRoom(roomName);
-              bool unSeen = chatVm.unread(roomName, userProv.currUser);
-              chatVm.listenChanges(roomName);
+
 
               return GestureDetector(
                   onTap: () {
@@ -116,12 +136,14 @@ class ChatGroups extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
-                                ChatRoom(roomName: roomName)));
+                                ChatRoom(roomName: listOfRoomName[index])));
                   },
                   child: ChatGroupTile(
-                    roomId: listOfuser?[index],
-                    name: roomName,
-                    lastSeen: lastChat,
+                    // roomId: listOfRoomID?[index],
+                    name: listOfRoomName[index],
+                    chatVm: chatVm,
+                    userProv: userProv,
+                    // lastSeen: lastChatList[listOfRoomName[index]][0],
                   ));
             },
           ),

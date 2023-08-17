@@ -1,3 +1,5 @@
+
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zineapp2023/screens/chat/view_model/chat_room_view_model.dart';
@@ -17,6 +19,8 @@ class ChatScreen extends StatelessWidget {
         var currUser = userProv.currUser;
         var roomDetails = currUser.roomDetails;
         // for (var item in roomDetails["project"].values.toList()) print(item);
+        // print(roomDetails["group"].isEmpty );
+        // print(roomDetails["project"]);
 
 
 
@@ -43,6 +47,7 @@ class ChatScreen extends StatelessWidget {
                   const Channel(
                     name: "Announcements",
                   ),
+                  !roomDetails["group"].isEmpty?
                   const Padding(
                     padding: EdgeInsets.all(8.0),
                     child: Text(
@@ -53,8 +58,8 @@ class ChatScreen extends StatelessWidget {
                         fontSize: 16,
                       ),
                     ),
-                  ),
-                  ChatGroups(),
+                  ):Container(),
+                  !roomDetails["group"].isEmpty?ChatGroups():Container(),
 
                   // Column(
                   //   mainAxisAlignment: MainAxisAlignment.center,
@@ -67,7 +72,7 @@ class ChatScreen extends StatelessWidget {
                   SizedBox(
                     height: 10,
                   ),
-                  const Padding(
+                  !roomDetails["group"].isEmpty?const Padding(
                     padding: EdgeInsets.all(8.0),
                     child: Text(
                       "Rooms",
@@ -77,15 +82,15 @@ class ChatScreen extends StatelessWidget {
                         fontSize: 16,
                       ),
                     ),
-                  ),
-                  Column(
+                  ):Container(),
+                  !roomDetails["group"].isEmpty?Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       if (currUser.rooms != null)
                         for (var item in roomDetails["project"].values.toList())
                           Channel(name: item)
                     ],
-                  ),
+                  ):Container(),
                 ],
               ),
             ),
