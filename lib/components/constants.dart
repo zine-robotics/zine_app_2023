@@ -21,5 +21,6 @@ const exploreCards = [
   },
 ];
 
-final emailReg = RegExp(r'^20\d\d((kucp)|(kuec)|(ucp)|(uec)|(uee)|(uch)|(ume)|(uce)|(umt)|(uar))\d{4}@((mnit)|(iiitkota)).ac.in$');
+// final emailReg = RegExp(r'^20\d\d((kucp)|(kuec)|(ucp)|(uec)|(uee)|(uch)|(ume)|(uce)|(umt)|(uar))\d{4}@((mnit)|(iiitkota)).ac.in$');
+final emailReg = RegExp(r'/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/');
 final passwordReg = RegExp(r'[\w!@#$%^&*()]{6,12}');

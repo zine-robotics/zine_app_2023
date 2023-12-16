@@ -17,7 +17,7 @@ class EmailScreen extends StatelessWidget {
     return Consumer2<PasswordResetVm, UserProv>(
         builder: (context, passVm, userProv, _) {
       if (userProv.isLoggedIn) {
-        passVm.setEmail(userProv.currUser.email!) ;
+        passVm.setEmail(userProv.currUser.email!);
         emailController.text = userProv.currUser.email!;
       }
       return Scaffold(
@@ -40,7 +40,7 @@ class EmailScreen extends StatelessWidget {
                 ),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: const [
+              children: [
                 //White Circle Size
                 Align(
                   alignment: Alignment.bottomCenter,
@@ -133,15 +133,14 @@ class EmailScreen extends StatelessWidget {
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return "Please enter an email address";
-                              } else if (!emailReg.hasMatch(passVm.email)) {
-                                return "Not a valid email. Use College email to Login";
                               }
+                              // } else if (!emailReg.hasMatch(passVm.email)) {
+                              //   return "Not a valid email.";
+                              // }
                               return null;
                             },
                             decoration: const InputDecoration(
-                              errorStyle: TextStyle(
-                                color: Colors.red
-                              ),
+                              errorStyle: TextStyle(color: Colors.red),
                               contentPadding:
                                   EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 15.0),
                               floatingLabelBehavior:

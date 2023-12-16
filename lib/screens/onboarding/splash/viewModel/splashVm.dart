@@ -36,5 +36,4 @@ class SplashVM extends ChangeNotifier {
           .pushReplacement(Routes.landingScreen());
     }
   }
-
 }

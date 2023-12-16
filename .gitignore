@@ -43,3 +43,6 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 android/key.properties
+/upload-keystore.jks
+/upload-keystore.jks.old
+/upload_certificate.pem

@@ -57,6 +57,7 @@ class _EventCardState extends State<EventCard> {
               : SizedBox(width: MediaQuery.of(context).size.width * 0.1),
           leading: !isExpanded
               ? Container(
+            // height: ,
                   width: MediaQuery.of(context).size.width * 0.1,
                   decoration: BoxDecoration(
                       color: isOld
@@ -92,27 +93,31 @@ class _EventCardState extends State<EventCard> {
                     )
                   : Container(),
               if (!isExpanded)
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                Wrap(
+                  alignment: WrapAlignment.start,
+                  crossAxisAlignment: WrapCrossAlignment.start,
                   children: [
-                    const Spacer(),
+                    // const Spacer(),
+                    const SizedBox(width: 15,),
                     Text(
                       getDate(event.timeDate as Timestamp),
                       textAlign: TextAlign.center,
                       style: textStyle3,
                     ),
-                    const Spacer(),
+                    const SizedBox(width: 15,),
+                    // const Spacer(),
                     Text(
                       getTime(event.timeDate as Timestamp),
                       textAlign: TextAlign.center,
                       style: textStyle3,
                     ),
-                    const Spacer(),
+                    const SizedBox(width: 15,),
+                    // const Spacer(),
                     Text(
                       event.venue.toString(),
                       textAlign: TextAlign.center,
                       style: textStyle3,
+                      softWrap: true,
                     ),
                     const Spacer(),
                   ],
@@ -130,16 +135,16 @@ class _EventCardState extends State<EventCard> {
                 borderRadius: const BorderRadius.only(
                     bottomRight: Radius.circular(20),
                     bottomLeft: Radius.circular(20)),
-                gradient: !isOld
-                    ? null
-                    : LinearGradient(
-                        begin: Alignment.centerLeft,
-                        stops: [0.01, 0.97],
-                        colors: [
-                          const Color.fromARGB(255, 194, 255, 244),
-                          Colors.white.withOpacity(1)
-                        ],
-                      ),
+                // gradient: !isOld
+                //     ? null
+                //     : LinearGradient(
+                //         begin: Alignment.centerLeft,
+                //         stops: [0.01, 0.97],
+                //         colors: [
+                //           const Color.fromARGB(255, 194, 255, 244),
+                //           Colors.white.withOpacity(1)
+                //         ],
+                //       ),
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -148,7 +153,8 @@ class _EventCardState extends State<EventCard> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      const Spacer(),
+                      const SizedBox(width: 15,),
+                      // const Spacer(),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -173,33 +179,41 @@ class _EventCardState extends State<EventCard> {
                       const SizedBox(
                         width: 10,
                       ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            getDate(event.timeDate as Timestamp),
-                            textAlign: TextAlign.center,
-                            style: textStyleC2,
-                          ),
-                          Text(
-                            getTime(event.timeDate as Timestamp),
-                            textAlign: TextAlign.center,
-                            style: textStyleC2,
-                          ),
-                          Text(
-                            event.venue.toString(),
-                            textAlign: TextAlign.center,
-                            style: textStyleC2,
-                          ),
-                        ],
+                      SizedBox(
+                        width: 120,
+                        child: Column(
+                          // direction: Axis.vertical,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              getDate(event.timeDate as Timestamp),
+                              textAlign: TextAlign.left,
+                              softWrap: true,
+                              style: textStyleC2,
+                            ),
+                            Text(
+                              getTime(event.timeDate as Timestamp),
+                              textAlign: TextAlign.left,
+                              softWrap: true,
+                              style: textStyleC2,
+                            ),
+                            Text(
+                              event.venue.toString(),
+                              textAlign: TextAlign.left,
+                              softWrap: true,
+                              style: textStyleC2,
+                            ),
+                          ],
+                        ),
                       ),
-                      const Spacer(),
-                      Container(
-                        padding: const EdgeInsets.all(10),
-                        width: 150,
-                        child: Text(
-                          event.description.toString(),
+                      // const Spacer(),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Text(
+                            event.description.toString(),
+                          ),
                         ),
                       ),
                     ],

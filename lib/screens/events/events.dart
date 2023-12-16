@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:zineapp2023/screens/dashboard/view_models/dashboard_vm.dart';
 import 'package:zineapp2023/screens/events/eventCard.dart';
 import 'package:zineapp2023/screens/events/view_models/events_vm.dart';
 import 'package:zineapp2023/theme/color.dart';
@@ -9,7 +10,7 @@ class Events extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<EventsVm>(builder: (context, eventsVm, _) {
+    return Consumer2<EventsVm,DashboardVm>(builder: (context, eventsVm,dashVm, _) {
       eventsVm.getAllEvents();
       var events = eventsVm.events;
       return Scaffold(
@@ -27,8 +28,9 @@ class Events extends StatelessWidget {
               color: Colors.black,
             ),
           ),
-          title: const Text(
-            "EVENT",
+          title:  Text(
+            dashVm.events.length != 0?
+            "EVENT":"Past Events",
             style: TextStyle(
               height: 0.9,
               letterSpacing: 0.3,
@@ -49,7 +51,7 @@ class Events extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  for (int i = 0; i < events.length; i++)
+                  for (int i = events.length-1; i >=0 ; i--)
                     EventCard(event: events[i])
                 ],
               ),

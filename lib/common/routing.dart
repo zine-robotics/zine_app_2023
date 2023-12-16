@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:zineapp2023/screens/chat/chat_home.dart';
+import 'package:zineapp2023/screens/explore/coming_soon.dart';
+import 'package:zineapp2023/screens/tasks/taskDesc.dart';
 import 'package:zineapp2023/screens/tasks/task_screen.dart';
 import '../screens/explore/achievements.dart';
 import '../screens/explore/team/team.dart';
@@ -26,7 +28,9 @@ class RouteName {
   static const emailScreen = "email";
   static const chatHome = "chatHome";
   static const eventName = "eventName";
-  static const tasks="tasks";
+  static const tasks = "tasks";
+  static const taskDesc = "taskDesc";
+  static const comingSoon = "comingSoon";
 }
 
 class Routes {
@@ -54,15 +58,24 @@ class Routes {
 
   static Route aboutMe() =>
       cupertinoRoute(RouteName.aboutMe, (ctx) => const AboutScreen());
+
   static Route chatHome() =>
       cupertinoRoute(RouteName.chatHome, (ctx) => const ChatHome());
+
   static Route tasks() =>
       cupertinoRoute(RouteName.tasks, (ctx) => const ChatHome());
+
   static Route Event() =>
       cupertinoRoute(RouteName.eventName, (ctx) => Events());
 
+  static Route taskDesc() =>
+      cupertinoRoute(RouteName.taskDesc, (ctx) => TaskDesc());
+
   static Route workshopTimeline() => cupertinoRoute(
       RouteName.wokrshopTimeline, (ctx) => const WorkshopScreen());
+
+  static Route comingSoon() =>
+      cupertinoRoute(RouteName.exploreScreen, (ctx) => const ComingSoon());
 
   static Route exploreScreen() =>
       cupertinoRoute(RouteName.exploreScreen, (ctx) => const Explore());
