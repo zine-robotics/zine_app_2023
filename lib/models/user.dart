@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:zineapp2023/models/userTask.dart';
 
 class UserModel {
@@ -17,17 +16,17 @@ class UserModel {
 
   UserModel(
       {this.uid,
-        this.email,
-        this.name,
-        this.type,
-        this.dp,
-        this.tasks,
-        this.registered,
-        this.pushToken,
-        this.lastSeen,
-        this.rooms,
-        this.roomIDs,
-        this.roomDetails});
+      this.email,
+      this.name,
+      this.type,
+      this.dp,
+      this.tasks,
+      this.registered,
+      this.pushToken,
+      this.lastSeen,
+      this.rooms,
+      this.roomIDs,
+      this.roomDetails});
 
   UserModel.fromJson(Map<String, dynamic> json) {
     email = json['email'];

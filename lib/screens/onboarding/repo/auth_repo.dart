@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:zineapp2023/models/tasks.dart';
 import 'package:zineapp2023/models/userTask.dart';
+import 'package:zineapp2023/providers/user_info.dart';
 
 import '/common/data_store.dart';
 import '../../../models/user.dart';
@@ -37,7 +38,6 @@ class AuthRepo {
       password: password!,
     );
 
-    //TODO - Uncomment before Release
     if (!credential.user!.emailVerified) {
       signOut();
       print("User Logged out");
@@ -56,7 +56,6 @@ class AuthRepo {
     return false;
   }
 
-
   dynamic getRoomData(String groupID) {
     return _firebaseFirestore
         .collection('rooms')
@@ -64,32 +63,28 @@ class AuthRepo {
         .doc(groupID)
         .get()
         .then((querySnapshot) {
-      if (querySnapshot.data != null) {
-        return querySnapshot.data();
-      }
-    });
+      return querySnapshot.data();
+        });
   }
 
-  dynamic getRoomMap(dynamic listRoomIds) async{
-   dynamic roomDetails={"group":{},"project":{}};
-    for(var item in listRoomIds){
+  dynamic getRoomMap(dynamic listRoomIds) async {
+    dynamic roomDetails = {"group": {}, "project": {}};
+    for (var item in listRoomIds) {
       // print(item);
       dynamic temp = await getRoomData(item);
       // print(temp['type']);
 
       roomDetails[temp['type']][item] = temp['name'];
-
     }
     return roomDetails;
   }
 
   Future<Tasks> getTemp(UserTask e) async {
-
     DocumentSnapshot<Map<String, dynamic>> snapshot =
-    await e.task!.get() as DocumentSnapshot<Map<String, dynamic>>;
+        await e.task!.get() as DocumentSnapshot<Map<String, dynamic>>;
 
     if (!snapshot.data()!.containsKey('link')) {
-      snapshot.data()!['links']=[];
+      snapshot.data()!['links'] = [];
       await e.task!.update({'link': []});
     }
 
@@ -97,7 +92,6 @@ class AuthRepo {
 
     return data;
   }
-
 
   Future<List<UserTask>?> getTasks(uid) async {
     var query = await _firebaseFirestore
@@ -109,13 +103,12 @@ class AuthRepo {
     return docData.toList();
   }
 
-
   Future<UserModel?> getUserbyId(String uid) async {
     var user = await _firebaseFirestore.collection('users').doc(uid).get();
     user.data()!.putIfAbsent("lastSeen", () => {});
 
     var map = await getRoomMap(user['roomids']);
-    var tasks=await getTasks(uid);
+    var tasks = await getTasks(uid);
     List<Future<void>> futures = [];
     for (var e in tasks!) {
       futures.add(getTemp(e).then((value) => e.template = value));
@@ -124,7 +117,6 @@ class AuthRepo {
     await Future.wait(futures);
 
     // print(tasks);
-
 
     UserModel userMod = UserModel(
         uid: user['uid'],
@@ -139,11 +131,8 @@ class AuthRepo {
         roomDetails: map,
         lastSeen: user.data()!['lastSeen'] != null ? user['lastSeen'] : {});
 
-
     return userMod;
   }
-
-
 
   Future<UserModel?> createUserWithEmailAndPassword({
     String? name,
@@ -155,7 +144,6 @@ class AuthRepo {
       password: password!,
     );
 
-    // TODO : Uncomment before release
     credential.user!.sendEmailVerification();
 
     return UserModel(
@@ -166,6 +154,6 @@ class AuthRepo {
   Future<void> signOut() async {
     await _firebaseAuth.signOut();
     store.delete(key: 'uid');
-    store.delete(key: 'loggedIn');
+    store.setString('loggedIn','true');
   }
 }

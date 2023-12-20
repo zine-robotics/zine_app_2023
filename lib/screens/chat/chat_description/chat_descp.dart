@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:zineapp2023/screens/chat/view_model/chat_room_view_model.dart';
 import 'package:zineapp2023/theme/color.dart';
 
 
@@ -17,7 +15,7 @@ class ChatDescription extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    print(data);
+    // print(data);
 
     return Scaffold(
       backgroundColor: backgroundGrey,

@@ -1,6 +1,6 @@
 import "package:flutter/material.dart";
 import 'package:provider/provider.dart';
-
+import 'package:zineapp2023/components/widgets.dart';
 import '../../../components/gradient.dart';
 import '../../../components/tab_tiles.dart';
 import '../../../screens/explore/team/team_tile.dart';
@@ -8,14 +8,15 @@ import '../../../providers/dictionary.dart';
 import '../../../theme/color.dart';
 
 class TeamScreen extends StatelessWidget {
-  const TeamScreen({Key? key}) : super(key: key);
+  const TeamScreen({super.key});
 
   static const year = ["second", "third", "fourth"];
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<Language>(builder: (context, dict, _) {
-      return DefaultTabController(
+    return Consumer<Language>(
+      builder: (context, dict, _) {
+        return DefaultTabController(
           length: 3,
           child: Scaffold(
             backgroundColor: backgroundGrey,
@@ -26,25 +27,13 @@ class TeamScreen extends StatelessWidget {
               elevation: 0,
               toolbarHeight: MediaQuery.of(context).size.height * 0.1,
               flexibleSpace: Container(
-                decoration: const BoxDecoration(gradient: mainGrad),
-              ),
+                  decoration: const BoxDecoration(gradient: mainGrad)),
               centerTitle: true,
-              title: const Text(
-                "Team",
-                style: TextStyle(
-                    fontFamily: 'Poppins-Black',
-                    fontWeight: FontWeight.w900,
-                    letterSpacing: 0.8,
-                    fontSize: 30.0),
-              ),
+              title: appbarTitle("Team"),
               bottom: const TabBar(
                 labelColor: Colors.white,
-                labelStyle: TextStyle(
-                  fontSize: 20,
-                ),
-                unselectedLabelStyle: TextStyle(
-                  fontSize: 20,
-                ),
+                labelStyle: TextStyle(fontSize: 20),
+                unselectedLabelStyle: TextStyle(fontSize: 20),
                 unselectedLabelColor: Colors.white,
                 indicator: BoxDecoration(
                   border: Border(
@@ -67,23 +56,26 @@ class TeamScreen extends StatelessWidget {
               children: [
                 for (int i = 0; i < 3; i++)
                   ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: dict.teamScreen.team![i].length + 1,
-                      itemBuilder: (context, index) {
-                        return index == dict.teamScreen.team![i].length
-                            ? const SizedBox(
-                                height: 10.0,
-                              )
-                            : TeamTile(
-                                year: year[i],
-                                image: dict.teamScreen.team![i][index].image!,
-                                name: dict.teamScreen.team![i][index].name!,
-                                id: dict.teamScreen.team![i][index].email!,
-                              );
-                      })
+                    shrinkWrap: true,
+                    itemCount: dict.teamScreen.team![i].length + 1,
+                    itemBuilder: (context, index) {
+                      return index == dict.teamScreen.team![i].length
+                          ? const SizedBox(
+                              height: 10.0,
+                            )
+                          : TeamTile(
+                              year: year[i],
+                              image: dict.teamScreen.team![i][index].image!,
+                              name: dict.teamScreen.team![i][index].name!,
+                              id: dict.teamScreen.team![i][index].email!,
+                            );
+                    },
+                  )
               ],
             ),
-          ));
-    });
+          ),
+        );
+      },
+    );
   }
 }

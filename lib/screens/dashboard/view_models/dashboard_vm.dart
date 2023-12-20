@@ -9,15 +9,28 @@ class DashboardVm extends ChangeNotifier {
   final DataStore store;
   final UserProv userProv;
   final dashRepo = DashRepo();
+
+  static const Map<String, String> routes = {
+    "ALGORITHMS": "ALGO",
+    "BEE": "BEE",
+    "BME": "BME",
+    "AEROMODELLING": "AERO",
+    "IC-MCU": "IC-MCU",
+    "CYBERSECURITY": "CYBERSECURITY",
+    "WEB DEVELOPMENT": "WEBDEV",
+    "MACHINE LEARNING": "ML"
+  };
+
   DashboardVm({required this.store, required this.userProv});
+
   List<Events> _events = [];
-  dynamic prev=0;
+  dynamic prev = 0;
 
   get events => _events;
 
   void getRecentEvent() async {
     _events = await dashRepo.getLatestEvents();
-    if (_events.length!=prev){
+    if (_events.length != prev) {
       notifyListeners();
       prev = _events.length;
     }

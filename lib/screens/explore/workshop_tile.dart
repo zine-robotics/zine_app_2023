@@ -27,8 +27,7 @@ class WorkshopTile extends StatelessWidget {
   var title = [];
   var image = [];
 
-  WorkshopTile({required this.events, required this.i, Key? key})
-      : super(key: key);
+  WorkshopTile({required this.events, required this.i, super.key});
 
   @override
   Widget build(BuildContext context) {

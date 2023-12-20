@@ -4,8 +4,9 @@ import 'package:zineapp2023/api.dart';
 import 'package:zineapp2023/models/message.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
-import '../../../models/rooms.dart';
-import '../../../models/user.dart';
+import '../../../../models/rooms.dart';
+import '../../../../models/user.dart';
+
 
 class ChatRepo {
   // final SharedPreferences prefs;

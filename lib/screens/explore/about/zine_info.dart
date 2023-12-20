@@ -4,7 +4,7 @@ import 'package:zineapp2023/providers/dictionary.dart';
 import 'package:zineapp2023/theme/color.dart';
 
 class ZineInfo extends StatelessWidget {
-  const ZineInfo({Key? key}) : super(key: key);
+  const ZineInfo({super.key});
 
   @override
   Widget build(BuildContext context) {
