@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:zineapp2023/screens/chat/chat_home.dart';
 import 'package:zineapp2023/screens/explore/coming_soon.dart';
 import 'package:zineapp2023/screens/tasks/taskDesc.dart';
-import 'package:zineapp2023/screens/tasks/task_screen.dart';
 import '../screens/explore/achievements.dart';
 import '../screens/explore/team/team.dart';
 import '../screens/explore/explore.dart';
@@ -14,6 +13,16 @@ import '../screens/dashboard/profile.dart';
 import '../screens/explore/about/about.dart';
 import '../screens/explore/project.dart';
 import '../screens/events/events.dart';
+
+
+/// This file contains the routes to different screens. Please create a new route
+/// for the router to use here or else you'll have to route directly to the screen
+/// you made.
+///
+/// This just avoids boilerplate code and just reduces a single line of code from
+/// everywhere you route from.
+///
+/// Note: This file creates static routes which is overall better.
 
 class RouteName {
   static const landingScreen = "landingScreen";

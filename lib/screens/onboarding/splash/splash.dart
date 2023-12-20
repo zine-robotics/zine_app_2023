@@ -6,7 +6,7 @@ import '/components/gradient.dart';
 import '/screens/onboarding/splash/viewModel/splashVm.dart';
 
 class SplashScreen extends StatefulWidget {
-  const SplashScreen({Key? key}) : super(key: key);
+  const SplashScreen({super.key});
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
@@ -17,7 +17,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     var splashVm = Provider.of<SplashVM>(context, listen: false);
-    Timer(Duration(seconds: 4), () => splashVm.isLogged(context));
+    Timer(const Duration(seconds: 4), () => splashVm.isLogged(context));
   }
 
   @override
@@ -26,8 +26,8 @@ class _SplashScreenState extends State<SplashScreen> {
         body: Container(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
-          decoration: BoxDecoration(gradient: mainGrad),
-          child: Center(
+          decoration: const BoxDecoration(gradient: mainGrad),
+          child: const Center(
             child: CircleAvatar(
               radius: 75.0,
               backgroundColor: Colors.white,

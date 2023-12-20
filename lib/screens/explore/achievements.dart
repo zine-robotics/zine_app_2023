@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:timelines/timelines.dart';
+import 'package:zineapp2023/components/widgets.dart';
 
 import '../../components/gradient.dart';
 import '../../providers/dictionary.dart';
 import '../../../theme/color.dart';
 
 class AchievementScreen extends StatelessWidget {
-  const AchievementScreen({Key? key}) : super(key: key);
+  const AchievementScreen({super.key});
+
+  bool isEven(int index) {
+    return index % 2 == 0;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,23 +23,13 @@ class AchievementScreen extends StatelessWidget {
             elevation: 0,
             centerTitle: true,
             toolbarHeight: MediaQuery.of(context).size.height * 0.08,
-            title: const Text(
-              "Achievements",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 25,
-                fontWeight: FontWeight.w900,
-                letterSpacing: 1,
-              ),
-            ),
-
+            title: appbarTitle("Achievements"),
             flexibleSpace: Container(
               decoration: const BoxDecoration(
                   gradient: mainGrad //need to replace with made component
                   ),
             ),
           ),
-
           body: Timeline.tileBuilder(
             builder: TimelineTileBuilder.connected(
               contentsAlign: ContentsAlign.alternating,
@@ -42,12 +37,15 @@ class AchievementScreen extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(
                     vertical: 30.0, horizontal: 10.0),
                 child: Column(
-                  crossAxisAlignment: index%2==0 ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+                  crossAxisAlignment: isEven(index)
+                      ? CrossAxisAlignment.end
+                      : CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
                       dict.achievementScreen.achievement![index].title!,
-                      textAlign: index%2==0? TextAlign.right :TextAlign.left,
+                      textAlign:
+                          isEven(index) ? TextAlign.right : TextAlign.left,
                       style: const TextStyle(
                           color: textColor,
                           fontWeight: FontWeight.bold,
@@ -59,7 +57,8 @@ class AchievementScreen extends StatelessWidget {
                     Text(
                       dict.achievementScreen.achievement![index].date!
                           .toUpperCase(),
-                      textAlign: index%2==0? TextAlign.right :TextAlign.left,
+                      textAlign:
+                          isEven(index) ? TextAlign.right : TextAlign.left,
                       style: const TextStyle(
                           fontWeight: FontWeight.bold, fontSize: 13.0),
                     ),
@@ -71,7 +70,7 @@ class AchievementScreen extends StatelessWidget {
                     vertical: 25.0, horizontal: 12.0),
                 child: Text(
                   dict.achievementScreen.achievement![index].description!,
-                  textAlign: index%2!=0? TextAlign.right :TextAlign.left,
+                  textAlign: isEven(index) ? TextAlign.right : TextAlign.left,
                   style: const TextStyle(
                       fontWeight: FontWeight.w400, fontSize: 14.0),
                 ),

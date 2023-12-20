@@ -6,9 +6,8 @@ import "package:flutter/material.dart";
 import 'package:image_picker/image_picker.dart';
 import 'package:zineapp2023/models/user.dart';
 import 'package:zineapp2023/providers/user_info.dart';
-import 'package:zineapp2023/utilities/DateTime.dart';
+import 'package:zineapp2023/utilities/date_time.dart';
 
-import '../../../models/rooms.dart';
 import '../repo/chat_repo.dart';
 
 class ChatRoomViewModel extends ChangeNotifier {
@@ -50,7 +49,7 @@ class ChatRoomViewModel extends ChangeNotifier {
 
   void replyText(dynamic message) {
     replyTo = message;
-    print(message.message);
+    // print(message.message);
     replyfocus.requestFocus();
   }
 
@@ -65,14 +64,14 @@ class ChatRoomViewModel extends ChangeNotifier {
   //   notifyListeners();
   // }
 
-  dynamic getRoomData(String groupName) async{
+  dynamic getRoomData(String groupName) async {
     print("Function was called Again on a new screen");
-    var data = await  chatP.getRooms(groupName);
+    var data = await chatP.getRooms(groupName);
     // print(data.members);
     var membersList = data.members;
     List<dynamic> list = [];
 
-    for(var member in membersList){
+    for (var member in membersList) {
       var temp = await chatP.getUserDetailsByID(member);
       list.add(temp as UserModel);
     }
@@ -82,7 +81,6 @@ class ChatRoomViewModel extends ChangeNotifier {
     // getListOfUsers(list);
     // notifyListeners();
     // return list;
-
   }
 
   // dynamic getUserList(String uid){
@@ -167,14 +165,9 @@ class ChatRoomViewModel extends ChangeNotifier {
   dynamic getLastMessages(String roomName) async {
     print("function Called");
     dynamic timeStamp = await chatP.getLastChat(roomName);
-    if (Timestamp != null) {
-      dynamic prev = lastChats;
-      lastChats[roomName] = timeStamp;
-      if (!mapEquals(lastChats, prev)) notifyListeners();
-    } else {
-      print("object");
-      return null;
-    }
+    dynamic prev = lastChats;
+    lastChats[roomName] = timeStamp;
+    if (!mapEquals(lastChats, prev)) notifyListeners();
   }
 
   bool unread(String name, UserModel user) {
@@ -194,21 +187,21 @@ class ChatRoomViewModel extends ChangeNotifier {
     return "";
   }
 
-  void roomLeft(var room, var user, UserProv userProv) {
-    chatP.updateLastSeen(user, room);
-    userProv.updateLast(room);
-    notifyListeners();
-    print('left $room');
-  }
+  // void roomLeft(var room, var user, UserProv userProv) {
+  //   chatP.updateLastSeen(user, room);
+  //   userProv.updateLast(room);
+  //   notifyListeners();
+  //   print('left $room');
+  // }
 
-  void addRouteListener(
-      BuildContext context, var room, var user, UserProv userProv) {
-    replyTo = null;
-    ModalRoute.of(context)?.addScopedWillPopCallback(() {
-      roomLeft(room, user, userProv);
-      return Future.value(true);
-    });
-  }
+  // void addRouteListener(
+  //     BuildContext context, var room, var user, UserProv userProv) {
+  //   replyTo = null;
+  //   ModalRoute.of(context)?.addScopedWillPopCallback(() {
+  //     roomLeft(room, user, userProv);
+  //     return Future.value(true);
+  //   });
+  // }
 
   Future<void> pickImage(ImageSource source) async {
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);

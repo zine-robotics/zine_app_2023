@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -5,7 +6,9 @@ const String serverKey =
     'AAAAbcVwtbU:APA91bET7ksps569G0nG29zoQXlRSf0jcRCsmGMVaimUz9qWl9Gf51Z1qirKwIfPr-Zjr2tiee8ftel-GoMoHer1_uUyMPSdKLlDzoES08CCmr8zmMKpK5lC6CjY0AeGHKpAuHD_bD6R';
 
 Future<void> sendFCMMessage(String topic, String title, String body) async {
-  print('/topics/$topic');
+  if (kDebugMode) {
+    print('/topics/$topic');
+  }
   final Map<String, dynamic> message = <String, dynamic>{
     'notification': <String, dynamic>{
       'title': topic,
@@ -26,8 +29,12 @@ Future<void> sendFCMMessage(String topic, String title, String body) async {
   );
 
   if (response.statusCode == 200) {
-    print('FCM message sent to topic $topic!');
+    if (kDebugMode) {
+      print('FCM message sent to topic $topic!');
+    }
   } else {
-    print('Error sending FCM message to topic $topic: ${response.body}');
+    if (kDebugMode) {
+      print('Error sending FCM message to topic $topic: ${response.body}');
+    }
   }
 }

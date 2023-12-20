@@ -6,7 +6,7 @@ class MessageModel {
   String? from;
   Timestamp? timeStamp;
   String? sender_id;
-  dynamic? replyTo;
+  dynamic replyTo;
   String? type;
 
   MessageModel({
@@ -25,8 +25,8 @@ class MessageModel {
     from = json['from'];
     timeStamp = json['to'];
     type = json['type'];
-    replyTo=json['replyTo'];
-    sender_id=json['sender_id'];
+    replyTo = json['replyTo'];
+    sender_id = json['sender_id'];
   }
 
   Map<String, dynamic> toJson() {
@@ -36,8 +36,8 @@ class MessageModel {
     data['from'] = from;
     data['timeStamp'] = timeStamp;
     data['type'] = type;
-    data['replyTo']=replyTo;
-    data['sender_id']=sender_id;
+    data['replyTo'] = replyTo;
+    data['sender_id'] = sender_id;
     return data;
   }
 
@@ -47,6 +47,6 @@ class MessageModel {
         timeStamp = snapshot.data()['timeStamp'],
         type = snapshot.data()['type'],
         message = snapshot.data()['message'],
-  sender_id=snapshot.data()['sender_id'],
-        replyTo=snapshot.data()['replyTo'];
+        sender_id = snapshot.data()['sender_id'],
+        replyTo = snapshot.data()['replyTo'];
 }

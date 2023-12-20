@@ -1,5 +1,8 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
+/// This DataStore is created for setting up SharedPreferences.
+/// The default functions are defined here to use the DataStore
+
 abstract class DataStore {
   DataStore(SharedPreferences sharedPreferences);
 
