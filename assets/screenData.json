@@ -242,6 +242,11 @@
 	"team": [
 		[
 			{
+				"name": "Anmol Bansal",
+				"image": "anmol",
+				"email": "2021uee1064@mnit.ac.in"
+			},
+			{
 				"name": "Granth Gupta",
 				"image": "granth",
 				"email": "2021KUCP1015@iiitkota.ac.in"
@@ -251,10 +256,16 @@
 				"image": "harshit",
 				"email": "2021UCP1382@mnit.ac.in"
 			},
+
 			{
-				"name": "Kasvala Meet",
-				"image": "meet",
-				"email": "2021UEE1378@mnit.ac.in"
+				"name": "Mashaal Sayeed",
+				"image": "mashaal",
+				"email": "2021ucp1011@mnit.ac.in"
+			},
+			{
+				"name": "Moordhan Songade",
+				"image": "moordhan",
+				"email": "2021ucp1072@mnit.ac.in"
 			},
 			{
 				"name": "Priyansh Kothari",
@@ -344,6 +355,11 @@
 				"name": "Harshit Garg",
 				"image": "harshit",
 				"email": "2019ume1205@mnit.ac.in"
+			},
+			{
+				"name": "Ishika Panwar",
+				"image": "ishika",
+				"email": "2019ucp1661@mnit.ac.in"
 			},
 			{
 				"name": "Puneet Singh",

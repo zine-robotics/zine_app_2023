@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:zineapp2023/models/userTask.dart';
 
 class UserModel {
   String? email;
@@ -7,24 +8,26 @@ class UserModel {
   String? name;
   bool? registered = false;
   String? pushToken;
-  List<dynamic>? tasks = [];
+  List<UserTask>? tasks = [];
   List<dynamic>? rooms = [];
-  Map<String, Timestamp> lastSeen = {
-    "test": Timestamp.fromDate(DateTime.now())
-  };
+  List<dynamic>? roomIDs = [];
+  dynamic roomDetails = {};
+  dynamic lastSeen;
   int? dp;
 
-  UserModel({
-    this.uid,
-    this.email,
-    this.name,
-    this.type,
-    this.dp,
-    this.tasks,
-    this.registered,
-    this.pushToken,
-    this.rooms,
-  });
+  UserModel(
+      {this.uid,
+        this.email,
+        this.name,
+        this.type,
+        this.dp,
+        this.tasks,
+        this.registered,
+        this.pushToken,
+        this.lastSeen,
+        this.rooms,
+        this.roomIDs,
+        this.roomDetails});
 
   UserModel.fromJson(Map<String, dynamic> json) {
     email = json['email'];
@@ -36,6 +39,7 @@ class UserModel {
     registered = json['registered'];
     pushToken = json['pushToken'];
     rooms = json['rooms'];
+    roomIDs = json['roomids'];
     lastSeen = json['lastSeen'];
   }
 
@@ -50,8 +54,8 @@ class UserModel {
     data['registered'] = registered;
     data['pushToken'] = pushToken;
     data['rooms'] = rooms;
+    data['roomids'] = roomIDs;
     data['lastSeen'] = lastSeen;
-
     return data;
   }
 }

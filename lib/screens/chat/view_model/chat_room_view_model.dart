@@ -1,19 +1,32 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import "package:flutter/material.dart";
-import 'package:zineapp2023/models/message.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:zineapp2023/models/user.dart';
+import 'package:zineapp2023/providers/user_info.dart';
 import 'package:zineapp2023/utilities/DateTime.dart';
 
+import '../../../models/rooms.dart';
 import '../repo/chat_repo.dart';
 
 class ChatRoomViewModel extends ChangeNotifier {
   final chatP = ChatRepo();
 
   dynamic allData;
+  dynamic replyTo;
+  FocusNode replyfocus = FocusNode();
 
   String _roomId = "Hn9GSQnvi5zh9wabLGuT";
   final name = "Announcement";
+  Map<String, dynamic> chatSubscription = {};
+  final picker = ImagePicker();
 
   get roomId => _roomId;
+  Map<String, Timestamp> lastChats = {};
+  final CollectionReference _rooms =
+      FirebaseFirestore.instance.collection('rooms');
 
   void setRoomId(String value) {
     _roomId = value;
@@ -35,21 +48,110 @@ class ChatRoomViewModel extends ChangeNotifier {
     allData = await chatP.getChatStream(_roomId);
   }
 
-  void getRoomId() async {}
+  void replyText(dynamic message) {
+    replyTo = message;
+    print(message.message);
+    replyfocus.requestFocus();
+  }
+
+  void cancelReply() {
+    replyTo = null;
+  }
+
+  List<dynamic> listOfUsers = [];
+
+  // void getListOfUsers(dynamic list){
+  //   listOfUsers = list;
+  //   notifyListeners();
+  // }
+
+  dynamic getRoomData(String groupName) async{
+    print("Function was called Again on a new screen");
+    var data = await  chatP.getRooms(groupName);
+    // print(data.members);
+    var membersList = data.members;
+    List<dynamic> list = [];
+
+    for(var member in membersList){
+      var temp = await chatP.getUserDetailsByID(member);
+      list.add(temp as UserModel);
+    }
+
+    // await Future.wait(list as Iterable<Future>);
+    listOfUsers = list;
+    // getListOfUsers(list);
+    // notifyListeners();
+    // return list;
+
+  }
+
+  // dynamic getUserList(String uid){
+  //
+  // }
+
+  void listenChanges(String name) {
+    var id = null;
+    // print(chatSubscription[name]);
+    if (chatSubscription[name] == null) {
+      _rooms
+          .where("name", isEqualTo: name)
+          .limit(1)
+          .get()
+          .then((value) => id = value.docs[0].id)
+          .catchError((e) => {print(e)})
+          .whenComplete(
+            () => {
+              if (id != null)
+                {
+                  chatSubscription[name] =
+                      _rooms.doc(id).collection("messages").snapshots().listen(
+                    (QuerySnapshot snapshot) {
+                      for (var change in snapshot.docChanges) {
+                        if (change.type == DocumentChangeType.added) {
+                          // print("added");
+                          notifyListeners();
+                        } else if (change.type == DocumentChangeType.modified) {
+                          // print("modified");
+                          notifyListeners();
+                        } else if (change.type == DocumentChangeType.removed) {
+                          notifyListeners();
+                        }
+                      }
+                    },
+                  )
+                }
+            },
+          );
+    }
+  }
 
   Stream<QuerySnapshot<Object?>> getData(roomName) async* {
-    print(roomName);
+    // print(roomName);
     allData = await chatP.getChatStream(roomName);
     yield* allData;
   }
 
   void send({from, roomId}) {
     // getChats();
-    _text.isEmpty ? null : chatP.sendMessage(from, roomId, _text);
+    print("sending");
+    print(replyTo);
+    _text.isEmpty ? null : chatP.sendMessage(from, roomId, _text, replyTo);
+    replyTo = null;
     setText("");
+
     notifyListeners();
   }
 
+  void updateMessage(DocumentReference docRef) async {
+    await docRef.update({'replyTo': null});
+  }
+
+  // void send({from, roomId}) {
+  //   // getChats();
+  //   _text.isEmpty ? null : chatP.sendMessage(from, roomId, _text);
+  //   setText("");
+  //   notifyListeners();
+  // }
   String _lastChatTime = "";
 
   get lastChatTime => _lastChatTime;
@@ -58,27 +160,64 @@ class ChatRoomViewModel extends ChangeNotifier {
     _lastChatTime = value;
   }
 
-  bool rederDate(var index)
-  {
-
+  bool rederDate(var index) {
     return false;
   }
 
-  dynamic getLastMessage(String roomName) {
-    print(chatP.getLastChat(roomName));
-    if (chatP.getLastChat(roomName) != null) {
-      chatP.getLastChat(roomName).then((value) {
-        setTimeChat(getTime(value.timeStamp!));
-        print(chatP.getLastChat(roomName));
-        return getTime(value.timeStamp!);
-        // notifyListeners();
-      });
+  dynamic getLastMessages(String roomName) async {
+    print("function Called");
+    dynamic timeStamp = await chatP.getLastChat(roomName);
+    if (Timestamp != null) {
+      dynamic prev = lastChats;
+      lastChats[roomName] = timeStamp;
+      if (!mapEquals(lastChats, prev)) notifyListeners();
     } else {
-      setTimeChat("00:00");
-      return "--";
-      // notifyListeners();
+      print("object");
+      return null;
     }
+  }
 
-    // return "00";
+  bool unread(String name, UserModel user) {
+    if (lastChats[name] != null) {
+      if (user.lastSeen != null && user.lastSeen[name] != null) {
+        return lastChats[name]!.compareTo(user.lastSeen[name]) > 0;
+      }
+    }
+    return false;
+  }
+
+  String lastChatRoom(var name) {
+    if (lastChats[name] != null) {
+      var lastChat = getTime(lastChats[name] as Timestamp);
+      return lastChat;
+    }
+    return "";
+  }
+
+  void roomLeft(var room, var user, UserProv userProv) {
+    chatP.updateLastSeen(user, room);
+    userProv.updateLast(room);
+    notifyListeners();
+    print('left $room');
+  }
+
+  void addRouteListener(
+      BuildContext context, var room, var user, UserProv userProv) {
+    replyTo = null;
+    ModalRoute.of(context)?.addScopedWillPopCallback(() {
+      roomLeft(room, user, userProv);
+      return Future.value(true);
+    });
+  }
+
+  Future<void> pickImage(ImageSource source) async {
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    dynamic imageFile;
+
+    if (pickedFile != null) {
+      imageFile = File(pickedFile.path);
+
+      await chatP.uploadImageToFirebase(imageFile);
+    }
   }
 }

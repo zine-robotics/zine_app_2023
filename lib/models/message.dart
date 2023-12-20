@@ -5,12 +5,18 @@ class MessageModel {
   String? group;
   String? from;
   Timestamp? timeStamp;
+  String? sender_id;
+  dynamic? replyTo;
+  String? type;
 
   MessageModel({
     this.message,
     this.group,
     this.from,
     this.timeStamp,
+    this.replyTo,
+    this.type,
+    this.sender_id,
   });
 
   MessageModel.fromJson(Map<String, dynamic> json) {
@@ -18,6 +24,9 @@ class MessageModel {
     group = json['group'];
     from = json['from'];
     timeStamp = json['to'];
+    type = json['type'];
+    replyTo=json['replyTo'];
+    sender_id=json['sender_id'];
   }
 
   Map<String, dynamic> toJson() {
@@ -26,6 +35,9 @@ class MessageModel {
     data['group'] = group;
     data['from'] = from;
     data['timeStamp'] = timeStamp;
+    data['type'] = type;
+    data['replyTo']=replyTo;
+    data['sender_id']=sender_id;
     return data;
   }
 
@@ -33,5 +45,8 @@ class MessageModel {
       : from = snapshot.data()['from'],
         group = snapshot.data()['group'],
         timeStamp = snapshot.data()['timeStamp'],
-        message = snapshot.data()['message'];
+        type = snapshot.data()['type'],
+        message = snapshot.data()['message'],
+  sender_id=snapshot.data()['sender_id'],
+        replyTo=snapshot.data()['replyTo'];
 }

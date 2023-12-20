@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:zineapp2023/models/user.dart';
+import 'package:zineapp2023/screens/onboarding/repo/auth_repo.dart';
 
 import '../common/data_store.dart';
 
@@ -66,5 +67,9 @@ class UserProv extends ChangeNotifier {
 
   dynamic getUserInfo() {
     return currUser;
+  }
+
+  void updateLast(String name) {
+    currUser.lastSeen[name] = Timestamp.fromDate(DateTime.now());
   }
 }

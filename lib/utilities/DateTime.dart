@@ -22,6 +22,11 @@ String getDate(Timestamp timeStamp) {
   return '${timeStamp.toDate().day} ${months[timeStamp.toDate().month - 1]}';
 }
 
+List<int> getDMY(Timestamp tmp) {
+
+  return [tmp.toDate().day, tmp.toDate().month, tmp.toDate().year];
+}
+
 String getDDMMYY(Timestamp timeStamp) {
   return '${timeStamp.toDate().day}-${timeStamp.toDate().month - 1}-${timeStamp.toDate().year}';
 }

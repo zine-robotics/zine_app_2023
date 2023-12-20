@@ -38,9 +38,9 @@ class EmailScreen extends StatelessWidget {
                     BorderRadius.vertical(bottom: Radius.circular(25.0)),
                 gradient: mainGrad //need to replace with made component
                 ),
-            child: Row(
+            child: const Row(
               crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: const [
+              children: [
                 //White Circle Size
                 Align(
                   alignment: Alignment.bottomCenter,
@@ -132,10 +132,10 @@ class EmailScreen extends StatelessWidget {
                             cursorColor: textColor,
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return "Please enter an email address";
-                              } else if (!emailReg.hasMatch(passVm.email)) {
-                                return "Not a valid email. Use College email to Login";
-                              }
+                                return "Please enter an email address";}
+                              // } else if (!emailReg.hasMatch(passVm.email)) {
+                              //   return "Not a valid email.";
+                              // }
                               return null;
                             },
                             decoration: const InputDecoration(

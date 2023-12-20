@@ -48,6 +48,7 @@ class MyApp extends StatelessWidget {
   // final SharedPreferences prefs;
   final DataStore store;
   final UserProv userProv;
+
   const MyApp({
     super.key,
     required this.store,
@@ -57,18 +58,19 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppProviders(
-        language: _language,
-        userProv: userProv,
-        store: store,
-        child: MaterialApp(
-          navigatorKey: NavigationService.navigatorKey,
-          title: 'Flutter Demo',
-          theme: ThemeData(
-            fontFamily: 'Poppins',
-            primarySwatch: Colors.blue,
-          ),
-          home: const SplashScreen(),
-        ));
+      language: _language,
+      userProv: userProv,
+      store: store,
+      child: MaterialApp(
+        navigatorKey: NavigationService.navigatorKey,
+        title: 'Zine',
+        theme: ThemeData(
+          fontFamily: 'Poppins',
+          primarySwatch: Colors.blue,
+        ),
+        home: const SplashScreen(),
+      ),
+    );
   }
 }
 //

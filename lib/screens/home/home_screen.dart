@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:decorated_icon/decorated_icon.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -12,9 +13,9 @@ import '../../theme/color.dart';
 class Home extends StatelessWidget {
   const Home({Key? key}) : super(key: key);
 
-  static const List<Widget> _widgetOptions = <Widget>[
-    ChatHome(),
-    Explore(),
+  static  final List<Widget> _widgetOptions = <Widget>[
+    const ChatHome(),
+    const Explore(),
     Dashboard(),
   ];
 

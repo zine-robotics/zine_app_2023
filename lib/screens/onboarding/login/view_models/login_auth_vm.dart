@@ -77,7 +77,7 @@ class LoginAuthViewModel with ChangeNotifier {
         email: data['email'],
         password: data['password'],
       );
-      print(value);
+      // print(value);
       userProvider.updateUserInfo(value!);
 
       setLoading(false);

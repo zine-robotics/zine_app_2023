@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zineapp2023/models/message.dart';
@@ -20,9 +21,13 @@ class Channel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ChatRoomViewModel>(builder: (context, chatVm, _) {
-      var lastSeen = chatVm.getLastMessage(name);
-      if (lastSeen == null) lastSeen = "";
+    return Consumer2<ChatRoomViewModel, UserProv>(
+        builder: (context, chatVm, userProv, _) {
+      chatVm.getLastMessages(name);
+      var lastChat = chatVm.lastChatRoom(name);
+      bool unSeen = chatVm.unread(name, userProv.currUser);
+      chatVm.listenChanges(name);
+
       return Padding(
         padding: const EdgeInsets.all(5.0),
         child: GestureDetector(
@@ -36,7 +41,7 @@ class Channel extends StatelessWidget {
           child: Container(
             decoration: const BoxDecoration(
               borderRadius: BorderRadius.all(
-                Radius.circular(6),
+                Radius.circular(8),
               ),
               color: Color.fromRGBO(170, 170, 170, 0.1),
               // : const Color.fromRGBO(47, 128, 237, 0.1),
@@ -72,31 +77,34 @@ class Channel extends StatelessWidget {
                     children: [
                       Row(
                         children: [
-                          // Container(
-                          //   decoration: BoxDecoration(
-                          //     borderRadius: BorderRadius.circular(10),
-                          //     color: const Color.fromRGBO(47, 128, 237, 1),
-                          //   ),
-                          //   height: 20,
-                          //   width: 20,
-                          //   child: const Center(
-                          //     child: Text(
-                          //       '',
-                          //       // chats[index]["newMsg"].toString(),
-                          //       style: TextStyle(
-                          //         color: Colors.white,
-                          //         fontSize: 12,
-                          //       ),
-                          //     ),
-                          //   ),
-                          // ),
+                          unSeen
+                              ? Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color:
+                                        const Color.fromRGBO(47, 128, 237, 1),
+                                  ),
+                                  height: 20,
+                                  width: 20,
+                                  // child: const Center(
+                                  //   child: Text(
+                                  //     '',
+                                  //     // chats[index]["newMsg"].toString(),
+                                  //     style: TextStyle(
+                                  //       color: Colors.white,
+                                  //       fontSize: 12,
+                                  //     ),
+                                  //   ),
+                                  // ),
+                                )
+                              : SizedBox(),
                           const SizedBox(
                             width: 10,
                           )
                         ],
                       ),
                       Text(
-                        lastSeen,
+                        lastChat,
                         style: const TextStyle(
                           fontSize: 10,
                           fontWeight: FontWeight.w400,
@@ -133,9 +141,9 @@ class ChatsList extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: const Text(
+                const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text(
                     "Channels",
                     textAlign: TextAlign.center,
                     style: TextStyle(
@@ -144,12 +152,12 @@ class ChatsList extends StatelessWidget {
                     ),
                   ),
                 ),
-                Channel(
+                const Channel(
                   name: "Announcements",
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: const Text(
+                const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text(
                     "Rooms",
                     textAlign: TextAlign.center,
                     style: TextStyle(
@@ -165,60 +173,6 @@ class ChatsList extends StatelessWidget {
                       for (var item in currUser.rooms!) Channel(name: item)
                   ],
                 ),
-
-                // const SizedBox(
-                //   height: 20,
-                // ),
-                // ListView.builder(
-                //   shrinkWrap: true,
-                //   itemCount: chats.length,
-                //   itemBuilder: ((context, index) {
-                //     return chats[index]["type"] == "Personal"
-                //         ? ChatCard(index: index)
-                //         : Container();
-                //   }),
-                // ),
-                // const Text(
-                //   "Personal",
-                //   style: TextStyle(
-                //     color: greyText,
-                //     fontSize: 16,
-                //   ),
-                // ),
-                // const SizedBox(
-                //   height: 20,
-                // ),
-                // ListView.builder(
-                //   shrinkWrap: true,
-                //   itemCount: chats.length,
-                //   itemBuilder: ((context, index) {
-                //     return chats[index]["type"] == "Personal"
-                //         ? ChatCard(index: index)
-                //         : Container();
-                //   }),
-                // ),
-                // const SizedBox(
-                //   height: 20,
-                // ),
-                // const Text(
-                //   "Groups",
-                //   style: TextStyle(
-                //     color: greyText,
-                //     fontSize: 16,
-                //   ),
-                // ),
-                // const SizedBox(
-                //   height: 20,
-                // ),
-                // ListView.builder(
-                //   shrinkWrap: true,
-                //   itemCount: chats.length,
-                //   itemBuilder: ((context, index) {
-                //     return chats[index]["type"] == "Group"
-                //         ? ChatCard(index: index)
-                //         : Container();
-                //   }),
-                // ),
               ],
             ),
           ),
