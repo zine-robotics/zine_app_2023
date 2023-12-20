@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../components/constants.dart';
@@ -43,10 +43,10 @@ class LoginForm extends StatelessWidget {
                   },
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return "Please enter an email address";
-                    } else if (!emailReg.hasMatch(authVm.email)) {
-                      return "Not a valid Email. Use College Email to Login";
-                    }
+                      return "Please enter an email address";}
+                    // } else if (!emailReg.hasMatch(authVm.email)) {
+                    //   return "Not a valid Email";
+                    // }
                     return null;
                   },
                   textInputAction: TextInputAction.next,

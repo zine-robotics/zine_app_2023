@@ -4,17 +4,19 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import "package:flutter/material.dart";
 import 'package:image_picker/image_picker.dart';
-import 'package:zineapp2023/models/message.dart';
 import 'package:zineapp2023/models/user.dart';
 import 'package:zineapp2023/providers/user_info.dart';
 import 'package:zineapp2023/utilities/DateTime.dart';
 
+import '../../../models/rooms.dart';
 import '../repo/chat_repo.dart';
 
 class ChatRoomViewModel extends ChangeNotifier {
   final chatP = ChatRepo();
 
   dynamic allData;
+  dynamic replyTo;
+  FocusNode replyfocus = FocusNode();
 
   String _roomId = "Hn9GSQnvi5zh9wabLGuT";
   final name = "Announcement";
@@ -46,9 +48,50 @@ class ChatRoomViewModel extends ChangeNotifier {
     allData = await chatP.getChatStream(_roomId);
   }
 
+  void replyText(dynamic message) {
+    replyTo = message;
+    print(message.message);
+    replyfocus.requestFocus();
+  }
+
+  void cancelReply() {
+    replyTo = null;
+  }
+
+  List<dynamic> listOfUsers = [];
+
+  // void getListOfUsers(dynamic list){
+  //   listOfUsers = list;
+  //   notifyListeners();
+  // }
+
+  dynamic getRoomData(String groupName) async{
+    print("Function was called Again on a new screen");
+    var data = await  chatP.getRooms(groupName);
+    // print(data.members);
+    var membersList = data.members;
+    List<dynamic> list = [];
+
+    for(var member in membersList){
+      var temp = await chatP.getUserDetailsByID(member);
+      list.add(temp as UserModel);
+    }
+
+    // await Future.wait(list as Iterable<Future>);
+    listOfUsers = list;
+    // getListOfUsers(list);
+    // notifyListeners();
+    // return list;
+
+  }
+
+  // dynamic getUserList(String uid){
+  //
+  // }
+
   void listenChanges(String name) {
     var id = null;
-    print(chatSubscription[name]);
+    // print(chatSubscription[name]);
     if (chatSubscription[name] == null) {
       _rooms
           .where("name", isEqualTo: name)
@@ -56,28 +99,29 @@ class ChatRoomViewModel extends ChangeNotifier {
           .get()
           .then((value) => id = value.docs[0].id)
           .catchError((e) => {print(e)})
-          .whenComplete(() => {
-                if (id != null)
-                  {
-                    chatSubscription[name] = _rooms
-                        .doc(id)
-                        .collection("messages")
-                        .snapshots()
-                        .listen((QuerySnapshot snapshot) {
-                      snapshot.docChanges.forEach((DocumentChange change) {
+          .whenComplete(
+            () => {
+              if (id != null)
+                {
+                  chatSubscription[name] =
+                      _rooms.doc(id).collection("messages").snapshots().listen(
+                    (QuerySnapshot snapshot) {
+                      for (var change in snapshot.docChanges) {
                         if (change.type == DocumentChangeType.added) {
-                          print("added");
+                          // print("added");
                           notifyListeners();
                         } else if (change.type == DocumentChangeType.modified) {
-                          print("modified");
+                          // print("modified");
                           notifyListeners();
                         } else if (change.type == DocumentChangeType.removed) {
                           notifyListeners();
                         }
-                      });
-                    })
-                  }
-              });
+                      }
+                    },
+                  )
+                }
+            },
+          );
     }
   }
 
@@ -89,11 +133,25 @@ class ChatRoomViewModel extends ChangeNotifier {
 
   void send({from, roomId}) {
     // getChats();
-    _text.isEmpty ? null : chatP.sendMessage(from, roomId, _text);
+    print("sending");
+    print(replyTo);
+    _text.isEmpty ? null : chatP.sendMessage(from, roomId, _text, replyTo);
+    replyTo = null;
     setText("");
+
     notifyListeners();
   }
 
+  void updateMessage(DocumentReference docRef) async {
+    await docRef.update({'replyTo': null});
+  }
+
+  // void send({from, roomId}) {
+  //   // getChats();
+  //   _text.isEmpty ? null : chatP.sendMessage(from, roomId, _text);
+  //   setText("");
+  //   notifyListeners();
+  // }
   String _lastChatTime = "";
 
   get lastChatTime => _lastChatTime;
@@ -107,6 +165,7 @@ class ChatRoomViewModel extends ChangeNotifier {
   }
 
   dynamic getLastMessages(String roomName) async {
+    print("function Called");
     dynamic timeStamp = await chatP.getLastChat(roomName);
     if (Timestamp != null) {
       dynamic prev = lastChats;
@@ -139,11 +198,12 @@ class ChatRoomViewModel extends ChangeNotifier {
     chatP.updateLastSeen(user, room);
     userProv.updateLast(room);
     notifyListeners();
-    print('left ${room}');
+    print('left $room');
   }
 
   void addRouteListener(
       BuildContext context, var room, var user, UserProv userProv) {
+    replyTo = null;
     ModalRoute.of(context)?.addScopedWillPopCallback(() {
       roomLeft(room, user, userProv);
       return Future.value(true);

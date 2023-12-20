@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:zineapp2023/components/tab_tiles.dart';
-import 'package:zineapp2023/screens/chat/chats_list.dart';
+import 'package:zineapp2023/screens/chat/chat_screen.dart';
 import 'package:zineapp2023/theme/color.dart';
 
 import '../tasks/task_screen.dart';
@@ -50,7 +50,8 @@ class ChatHome extends StatelessWidget {
         ),
         body: const TabBarView(
           children: [
-            ChatsList(),
+            // ChatsList(),
+            ChatScreen(),
             TaskScreen(),
           ],
         ),

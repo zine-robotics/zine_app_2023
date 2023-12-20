@@ -24,7 +24,7 @@ class Explore extends StatelessWidget {
         await Navigator.of(context).push(Routes.achievementScreen());
         break;
       case RouteName.wokrshopTimeline:
-        await Navigator.of(context).push(Routes.workshopTimeline());
+        await Navigator.of(context).push(Routes.comingSoon());
         break;
     }
   }

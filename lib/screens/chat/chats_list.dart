@@ -41,7 +41,7 @@ class Channel extends StatelessWidget {
           child: Container(
             decoration: const BoxDecoration(
               borderRadius: BorderRadius.all(
-                Radius.circular(6),
+                Radius.circular(8),
               ),
               color: Color.fromRGBO(170, 170, 170, 0.1),
               // : const Color.fromRGBO(47, 128, 237, 0.1),

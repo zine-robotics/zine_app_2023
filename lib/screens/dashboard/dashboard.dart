@@ -152,7 +152,7 @@ class Dashboard extends StatelessWidget {
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: MediaQuery.of(context)
-                                                .textScaleFactor *
+                                                    .textScaleFactor *
                                                 15,
                                             color: Color(0xff0C72B0)),
                                       ),
@@ -199,7 +199,10 @@ class Dashboard extends StatelessWidget {
                                         255, 255, 255, 255),
                                   ),
                                   child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    mainAxisAlignment:
+                                        dashboardVm.events.length != 0
+                                            ? MainAxisAlignment.end
+                                            : MainAxisAlignment.center,
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
                                     children: <Widget>[
@@ -215,7 +218,25 @@ class Dashboard extends StatelessWidget {
                                                   fontSize: 14.0,
                                                   fontWeight: FontWeight.w300,
                                                   color: Color(0xff646464)))
-                                          : Container(),
+                                          : Padding(
+                                              padding:
+                                                  const EdgeInsets.all(10.0),
+                                              child: Center(
+                                                child: Text(
+                                                  "No Upcoming Events",
+                                                  textAlign: TextAlign.center,
+                                                  softWrap: true,
+                                                  style: TextStyle(
+                                                      fontSize: MediaQuery.of(
+                                                                  context)
+                                                              .textScaleFactor *
+                                                          25,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: greyText),
+                                                ),
+                                              ),
+                                            ),
                                       const SizedBox(
                                         height: 10,
                                       ),
@@ -232,56 +253,71 @@ class Dashboard extends StatelessWidget {
                                       const SizedBox(
                                         height: 10,
                                       ),
-                                      Container(
-                                        margin: const EdgeInsets.all(5),
-                                        width:
-                                            MediaQuery.of(context).size.width /
-                                                2.3,
-                                        height: 110,
-                                        decoration: const BoxDecoration(
-                                          borderRadius: BorderRadius.only(
-                                              bottomLeft: Radius.circular(24.0),
-                                              bottomRight:
-                                                  Radius.circular(24.0)),
-                                          color: Color(0xff0C72B0),
-                                        ),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              dashboardVm.events.length > 0
-                                                  ? DateFormat.MMMMd().format(
-                                                      dashboardVm
-                                                          .events[0]!.timeDate
-                                                          .toDate())
-                                                  : "Date",
-                                              style: const TextStyle(
-                                                  fontSize: 18.0,
-                                                  fontWeight: FontWeight.w700,
-                                                  color: Color.fromARGB(
-                                                      200, 255, 255, 255)),
-                                              textAlign: TextAlign.center,
-                                            ),
-                                            const SizedBox(
-                                              height: 10,
-                                            ),
-                                            Text(
-                                              dashboardVm.events.length > 0
-                                                  ? '${DateFormat.jm().format(dashboardVm.events[0]!.timeDate.toDate())}\n ${dashboardVm.events[0]!.venue}'
-                                                  : "Venue",
-                                              style: const TextStyle(
-                                                  fontSize: 18.0,
-                                                  fontWeight: FontWeight.w700,
-                                                  color: Color.fromARGB(
-                                                      255, 255, 255, 255)),
-                                              textAlign: TextAlign.center,
-                                            ),
-                                          ],
-                                        ),
-                                      ),
+                                      dashboardVm.events.length != 0
+                                          ? Container(
+                                              margin: const EdgeInsets.all(5),
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  2.3,
+                                              height: 110,
+                                              decoration: const BoxDecoration(
+                                                borderRadius: BorderRadius.only(
+                                                    bottomLeft:
+                                                        Radius.circular(24.0),
+                                                    bottomRight:
+                                                        Radius.circular(24.0)),
+                                                color: Color(0xff0C72B0),
+                                              ),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                    dashboardVm.events.length >
+                                                            0
+                                                        ? DateFormat.MMMMd()
+                                                            .format(dashboardVm
+                                                                .events[0]!
+                                                                .timeDate
+                                                                .toDate())
+                                                        : "Date",
+                                                    style: const TextStyle(
+                                                        fontSize: 18.0,
+                                                        fontWeight:
+                                                            FontWeight.w700,
+                                                        color: Color.fromARGB(
+                                                            200,
+                                                            255,
+                                                            255,
+                                                            255)),
+                                                    textAlign: TextAlign.center,
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 10,
+                                                  ),
+                                                  Text(
+                                                    dashboardVm.events.length >
+                                                            0
+                                                        ? '${DateFormat.jm().format(dashboardVm.events[0]!.timeDate.toDate())}\n ${dashboardVm.events[0]!.venue}'
+                                                        : "Venue",
+                                                    style: const TextStyle(
+                                                        fontSize: 18.0,
+                                                        fontWeight:
+                                                            FontWeight.w700,
+                                                        color: Color.fromARGB(
+                                                            255,
+                                                            255,
+                                                            255,
+                                                            255)),
+                                                    textAlign: TextAlign.center,
+                                                  ),
+                                                ],
+                                              ),
+                                            )
+                                          : Container(),
                                     ],
                                   ),
                                 ),

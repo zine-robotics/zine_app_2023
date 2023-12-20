@@ -14,13 +14,14 @@ class TaskRepo {
         .where("users", arrayContains: _firebaseFirestore.doc("/users/${uid}"));
     var data = await query.get();
     final docData = data.docs.map((doc) => UserTask.store(doc));
+    // print(docData.toList());
     return docData.toList();
   }
 
   dynamic getDocRef(ref) async {
     var doc = await _firebaseFirestore.doc(ref).get();
     Tasks docData = Tasks.store(doc);
-    print(docData.title);
+    // print(docData.title);
     return docData;
   }
 }
