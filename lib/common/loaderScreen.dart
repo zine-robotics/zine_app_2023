@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import '../theme/color.dart';
 
+/// This is the default Loading Screen. Use this Screen if you want to add a loader
+/// anywhere in the App.
+
 class Loader extends StatelessWidget {
-  const Loader({Key? key}) : super(key: key);
+  const Loader({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -12,7 +12,7 @@ import 'package:zineapp2023/screens/dashboard/view_models/dashboard_vm.dart';
 import 'package:zineapp2023/screens/tasks/view_models/task_vm.dart';
 import 'package:zineapp2023/theme/color.dart';
 
-import '../../utilities/DateTime.dart';
+import '../../utilities/date_time.dart';
 
 class TaskDesc extends StatefulWidget {
   TaskDesc({super.key});
@@ -337,14 +337,14 @@ class _TaskDescState extends State<TaskDesc> {
                               setState(() {
                                 tempMessage?.add(messageC.text.toString());
                               });
-                              print(
-                                  "adding value in tempmessage is:${tempMessage[0]}  while messageC having data:${messageC}");
+                              // print(
+                              //     "adding value in tempmessage is:${tempMessage[0]}  while messageC having data:${messageC}");
 
                               taskVm.addCheckpoints(messageC.text.toString());
 
                               messageC.clear();
 
-                              print("on pressed initiated");
+                              // print("on pressed initiated");
                             }
                           },
                           iconSize: 20.0,

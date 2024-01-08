@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:zineapp2023/models/userTask.dart';
 
 class UserModel {
@@ -54,7 +53,7 @@ class UserModel {
     data['registered'] = registered;
     data['pushToken'] = pushToken;
     data['rooms'] = rooms;
-    data['roomids']= roomIDs;
+    data['roomids'] = roomIDs;
     data['lastSeen'] = lastSeen;
     return data;
   }
@@ -63,7 +62,7 @@ class UserModel {
         uid = snapshot.data()['uid'],
         name = snapshot.data()['name'],
         type = snapshot.data()['type'],
-        //tasks = snapshot.data()['tasks'],
+        tasks = snapshot.data()['tasks'],
         dp = snapshot.data()['dp'],
         registered = snapshot.data()['registered'],
         pushToken = snapshot.data()['pushToken'],

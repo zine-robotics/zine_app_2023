@@ -3,10 +3,11 @@ import 'package:zineapp2023/components/gradient.dart';
 import 'package:zineapp2023/components/tab_tiles.dart';
 import 'package:zineapp2023/screens/explore/about/mentor_info.dart';
 import 'package:zineapp2023/screens/explore/about/zine_info.dart';
+import '../../../components/widgets.dart';
 import '../../../theme/color.dart';
 
 class AboutScreen extends StatelessWidget {
-  const AboutScreen({Key? key}) : super(key: key);
+   const AboutScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,15 +27,7 @@ class AboutScreen extends StatelessWidget {
             ),
           ),
           centerTitle: true,
-          title: const Text(
-            "About",
-            style: TextStyle(
-              fontFamily: 'Poppins-Black',
-              fontWeight: FontWeight.w900,
-              letterSpacing: 0.8,
-              fontSize: 30.0,
-            ),
-          ),
+          title:appbarTitle("About"),
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(
               bottom: Radius.circular(20.0),

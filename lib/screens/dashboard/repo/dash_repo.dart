@@ -1,12 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:zineapp2023/api.dart';
-import 'package:zineapp2023/providers/user_info.dart';
+import 'package:zineapp2023/utilities/date_time.dart';
 import '../../../models/events.dart';
-import 'package:intl/intl.dart';
 
-import '../../../utilities/DateTime.dart';
 
 class DashRepo {
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
@@ -14,13 +10,13 @@ class DashRepo {
   Future<List<Events>> getLatestEvents() async {
     DateTime currentDate = DateTime.now();
     Timestamp formattedDate = Timestamp.fromDate(currentDate);
-    print('get events called');
+    // print('get events called');
     var querySnapshot = await _firebaseFirestore
         .collection("events")
         .where('timeDate', isGreaterThanOrEqualTo: formattedDate)
         .get();
-    final _docData = querySnapshot.docs.map((doc) => Events.store(doc));
-    return _docData.toList();
+    final docData = querySnapshot.docs.map((doc) => Events.store(doc));
+    return docData.toList();
   }
 
   Future<List<Map<String, dynamic>>> getEventsDate() async {
@@ -51,7 +47,7 @@ class DashRepo {
 
 
   Future<void> launchUrlStart({required String url}) async {
-    if (url.length == 0) return;
+    if (url.isEmpty) return;
     if (!await launchUrl(Uri.parse(url),
         mode: LaunchMode.externalApplication)) {
       throw 'Could not launch $url';

@@ -37,7 +37,6 @@ Future<void> main() async {
   DataStore store = DefaultStore(await SharedPreferences.getInstance());
   UserProv userProv = UserProv(dataStore: store);
 
-  // print('User granted permission: ${settings.authorizationStatus}');
   runApp(MyApp(
     store: store,
     userProv: userProv,
@@ -45,7 +44,6 @@ Future<void> main() async {
 }
 
 class MyApp extends StatelessWidget {
-  // final SharedPreferences prefs;
   final DataStore store;
   final UserProv userProv;
 
@@ -73,4 +71,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-//

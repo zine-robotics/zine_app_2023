@@ -1,16 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:zineapp2023/models/message.dart';
 import 'package:zineapp2023/providers/user_info.dart';
-import 'package:zineapp2023/screens/chat/chat_room.dart';
-import 'package:zineapp2023/screens/chat/repo/chat_repo.dart';
-import 'package:zineapp2023/screens/chat/view_model/chat_room_view_model.dart';
+import 'package:zineapp2023/screens/chat/chat_screen/view_model/chat_room_view_model.dart';
 import 'package:zineapp2023/theme/color.dart';
-import 'package:zineapp2023/utilities/DateTime.dart';
+import 'chat_room.dart';
 
-import '../../models/rooms.dart';
-import 'chat_card.dart';
 
 const announceChannelId = 'Hn9GSQnvi5zh9wabLGuT';
 const announceChannelName = 'Zine Channel';
@@ -59,11 +53,11 @@ class Channel extends StatelessWidget {
                     children: [
                       CircleAvatar(
                         backgroundColor: Colors.white,
+                        radius: 20,
                         child: Padding(
                           padding: const EdgeInsets.all(3.0),
                           child: Image.asset("assets/images/zine_logo.png"),
                         ),
-                        radius: 20,
                       ),
                       const SizedBox(
                         width: 10,
@@ -101,7 +95,7 @@ class Channel extends StatelessWidget {
                                   //   ),
                                   // ),
                                 )
-                              : SizedBox(),
+                              : const SizedBox(),
                           const SizedBox(
                             width: 10,
                           )
@@ -127,61 +121,3 @@ class Channel extends StatelessWidget {
   }
 }
 
-class ChatsList extends StatelessWidget {
-  const ChatsList({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Consumer2<ChatRoomViewModel, UserProv>(
-        builder: (context, chatVm, userProv, _) {
-      var currUser = userProv.currUser;
-
-      return Container(
-        color: backgroundGrey,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text(
-                    "Channels",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: greyText,
-                      fontSize: 16,
-                    ),
-                  ),
-                ),
-                const Channel(
-                  name: "Announcements",
-                ),
-                const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text(
-                    "Rooms",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: greyText,
-                      fontSize: 16,
-                    ),
-                  ),
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    if (currUser.rooms != null)
-                      for (var item in currUser.rooms!) Channel(name: item)
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ),
-      );
-    });
-  }
-}

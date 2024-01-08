@@ -3,10 +3,12 @@ import "package:flutter/material.dart";
 import 'package:zineapp2023/models/tasks.dart';
 import 'package:zineapp2023/models/userTask.dart';
 import 'package:zineapp2023/screens/tasks/repo/task_repo.dart';
-import 'package:zineapp2023/utilities/DateTime.dart';
+import 'package:zineapp2023/utilities/date_time.dart';
+
+import '../../../models/userTask.dart';
 
 class TaskVm extends ChangeNotifier {
-  final taskRepo ;
+  final TaskRepo taskRepo ;
   TaskVm({required this.taskRepo});
 
   List<UserTask>? tasks;
@@ -15,10 +17,6 @@ class TaskVm extends ChangeNotifier {
   int curr = 0;
   int prevLen = 0;
 
-   getCheckPoint() async{
-    _checkpoint=await taskRepo.getDescTasks();
-    return _checkpoint;
-  }
 
  // get tasks => _tasks;
 
@@ -39,13 +37,17 @@ class TaskVm extends ChangeNotifier {
   //     }
   //   }
 
+
+
+
+
   UserTask getCurr() {
     return tasks![curr];
   }
 
   UserTask? findLatest() {
     UserTask? ans;
-    if (tasks!.length != 0) ans = tasks![0];
+    if (tasks!.isNotEmpty) ans = tasks![0];
     for (UserTask userTask in tasks!) {
       var one = getDMY(userTask.template!.dueDate!),
           two = getDMY(ans!.template!.dueDate!);
@@ -64,12 +66,15 @@ class TaskVm extends ChangeNotifier {
    // print("findLatest() -> latest task is: $ans");
     return ans;
   }
-  void addCheckpoints(message) async{
-     await taskRepo.addCheckpoints(message);
+  void addCheckpoints(String message) async
+  {
+
+     await taskRepo.addCheckpoints(message,tasks![curr].docId.toString(),curr);
+
      notifyListeners();
   }
   void addLink(heading,link) async{
-     await taskRepo.addLinks(heading,link);
+     await taskRepo.addLinks(heading,link,tasks![curr].docId.toString(), curr);
      notifyListeners();
   }
 

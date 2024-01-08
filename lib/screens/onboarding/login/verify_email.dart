@@ -6,7 +6,7 @@ import '../../../screens/onboarding/login/view_models/register_auth_vm.dart';
 import '../../../theme/color.dart';
 
 class VerifyEmailScreen extends StatelessWidget {
-  const VerifyEmailScreen({Key? key}) : super(key: key);
+  const VerifyEmailScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

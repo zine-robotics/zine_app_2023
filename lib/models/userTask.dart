@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:zineapp2023/models/tasks.dart';
 
 class UserTask {
@@ -9,6 +8,7 @@ class UserTask {
   DocumentReference? task;
   List<dynamic>? users;
   Tasks? template;
+  String? docId;
 
   UserTask(
       {this.checkpoints, this.status, this.task, this.users, this.template,this.links});
@@ -32,10 +32,11 @@ class UserTask {
 
 
 
-  UserTask.store(snapshot)
+  UserTask.store(snapshot, String id)
       : checkpoints = snapshot.data()['checkpoints'],
         status = snapshot.data()['status'],
         task = snapshot.data()['task'],
         users = snapshot.data()['users'],
-        links=snapshot.data()['links'];
+        links=snapshot.data()['links'],
+        docId=id;
 }

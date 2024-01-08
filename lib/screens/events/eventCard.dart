@@ -4,7 +4,7 @@ import 'package:expansion_tile_card/expansion_tile_card.dart';
 import 'package:zineapp2023/components/gradient.dart';
 import 'package:zineapp2023/models/events.dart';
 import 'package:zineapp2023/theme/color.dart';
-import 'package:zineapp2023/utilities/DateTime.dart';
+import 'package:zineapp2023/utilities/date_time.dart';
 
 class EventCard extends StatefulWidget {
   final Events event;

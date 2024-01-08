@@ -169,5 +169,6 @@ class RegisterAuthViewModel extends ChangeNotifier {
 
   void signOut() {
     myRepo.signOut();
+    notifyListeners();
   }
 }

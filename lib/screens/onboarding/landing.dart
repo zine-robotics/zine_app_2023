@@ -5,7 +5,7 @@ import '../../common/routing.dart';
 import 'login/login_screen.dart';
 
 class LandingScreen extends StatelessWidget {
-  const LandingScreen({Key? key}) : super(key: key);
+  const LandingScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,8 +24,8 @@ class LandingScreen extends StatelessWidget {
                   const SizedBox(
                     height: 35,
                   ),
-                  Row(
-                    children: const [
+                  const Row(
+                    children: [
                       //White Circle Size
                       CircleAvatar(
                         radius: 42.0,

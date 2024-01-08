@@ -10,12 +10,12 @@ import 'package:zineapp2023/common/loaderScreen.dart';
 import 'package:zineapp2023/models/message.dart';
 import 'package:zineapp2023/models/user.dart';
 import 'package:zineapp2023/providers/user_info.dart';
-import 'package:zineapp2023/screens/chat/chat_descp.dart';
-import 'package:zineapp2023/screens/chat/view_model/chat_room_view_model.dart';
+import 'package:zineapp2023/screens/chat/chat_screen/view_model/chat_room_view_model.dart';
+
 import 'package:zineapp2023/screens/dashboard/view_models/dashboard_vm.dart';
 import 'package:zineapp2023/theme/color.dart';
 import 'package:zineapp2023/utilities/string_formatters.dart';
-import '../../utilities/DateTime.dart';
+import '../../utilities/date_time.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../components/gradient.dart';
 

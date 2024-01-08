@@ -7,8 +7,10 @@ import 'package:zineapp2023/screens/events/view_models/events_vm.dart';
 import 'package:zineapp2023/theme/color.dart';
 
 class Events extends StatelessWidget {
+
   final selectedDate;
   const Events({Key? key, this.selectedDate}) : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {

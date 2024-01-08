@@ -2,12 +2,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:zineapp2023/screens/chat/view_model/chat_room_view_model.dart';
+import 'package:zineapp2023/screens/chat/chat_screen/channel_tile.dart';
+import 'package:zineapp2023/screens/chat/chat_screen/view_model/chat_room_view_model.dart';
 
 import '../../providers/user_info.dart';
 import '../../theme/color.dart';
 import 'chats_group.dart';
-import 'chats_list.dart';
+
 
 class ChatScreen extends StatelessWidget {
   const ChatScreen({super.key});

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -63,9 +65,11 @@ class AuthRepo {
         .doc(groupID)
         .get()
         .then((querySnapshot) {
+
           //print("querySnapshot.data() is:${querySnapshot.data()?['image']}");
       return querySnapshot.data();
     });
+
 
   }
 
@@ -78,7 +82,6 @@ class AuthRepo {
        //print(temp['image']);
 
       roomDetails[temp['type']][item] = temp['name'];
-
     }
 
     return roomDetails;
@@ -87,7 +90,7 @@ class AuthRepo {
 
   Future<Tasks> getTemp(UserTask e) async {
     DocumentSnapshot<Map<String, dynamic>> snapshot =
-    await e.task!.get() as DocumentSnapshot<Map<String, dynamic>>;
+        await e.task!.get() as DocumentSnapshot<Map<String, dynamic>>;
 
     if (!snapshot.data()!.containsKey('link')) {
       snapshot.data()!['links'] = [];
@@ -104,7 +107,7 @@ class AuthRepo {
         .collection("userTasks")
         .where("users", arrayContains: _firebaseFirestore.doc("/users/${uid}"));
     var data = await query.get();
-    final docData = data.docs.map((doc) => UserTask.store(doc));
+    final docData = data.docs.map((doc) => UserTask.store(doc.data(),doc.id));
 
     // print(docData.toList());
 

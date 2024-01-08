@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:zineapp2023/screens/events/view_models/events_vm.dart';
 import 'package:zineapp2023/screens/home/home_screen.dart';
-import 'package:zineapp2023/utilities/DateTime.dart';
+import 'package:zineapp2023/utilities/date_time.dart';
 import '../../common/routing.dart';
 import 'package:zineapp2023/theme/color.dart';
 import 'package:intl/intl.dart';
@@ -25,15 +25,6 @@ class EventCalender extends StatefulWidget {
   State<EventCalender> createState() => _EventCalenderState();
 }
 
-/*class WorkshopProvider extends ChangeNotifier {
-  String _name = 'undefined michi 😼';
-
-  String get name => _name;
-
-  set name (String newName) {
-    _name = newName;
-    notifyListeners();
-  }*/
 
 
 
@@ -43,7 +34,6 @@ class _EventCalenderState extends State<EventCalender> {
   final GlobalKey<ExpansionTileCardState> cardB = GlobalKey();
   final GlobalKey<ExpansionTileCardState> cardC = GlobalKey();
   var isExpanded = false;
-  int _currentIndex=0;
   int index=-1;
 
 
@@ -225,95 +215,9 @@ class _EventCalenderState extends State<EventCalender> {
 
               dashboardVm.launchUrl(
               'https://zine.co.in/blogs')
-
               },
               child: eventContainer(text1: "BLOGS",text2: "7"),
             ),
-            /*Padding(
-              padding: const EdgeInsets.only(left: 10,right: 10,top: 10),
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: BottomNavigationBar(
-                    elevation: 0,
-                    backgroundColor: Colors.white,
-                    items: const <BottomNavigationBarItem>[
-                      BottomNavigationBarItem(
-                        icon: FaIcon(
-                          FontAwesomeIcons.solidMessage,
-                          size: 20,
-                        ),
-                        activeIcon: DecoratedIcon(
-                          FontAwesomeIcons.solidMessage,
-                          size: 22,
-                          color: textColor,
-                          shadows: [
-                            BoxShadow(
-                              blurRadius: 42.0,
-                              color: blurBlue,
-                            ),
-                          ],
-                        ),
-                        label: 'Timeline',
-
-                      ),
-                      BottomNavigationBarItem(
-                        icon: Icon(Icons.home),
-                        activeIcon: DecoratedIcon(
-                          Icons.home,
-                          color: textColor,
-                          shadows: [
-                            BoxShadow(
-                              blurRadius: 42.0,
-                              color: blurBlue,
-                            ),
-                          ],
-                        ),
-                        label: 'Home',
-
-                      ),
-                      BottomNavigationBarItem(
-                        icon: Icon(Icons.account_circle),
-                        activeIcon: DecoratedIcon(
-                          Icons.account_circle,
-                          color: textColor,
-                          shadows: [
-                            BoxShadow(
-                              blurRadius: 42.0,
-                              color: blurBlue,
-                            ),
-                          ],
-                        ),
-                        label: 'Profile',
-                      ),
-                    ],
-                    currentIndex: _currentIndex,
-                    showSelectedLabels: false,
-                    showUnselectedLabels: false,
-                    unselectedIconTheme: const IconThemeData(size: 25.0),
-                    selectedIconTheme: const IconThemeData(size: 30.0),
-                    onTap: (index){
-                      switch (index) {
-                        case 0:
-                          Navigator.of(context).push(Routes.chatHome());
-                          break;
-                        case 1:
-                          Navigator.of(context).push(Routes.exploreScreen());
-                          break;
-                        case 2:
-                          Navigator.of(context).pushReplacement(Routes.homeScreen());
-                          break;
-                      }
-
-                    },
-                  ),
-                ),
-              ),
-            ),*/
-
-
-
           ],
         ),
       ),
