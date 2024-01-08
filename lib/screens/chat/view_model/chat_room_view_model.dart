@@ -16,6 +16,8 @@ class ChatRoomViewModel extends ChangeNotifier {
 
   dynamic allData;
   dynamic replyTo;
+
+
   FocusNode replyfocus = FocusNode();
 
   String _roomId = "Hn9GSQnvi5zh9wabLGuT";
@@ -79,6 +81,7 @@ class ChatRoomViewModel extends ChangeNotifier {
 
     // await Future.wait(list as Iterable<Future>);
     listOfUsers = list;
+
     // getListOfUsers(list);
     // notifyListeners();
     // return list;
@@ -141,6 +144,13 @@ class ChatRoomViewModel extends ChangeNotifier {
 
     notifyListeners();
   }
+ /* dynamic getRoomData2(name) async{
+    print("chat viewmodel called");
+    Rooms roomData = await chatP.getRoomData2(name);
+    //print("printing the data of data repo${roomData.image}");
+    return roomData;
+    //notifyListeners();
+}*/
 
   void updateMessage(DocumentReference docRef) async {
     await docRef.update({'replyTo': null});
@@ -200,6 +210,7 @@ class ChatRoomViewModel extends ChangeNotifier {
     notifyListeners();
     print('left $room');
   }
+
 
   void addRouteListener(
       BuildContext context, var room, var user, UserProv userProv) {

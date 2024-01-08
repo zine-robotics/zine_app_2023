@@ -9,81 +9,97 @@ import '../explore/explore.dart';
 import '../../screens/chat/chat_home.dart';
 import '../../screens/dashboard/dashboard.dart';
 import '../../theme/color.dart';
-
 class Home extends StatelessWidget {
   const Home({Key? key}) : super(key: key);
 
-  static  final List<Widget> _widgetOptions = <Widget>[
+  static final List<Widget> _widgetOptions = <Widget>[
     const ChatHome(),
     const Explore(),
     Dashboard(),
   ];
-
-
 
   @override
   Widget build(BuildContext context) {
     return Consumer<HomeVm>(builder: (context, homeVm, _) {
       return Scaffold(
         body: _widgetOptions.elementAt(homeVm.selectedIndex),
-        bottomNavigationBar: BottomNavigationBar(
-          elevation: 0,
-          backgroundColor: backgroundGrey,
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: FaIcon(
-                FontAwesomeIcons.solidMessage,
-                size: 20,
-              ),
-              activeIcon: DecoratedIcon(
-                FontAwesomeIcons.solidMessage,
-                size: 22,
-                color: textColor,
-                shadows: [
-                  BoxShadow(
-                    blurRadius: 42.0,
-                    color: blurBlue,
+        extendBody: false,
+        backgroundColor: backgroundGrey,
+        bottomNavigationBar: Padding(
+          padding: const EdgeInsets.only(left: 15,right: 15,bottom: 8),
+          child: Container(
+             // Adjust the margin as needed
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: [
+                BoxShadow(
+                  blurRadius: 42.0,
+                  color: backgroundGrey,
+                ),
+              ],
+            ),
+            child:  ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: BottomNavigationBar(
+                elevation: 0,
+                backgroundColor: Colors.white,
+                items: const <BottomNavigationBarItem>[
+                  BottomNavigationBarItem(
+                    icon: FaIcon(
+                      FontAwesomeIcons.solidMessage,
+                      size: 20,
+                    ),
+                    activeIcon: DecoratedIcon(
+                      FontAwesomeIcons.solidMessage,
+                      size: 22,
+                      color: textColor,
+                      shadows: [
+                        BoxShadow(
+                          blurRadius: 42.0,
+                          color: blurBlue,
+                        ),
+                      ],
+                    ),
+                    label: 'Timeline',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.home),
+                    activeIcon: DecoratedIcon(
+                      Icons.home,
+                      color: textColor,
+                      shadows: [
+                        BoxShadow(
+                          blurRadius: 42.0,
+                          color: blurBlue,
+                        ),
+                      ],
+                    ),
+                    label: 'Home',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.account_circle),
+                    activeIcon: DecoratedIcon(
+                      Icons.account_circle,
+                      color: textColor,
+                      shadows: [
+                        BoxShadow(
+                          blurRadius: 42.0,
+                          color: blurBlue,
+                        ),
+                      ],
+                    ),
+                    label: 'Profile',
                   ),
                 ],
+                currentIndex: homeVm.selectedIndex,
+                showSelectedLabels: false,
+                showUnselectedLabels: false,
+                unselectedIconTheme: const IconThemeData(size: 25.0),
+                selectedIconTheme: const IconThemeData(size: 30.0),
+                onTap: homeVm.onItemTapped,
               ),
-              label: 'Timeline',
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              activeIcon: DecoratedIcon(
-                Icons.home,
-                color: textColor,
-                shadows: [
-                  BoxShadow(
-                    blurRadius: 42.0,
-                    color: blurBlue,
-                  ),
-                ],
-              ),
-              label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.account_circle),
-              activeIcon: DecoratedIcon(
-                Icons.account_circle,
-                color: textColor,
-                shadows: [
-                  BoxShadow(
-                    blurRadius: 42.0,
-                    color: blurBlue,
-                  ),
-                ],
-              ),
-              label: 'Profile',
-            ),
-          ],
-          currentIndex: homeVm.selectedIndex,
-          showSelectedLabels: false,
-          showUnselectedLabels: false,
-          // selectedItemColor: textColor,
-          unselectedIconTheme: const IconThemeData(size: 25.0),
-          selectedIconTheme: const IconThemeData(size: 30.0),
-          onTap: homeVm.onItemTapped,
+          ),
         ),
       );
     });

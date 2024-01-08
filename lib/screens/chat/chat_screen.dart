@@ -18,9 +18,11 @@ class ChatScreen extends StatelessWidget {
       builder: (context, chatVm, userProv, _) {
         var currUser = userProv.currUser;
         var roomDetails = currUser.roomDetails;
+
         // for (var item in roomDetails["project"].values.toList()) print(item);
         // print(roomDetails["group"].isEmpty );
         // print(roomDetails["project"]);
+
 
 
 
@@ -33,6 +35,7 @@ class ChatScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+
                   const Padding(
                     padding: EdgeInsets.all(8.0),
                     child: Text(
@@ -59,7 +62,9 @@ class ChatScreen extends StatelessWidget {
                       ),
                     ),
                   ):Container(),
-                  !roomDetails["group"].isEmpty?ChatGroups():Container(),
+                  !roomDetails["group"].isEmpty?ChatGroups():Container(
+                    width: 10,height: 10,color: Colors.red,
+                  ),
 
                   // Column(
                   //   mainAxisAlignment: MainAxisAlignment.center,
@@ -89,8 +94,18 @@ class ChatScreen extends StatelessWidget {
                       if (currUser.rooms != null)
                         for (var item in roomDetails["project"].values.toList())
                           Channel(name: item)
+                         // Text("${roomDetails}")
                     ],
                   ):Container(),
+                  /*Image.network(
+                      "https://images.unsplash.com/photo-1575936123452-b67c3203c357?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8fDA%3D",
+
+                    errorBuilder: (context, error, stackTrace) {
+
+                      return Text("Error loading image");
+                    },
+                  )*/
+
                 ],
               ),
             ),

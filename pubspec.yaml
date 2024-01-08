@@ -32,7 +32,7 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   carousel_slider: ^4.2.1
-  cloud_firestore: ^4.3.1
+  cloud_firestore: ^4.13.6
   cupertino_icons: ^1.0.2
   decorated_icon: ^1.2.1
   expansion_tile_card: ^3.0.0
@@ -55,6 +55,8 @@ dependencies:
   swipe_to: ^1.0.2
   timelines: ^0.1.0
   url_launcher: ^6.1.10
+  table_calendar: ^3.0.8
+
 
 dev_dependencies:
   flutter_launcher_icons: ^0.13.1

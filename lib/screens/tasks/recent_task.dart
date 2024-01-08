@@ -14,6 +14,7 @@ class RecentTask extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<TaskVm>(builder: (context, taskVm, _) {
       UserTask? latest = taskVm.findLatest();
+      print("recent_task called ,latest task is $latest");
       return Card(
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(15.0))),
@@ -26,6 +27,7 @@ class RecentTask extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Spacer(),
+
               Text(
                 latest != null ? latest.template!.title.toString() : "",
                 style: const TextStyle(
@@ -48,6 +50,7 @@ class RecentTask extends StatelessWidget {
                         fontSize: 14.0,
                         fontWeight: FontWeight.w400)),
               ),
+
               Spacer(
                 flex: 10,
               ),
@@ -94,6 +97,7 @@ class RecentTask extends StatelessWidget {
                 ],
               ),
               Spacer(),
+              //Text(latest !=null ? latest!.checkpoints.toString() :" ")
             ],
           ),
         ),

@@ -22,6 +22,7 @@ class UserProv extends ChangeNotifier {
   Future<void> getFirebaseMessagingToken() async {
     await fMessaging.requestPermission();
 
+
     await fMessaging.getToken().then((t) {
       if (t != null && currUser != null) {
         currUser.pushToken = t;

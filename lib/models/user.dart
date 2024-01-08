@@ -58,4 +58,20 @@ class UserModel {
     data['lastSeen'] = lastSeen;
     return data;
   }
+  UserModel.store(snapshot)
+      : email = snapshot.data()['email'],
+        uid = snapshot.data()['uid'],
+        name = snapshot.data()['name'],
+        type = snapshot.data()['type'],
+        //tasks = snapshot.data()['tasks'],
+        dp = snapshot.data()['dp'],
+        registered = snapshot.data()['registered'],
+        pushToken = snapshot.data()['pushToken'],
+        rooms = snapshot.data()['rooms'],
+        roomIDs = snapshot.data()['roomIDs'],
+        lastSeen = snapshot.data()['lastSeen'];
+
+
+
+
 }

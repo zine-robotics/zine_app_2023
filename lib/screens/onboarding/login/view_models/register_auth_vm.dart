@@ -119,7 +119,9 @@ class RegisterAuthViewModel extends ChangeNotifier {
           dp: data['dp'],
           type: data['type'],
           rooms:[],
+          tasks: [],
           registered: data['registered']);
+
       postDetailsToFirestore(userModel);
 
       await Navigator.of(NavigationService.navigatorKey.currentContext!,

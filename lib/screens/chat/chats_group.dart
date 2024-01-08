@@ -47,6 +47,8 @@ class ChatGroupTile extends StatelessWidget {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(20),
                     child: Container(
+                      width: 50,
+                      height: 50,
                       color: Colors.white,
                       padding: const EdgeInsets.all(17.0),
                       child: Image.asset(
@@ -66,9 +68,7 @@ class ChatGroupTile extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                       color: greyText.withOpacity(0.6)),
                 ),
-                const SizedBox(
-                  height: 10,
-                ),
+
                 // Spacer()
               ],
             ),
@@ -120,33 +120,38 @@ class ChatGroups extends StatelessWidget {
         // print(lastChatList);
         // var name = chatVm.getData(roomName);
 
-        return SizedBox(
-          height: MediaQuery.of(context).size.height * 0.18,
-          child: ListView.builder(
-            shrinkWrap: true,
-            scrollDirection: Axis.horizontal,
-            itemCount: roomDetails["group"].length,
-            itemBuilder: (BuildContext context, int index) {
+        return Column(
+          children: [
+
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.18,
+              child: ListView.builder(
+                shrinkWrap: true,
+                scrollDirection: Axis.horizontal,
+                itemCount: roomDetails["group"].length,
+                itemBuilder: (BuildContext context, int index) {
 
 
-              return GestureDetector(
-                  onTap: () {
-                    // chatVm.setRoomId(roomId);
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                ChatRoom(roomName: listOfRoomName[index])));
-                  },
-                  child: ChatGroupTile(
-                    // roomId: listOfRoomID?[index],
-                    name: listOfRoomName[index],
-                    chatVm: chatVm,
-                    userProv: userProv,
-                    // lastSeen: lastChatList[listOfRoomName[index]][0],
-                  ));
-            },
-          ),
+                  return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    ChatRoom(roomName: listOfRoomName[index])));
+                      },
+                      child: ChatGroupTile(
+                        // roomId: listOfRoomID?[index],
+                        name: listOfRoomName[index],
+                        chatVm: chatVm,
+                        userProv: userProv,
+                        // lastSeen: lastChatList[listOfRoomName[index]][0],
+                      ));
+                },
+              ),
+            ),
+            SizedBox(height: 10,)
+          ],
         );
       },
     );

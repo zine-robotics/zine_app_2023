@@ -52,15 +52,28 @@ class ChatRepo {
     });
   }
 
-  dynamic getRoomData(String groupID) {
-    return _firebaseFirestore
+  dynamic getRoomData(String groupID) async{
+    final data=await _firebaseFirestore
         .collection('rooms')
         .doc(groupID)
-        .get()
-        .then((querySnapshot) {
-      return querySnapshot.data();
-    });
+        .get();
+
+
+    Rooms docData = Rooms.store(data);
+
+
+
+      return docData;
+
   }
+/*  dynamic getRoomData2(String name) async
+  {
+    var roomId=await getRoomId(name);
+    Rooms roomData =await getRoomData(roomId as String);
+    //print("roomData is ${roomData.image}");
+    return roomData;
+
+  }*/
 
   dynamic getChatStream(String groupName) async {
     return _firebaseFirestore

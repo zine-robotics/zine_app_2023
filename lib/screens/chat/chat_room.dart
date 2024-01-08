@@ -299,7 +299,7 @@ class ChatRoom extends StatelessWidget {
                                   ? Alignment.centerRight
                                   : Alignment.centerLeft,
                               child: SwipeTo(
-                                onRightSwipe: () {
+                                onRightSwipe: (DragUpdateDetails details) {
                                   reply(chats[chats.length - index - 1]);
                                 },
                                 child: ListTile(

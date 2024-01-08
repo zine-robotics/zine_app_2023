@@ -8,8 +8,10 @@ import 'package:zineapp2023/utilities/DateTime.dart';
 
 class EventCard extends StatefulWidget {
   final Events event;
+  final selectedDate;
 
-  const EventCard({Key? key, required this.event}) : super(key: key);
+
+  const EventCard({Key? key, required this.event,this.selectedDate}) : super(key: key);
 
   @override
   _EventCardState createState() => _EventCardState();
@@ -17,11 +19,31 @@ class EventCard extends StatefulWidget {
 
 class _EventCardState extends State<EventCard> {
   final GlobalKey<ExpansionTileCardState> cardA = GlobalKey();
-  var isExpanded = false;
 
+
+  var checked=false;
+  var isExpanded=false ;
   @override
   Widget build(BuildContext context) {
     final Events event = widget.event;
+    print("date passsing from the eventCalender${widget.selectedDate}");
+
+
+
+    bool initExp=false;
+    DateTime? date = widget.event.timeDate?.toDate();
+
+
+    if (widget.selectedDate!=null && !checked)
+      {
+        print(getDDate(date!));
+        print(getDDate(widget.selectedDate));
+        initExp=getDDate(date!)==getDDate(widget.selectedDate) ;
+        isExpanded=initExp;
+      }
+
+    //isExpanded=int.parse(compareDay.toString())==checkDay ? true :false;
+
     bool isOld =
         Timestamp.fromDate(DateTime.now()).compareTo(widget.event.timeDate!) > 0
             ? false
@@ -42,186 +64,185 @@ class _EventCardState extends State<EventCard> {
         fontWeight: FontWeight.w400);
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
-      child: ExpansionTileCard(
-          contentPadding:
-              const EdgeInsets.symmetric(horizontal: 3, vertical: 0),
-          trailing: !isExpanded
-              ? Container(
-                  width: MediaQuery.of(context).size.width * 0.1,
-                  decoration: const BoxDecoration(
-                      color: Color.fromARGB(255, 114, 176, 242),
-                      borderRadius:
-                          BorderRadius.horizontal(right: Radius.circular(15))),
-                )
-              : SizedBox(width: MediaQuery.of(context).size.width * 0.1),
-          leading: !isExpanded
-              ? Container(
-            // height: ,
-                  width: MediaQuery.of(context).size.width * 0.1,
-                  decoration: BoxDecoration(
-                      color: isOld
-                          ? const Color.fromARGB(255, 194, 255, 244)
-                          : Colors.grey,
-                      borderRadius: const BorderRadius.horizontal(
-                          left: Radius.circular(15))),
-                )
-              : SizedBox(width: MediaQuery.of(context).size.width * 0.1),
-          initialPadding: EdgeInsets.zero,
-          borderRadius: const BorderRadius.all(Radius.circular(20)),
-          baseColor: const Color.fromARGB(255, 255, 255, 255),
-          expandedColor: const Color.fromARGB(255, 12, 113, 176),
-          onExpansionChanged: (value) => {setState(() => isExpanded = value)},
-          key: cardA,
-          // leading: CircleAvatar(child: Image.asset("assets/images/devs.jpg")),
-          title: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                event.name.toString(),
-                textAlign: TextAlign.left,
-                style: TextStyle(
-                    fontSize: 20,
-                    color: isExpanded
-                        ? Colors.white
-                        : const Color.fromARGB(255, 12, 113, 176),
-                    fontWeight: FontWeight.w700),
-              ),
-              !isExpanded
-                  ? const SizedBox(
-                      height: 10,
-                    )
-                  : Container(),
-              if (!isExpanded)
-                Wrap(
-                  alignment: WrapAlignment.start,
-                  crossAxisAlignment: WrapCrossAlignment.start,
-                  children: [
-                    // const Spacer(),
-                    const SizedBox(width: 15,),
-                    Text(
-                      getDate(event.timeDate as Timestamp),
-                      textAlign: TextAlign.center,
-                      style: textStyle3,
-                    ),
-                    const SizedBox(width: 15,),
-                    // const Spacer(),
-                    Text(
-                      getTime(event.timeDate as Timestamp),
-                      textAlign: TextAlign.center,
-                      style: textStyle3,
-                    ),
-                    const SizedBox(width: 15,),
-                    // const Spacer(),
-                    Text(
-                      event.venue.toString(),
-                      textAlign: TextAlign.center,
-                      style: textStyle3,
-                      softWrap: true,
-                    ),
-                    const Spacer(),
-                  ],
-                ),
-              const SizedBox(
-                height: 5,
-              ),
-            ],
-          ),
-          children: [
-            Container(
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: backgroundGrey,
-                borderRadius: const BorderRadius.only(
-                    bottomRight: Radius.circular(20),
-                    bottomLeft: Radius.circular(20)),
-                // gradient: !isOld
-                //     ? null
-                //     : LinearGradient(
-                //         begin: Alignment.centerLeft,
-                //         stops: [0.01, 0.97],
-                //         colors: [
-                //           const Color.fromARGB(255, 194, 255, 244),
-                //           Colors.white.withOpacity(1)
-                //         ],
-                //       ),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+      padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
+      child: Stack(
+        children: [
+          ExpansionTileCard(
+            initiallyExpanded: initExp,
+              contentPadding:
+                  const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+              trailing:  SizedBox(width: MediaQuery.of(context).size.width * 0.1),
+          leading:isExpanded? Container(width: 118,height:80,decoration: BoxDecoration( color: Color.fromARGB(255, 12, 113, 176),borderRadius: BorderRadius.only(topLeft: Radius.circular(20.0)),),): SizedBox(width: MediaQuery.of(context).size.width * 0.1),
+              initialPadding: EdgeInsets.zero,
+              borderRadius: const BorderRadius.all(Radius.circular(20)),
+              baseColor: const Color.fromARGB(255, 255, 255, 255),
+              expandedColor:const Color.fromARGB(255, 255, 255, 255),
+              onExpansionChanged: (value) => {
+              setState(() {
+                isExpanded=value;
+                checked=true;
+
+
+              })},
+              key: cardA,
+              // leading: CircleAvatar(child: Image.asset("assets/images/devs.jpg")),
+              title: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const SizedBox(width: 15,),
-                      // const Spacer(),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "DATE",
-                            textAlign: TextAlign.left,
-                            style: textStyleC,
-                          ),
-                          Text(
-                            textAlign: TextAlign.left,
-                            "TIME",
-                            style: textStyleC,
-                          ),
-                          Text(
-                            textAlign: TextAlign.left,
-                            "VENUE",
-                            style: textStyleC,
-                          )
-                        ],
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      SizedBox(
-                        width: 120,
-                        child: Column(
-                          // direction: Axis.vertical,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              getDate(event.timeDate as Timestamp),
-                              textAlign: TextAlign.left,
-                              softWrap: true,
-                              style: textStyleC2,
-                            ),
-                            Text(
-                              getTime(event.timeDate as Timestamp),
-                              textAlign: TextAlign.left,
-                              softWrap: true,
-                              style: textStyleC2,
-                            ),
-                            Text(
-                              event.venue.toString(),
-                              textAlign: TextAlign.left,
-                              softWrap: true,
-                              style: textStyleC2,
-                            ),
-                          ],
+                        isExpanded? Text(
+                    event.name.toString(),
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                      fontSize:MediaQuery.of(context).size.width* 0.06,
+                      color:  const Color.fromARGB(255, 12, 113, 176),
+                      fontWeight: FontWeight.w800),
+                         ):
+                  Text(
+                    event.name.toString(),
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                        fontSize: MediaQuery.of(context).size.width* 0.065,
+                        color:  const Color.fromARGB(255, 12, 113, 176),
+                        fontWeight: FontWeight.w800),
+                  ),
+
+                  if (!isExpanded)
+                    Wrap(
+                      alignment: WrapAlignment.start,
+                      crossAxisAlignment: WrapCrossAlignment.start,
+                      children: [
+                        // const Spacer(),
+                        //const SizedBox(width: 15,),
+                        Text(
+                          getDate(event.timeDate as Timestamp),
+                          textAlign: TextAlign.center,
+                          style: textStyle3,
                         ),
-                      ),
-                      // const Spacer(),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.all(10.0),
+                        SizedBox(width: MediaQuery.of(context).size.width* 0.055,),
+                        // const Spacer(),
+                        Text(
+                          getTime(event.timeDate as Timestamp),
+                          textAlign: TextAlign.center,
+                          style: textStyle3,
+                        ),
+                         SizedBox(width: MediaQuery.of(context).size.width* 0.055,),
+                        // const Spacer(),
+                        Text(
+                          event.venue.toString(),
+                          textAlign: TextAlign.center,
+                          style: textStyle3,
+                          softWrap: true,
+                        ),
+                        //const Spacer(),
+                      ],
+                    ),
+
+                ],
+              ),
+              children: [Row(
+                children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.35,
+
+                    child: Column(
+
+
+                      children: [
+                        Text(
+                          getDay(event.timeDate as Timestamp),
+                          textAlign: TextAlign.left,
+                          softWrap: true,
+                          style: TextStyle(fontSize: 50,color: Colors.white),
+
+                        ),
+                        Text(
+                          getDate(event.timeDate as Timestamp),
+                          textAlign: TextAlign.left,
+                          softWrap: true,
+                          style: TextStyle(fontSize: 30,color: Colors.white),
+
+                        ),
+                        Text(
+                            getTime(event.timeDate as Timestamp),
+                            textAlign: TextAlign.left,
+                            softWrap: true,
+                            style: TextStyle(fontSize: 20,color: Colors.white)
+                        ),
+
+
+                      ],
+                    ),
+                  ),
+                  Container(
+                    width:MediaQuery.of(context).size.width * 0.5,
+                    child: Column(
+                      children: [
+
+                        Padding(
+                          padding: const EdgeInsets.only(right: 5,left: 20,bottom: 40),
                           child: Text(
                             event.description.toString(),
                           ),
                         ),
-                      ),
-                    ],
+
+                      ],
+                    ),
                   )
+
+
                 ],
+              )
+
+
+
+              ]),
+
+          isExpanded ? Container(
+            height: 180,width: 120,
+            decoration: BoxDecoration(color: date!.compareTo(DateTime.now())>=0 ? Color.fromARGB(255, 12, 113, 176)
+        : Colors.grey,
+
+              borderRadius: BorderRadius.only(topLeft: Radius.circular(20.0),bottomLeft: Radius.circular(20.0)),),
+            child:Column(
+
+
+              children: [
+                SizedBox(
+                  height: 30,
+                ),
+              Text(
+              getDay(event.timeDate as Timestamp),
+              textAlign: TextAlign.left,
+              softWrap: true,
+              style: TextStyle(fontSize: 50,color: Colors.white),
+
               ),
-            ),
-          ]),
+              Text(
+              getDate(event.timeDate as Timestamp),
+              textAlign: TextAlign.left,
+              softWrap: true,
+              style: TextStyle(fontSize: 30,color: Colors.white),
+
+              ),
+              Text(
+              getTime(event.timeDate as Timestamp),
+              textAlign: TextAlign.left,
+              softWrap: true,
+              style: TextStyle(fontSize: 20,color: Colors.white)
+              ),
+              Container(
+              width: 150,
+              decoration: BoxDecoration(borderRadius: BorderRadius.only(bottomLeft:      Radius.circular(100))),),
+
+              ],
+              ),
+          ):Text("")
+        ],
+      ),
     );
   }
+
+
 }
+
+
