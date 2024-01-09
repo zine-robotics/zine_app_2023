@@ -5,24 +5,12 @@ import 'package:zineapp2023/providers/user_info.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:zineapp2023/screens/dashboard/view_models/dashboard_vm.dart';
 import 'package:zineapp2023/theme/color.dart';
-import 'package:zineapp2023/utilities/DateTime.dart';
 import 'package:zineapp2023/utilities/string_formatters.dart';
 import 'package:intl/intl.dart';
 import '../../common/routing.dart';
 
 class Dashboard extends StatelessWidget {
-  Dashboard({Key? key}) : super(key: key);
-
-  dynamic routes = {
-    "ALGORITHMS": "ALGO",
-    "BEE": "BEE",
-    "BME": "BME",
-    "AEROMODELLING": "AERO",
-    "IC-MCU": "IC-MCU",
-    "CYBERSECURITY": "CYBERSECURITY",
-    "WEB DEVELOPMENT": "WEBDEV",
-    "MACHINE LEARNING": "ML"
-  };
+  const Dashboard({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -154,7 +142,7 @@ class Dashboard extends StatelessWidget {
                                             fontSize: MediaQuery.of(context)
                                                     .textScaleFactor *
                                                 15,
-                                            color: Color(0xff0C72B0)),
+                                            color: const Color(0xff0C72B0)),
                                       ),
                                     ),
                                     Text(
@@ -348,7 +336,7 @@ class Dashboard extends StatelessWidget {
                                 return GestureDetector(
                                   onTap: () {
                                     dashboardVm.launchUrl(
-                                        'https://zine.co.in/blogs/${routes[i].toLowerCase()}');
+                                        'https://zine.co.in/blogs/${DashboardVm.routes[i]!.toLowerCase()}');
                                   },
                                   child: Padding(
                                     padding: const EdgeInsets.symmetric(
@@ -408,7 +396,7 @@ class Dashboard extends StatelessWidget {
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: const [
+                                  children: [
                                     Text(
                                       "0",
                                       style: TextStyle(
@@ -448,7 +436,7 @@ class Dashboard extends StatelessWidget {
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: const [
+                                  children: [
                                     Text(
                                       "1",
                                       style: TextStyle(

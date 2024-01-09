@@ -4,7 +4,7 @@ class WhiteTabTile extends StatelessWidget {
 
   final String label;
 
-  const WhiteTabTile({required this.label,Key? key}) : super(key: key);
+  const WhiteTabTile({required this.label,super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class BlueTabTile extends StatelessWidget {
 
   final String label;
 
-  const BlueTabTile({required this.label,Key? key}) : super(key: key);
+  const BlueTabTile({required this.label,super.key});
 
   @override
   Widget build(BuildContext context) {

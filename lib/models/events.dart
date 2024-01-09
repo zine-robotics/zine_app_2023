@@ -5,7 +5,7 @@ class Events {
   String? description;
   String? venue;
   String? eventType;
-  int? stage;
+  String? stage;
   Timestamp? timeDate;
 
   Events({this.name, this.description, this.venue, this.timeDate});
@@ -16,7 +16,7 @@ class Events {
     venue = json['venue'];
     timeDate = json['timeDate'];
     eventType = json['eventType'];
-    stage=json['stage'];
+    stage = json['stage'];
   }
 
   Map<String, dynamic> toJson() {
@@ -26,7 +26,7 @@ class Events {
     data['venue'] = venue;
     data['time'] = timeDate;
     data['eventType'] = eventType;
-    data['stage']=stage;
+    data['stage'] = stage;
     return data;
   }
 
@@ -35,6 +35,6 @@ class Events {
         description = snapshot.data()['description'],
         timeDate = snapshot.data()['timeDate'],
         name = snapshot.data()['name'],
-        stage=snapshot.data()['stage'],
+        // stage = snapshot.data()['stage'] as String,
         eventType = snapshot.data()['eventType'];
 }

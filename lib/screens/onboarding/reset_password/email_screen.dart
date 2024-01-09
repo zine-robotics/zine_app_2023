@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zineapp2023/providers/user_info.dart';
 import 'package:zineapp2023/screens/onboarding/reset_password/view_model/pass_reset_view_model.dart';
-import '../../../components/constants.dart';
 import '../../../components/gradient.dart';
 import '../../../theme/color.dart';
 
 class EmailScreen extends StatelessWidget {
-  EmailScreen({Key? key}) : super(key: key);
+  EmailScreen({super.key});
 
   final _formKey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
@@ -17,8 +16,8 @@ class EmailScreen extends StatelessWidget {
     return Consumer2<PasswordResetVm, UserProv>(
         builder: (context, passVm, userProv, _) {
       if (userProv.isLoggedIn) {
-        passVm.setEmail(userProv.currUser.email!);
-        emailController.text = userProv.currUser.email!;
+        passVm.setEmail(userProv.currUser.email ?? "");
+        emailController.text = userProv.currUser.email ?? "";
       }
       return Scaffold(
         resizeToAvoidBottomInset: true,
@@ -96,7 +95,8 @@ class EmailScreen extends StatelessWidget {
                 const SizedBox(
                   height: 20.0,
                 ),
-                const Text("We will send a OTP on the registered email address",
+                const Text(
+                    "We will send a link to reset your password on the registered email address",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontWeight: FontWeight.w200,

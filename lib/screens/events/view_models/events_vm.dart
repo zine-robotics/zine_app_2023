@@ -4,7 +4,7 @@ import 'package:zineapp2023/screens/events/repo/events_repo.dart';
 
 class EventsVm extends ChangeNotifier {
   final eventRepo = EventsRepo();
-  // EventsVm();
+
   List<Events> _events = [];
   dynamic prev = 0;
   bool isLoading = false;

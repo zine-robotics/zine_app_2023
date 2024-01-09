@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:zineapp2023/components/tab_tiles.dart';
-import 'package:zineapp2023/screens/chat/chat_screen.dart';
+import 'package:zineapp2023/screens/chat/chat_screen/chat_screen.dart';
 import 'package:zineapp2023/theme/color.dart';
 
 import '../tasks/task_screen.dart';
@@ -18,11 +18,6 @@ class ChatHome extends StatelessWidget {
           elevation: 0,
           toolbarHeight: MediaQuery.of(context).size.height * 0.1,
           backgroundColor: Colors.transparent,
-          // leading: Icon(
-          //   Icons.arrow_back,
-          //   size: 20,
-          //   color: greyText,
-          // ),
           title: const TabBar(
             labelColor: Color.fromRGBO(12, 114, 176, 0.949375),
             labelStyle: TextStyle(
@@ -50,7 +45,6 @@ class ChatHome extends StatelessWidget {
         ),
         body: const TabBarView(
           children: [
-            // ChatsList(),
             ChatScreen(),
             TaskScreen(),
           ],

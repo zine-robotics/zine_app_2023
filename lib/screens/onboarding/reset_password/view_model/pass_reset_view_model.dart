@@ -35,8 +35,9 @@ class PasswordResetVm extends ChangeNotifier {
       setLoading(false);
 
       Navigator.of(NavigationService.navigatorKey.currentContext!)
-          .pushReplacement(
-              MaterialPageRoute(builder: (ctx) => const PasswordResetConfirm()));
+          .pushReplacement(MaterialPageRoute(
+              builder: (ctx) => const PasswordResetConfirm()));
+
     } on FirebaseAuthException catch (e) {
       setLoading(false);
       Fluttertoast.showToast(

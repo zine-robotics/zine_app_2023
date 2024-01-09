@@ -6,7 +6,7 @@ import 'package:zineapp2023/screens/events/view_models/events_vm.dart';
 import 'package:zineapp2023/theme/color.dart';
 
 class Events extends StatelessWidget {
-  const Events({Key? key}) : super(key: key);
+  const Events({super.key});
 
   @override
   Widget build(BuildContext context) {

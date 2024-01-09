@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:zineapp2023/screens/dashboard/view_models/dashboard_vm.dart';
 
 class ZineWhiteLogoWidget extends StatelessWidget {
-  const ZineWhiteLogoWidget({Key? key}) : super(key: key);
+  const ZineWhiteLogoWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +74,7 @@ class ZineWhiteLogoWidget extends StatelessWidget {
                 ),
               ),
               const SizedBox(
-                height: 70,
+                height: 50,
               ),
             ],
           ),

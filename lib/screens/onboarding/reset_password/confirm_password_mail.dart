@@ -5,7 +5,7 @@ import '/screens/onboarding/reset_password/view_model/pass_reset_view_model.dart
 import '../../../theme/color.dart';
 
 class PasswordResetConfirm extends StatelessWidget {
-  const PasswordResetConfirm({Key? key}) : super(key: key);
+  const PasswordResetConfirm({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -270,6 +270,7 @@ class ProfileScreen extends StatelessWidget {
                   child: ElevatedButton(
                     onPressed: () {
                       regVm.signOut();
+                      userProv.logOut();
 
                       Navigator.of(context).pushAndRemoveUntil(
                           Routes.landingScreen(), (route) => false);
@@ -286,7 +287,7 @@ class ProfileScreen extends StatelessWidget {
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
+                      children: [
                         Icon(
                           Icons.logout_sharp,
                           color: textColor,

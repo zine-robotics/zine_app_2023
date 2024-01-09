@@ -12,7 +12,7 @@ import '../../components/gradient.dart';
 import '../../models/user.dart';
 
 class WorkshopScreen extends StatelessWidget {
-  const WorkshopScreen({Key? key}) : super(key: key);
+  const WorkshopScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
