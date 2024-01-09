@@ -42,63 +42,63 @@ class TaskScreen extends StatelessWidget {
               padding: const EdgeInsets.all(18.0),
               child: Stack(
                 children: [
-                  taskVm.tasks!.length == 0?
-                    SizedBox(
-                      height: 220.0,
-                      child: Transform.rotate(
-                        angle: math.pi / 90,
-                        child: const Card(
-                          shape: RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(15.0))),
-                          color: Color(0x69D9D9D9),
-                          elevation: 0,
-                          child: Center(
-                              child: Text(""),
+                  taskVm.tasks!.length == 0
+                      ? SizedBox(
+                          height: 220.0,
+                          child: Transform.rotate(
+                            angle: math.pi / 90,
+                            child: const Card(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(15.0))),
+                              color: Color(0x69D9D9D9),
+                              elevation: 0,
+                              child: Center(
+                                child: Text(""),
+                              ),
                             ),
+                          ),
+                        )
+                      : SizedBox(
+                          height: 220.0,
+                          child: Transform.rotate(
+                            angle: math.pi / 80,
+                            child: const Card(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(15.0))),
+                              color: Color(0x66268CCB),
+                              elevation: 0,
+                              child: Center(
+                                child: Text(""),
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
-                    ):
-                  SizedBox(
-                    height: 220.0,
-                    child: Transform.rotate(
-                      angle: math.pi / 80,
-                      child: const Card(
-                        shape: RoundedRectangleBorder(
+                  taskVm.tasks!.length == 0
+                      ? const Card(
+                          shape: RoundedRectangleBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(15.0))),
-                        color: Color(0x66268CCB),
-                        elevation: 0,
-                        child: Center(
-                            child: Text(""),
+                          color: iconTile,
+                          elevation: 0,
+                          child: SizedBox(
+                            height: 220.0,
+                            child: Center(
+                              child: Text(
+                                "No tasks to show",
+                                style: TextStyle(
+                                    color: backgroundGrey,
+                                    fontSize: 25.0,
+                                    fontWeight: FontWeight.w700),
+                              ),
+                            ),
                           ),
-                      ),
-                    ),
-                  ),
-                  taskVm.tasks!.length == 0?
-                    const Card(
-                      shape: RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.all(Radius.circular(15.0))),
-                      color: iconTile,
-                      elevation: 0,
-                      child: SizedBox(
-                        height: 220.0,
-                        child: Center(
-                          child: Text(
-                            "No tasks to show",
-                            style: TextStyle(
-                                color: backgroundGrey,
-                                fontSize: 25.0,
-                                fontWeight: FontWeight.w700),
-                          ),
+                        )
+                      : SizedBox(
+                          height: 220,
+                          child: RecentTask(),
                         ),
-                      ),
-                    ):
-                  SizedBox(
-                    height: 220,
-                    child: RecentTask(),
-                  ),
                 ],
               ),
             ),
@@ -125,9 +125,9 @@ class TaskScreen extends StatelessWidget {
                           fontSize: 15.0, fontWeight: FontWeight.w700),
                       indicatorColor: Colors.transparent,
                       tabs: [
+                        Text("All Task"),
+                        Text("In Progress"),
                         Text("Completed"),
-                        Text("All Tasks"),
-                        Text("Incomplete"),
                       ]),
                   Expanded(
                     child: TabBarView(

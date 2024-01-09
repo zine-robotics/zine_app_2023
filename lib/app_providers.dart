@@ -4,6 +4,7 @@ import 'package:zineapp2023/screens/chat/chat_screen/repo/chat_repo.dart';
 import 'package:zineapp2023/screens/chat/chat_screen/view_model/chat_room_view_model.dart';
 import 'package:zineapp2023/screens/events/view_models/events_vm.dart';
 import 'package:zineapp2023/screens/explore/view_model/timeline_vm.dart';
+import 'package:zineapp2023/screens/tasks/repo/task_repo.dart';
 import 'package:zineapp2023/screens/tasks/view_models/task_vm.dart';
 
 import './common/data_store.dart';
@@ -59,7 +60,8 @@ class AppProviders extends StatelessWidget {
         ChangeNotifierProvider<DashboardVm>(
             create: (_) => DashboardVm(store: store, userProv: userProv)),
         ChangeNotifierProvider<EventsVm>(create: (_) => EventsVm()),
-        ChangeNotifierProvider<TaskVm>(create: (_) => TaskVm()),
+        ChangeNotifierProvider<TaskVm>(
+            create: (_) => TaskVm(taskRepo: TaskRepo(userProv: userProv))),
         ChangeNotifierProvider<TimelineVm>(create: (_) => TimelineVm()),
         ChangeNotifierProvider<HomeVm>(create: (_) => HomeVm()),
         ChangeNotifierProvider<Language>(create: (_) => language),

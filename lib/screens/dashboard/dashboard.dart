@@ -398,7 +398,8 @@ class Dashboard extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     Text(
-                                      "0",
+                                      userProv.currUser.tasks!.length
+                                          .toString(),
                                       style: TextStyle(
                                           height: 0.9,
                                           letterSpacing: 0.3,
@@ -438,7 +439,8 @@ class Dashboard extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     Text(
-                                      "1",
+                                      userProv.currUser.roomIDs!.length
+                                          .toString(),
                                       style: TextStyle(
                                           height: 0.9,
                                           letterSpacing: 0.3,

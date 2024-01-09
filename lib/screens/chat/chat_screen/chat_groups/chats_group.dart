@@ -35,7 +35,7 @@ class ChatGroups extends StatelessWidget {
         // var name = chatVm.getData(roomName);
 
         return SizedBox(
-          height: MediaQuery.of(context).size.height * 0.18,
+          height: MediaQuery.of(context).size.height * 0.19,
           child: ListView.builder(
             shrinkWrap: true,
             scrollDirection: Axis.horizontal,
