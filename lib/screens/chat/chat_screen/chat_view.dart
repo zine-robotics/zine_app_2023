@@ -4,7 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:intl/intl.dart';
 import 'package:swipe_to/swipe_to.dart';
+import 'package:provider/provider.dart';
+import 'package:zineapp2023/screens/chat/chat_screen/view_model/chat_room_view_model.dart';
 import 'package:zineapp2023/utilities/string_formatters.dart';
+
 
 import '../../../models/message.dart';
 import '../../../theme/color.dart';
@@ -12,9 +15,13 @@ import '../../../utilities/date_time.dart';
 
 Widget chatV(var data, var currUser, var dashVm, dynamic reply,
     dynamic updateMessage, BuildContext context) {
+  ChatRoomViewModel chatRoomViewModel =
+      Provider.of<ChatRoomViewModel>(context, listen: true);
   return StreamBuilder<QuerySnapshot>(
     stream: data,
     builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+      print(chatRoomViewModel.replyTo);
+
       if (snapshot.hasData) {
         List<MessageModel> chats = snapshot.data!.docs.map((doc) {
           MessageModel message = MessageModel.store(doc);
@@ -42,9 +49,10 @@ Widget chatV(var data, var currUser, var dashVm, dynamic reply,
               key: UniqueKey(),
               itemCount: chats.length,
               itemBuilder: (BuildContext context, int index) {
+                var currIndx = chats.length - index - 1;
                 var showDate = index == chats.length - 1 ||
                     (chats.length - index >= 2 &&
-                        getDate(chats[chats.length - index - 1].timeStamp!) !=
+                        getDate(chats[currIndx].timeStamp!) !=
                             getDate(
                                 chats[chats.length - index - 2].timeStamp!));
 
@@ -332,105 +340,107 @@ Widget chatV(var data, var currUser, var dashVm, dynamic reply,
                             //                   "assets/images/zine_logo.png"),
                             //             ),
                             //           ),
-                            subtitle: group
-                                ? null
-                                : Padding(
-                              padding: const EdgeInsets.all(6.0),
-                              child: Align(
-                                alignment: currUser.name !=
-                                    chats[chats.length -
-                                        index -
-                                        1]
-                                        .from
-                                    ? Alignment.bottomLeft
-                                    : Alignment.bottomRight,
-                                child: group
-                                    ? const Text("")
-                                    : Text(
-                                  "${chats[chats.length - index - 1].from}     ${getTime(chats[chats.length - index - 1].timeStamp!)}",
-                                  style: const TextStyle(
-                                    fontWeight:
-                                    FontWeight.w400,
-                                    fontSize: 10.0,
-                                    color: Color.fromARGB(
-                                        255, 92, 20, 20),
+
+                                  subtitle: group
+                                      ? null
+                                      : Padding(
+                                          padding: const EdgeInsets.all(6.0),
+                                          child: Align(
+                                            alignment: currUser.name !=
+                                                    chats[chats.length -
+                                                            index -
+                                                            1]
+                                                        .from
+                                                ? Alignment.bottomLeft
+                                                : Alignment.bottomRight,
+                                            child: group
+                                                ? const Text("")
+                                                : Text(
+                                                    "${chats[currIndx].from}     ${getTime(chats[currIndx].timeStamp!)}",
+                                                    style: const TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                      fontSize: 10.0,
+                                                      color: Color.fromARGB(
+                                                          255, 92, 20, 20),
+                                                    ),
+                                                  ),
+                                          ),
+                                        ),
+                                  title: Wrap(
+                                    crossAxisAlignment: WrapCrossAlignment.end,
+                                    alignment:
+                                        currUser.name == chats[currIndx].from
+                                            ? WrapAlignment.end
+                                            : WrapAlignment.start,
+                                    direction: Axis.horizontal,
+                                    children: [
+                                      // Text("Something"),
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          color: currUser.name ==
+                                                  chats[chats.length -
+                                                          index -
+                                                          1]
+                                                      .from
+                                              ? const Color(0xff68a5ca)
+                                              : const Color(0xff0C72B0),
+                                          borderRadius: BorderRadius.only(
+                                              topLeft:
+                                                  const Radius.circular(15.0),
+                                              topRight:
+                                                  const Radius.circular(15.0),
+                                              bottomRight: currUser.name ==
+                                                      chats[chats.length -
+                                                              index -
+                                                              1]
+                                                          .from
+                                                  ? const Radius.circular(0.0)
+                                                  : const Radius.circular(15.0),
+                                              bottomLeft: currUser.name ==
+                                                      chats[chats.length -
+                                                              index -
+                                                              1]
+                                                          .from
+                                                  ? const Radius.circular(15.0)
+                                                  : const Radius.circular(0.0)),
+                                          // border: Border.all(color: greyText, width: 2.0),
+                                        ),
+                                        // margin: const EdgeInsets.all(8),
+                                        padding: const EdgeInsets.all(4),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(10.0),
+                                          child: SelectableLinkify(
+                                            text: chats[currIndx]
+                                                .message
+                                                .toString(),
+                                            style: const TextStyle(
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 18.0,
+                                              color: Colors.white,
+                                            ),
+                                            onOpen: (link) =>
+                                                dashVm.launchUrl(link.url),
+                                            linkStyle: const TextStyle(
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 18.0,
+                                              color: Colors.white70,
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    ],
+
                                   ),
                                 ),
                               ),
                             ),
-                            title: Wrap(
-                              crossAxisAlignment:
-                              WrapCrossAlignment.end,
-                              alignment: currUser.name ==
-                                  chats[chats.length - index - 1]
-                                      .from
-                                  ? WrapAlignment.end
-                                  : WrapAlignment.start,
-                              direction: Axis.horizontal,
-                              children: [
-                                // Text("Something"),
-                                Container(
-                                  decoration: BoxDecoration(
-                                    color: currUser.name ==
-                                        chats[chats.length -
-                                            index -
-                                            1]
-                                            .from
-                                        ? const Color(0xff68a5ca)
-                                        : const Color(0xff0C72B0),
-                                    borderRadius: BorderRadius.only(
-                                        topLeft:
-                                        const Radius.circular(15.0),
-                                        topRight:
-                                        const Radius.circular(15.0),
-                                        bottomRight: currUser.name ==
-                                            chats[chats.length -
-                                                index -
-                                                1]
-                                                .from
-                                            ? const Radius.circular(0.0)
-                                            : const Radius.circular(
-                                            15.0),
-                                        bottomLeft: currUser.name ==
-                                            chats[chats.length -
-                                                index -
-                                                1]
-                                                .from
-                                            ? const Radius.circular(
-                                            15.0)
-                                            : const Radius.circular(0.0)),
-                                    // border: Border.all(color: greyText, width: 2.0),
-                                  ),
-                                  // margin: const EdgeInsets.all(8),
-                                  padding: const EdgeInsets.all(4),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(10.0),
-                                    child: SelectableLinkify(
-                                      text: chats[
-                                      chats.length - index - 1]
-                                          .message
-                                          .toString(),
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 18.0,
-                                        color: Colors.white,
-                                      ),
-                                      onOpen: (link) =>
-                                          dashVm.launchUrl(link.url),
-                                      linkStyle: const TextStyle(
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 18.0,
-                                        color: Colors.white70,
-                                      ),
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
+
+
                     ]);
+
+
+
               },
             ),
           ),
@@ -445,4 +455,8 @@ Widget chatV(var data, var currUser, var dashVm, dynamic reply,
       // print(MessageModel.store());
     },
   );
+
 }
+
+
+

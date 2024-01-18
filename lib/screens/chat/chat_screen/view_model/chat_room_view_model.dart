@@ -1,9 +1,11 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import "package:flutter/material.dart";
 import 'package:image_picker/image_picker.dart';
+import 'package:zineapp2023/models/message.dart';
 import 'package:zineapp2023/models/user.dart';
 import 'package:zineapp2023/providers/user_info.dart';
 import 'package:zineapp2023/utilities/date_time.dart';
@@ -11,18 +13,18 @@ import 'package:zineapp2023/utilities/date_time.dart';
 import '../repo/chat_repo.dart';
 
 class ChatRoomViewModel extends ChangeNotifier {
+  final UserProv userProv;
+  ChatRoomViewModel({required this.userProv});
   final chatP = ChatRepo();
 
   dynamic allData;
   dynamic replyTo;
-
-
   FocusNode replyfocus = FocusNode();
-
   String _roomId = "Hn9GSQnvi5zh9wabLGuT";
   final name = "Announcement";
   Map<String, dynamic> chatSubscription = {};
   final picker = ImagePicker();
+  dynamic selectedReplyMessage;
 
   get roomId => _roomId;
   Map<String, Timestamp> lastChats = {};
@@ -50,13 +52,31 @@ class ChatRoomViewModel extends ChangeNotifier {
   }
 
   void replyText(dynamic message) {
+
     replyTo = message;
     // print(message.message);
+
+    selectedReplyMessage = message;
+    replyTo = message.id;
+    print(replyTo);
+
     replyfocus.requestFocus();
+
+    notifyListeners();
   }
 
   void cancelReply() {
     replyTo = null;
+    notifyListeners();
+  }
+
+  dynamic getMessageById(List<MessageModel> chats, String replyTo) {
+    Iterable<MessageModel> msg =
+        chats.where((element) => element.id == replyTo);
+    if (msg.isNotEmpty) {
+      return msg.first;
+    }
+    return null;
   }
 
   List<dynamic> listOfUsers = [];
@@ -73,10 +93,17 @@ class ChatRoomViewModel extends ChangeNotifier {
     var membersList = data.members;
     List<dynamic> list = [];
 
+
     for (var member in membersList) {
       var temp = await chatP.getUserDetailsByID(member);
       list.add(temp as UserModel);
     }
+
+    // for (var member in membersList) {
+    //   var temp = await chatP.getUserDetailsByID(member);
+    //   list.add(temp as UserModel);
+    // }
+
 
     // await Future.wait(list as Iterable<Future>);
     listOfUsers = list;
@@ -136,7 +163,10 @@ class ChatRoomViewModel extends ChangeNotifier {
     // getChats();
     print("sending");
     print(replyTo);
-    _text.isEmpty ? null : chatP.sendMessage(from, roomId, _text, replyTo);
+    _text.isEmpty
+        ? null
+        : chatP.sendMessage(
+            from, roomId, _text, replyTo, userProv!.currUser.uid.toString());
     replyTo = null;
     setText("");
 
@@ -152,6 +182,10 @@ class ChatRoomViewModel extends ChangeNotifier {
 
   void updateMessage(DocumentReference docRef) async {
     await docRef.update({'replyTo': null});
+  }
+
+  void replyListner() {
+    if (!replyfocus.hasFocus) replyTo = null;
   }
 
   // void send({from, roomId}) {
@@ -199,7 +233,7 @@ class ChatRoomViewModel extends ChangeNotifier {
 
   void roomLeft(var room, var user, UserProv userProv) {
     chatP.updateLastSeen(user, room);
-    userProv.updateLast(room);
+    //userProv.updateLast(room);         //there is no such function exist
     notifyListeners();
     print('left $room');
   }

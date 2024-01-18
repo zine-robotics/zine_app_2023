@@ -9,9 +9,8 @@ import 'package:zineapp2023/utilities/date_time.dart';
 class EventCard extends StatefulWidget {
   final Events event;
   final selectedDate;
-
-
-  const EventCard({Key? key, required this.event,this.selectedDate}) : super(key: key);
+  const EventCard({Key? key, required this.event, this.selectedDate})
+      : super(key: key);
 
   @override
   _EventCardState createState() => _EventCardState();
@@ -19,29 +18,22 @@ class EventCard extends StatefulWidget {
 
 class _EventCardState extends State<EventCard> {
   final GlobalKey<ExpansionTileCardState> cardA = GlobalKey();
-
-
-  var checked=false;
-  var isExpanded=false ;
+  var checked = false;
+  var isExpanded = false;
   @override
   Widget build(BuildContext context) {
     final Events event = widget.event;
-    print("date passsing from the eventCalender${widget.selectedDate}");
+    // print("date passsing from the eventCalender${widget.selectedDate}");
 
-
-
-    bool initExp=false;
+    bool initExp = false;
     DateTime? date = widget.event.timeDate?.toDate();
 
-
-    if (widget.selectedDate!=null && !checked)
-      {
-        print(getDDate(date!));
-        print(getDDate(widget.selectedDate));
-        initExp=getDDate(date!)==getDDate(widget.selectedDate) ;
-        isExpanded=initExp;
-      }
-
+    if (widget.selectedDate != null && !checked) {
+      print(getDDate(date!));
+      print(getDDate(widget.selectedDate));
+      initExp = getDDate(date!) == getDDate(widget.selectedDate);
+      isExpanded = initExp;
+    }
     //isExpanded=int.parse(compareDay.toString())==checkDay ? true :false;
 
     bool isOld =
@@ -81,9 +73,8 @@ class _EventCardState extends State<EventCard> {
               setState(() {
                 isExpanded=value;
                 checked=true;
-
-
               })},
+
               key: cardA,
               // leading: CircleAvatar(child: Image.asset("assets/images/devs.jpg")),
               title: Column(
@@ -180,63 +171,51 @@ class _EventCardState extends State<EventCard> {
 
                         Padding(
                           padding: const EdgeInsets.only(right: 5,left: 20,bottom: 40),
-                          child: Text(
-                            event.description.toString(),
-                          ),
-                        ),
-
-                      ],
-                    ),
-                  )
-
-
-                ],
-              )
-
-
-
-              ]),
-
-          isExpanded ? Container(
-            height: 180,width: 120,
-            decoration: BoxDecoration(color: date!.compareTo(DateTime.now())>=0 ? Color.fromARGB(255, 12, 113, 176)
-        : Colors.grey,
-
-              borderRadius: BorderRadius.only(topLeft: Radius.circular(20.0),bottomLeft: Radius.circular(20.0)),),
-            child:Column(
-
-
-              children: [
-                SizedBox(
-                  height: 30,
-                ),
-              Text(
-              getDay(event.timeDate as Timestamp),
-              textAlign: TextAlign.left,
-              softWrap: true,
-              style: TextStyle(fontSize: 50,color: Colors.white),
-
-              ),
-              Text(
-              getDate(event.timeDate as Timestamp),
-              textAlign: TextAlign.left,
-              softWrap: true,
-              style: TextStyle(fontSize: 30,color: Colors.white),
-
-              ),
-              Text(
-              getTime(event.timeDate as Timestamp),
-              textAlign: TextAlign.left,
-              softWrap: true,
-              style: TextStyle(fontSize: 20,color: Colors.white)
-              ),
-              Container(
-              width: 150,
-              decoration: BoxDecoration(borderRadius: BorderRadius.only(bottomLeft:      Radius.circular(100))),),
-
-              ],
-              ),
-          ):Text("")
+                 child:Text(event.description.toString(),),),],),),],)]),
+          isExpanded
+              ? IntrinsicHeight(
+                  child: Container(
+                  height: 210,
+                  width: 120,
+                  decoration: BoxDecoration(
+                    color: date!.compareTo(DateTime.now()) >= 0
+                        ? Color.fromARGB(255, 12, 113, 176)
+                        : Colors.grey,
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(20.0),
+                        bottomLeft: Radius.circular(20.0)),
+                  ),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 30,
+                      ),
+                      Text(
+                        getDay(event.timeDate as Timestamp),
+                        textAlign: TextAlign.left,
+                        softWrap: true,
+                        style: TextStyle(fontSize: 50, color: Colors.white),
+                      ),
+                      Text(
+                        getDate(event.timeDate as Timestamp),
+                        textAlign: TextAlign.left,
+                        softWrap: true,
+                        style: TextStyle(fontSize: 30, color: Colors.white),
+                      ),
+                      Text(getTime(event.timeDate as Timestamp),
+                          textAlign: TextAlign.left,
+                          softWrap: true,
+                          style: TextStyle(fontSize: 20, color: Colors.white)),
+                      Container(
+                        width: 150,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(100))),
+                      ),
+                    ],
+                  ),
+                ))
+              : Text("")
         ],
       ),
     );

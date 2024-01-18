@@ -35,7 +35,9 @@ class ChatGroups extends StatelessWidget {
         // var name = chatVm.getData(roomName);
 
         return SizedBox(
+
           height: MediaQuery.of(context).size.height * 0.18,
+
           child: ListView.builder(
             shrinkWrap: true,
             scrollDirection: Axis.horizontal,
@@ -55,7 +57,7 @@ class ChatGroups extends StatelessWidget {
                   name: listOfRoomName[index],
                   chatVm: chatVm,
                   userProv: userProv,
-                  // lastSeen: lastChatList[listOfRoomName[index]][0],
+                  //lastSeen: lastChatList[listOfRoomName[index]][0],
                 ),
               );
             },

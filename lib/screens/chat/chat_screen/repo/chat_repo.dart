@@ -1,18 +1,21 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zineapp2023/api.dart';
 import 'package:zineapp2023/models/message.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:zineapp2023/providers/user_info.dart';
 
 import '../../../../models/rooms.dart';
 import '../../../../models/user.dart';
-
 
 class ChatRepo {
   // final SharedPreferences prefs;
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
   final FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
+
   List<MessageModel> chats = [];
+
   // ChatProvider();
 
   // String? getPref(String key) {
@@ -114,7 +117,7 @@ class ChatRepo {
       return null;
   }
 
-  Future<UserModel?> getUserDetailsByID(String uid) async{
+  Future<UserModel?> getUserDetailsByID(String uid) async {
     var user = await _firebaseFirestore.collection('users').doc(uid).get();
     UserModel userMod = UserModel(
       uid: user['uid'],
@@ -131,7 +134,6 @@ class ChatRepo {
     );
     return userMod;
   }
-
 
   // dynamic getLastChat(String roomId) async {
   //   String? groupChatId = roomId;
@@ -150,11 +152,12 @@ class ChatRepo {
   //     return null;
   // }
 
-  dynamic getRooms(String groupChatId) async{
-    var data= await   _firebaseFirestore
+  dynamic getRooms(String groupChatId) async {
+    var data = await _firebaseFirestore
         .collection('rooms')
         .where('name', isEqualTo: groupChatId)
-        .limit(1).get();
+        .limit(1)
+        .get();
     if (data.docs != null && data.docs.length > 0) {
       return Rooms.store(data.docs[0]);
     } else
@@ -174,12 +177,8 @@ class ChatRepo {
             }, SetOptions(merge: true)));
   }
 
-  void sendMessage(
-    String from,
-    String roomName,
-    String message,
-      dynamic reply,
-  ) async {
+  void sendMessage(String from, String roomName, String message, dynamic reply,
+      String uid) async {
     String? groupId = await getRoomId(roomName);
     groupId = groupId.toString();
     DocumentReference documentReference = _firebaseFirestore
@@ -193,9 +192,9 @@ class ChatRepo {
         from: from,
         group: groupId,
         message: message,
-        replyTo: reply?.toJson(),
-        timeStamp: Timestamp.now()
-    );
+        replyTo: reply,
+        timeStamp: Timestamp.now(),
+        sender_id: uid);
 
     FirebaseFirestore.instance.runTransaction((transaction) async {
       transaction.set(

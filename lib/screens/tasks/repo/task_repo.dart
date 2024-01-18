@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-
 import 'package:zineapp2023/models/user.dart';
 
 import 'package:zineapp2023/models/userTask.dart';
@@ -30,14 +29,12 @@ class TaskRepo {
         .collection("userTasks")
         .where("users", arrayContains: _firebaseFirestore.doc("/users/$uid"));
     var data = await query.get();
-    final docData = data.docs.map((doc) => UserTask.store(doc.data(), doc.id));
+
+    final docData = data.docs.map((doc) => UserTask.store(doc));
 
     print("getTasks is finished");
     return docData.toList();
 
-    //print("userTask.store displaying-->${docData.toList()}");
-    print("getTasks is finished");
-    return docData.toList();
   }
 
   dynamic getDocRef(ref) async {
@@ -49,16 +46,18 @@ class TaskRepo {
 
 
 
-  dynamic addCheckpoints(String message,String docRefId,int curr) async {
 
+
+  dynamic addCheckpoints(String message, String docRefId, int curr) async {
     Map<String, dynamic> checkpointData = {
       "message": message,
-      "timeDate": DateTime.now(),
+      "timeDate": Timestamp.now(),
       "user": userProv.currUser.name.toString(),
     };
     //check if its working
-    userProv.currUser.tasks?[curr].checkpoints?.add(checkpointData);
-  await _firebaseFirestore
+    // userProv.currUser.tasks?[curr].checkpoints?.add(checkpointData);
+    await _firebaseFirestore
+
         .collection("userTasks")
         .doc(docRefId.toString())
         .update({
@@ -67,23 +66,19 @@ class TaskRepo {
 
   }
 
-  dynamic addLinks(heading, link,String docRefId,int curr) async {
 
-
+  dynamic addLinks(heading, link, String docRefId, int curr) async {
     Map<String, dynamic> linkData = {
       "heading": heading,
-      "timeDate": DateTime.now(),
+      "timeDate": Timestamp.now(),
       "user": userProv.currUser.name.toString(),
       "link": link,
     };
-
-     await _firebaseFirestore
-        .collection("userTasks")
-        .doc(docRefId)
-        .update({
+    userProv.currUser.tasks?[curr].links?.add(linkData);
+    await _firebaseFirestore.collection("userTasks").doc(docRefId).update({
       "links": FieldValue.arrayUnion([linkData])
     });
-    userProv.currUser.tasks?[curr].links?.add(linkData);
+
     print("links added sucessfully");
   }
 }

@@ -5,7 +5,7 @@ import 'package:zineapp2023/screens/chat/chat_screen/view_model/chat_room_view_m
 import 'package:zineapp2023/theme/color.dart';
 
 import '../../providers/user_info.dart';
-import 'chat_room.dart';
+import 'package:zineapp2023/screens/chat/chat_screen/chat_room.dart';
 
 class ChatGroupTile extends StatelessWidget {
   ChatGroupTile(

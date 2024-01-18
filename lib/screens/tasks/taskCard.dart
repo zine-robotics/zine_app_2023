@@ -40,8 +40,8 @@ class TaskCard extends StatelessWidget {
               // color: iconTile,
               elevation: 0,
               child: Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 30.0, vertical: 18),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 30.0, vertical: 18),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -56,11 +56,13 @@ class TaskCard extends StatelessWidget {
                         fontWeight: FontWeight.w900,
                       ),
                     ),
-                    SizedBox(height: 7,),
+                    SizedBox(
+                      height: 7,
+                    ),
                     Text(
                       "Problem Statement",
                       style: TextStyle(
-                          color:textColor,
+                          color: textColor,
                           fontSize: 13.0,
                           fontWeight: FontWeight.bold),
                     ),
@@ -79,13 +81,14 @@ class TaskCard extends StatelessWidget {
                           color: iconTile.withOpacity(0.4),
                           elevation: 0,
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 38.0,vertical: 10.0),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 38.0, vertical: 10.0),
                             child: Text(
                               curr.status != null
                                   ? curr.status.toString().toUpperCase()
                                   : "",
                               // 'In progress',
-                              style:  TextStyle(
+                              style: TextStyle(
                                   color: textColor.withOpacity(0.9),
                                   fontSize: 15.0,
                                   fontWeight: FontWeight.w700),

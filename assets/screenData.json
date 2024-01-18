@@ -293,6 +293,7 @@
 			}
 		]
 
+
 	],
 	"team Removed": [
 		{
@@ -310,6 +311,7 @@
 			"image": "yug",
 			"email": "2021KUCP1110@iiitkota.ac.in"
 		}
+
 	],
 	"team": [
 		[
@@ -324,11 +326,13 @@
 				"email": "2022uec1721@mnit.ac.in"
 			},
 			{
+
 				"name": "MOHD Anas Ansari",
 				"image": "anas",
 				"email": "2022uec1713@mnit.ac.in"
 			},
 			{
+
 				"name": "Aswin Arunkumar T.",
 				"image": "aswin",
 				"email": "2022ucp1892@mnit.ac.in"
@@ -363,7 +367,6 @@
 				"image": "shubh",
 				"email": "2022uee1016@mnit.ac.in"
 			}
-
 
 		],
 		[

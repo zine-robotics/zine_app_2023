@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zineapp2023/models/user.dart';
 import 'package:zineapp2023/providers/user_info.dart';
+import 'package:zineapp2023/screens/chat/chat_description/chat_descp.dart';
 import 'package:zineapp2023/screens/chat/chat_screen/view_model/chat_room_view_model.dart';
 import 'package:zineapp2023/screens/dashboard/view_models/dashboard_vm.dart';
 import 'package:zineapp2023/theme/color.dart';
@@ -13,16 +14,16 @@ class ChatRoom extends StatelessWidget {
   final roomName;
 
   ChatRoom({Key? key, required this.roomName}) : super(key: key);
-
   final TextEditingController messageController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     return Consumer3<ChatRoomViewModel, DashboardVm, UserProv>(
       builder: (context, chatVm, dashVm, userProv, _) {
         chatVm.getRoomData(roomName);
         var listOfUsers = chatVm.listOfUsers;
-
+        chatVm.replyfocus.addListener(chatVm.replyListner);
+        chatVm.getRoomData(roomName);
+        // var listOfUsers = chatVm.listOfUsers;
         var data = chatVm.getData(roomName);
         UserModel currUser = userProv.getUserInfo();
         // chatVm.addRouteListener(
@@ -46,10 +47,14 @@ class ChatRoom extends StatelessWidget {
                 onTap: () {
                   // Navigator.of(context)
                   //     .push(CupertinoPageRoute(builder: (BuildContext context) {
+
                   //   return ChatDescription(
                   //     roomName: roomName,
                   //     data: listOfUsers
                   //   );
+
+                  //   return ChatDescription(roomName: roomName, data: []);
+
                   // }));
                 },
                 child: Text(
@@ -86,13 +91,81 @@ class ChatRoom extends StatelessWidget {
                     currUser.type == 'user' && roomName == "Announcements"
                         ? Container()
                         : Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              //TODO: Add a reply to Widget after the release.
-                              // Text("there s somethi"),
+                              chatVm.replyfocus.hasFocus &&
+                                      chatVm.replyTo != null
+                                  ? Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              0, 1, 0, 2),
+                                          child: Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 3),
+                                            child: Text(
+                                              "Reply To " +
+                                                  chatVm.selectedReplyMessage
+                                                      .from,
+                                              textAlign: TextAlign.left,
+                                              style: TextStyle(
+                                                  color: greyText,
+                                                  fontSize: 11),
+                                            ),
+                                          ),
+                                        ),
+                                        Stack(children: [
+                                          Container(
+                                            width: double.infinity,
+                                            decoration: const BoxDecoration(
+                                              color: backgroundGrey,
+                                              borderRadius: BorderRadius.only(
+                                                topLeft: Radius.circular(10.0),
+                                                topRight: Radius.circular(20.0),
+                                                bottomRight:
+                                                    Radius.circular(20.0),
+                                                bottomLeft:
+                                                    Radius.circular(10.0),
+                                              ),
+                                            ),
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(10.0),
+                                              child: Text(
+                                                chatVm.selectedReplyMessage
+                                                    .message,
+
+                                                // softWrap: true,
+                                                textAlign: TextAlign.left,
+                                                style: TextStyle(fontSize: 13),
+                                              ),
+                                            ),
+                                          ),
+                                          Positioned(
+                                            top: -7,
+                                            right: 0,
+                                            child: IconButton(
+                                              iconSize: 20,
+                                              onPressed: chatVm.cancelReply,
+                                              icon: Icon(Icons.cancel_outlined),
+                                            ),
+                                          ),
+                                        ]),
+                                        SizedBox(
+                                          height: 5,
+                                        )
+                                      ],
+                                    )
+                                  : Container(),
                               Align(
                                 alignment: Alignment.bottomLeft,
                                 child: Container(
-                                  padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
+                                  padding:
+                                      const EdgeInsets.fromLTRB(5, 0, 0, 0),
+
                                   width: double.infinity,
                                   decoration: BoxDecoration(
                                     borderRadius: const BorderRadius.all(
@@ -107,12 +180,16 @@ class ChatRoom extends StatelessWidget {
                                       //         {chatVm.pickImage(ImageSource.gallery)},
                                       //     icon: Icon(Icons.image)),
                                       const SizedBox(
+
                                         width:10.0,
                                       ),
+
                                       Expanded(
+                                        flex: 1,
                                         child: TextField(
                                           keyboardType: TextInputType.multiline,
-                                          // focusNode: chatVm.replyfocus,
+                                          focusNode: chatVm.replyfocus,
+
                                           maxLines: 3,
                                           minLines: 1,
                                           controller: messageController,
@@ -135,9 +212,17 @@ class ChatRoom extends StatelessWidget {
                                         padding: EdgeInsets.zero,
                                         onPressed: () {
                                           messageController.text = "";
+
                                           chatVm.send(
                                               from: userProv.currUser.name,
                                               roomId: roomName);
+
+
+                                          chatVm.send(
+                                              from: userProv.currUser.name,
+                                              roomId: roomName);
+                                          chatVm.replyTo = null;
+
                                         },
                                         iconSize: 20.0,
                                         icon: const ImageIcon(

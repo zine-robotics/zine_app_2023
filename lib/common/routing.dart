@@ -97,7 +97,7 @@ class Routes {
 
   static Route emailScreen() =>
       cupertinoRoute(RouteName.emailScreen, (ctx) => EmailScreen());
-  static Route eventCalender() =>
-      cupertinoRoute(RouteName.emailScreen, (ctx) => EventCalender());
+ // static Route eventCalender() =>
+     // cupertinoRoute(RouteName.emailScreen, (ctx) => EventCalender());
 
 }

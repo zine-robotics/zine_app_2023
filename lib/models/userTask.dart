@@ -11,7 +11,10 @@ class UserTask {
   String? docId;
 
   UserTask(
+
       {this.checkpoints, this.status, this.task, this.users, this.template,this.links});
+
+
 
   UserTask.fromJson(Map<String, dynamic> json) {
     checkpoints = json['checkpoints'];
@@ -31,12 +34,14 @@ class UserTask {
   }
 
 
+  UserTask.store(snapshot)
 
-  UserTask.store(snapshot, String id)
       : checkpoints = snapshot.data()['checkpoints'],
         status = snapshot.data()['status'],
         task = snapshot.data()['task'],
         users = snapshot.data()['users'],
+
         links=snapshot.data()['links'],
-        docId=id;
+        docId = snapshot.id.toString();
+
 }

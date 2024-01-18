@@ -66,9 +66,11 @@ class AuthRepo {
         .get()
         .then((querySnapshot) {
 
+
           //print("querySnapshot.data() is:${querySnapshot.data()?['image']}");
       return querySnapshot.data();
     });
+
 
 
   }
@@ -87,10 +89,9 @@ class AuthRepo {
     return roomDetails;
   }
 
-
   Future<Tasks> getTemp(UserTask e) async {
     DocumentSnapshot<Map<String, dynamic>> snapshot =
-        await e.task!.get() as DocumentSnapshot<Map<String, dynamic>>;
+    await e.task!.get() as DocumentSnapshot<Map<String, dynamic>>;
 
     if (!snapshot.data()!.containsKey('link')) {
       snapshot.data()!['links'] = [];
@@ -102,12 +103,13 @@ class AuthRepo {
     return data;
   }
 
+
   Future<List<UserTask>?> getTasks(uid) async {
     var query = await _firebaseFirestore
         .collection("userTasks")
         .where("users", arrayContains: _firebaseFirestore.doc("/users/${uid}"));
     var data = await query.get();
-    final docData = data.docs.map((doc) => UserTask.store(doc.data(),doc.id));
+    final docData = data.docs.map((doc) => UserTask.store(doc));
 
     // print(docData.toList());
 
@@ -116,11 +118,22 @@ class AuthRepo {
     return docData.toList();
   }
 
+  // Future<List<UserTask>?> getTasks(uid) async {
+  //   var query = await _firebaseFirestore
+  //       .collection("userTasks")
+  //       .where("users", arrayContains: _firebaseFirestore.doc("/users/${uid}"));
+  //   var data = await query.get();
+  //   final docData = data.docs.map((doc) => UserTask.store(doc));
+  //   // print(docData.toList());
+  //   return docData.toList();
+  // }
+
   Future<UserModel?> getUserbyId(String uid) async {
     var user = await _firebaseFirestore.collection('users').doc(uid).get();
    // UserModel docData = UserModel.store(user);
-    user.data()!.putIfAbsent("lastSeen", () => {});
-
+    user.data()?.putIfAbsent("lastSeen", () => {});
+    user.data()?.putIfAbsent("roomids", () => []);
+    print(uid);
     var map = await getRoomMap(user['roomids']);
     var tasks = await getTasks(uid);
     List<Future<void>> futures = [];
@@ -141,7 +154,7 @@ class AuthRepo {
         registered: user['registered'],
         tasks: tasks,
         rooms: user['rooms'],
-        roomIDs: user['roomids'],
+        roomids: user['roomids'],
         roomDetails: map,
         lastSeen: user.data()!['lastSeen'] != null ? user['lastSeen'] : {});
 

@@ -111,7 +111,7 @@ class Dashboard extends StatelessWidget {
                               fit: FlexFit.tight,
                               child:GestureDetector(
                                 onTap: () => {
-                                  Navigator.of(context).push(Routes.eventCalender())
+                                 // Navigator.of(context).push(Routes.eventCalender())
                                 },
                                 child:
                               Container(
@@ -401,6 +401,7 @@ class Dashboard extends StatelessWidget {
                                 child:  Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
+
                                   children:  [
                                     currUser.tasks !=null ?  Text(
                                       currUser.tasks!.length.toString(),
@@ -413,6 +414,7 @@ class Dashboard extends StatelessWidget {
                                       textAlign: TextAlign.center,
                                     ):const Text(
                                       "0",
+
                                       style: TextStyle(
                                           height: 0.9,
                                           letterSpacing: 0.3,
@@ -447,12 +449,12 @@ class Dashboard extends StatelessWidget {
                                   color: Colors.white,
                                 ),
                                 alignment: Alignment.center,
-                                child: const Column(
+                                child:  Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Text(
-                                      "1",
+                                    Text(userProv.currUser.roomids!.length
+                                          .toString(),
                                       style: TextStyle(
                                           height: 0.9,
                                           letterSpacing: 0.3,

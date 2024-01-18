@@ -14,6 +14,7 @@ import 'package:zineapp2023/theme/color.dart';
 
 import '../../utilities/date_time.dart';
 
+//NEEDS TO BE REVIEWD (Priority High)
 class TaskDesc extends StatefulWidget {
   TaskDesc({super.key});
 
@@ -34,8 +35,13 @@ class _TaskDescState extends State<TaskDesc> {
 
   List<bool> arr = [true, false, false];
   List<String> tempMessage = [];
+
   List<String> tempLink = [];
   List<String> tempHeader = [];
+
+  // List<String> tempLink = [];
+  // List<String> tempHeader = [];
+
 
   Widget descripWidget(BuildContext context) {
     return Consumer<TaskVm>(
@@ -245,7 +251,9 @@ class _TaskDescState extends State<TaskDesc> {
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
                               Text(
+
                                 '${cheklist[i]['user']}@${getTime(cheklist[i]['timeDate'] as Timestamp)} :${getDMY(cheklist[i]['timeDate'] as Timestamp).toString()}',
+
                                 style:
                                     TextStyle(color: Colors.grey, fontSize: 9),
                                 textAlign:
@@ -296,29 +304,104 @@ class _TaskDescState extends State<TaskDesc> {
             ),
             Stack(
               children: [
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.only(right: 70, left: 15, bottom: 10),
-                    child: TextField(
-                      minLines: 1,
-                      //maxLines: 2,
-                      controller: messageC,
-                      decoration: InputDecoration(
-                        hoverColor: Colors.blue,
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.only(
-                                bottomLeft: Radius.circular(20.0),
-                                topLeft: Radius.circular(20.0)),
-                            borderSide: BorderSide.none),
-                        filled: true,
-                        fillColor: backgroundGrey,
-                        hintText: '   Enter Checkpoints',
+
+
+                // Align(
+                //   alignment: Alignment.bottomCenter,
+                //   child: Padding(
+                //     padding:
+                //         const EdgeInsets.only(right: 70, left: 15, bottom: 10),
+                //     child: Container(
+                //       child: TextField(
+                //         minLines: 1,
+                //         //maxLines: 2,
+                //         controller: messageC,
+                //         decoration: InputDecoration(
+                //           hoverColor: Colors.blue,
+                //           border: OutlineInputBorder(
+                //               borderRadius: BorderRadius.only(
+                //                   bottomLeft: Radius.circular(20.0),
+                //                   topLeft: Radius.circular(20.0)),
+                //               borderSide: BorderSide.none),
+                //           filled: true,
+                //           fillColor: backgroundGrey,
+                //           hintText: '   Enter Checkpoints',
+                //         ),
+                //       ),
+                //     ),
+                //   ),
+                // ),
+
+                Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: Align(
+                    alignment: Alignment.bottomLeft,
+                    child: Container(
+                      padding: const EdgeInsets.fromLTRB(5, 0, 0, 0),
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(15.0)),
+                        border:
+                            Border.all(color: Colors.grey.shade400, width: 1.0),
+                      ),
+                      child: Row(
+                        children: <Widget>[
+                          // IconButton(
+                          //     onPressed: () =>
+                          //         {chatVm.pickImage(ImageSource.gallery)},
+                          //     icon: Icon(Icons.image)),
+                          const SizedBox(
+                            width: 10.0,
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: TextField(
+                              keyboardType: TextInputType.multiline,
+                              maxLines: 3,
+                              minLines: 1,
+                              controller: messageC,
+                              decoration: const InputDecoration(
+                                  hintText: "Enter Checkpoints",
+                                  hintStyle: TextStyle(color: Colors.black54),
+                                  border: InputBorder.none),
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 15,
+                          ),
+                          IconButton(
+                              splashRadius: 30.0,
+                              visualDensity: const VisualDensity(
+                                  horizontal: 4.0, vertical: 1.0),
+                              padding: EdgeInsets.zero,
+                              onPressed: () {
+                                if (messageC.text.isNotEmpty) {
+                                  setState(() {
+                                    tempMessage?.add(messageC.text.toString());
+                                  });
+                                  // print(
+                                  //     "adding value in tempmessage is:${tempMessage[0]}  while messageC having data:${messageC}");
+
+                                  taskVm
+                                      .addCheckpoints(messageC.text.toString());
+
+                                  messageC.clear();
+                                }
+                              },
+                              iconSize: 20.0,
+                              icon: Icon(
+                                Icons.send,
+                                color: Colors.blue,
+                                size: 30,
+                              )),
+                        ],
+
                       ),
                     ),
                   ),
                 ),
+
                 Row(
                   children: [
                     SizedBox(
@@ -370,6 +453,55 @@ class _TaskDescState extends State<TaskDesc> {
                         )),
                   ],
                 )
+
+                // Row(
+                //   children: [
+                //     Transform.scale(
+                //         scale: 1.5,
+                //         child: IconButton(
+                //           splashRadius: 30.0,
+                //           visualDensity: const VisualDensity(
+                //               horizontal: 4.0, vertical: 1.0),
+                //           padding: EdgeInsets.zero,
+                //           onPressed: () {
+                //             if (messageC.text.isNotEmpty) {
+                //               setState(() {
+                //                 tempMessage?.add(messageC.text.toString());
+                //               });
+                //               // print(
+                //               //     "adding value in tempmessage is:${tempMessage[0]}  while messageC having data:${messageC}");
+
+                //               taskVm.addCheckpoints(messageC.text.toString());
+
+                //               messageC.clear();
+
+                //               // print("on pressed initiated");
+                //             }
+                //           },
+                //           iconSize: 20.0,
+                //           icon: Stack(children: [
+                //             Container(
+                //               width: MediaQuery.of(context).size.width * 0.1,
+                //               margin: EdgeInsets.only(right: 5.0),
+                //               height: 38,
+                //               decoration: BoxDecoration(
+                //                   color: backgroundGrey,
+                //                   borderRadius: BorderRadius.only(
+                //                       topRight: Radius.circular(20.0),
+                //                       bottomRight: Radius.circular(20.0))),
+                //             ),
+                //             SizedBox(
+                //               height: MediaQuery.of(context).size.width * 0.1,
+                //               child: const ImageIcon(
+                //                 AssetImage("assets/images/send2.png"),
+                //                 color: Colors.blue,
+                //               ),
+                //             ),
+                //           ]),
+                //         )),
+                //   ],
+                // )
+
               ],
             ),
           ],
@@ -379,6 +511,10 @@ class _TaskDescState extends State<TaskDesc> {
   }
 
   Widget linksWidget(BuildContext context, dynamic links, dynamic latestLink) {
+
+    TaskVm taskVm = Provider.of<TaskVm>(context, listen: true);
+    print(links);
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5),
       child: SingleChildScrollView(
@@ -417,15 +553,22 @@ class _TaskDescState extends State<TaskDesc> {
                 ),
                 child: Column(
                   children: [
-                    if (links != null)
-                      for (int i = 0; i < links.length; i++)
+
+                    if (taskVm.tasks![taskVm.curr].links!.isNotEmpty)
+                      for (int i = 0;
+                          i < taskVm.tasks![taskVm.curr].links![i].length;
+                          i++)
+
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Row(
                               //crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: [
-                                Text('${links[i]["heading"].toString()}',
+
+                                Text(
+                                    '${taskVm.tasks![taskVm.curr].links![i]["heading"].toString()}',
+
                                     style: TextStyle(
                                         color: Colors.grey,
                                         fontSize: 10,
@@ -435,13 +578,15 @@ class _TaskDescState extends State<TaskDesc> {
                                       MediaQuery.of(context).size.width * 0.3,
                                 ),
                                 Text(
-                                    '${links[i]['user']}@${getTime(links[i]['timeDate'] as Timestamp)} :${getDMY(links[i]['timeDate'] as Timestamp).toString()}',
+                                    '${taskVm.tasks![taskVm.curr].links![i]['user']}@${getTime(taskVm.tasks![taskVm.curr].links![i]['timeDate'])} :${getDMY(taskVm.tasks![taskVm.curr].links![i]['timeDate']).toString()}',
+
                                     style: TextStyle(
                                         color: Colors.grey, fontSize: 9)),
                               ],
                             ),
                             InkWell(
                                 child: new Text(
+
                                   "${links[i]['link']}\n",
                                   style: TextStyle(
                                       fontSize: 13, color: Colors.blue),
@@ -449,15 +594,23 @@ class _TaskDescState extends State<TaskDesc> {
                                 onTap: () => launch('${links[i]['link']}')),
                           ],
                         ),
-                    if (tempLink != null)
-                      for (int i = 0; i < tempLink.length; i++)
+
+                    if (taskVm.tasks![taskVm.curr].links!.isEmpty)
+                      for (int i = 0;
+                          i < taskVm.tasks![taskVm.curr].links!.length;
+                          i++)
+
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Row(
                               //crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: [
-                                Text('${tempHeader[i]}',
+
+
+                                Text(
+                                    '${taskVm.tasks![taskVm.curr].links![i].header}',
+
                                     style: TextStyle(
                                         color: Colors.grey,
                                         fontSize: 10,
@@ -467,18 +620,24 @@ class _TaskDescState extends State<TaskDesc> {
                                       MediaQuery.of(context).size.width * 0.3,
                                 ),
                                 Text(
-                                    '${links[0]['user']}@${DateTime.now().hour},${DateTime.now().minute} :${DateTime.now().day},${DateTime.now().month},${DateTime.now().year}',
+
+                                    '${taskVm.tasks![taskVm.curr].links![i]['user']}@${taskVm.tasks![taskVm.curr].links![i]['timeDate']}',
+
                                     style: TextStyle(
                                         color: Colors.grey, fontSize: 9)),
                               ],
                             ),
                             InkWell(
+
                                 child: new Text(
                                   "${tempLink[i]}\n",
                                   style: TextStyle(
                                       fontSize: 13, color: Colors.blue),
                                 ),
-                                onTap: () => launch('${tempLink[i]}')),
+
+                                onTap: () => launch(
+                                    '${taskVm.tasks![taskVm.curr].links![i]['link']}')),
+
                           ],
                         ),
                   ],
@@ -549,37 +708,41 @@ class _TaskDescState extends State<TaskDesc> {
                   Row(
                     children: [
                       SizedBox(
+
                         width: MediaQuery.of(context).size.width * 0.65,
+
+
                         height: 120,
                       ),
                       Transform.scale(
                           scale: 1.5,
                           child: IconButton(
-                            splashRadius: 30.0,
-                            visualDensity: const VisualDensity(
-                                horizontal: 4.0, vertical: 1.0),
-                            padding: EdgeInsets.zero,
-                            onPressed: () {
-                              if (linkC.text.isNotEmpty) {
-                                setState(() {
-                                  tempLink.add(linkC.text.toString());
-                                  tempHeader.add(headingC.text.toString());
-                                });
-                                final taskVm =
-                                    Provider.of<TaskVm>(context, listen: false);
-                                taskVm.addLink(headingC.text.toString(),
-                                    linkC.text.toString());
 
-                                headingC.clear();
-                                linkC.clear();
-                              }
-                            },
-                            iconSize: 20.0,
-                            icon: const ImageIcon(
-                              AssetImage("assets/images/send2.png"),
-                              color: Colors.blue,
-                            ),
-                          )),
+
+                              splashRadius: 30.0,
+                              visualDensity: const VisualDensity(
+                                  horizontal: 4.0, vertical: 1.0),
+                              padding: EdgeInsets.zero,
+                              onPressed: () {
+                                if (linkC.text.isNotEmpty) {
+                                  // setState(() {
+                                  //   // tempLink.add(linkC.text.toString());
+                                  //   // tempHeader.add(headingC.text.toString());
+                                  // });
+
+                                  taskVm.addLink(headingC.text.toString(),
+                                      linkC.text.toString());
+
+                                  headingC.clear();
+                                  linkC.clear();
+                                }
+                              },
+                              icon: Icon(
+                                Icons.send,
+                                color: Colors.blue,
+                                size: 20,
+                              ))),
+
                     ],
                   )
                 ],
@@ -647,10 +810,17 @@ class _TaskDescState extends State<TaskDesc> {
                       ? Expanded(
                           child: checkPointWidget(context, curr.checkpoints))
                       : checkPointWidget(context, curr.checkpoints),
+
                   arr[2]
                       ? Expanded(
                           child: linksWidget(context, curr.links, latestLink))
                       : linksWidget(context, curr.links, latestLink),
+
+                  // arr[2]
+                  //     ? Expanded(
+                  //         child: linksWidget(context, curr.links, latestLink))
+                  //     : linksWidget(context, curr.links, latestLink),
+
                 ],
               ),
             ),
