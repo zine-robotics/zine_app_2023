@@ -84,11 +84,9 @@ class RegisterAuthViewModel extends ChangeNotifier {
         .set(userModel.toJson());
   }
 
-
   Future<void> signUpApi(BuildContext context) async {
     var intValue = Random().nextInt(26) + 1;
-    var  reg=await myRepo.isUserReg(email);
-
+    var reg = await myRepo.isUserReg(email);
 
     Map data = {
       'email': _email.trim(),
@@ -118,9 +116,11 @@ class RegisterAuthViewModel extends ChangeNotifier {
           name: data['name'],
           dp: data['dp'],
           type: data['type'],
-          rooms:[],
+          rooms: [],
           registered: data['registered']);
       postDetailsToFirestore(userModel);
+
+      print("pushed verify email screen");
 
       await Navigator.of(NavigationService.navigatorKey.currentContext!,
               rootNavigator: true)
