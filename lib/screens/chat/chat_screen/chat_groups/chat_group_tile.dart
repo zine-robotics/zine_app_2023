@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../models/rooms.dart';
 import '../../../../theme/color.dart';
 
 class ChatGroupTile extends StatelessWidget {
@@ -7,18 +8,31 @@ class ChatGroupTile extends StatelessWidget {
       {required this.name,
         required this.chatVm,
         required this.userProv,
+        required this.groupId,
         super.key});
 
   final String name;
   final dynamic chatVm;
   final dynamic userProv;
+  final String groupId;
+
+
 
   @override
   Widget build(BuildContext context) {
+    //var roomData= chatVm.getRoomData2(groupId);
     chatVm.getLastMessages(name);
     var lastChat = chatVm.lastChatRoom(name);
+
     bool unSeen = chatVm.unread(name, userProv.currUser);
     chatVm.listenChanges(name);
+
+    //Rooms docData=chatVm.docData;
+    //print("image by fetching:${docData.image}");
+
+
+
+
 
     return Column(
       children: [
@@ -47,6 +61,11 @@ class ChatGroupTile extends StatelessWidget {
                         fit: BoxFit.cover,
                         color: textColor.withOpacity(0.9),
                       ),
+                     /* Image.network(
+                        events[index].image.toString(),
+                        color: Colors.black,
+                        width: 35,
+                      )*/
                     ),
                   ),
                 ),

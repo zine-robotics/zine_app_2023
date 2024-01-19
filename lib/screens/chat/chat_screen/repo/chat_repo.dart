@@ -64,20 +64,34 @@ class ChatRepo {
 
 
     Rooms docData = Rooms.store(data);
+  /*  print("document id is:${groupID}");
+    print("docData image is:${docData.image}");
 
-
+*/
 
       return docData;
 
   }
 /*  dynamic getRoomData2(String name) async
   {
-    var roomId=await getRoomId(name);
-    Rooms roomData =await getRoomData(roomId as String);
-    //print("roomData is ${roomData.image}");
+    String? roomId=await getRoomId(name);
+    print("roomdata room id is:${roomId}");
+    final roomData =await _firebaseFirestore.collection('rooms').doc(roomId).get();
+    Rooms docData=Rooms.store(roomData);
+    print("roomData image is: ${docData.image}");
     return roomData;
 
   }*/
+
+  dynamic getRoomsModel(String name) async {
+    var data = await _firebaseFirestore.collection('rooms')
+        .where("type", isEqualTo: "group").where("name",isEqualTo: name)
+
+        .get();
+    Rooms docData = Rooms.store(data);
+    //final docData = querySnapshot.docs.map((doc) => Events.store(doc));
+    return docData;
+  }
 
   dynamic getChatStream(String groupName) async {
     return _firebaseFirestore

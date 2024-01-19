@@ -17,6 +17,7 @@ class ChatGroups extends StatelessWidget {
         var roomDetails = currUser.roomDetails;
         var listOfRoomID = roomDetails["group"].keys.toList();
         var listOfRoomName = roomDetails["group"].values.toList();
+        print("length of roomDetailes is :${roomDetails["group"].length}");
         // chatVm.getLastMessages(roomName!);
         // print(aList[0]);
 
@@ -57,6 +58,7 @@ class ChatGroups extends StatelessWidget {
                   name: listOfRoomName[index],
                   chatVm: chatVm,
                   userProv: userProv,
+                  groupId:listOfRoomID[index]
                   //lastSeen: lastChatList[listOfRoomName[index]][0],
                 ),
               );

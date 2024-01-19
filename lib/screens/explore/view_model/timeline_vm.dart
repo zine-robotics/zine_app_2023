@@ -44,7 +44,7 @@ class TimelineVm extends ChangeNotifier {
     listEvents = [];
     print("stage is:${list[0].stage}");
 
-    for (int i = 1; i <= 6; i++) {
+    for (int i = 1; i <= list.length; i++) {
         List<dynamic>? subList =
             list.where((element) => element.stage == i.toString()).where((element) => element.recruitment=='true').toList();
       print("sublist from the timeline_vm:${listEvents}\n");

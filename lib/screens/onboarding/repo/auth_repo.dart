@@ -71,8 +71,6 @@ class AuthRepo {
       return querySnapshot.data();
     });
 
-
-
   }
 
   dynamic getRoomMap(dynamic listRoomIds) async {
@@ -129,12 +127,16 @@ class AuthRepo {
   // }
 
   Future<UserModel?> getUserbyId(String uid) async {
+    print(uid);
     var user = await _firebaseFirestore.collection('users').doc(uid).get();
+
    // UserModel docData = UserModel.store(user);
     user.data()?.putIfAbsent("lastSeen", () => {});
     user.data()?.putIfAbsent("roomids", () => []);
     print(uid);
-    var map = await getRoomMap(user['roomids']);
+    var map = {"group": {}, "project": {}};
+    if (user['roomids'] != null) map = await getRoomMap(user['roomids']);
+
     var tasks = await getTasks(uid);
     List<Future<void>> futures = [];
     for (var e in tasks!) {
@@ -181,6 +183,6 @@ class AuthRepo {
   Future<void> signOut() async {
     await _firebaseAuth.signOut();
     store.delete(key: 'uid');
-    store.setString('loggedIn','true');
+    store.setString('loggedIn', 'true');
   }
 }

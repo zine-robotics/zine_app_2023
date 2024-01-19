@@ -310,6 +310,12 @@
 			"name": "Yug Modi",
 			"image": "yug",
 			"email": "2021KUCP1110@iiitkota.ac.in"
+		},
+		{
+
+			"name": "MOHD Anas Ansari",
+			"image": "anas",
+			"email": "2022uec1713@mnit.ac.in"
 		}
 
 	],
@@ -325,12 +331,8 @@
 				"image": "alok",
 				"email": "2022uec1721@mnit.ac.in"
 			},
-			{
 
-				"name": "MOHD Anas Ansari",
-				"image": "anas",
-				"email": "2022uec1713@mnit.ac.in"
-			},
+
 			{
 
 				"name": "Aswin Arunkumar T.",
@@ -341,6 +343,11 @@
 				"name": "Divyansh ramola",
 				"image": "divyansh",
 				"email": "2022ume1557@mnit.ac.in"
+			},
+			{
+				"name": "Herschelle Mathew Thomas",
+				"image": "harshal",
+				"email": "2022ucp1894@mnit.ac.in"
 			},
 			{
 				"name": "Krishna",

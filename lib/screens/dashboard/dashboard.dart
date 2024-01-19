@@ -111,7 +111,7 @@ class Dashboard extends StatelessWidget {
                               fit: FlexFit.tight,
                               child:GestureDetector(
                                 onTap: () => {
-                                 // Navigator.of(context).push(Routes.eventCalender())
+                                  Navigator.of(context).push(Routes.eventCalender())
                                 },
                                 child:
                               Container(

@@ -22,6 +22,8 @@ class WorkshopTile extends StatelessWidget {
 
 
     // print(image[i]);
+
+    //print("image error handling:${events[0].image}");
     return Column(
       children: [
         const SizedBox(
@@ -80,7 +82,7 @@ class WorkshopTile extends StatelessWidget {
                     textAlign:
                         index % 2 == 0 ? TextAlign.right : TextAlign.left,
                     style: const TextStyle(
-                        color: Colors.black,
+                        color: textColor,
                         fontWeight: FontWeight.bold,
                         fontSize: 18.0),
                   ),
@@ -88,20 +90,20 @@ class WorkshopTile extends StatelessWidget {
                     height: 6.0,
                   ),
                    Text(
-                    events[index].description!,
+                    events[index].description!,maxLines: 6,overflow: TextOverflow.ellipsis,
                     textAlign:
                         index % 2 == 0 ? TextAlign.right : TextAlign.left,
                     style: const TextStyle(
                         color: greyText,
                         fontWeight: FontWeight.bold,
-                        fontSize: 13.0),
+                        fontSize: 12.0),
                   ),
                 ],
               ),
             ),
             contentsBuilder: (context, index) => Padding(
                 padding: const EdgeInsets.symmetric(
-                    vertical: 25.0, horizontal: 12.0),
+                    vertical: 55.0, horizontal: 12.0),
                 child: Column(
                   crossAxisAlignment: index % 2 == 0
                       ? CrossAxisAlignment.start
@@ -113,9 +115,9 @@ class WorkshopTile extends StatelessWidget {
                       textAlign:
                           index % 2 != 0 ? TextAlign.right : TextAlign.left,
                       style: const TextStyle(
-                          color: Color(0xff6d93aa),
-                          fontWeight: FontWeight.w400,
-                          fontSize: 16.0),
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 13.0),
                     ),
                      Text(
                       DateFormat.jm().format(events[index].timeDate!.toDate()),
@@ -124,7 +126,7 @@ class WorkshopTile extends StatelessWidget {
                       style: const TextStyle(
                           color: Color(0xff6d93aa),
                           fontWeight: FontWeight.w400,
-                          fontSize: 16.0),
+                          fontSize: 13.0),
                     ),
                      Text(
                       events[index].venue!,
@@ -133,7 +135,7 @@ class WorkshopTile extends StatelessWidget {
                       style: const TextStyle(
                           color: Color(0xff6d93aa),
                           fontWeight: FontWeight.w400,
-                          fontSize: 16.0),
+                          fontSize: 14.0),
                     ),
                   ],
                 )),
@@ -145,13 +147,25 @@ class WorkshopTile extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: CircleAvatar(
                 backgroundColor: iconTile,
-                radius: 25.0,
+                radius: 30.0,
                 child:
                 /*  AssetImage(
                       "assets/images/timeline/${i == 1 ? events[index].name!.toLowerCase() : image[i].toString().toLowerCase()}.png"),
               */
-                  Image.network(events[index].image.toString(),color: Colors.black,width: 35,)
-                ,
+
+                  events[index].image!.isNotEmpty
+                      ? Image.network(
+                          events[index].image.toString(),
+                          color: Colors.black,
+                          width: 35,
+                        )
+                      : Image.asset(
+                          'assets/images/zine_logo.png',
+                          color: Colors.black,
+                          width: 45,
+                        )
+
+
               ),
             ),
             itemCount: events.length,

@@ -59,12 +59,12 @@ class ChatScreen extends StatelessWidget {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: greyText,
-                        fontSize: 16,
+                        fontSize: 40,
                       ),
                     ),
                   ):Container(),
                   !roomDetails["group"].isEmpty?ChatGroups():Container(
-                    width: 10,height: 10,color: Colors.red,
+                    width: 10,height: 10,color: Colors.grey,
                   ),
 
                   // Column(
@@ -81,7 +81,7 @@ class ChatScreen extends StatelessWidget {
                   !roomDetails["group"].isEmpty?const Padding(
                     padding: EdgeInsets.all(8.0),
                     child: Text(
-                      "Rooms",
+                      "",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: greyText,

@@ -10,6 +10,7 @@ import 'package:zineapp2023/models/user.dart';
 import 'package:zineapp2023/providers/user_info.dart';
 import 'package:zineapp2023/utilities/date_time.dart';
 
+import '../../../../models/rooms.dart';
 import '../repo/chat_repo.dart';
 
 class ChatRoomViewModel extends ChangeNotifier {
@@ -26,6 +27,7 @@ class ChatRoomViewModel extends ChangeNotifier {
   final picker = ImagePicker();
   dynamic selectedReplyMessage;
 
+
   get roomId => _roomId;
   Map<String, Timestamp> lastChats = {};
   final CollectionReference _rooms =
@@ -36,6 +38,7 @@ class ChatRoomViewModel extends ChangeNotifier {
   }
 
   var _data;
+  var _docData;
 
   get data => _data;
 
@@ -152,6 +155,12 @@ class ChatRoomViewModel extends ChangeNotifier {
           );
     }
   }
+/*  get docData=>_docData;
+  void getRoomData2(String groupId) async{
+    Rooms _docData=await chatP.getRoomData(groupId);
+    print("fetch image is:${_docData.image}");
+    //return _docData;
+}*/
 
   Stream<QuerySnapshot<Object?>> getData(roomName) async* {
     // print(roomName);
@@ -172,13 +181,19 @@ class ChatRoomViewModel extends ChangeNotifier {
 
     notifyListeners();
   }
- /* dynamic getRoomData2(name) async{
+/*  dynamic getRoomData2(String name) async{
     print("chat viewmodel called");
-    Rooms roomData = await chatP.getRoomData2(name);
-    //print("printing the data of data repo${roomData.image}");
+    Rooms roomData = await chatP.getRoomData(name);
+    print("printing the data of data repo${roomData.image}");
     return roomData;
     //notifyListeners();
 }*/
+/*  void getRoomModelData(String name) async
+  {
+    final roomData= await chatP.getRoomsModel(name);
+    print("room data is :${roomData}");
+    return roomData;
+  }*/
 
   void updateMessage(DocumentReference docRef) async {
     await docRef.update({'replyTo': null});

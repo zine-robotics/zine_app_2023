@@ -46,7 +46,7 @@ class eventContainer extends StatelessWidget {
               ],
             ),
             width: MediaQuery.of(context).size.width * 0.9,
-            height: 70,
+            height: 60,
             decoration: BoxDecoration(
                 color:
                 Colors.white //Color.fromARGB(255, 12, 113, 176)
@@ -57,7 +57,7 @@ class eventContainer extends StatelessWidget {
           ),
           Container(
               width: 40,
-              height: 70,
+              height: 60,
               alignment: Alignment.centerLeft,
               decoration: BoxDecoration(
                 // color: Color.fromARGB(255, 12, 113, 176)
