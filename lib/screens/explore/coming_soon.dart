@@ -36,7 +36,7 @@ class ComingSoon extends StatelessWidget {
               Image.asset("assets/images/explore/workshops.png",
               height: 120,),
               const Text(
-                "Coming Soon . . .",
+                "Coming Soon . . . .",
                 style: TextStyle(
                     fontSize: 25,
                   fontWeight: FontWeight.bold,

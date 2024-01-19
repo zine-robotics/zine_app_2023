@@ -23,14 +23,18 @@ class TaskRepo {
   }
 
   dynamic getTasks(uid) async {
+
+
     var query = await _firebaseFirestore
         .collection("userTasks")
         .where("users", arrayContains: _firebaseFirestore.doc("/users/$uid"));
     var data = await query.get();
+
     final docData = data.docs.map((doc) => UserTask.store(doc));
 
-    // print("getTasks is finished");
+    print("getTasks is finished");
     return docData.toList();
+
   }
 
   dynamic getDocRef(ref) async {
@@ -38,6 +42,11 @@ class TaskRepo {
     Tasks docData = Tasks.store(doc);
     return docData;
   }
+
+
+
+
+
 
   dynamic addCheckpoints(String message, String docRefId, int curr) async {
     Map<String, dynamic> checkpointData = {
@@ -48,12 +57,15 @@ class TaskRepo {
     //check if its working
     // userProv.currUser.tasks?[curr].checkpoints?.add(checkpointData);
     await _firebaseFirestore
+
         .collection("userTasks")
         .doc(docRefId.toString())
         .update({
       "checkpoints": FieldValue.arrayUnion([checkpointData])
     });
+
   }
+
 
   dynamic addLinks(heading, link, String docRefId, int curr) async {
     Map<String, dynamic> linkData = {

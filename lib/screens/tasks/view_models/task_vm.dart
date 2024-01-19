@@ -8,10 +8,12 @@ import 'package:zineapp2023/utilities/date_time.dart';
 import '../../../models/userTask.dart';
 
 class TaskVm extends ChangeNotifier {
-  final TaskRepo taskRepo;
+
+  final TaskRepo taskRepo ;
   TaskVm({required this.taskRepo});
 
   List<UserTask>? tasks;
+  List<UserTask>? _checkpoint;
   List<dynamic> newTask = [];
   int curr = 0;
   int prevLen = 0;
@@ -33,6 +35,7 @@ class TaskVm extends ChangeNotifier {
   //       }
   //     }
   //   }
+
 
   UserTask getCurr() {
     return tasks![curr];
@@ -56,7 +59,8 @@ class TaskVm extends ChangeNotifier {
         }
       }
     }
-    // print("findLatest() -> latest task is: $ans");
+
+   // print("findLatest() -> latest task is: $ans");
     return ans;
   }
 
@@ -70,4 +74,5 @@ class TaskVm extends ChangeNotifier {
     await taskRepo.addLinks(heading, link, tasks![curr].docId.toString(), curr);
     notifyListeners();
   }
+
 }

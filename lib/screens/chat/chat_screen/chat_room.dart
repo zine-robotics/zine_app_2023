@@ -14,17 +14,16 @@ class ChatRoom extends StatelessWidget {
   final roomName;
 
   ChatRoom({Key? key, required this.roomName}) : super(key: key);
-
   final TextEditingController messageController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     return Consumer3<ChatRoomViewModel, DashboardVm, UserProv>(
       builder: (context, chatVm, dashVm, userProv, _) {
+        chatVm.getRoomData(roomName);
+        var listOfUsers = chatVm.listOfUsers;
         chatVm.replyfocus.addListener(chatVm.replyListner);
         chatVm.getRoomData(roomName);
         // var listOfUsers = chatVm.listOfUsers;
-
         var data = chatVm.getData(roomName);
         UserModel currUser = userProv.getUserInfo();
         // chatVm.addRouteListener(
@@ -48,7 +47,14 @@ class ChatRoom extends StatelessWidget {
                 onTap: () {
                   // Navigator.of(context)
                   //     .push(CupertinoPageRoute(builder: (BuildContext context) {
+
+                  //   return ChatDescription(
+                  //     roomName: roomName,
+                  //     data: listOfUsers
+                  //   );
+
                   //   return ChatDescription(roomName: roomName, data: []);
+
                   // }));
                 },
                 child: Text(
@@ -159,6 +165,7 @@ class ChatRoom extends StatelessWidget {
                                 child: Container(
                                   padding:
                                       const EdgeInsets.fromLTRB(5, 0, 0, 0),
+
                                   width: double.infinity,
                                   decoration: BoxDecoration(
                                     borderRadius: const BorderRadius.all(
@@ -173,13 +180,16 @@ class ChatRoom extends StatelessWidget {
                                       //         {chatVm.pickImage(ImageSource.gallery)},
                                       //     icon: Icon(Icons.image)),
                                       const SizedBox(
-                                        width: 10.0,
+
+                                        width:10.0,
                                       ),
+
                                       Expanded(
                                         flex: 1,
                                         child: TextField(
                                           keyboardType: TextInputType.multiline,
                                           focusNode: chatVm.replyfocus,
+
                                           maxLines: 3,
                                           minLines: 1,
                                           controller: messageController,
@@ -206,7 +216,13 @@ class ChatRoom extends StatelessWidget {
                                           chatVm.send(
                                               from: userProv.currUser.name,
                                               roomId: roomName);
+
+
+                                          chatVm.send(
+                                              from: userProv.currUser.name,
+                                              roomId: roomName);
                                           chatVm.replyTo = null;
+
                                         },
                                         iconSize: 20.0,
                                         icon: const ImageIcon(

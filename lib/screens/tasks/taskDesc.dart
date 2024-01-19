@@ -35,8 +35,13 @@ class _TaskDescState extends State<TaskDesc> {
 
   List<bool> arr = [true, false, false];
   List<String> tempMessage = [];
+
+  List<String> tempLink = [];
+  List<String> tempHeader = [];
+
   // List<String> tempLink = [];
   // List<String> tempHeader = [];
+
 
   Widget descripWidget(BuildContext context) {
     return Consumer<TaskVm>(
@@ -246,7 +251,9 @@ class _TaskDescState extends State<TaskDesc> {
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
                               Text(
-                                '${cheklist[i]['user']}@${getTime(cheklist[i]['timeDate'])} :${getDMY(cheklist[i]['timeDate']).toString()}',
+
+                                '${cheklist[i]['user']}@${getTime(cheklist[i]['timeDate'] as Timestamp)} :${getDMY(cheklist[i]['timeDate'] as Timestamp).toString()}',
+
                                 style:
                                     TextStyle(color: Colors.grey, fontSize: 9),
                                 textAlign:
@@ -297,6 +304,8 @@ class _TaskDescState extends State<TaskDesc> {
             ),
             Stack(
               children: [
+
+
                 // Align(
                 //   alignment: Alignment.bottomCenter,
                 //   child: Padding(
@@ -322,6 +331,7 @@ class _TaskDescState extends State<TaskDesc> {
                 //     ),
                 //   ),
                 // ),
+
                 Padding(
                   padding: const EdgeInsets.all(5.0),
                   child: Align(
@@ -386,10 +396,64 @@ class _TaskDescState extends State<TaskDesc> {
                                 size: 30,
                               )),
                         ],
+
                       ),
                     ),
                   ),
                 ),
+
+                Row(
+                  children: [
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.69,
+                      height: 65,
+                    ),
+                    Transform.scale(
+                        scale: 1.5,
+                        child: IconButton(
+                          splashRadius: 30.0,
+                          visualDensity: const VisualDensity(
+                              horizontal: 4.0, vertical: 1.0),
+                          padding: EdgeInsets.zero,
+                          onPressed: () {
+                            if (messageC.text.isNotEmpty) {
+                              setState(() {
+                                tempMessage?.add(messageC.text.toString());
+                              });
+                              // print(
+                              //     "adding value in tempmessage is:${tempMessage[0]}  while messageC having data:${messageC}");
+
+                              taskVm.addCheckpoints(messageC.text.toString());
+
+                              messageC.clear();
+
+                              // print("on pressed initiated");
+                            }
+                          },
+                          iconSize: 20.0,
+                          icon: Stack(children: [
+                            Container(
+                              width: MediaQuery.of(context).size.width * 0.1,
+                              margin: EdgeInsets.only(right: 5.0),
+                              height: 38,
+                              decoration: BoxDecoration(
+                                  color: backgroundGrey,
+                                  borderRadius: BorderRadius.only(
+                                      topRight: Radius.circular(20.0),
+                                      bottomRight: Radius.circular(20.0))),
+                            ),
+                            SizedBox(
+                              height: MediaQuery.of(context).size.width * 0.11,
+                              child: const ImageIcon(
+                                AssetImage("assets/images/send2.png"),
+                                color: Colors.blue,
+                              ),
+                            ),
+                          ]),
+                        )),
+                  ],
+                )
+
                 // Row(
                 //   children: [
                 //     Transform.scale(
@@ -437,6 +501,7 @@ class _TaskDescState extends State<TaskDesc> {
                 //         )),
                 //   ],
                 // )
+
               ],
             ),
           ],
@@ -446,8 +511,10 @@ class _TaskDescState extends State<TaskDesc> {
   }
 
   Widget linksWidget(BuildContext context, dynamic links, dynamic latestLink) {
+
     TaskVm taskVm = Provider.of<TaskVm>(context, listen: true);
     print(links);
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5),
       child: SingleChildScrollView(
@@ -486,18 +553,22 @@ class _TaskDescState extends State<TaskDesc> {
                 ),
                 child: Column(
                   children: [
+
                     if (taskVm.tasks![taskVm.curr].links!.isNotEmpty)
                       for (int i = 0;
                           i < taskVm.tasks![taskVm.curr].links![i].length;
                           i++)
+
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Row(
                               //crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: [
+
                                 Text(
                                     '${taskVm.tasks![taskVm.curr].links![i]["heading"].toString()}',
+
                                     style: TextStyle(
                                         color: Colors.grey,
                                         fontSize: 10,
@@ -508,32 +579,38 @@ class _TaskDescState extends State<TaskDesc> {
                                 ),
                                 Text(
                                     '${taskVm.tasks![taskVm.curr].links![i]['user']}@${getTime(taskVm.tasks![taskVm.curr].links![i]['timeDate'])} :${getDMY(taskVm.tasks![taskVm.curr].links![i]['timeDate']).toString()}',
+
                                     style: TextStyle(
                                         color: Colors.grey, fontSize: 9)),
                               ],
                             ),
                             InkWell(
                                 child: new Text(
-                                  "${taskVm.tasks![taskVm.curr].links![i]['link']}\n",
+
+                                  "${links[i]['link']}\n",
                                   style: TextStyle(
                                       fontSize: 13, color: Colors.blue),
                                 ),
-                                onTap: () => launch(
-                                    '${taskVm.tasks![taskVm.curr].links![i]['link']}')),
+                                onTap: () => launch('${links[i]['link']}')),
                           ],
                         ),
+
                     if (taskVm.tasks![taskVm.curr].links!.isEmpty)
                       for (int i = 0;
                           i < taskVm.tasks![taskVm.curr].links!.length;
                           i++)
+
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Row(
                               //crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: [
+
+
                                 Text(
                                     '${taskVm.tasks![taskVm.curr].links![i].header}',
+
                                     style: TextStyle(
                                         color: Colors.grey,
                                         fontSize: 10,
@@ -543,19 +620,24 @@ class _TaskDescState extends State<TaskDesc> {
                                       MediaQuery.of(context).size.width * 0.3,
                                 ),
                                 Text(
+
                                     '${taskVm.tasks![taskVm.curr].links![i]['user']}@${taskVm.tasks![taskVm.curr].links![i]['timeDate']}',
+
                                     style: TextStyle(
                                         color: Colors.grey, fontSize: 9)),
                               ],
                             ),
                             InkWell(
-                                child: Text(
-                                  "${taskVm.tasks![taskVm.curr].links![i]['link']}\n",
+
+                                child: new Text(
+                                  "${tempLink[i]}\n",
                                   style: TextStyle(
                                       fontSize: 13, color: Colors.blue),
                                 ),
+
                                 onTap: () => launch(
                                     '${taskVm.tasks![taskVm.curr].links![i]['link']}')),
+
                           ],
                         ),
                   ],
@@ -626,12 +708,17 @@ class _TaskDescState extends State<TaskDesc> {
                   Row(
                     children: [
                       SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.67,
+
+                        width: MediaQuery.of(context).size.width * 0.65,
+
+
                         height: 120,
                       ),
                       Transform.scale(
                           scale: 1.5,
                           child: IconButton(
+
+
                               splashRadius: 30.0,
                               visualDensity: const VisualDensity(
                                   horizontal: 4.0, vertical: 1.0),
@@ -655,6 +742,7 @@ class _TaskDescState extends State<TaskDesc> {
                                 color: Colors.blue,
                                 size: 20,
                               ))),
+
                     ],
                   )
                 ],
@@ -722,10 +810,17 @@ class _TaskDescState extends State<TaskDesc> {
                       ? Expanded(
                           child: checkPointWidget(context, curr.checkpoints))
                       : checkPointWidget(context, curr.checkpoints),
+
+                  arr[2]
+                      ? Expanded(
+                          child: linksWidget(context, curr.links, latestLink))
+                      : linksWidget(context, curr.links, latestLink),
+
                   // arr[2]
                   //     ? Expanded(
                   //         child: linksWidget(context, curr.links, latestLink))
                   //     : linksWidget(context, curr.links, latestLink),
+
                 ],
               ),
             ),

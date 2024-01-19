@@ -10,6 +10,7 @@ import 'package:zineapp2023/models/user.dart';
 import 'package:zineapp2023/providers/user_info.dart';
 import 'package:zineapp2023/utilities/date_time.dart';
 
+import '../../../../models/rooms.dart';
 import '../repo/chat_repo.dart';
 
 class ChatRoomViewModel extends ChangeNotifier {
@@ -20,12 +21,12 @@ class ChatRoomViewModel extends ChangeNotifier {
   dynamic allData;
   dynamic replyTo;
   FocusNode replyfocus = FocusNode();
-
   String _roomId = "Hn9GSQnvi5zh9wabLGuT";
   final name = "Announcement";
   Map<String, dynamic> chatSubscription = {};
   final picker = ImagePicker();
   dynamic selectedReplyMessage;
+
 
   get roomId => _roomId;
   Map<String, Timestamp> lastChats = {};
@@ -37,6 +38,7 @@ class ChatRoomViewModel extends ChangeNotifier {
   }
 
   var _data;
+  var _docData;
 
   get data => _data;
 
@@ -53,9 +55,14 @@ class ChatRoomViewModel extends ChangeNotifier {
   }
 
   void replyText(dynamic message) {
+
+    replyTo = message;
+    // print(message.message);
+
     selectedReplyMessage = message;
     replyTo = message.id;
     print(replyTo);
+
     replyfocus.requestFocus();
 
     notifyListeners();
@@ -89,13 +96,21 @@ class ChatRoomViewModel extends ChangeNotifier {
     var membersList = data.members;
     List<dynamic> list = [];
 
+
+    for (var member in membersList) {
+      var temp = await chatP.getUserDetailsByID(member);
+      list.add(temp as UserModel);
+    }
+
     // for (var member in membersList) {
     //   var temp = await chatP.getUserDetailsByID(member);
     //   list.add(temp as UserModel);
     // }
 
+
     // await Future.wait(list as Iterable<Future>);
     listOfUsers = list;
+
     // getListOfUsers(list);
     // notifyListeners();
     // return list;
@@ -140,6 +155,12 @@ class ChatRoomViewModel extends ChangeNotifier {
           );
     }
   }
+/*  get docData=>_docData;
+  void getRoomData2(String groupId) async{
+    Rooms _docData=await chatP.getRoomData(groupId);
+    print("fetch image is:${_docData.image}");
+    //return _docData;
+}*/
 
   Stream<QuerySnapshot<Object?>> getData(roomName) async* {
     // print(roomName);
@@ -160,6 +181,19 @@ class ChatRoomViewModel extends ChangeNotifier {
 
     notifyListeners();
   }
+/*  dynamic getRoomData2(String name) async{
+    print("chat viewmodel called");
+    Rooms roomData = await chatP.getRoomData(name);
+    print("printing the data of data repo${roomData.image}");
+    return roomData;
+    //notifyListeners();
+}*/
+/*  void getRoomModelData(String name) async
+  {
+    final roomData= await chatP.getRoomsModel(name);
+    print("room data is :${roomData}");
+    return roomData;
+  }*/
 
   void updateMessage(DocumentReference docRef) async {
     await docRef.update({'replyTo': null});
@@ -214,10 +248,12 @@ class ChatRoomViewModel extends ChangeNotifier {
 
   void roomLeft(var room, var user, UserProv userProv) {
     chatP.updateLastSeen(user, room);
-    userProv.updateLast(room);
+    //userProv.updateLast(room);         //there is no such function exist
     notifyListeners();
     print('left $room');
   }
+
+
 
   void addRouteListener(
       BuildContext context, var room, var user, UserProv userProv) {
@@ -227,6 +263,8 @@ class ChatRoomViewModel extends ChangeNotifier {
       return Future.value(true);
     });
   }
+
+
 
   Future<void> pickImage(ImageSource source) async {
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);

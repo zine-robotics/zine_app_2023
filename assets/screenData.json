@@ -292,6 +292,32 @@
 				"email": "2019ume1141@mnit.ac.in"
 			}
 		]
+
+
+	],
+	"team Removed": [
+		{
+			"name": "Granth Gupta",
+			"image": "granth",
+			"email": "2021KUCP1015@iiitkota.ac.in"
+		},
+		{
+			"name": "Moordhan Songade",
+			"image": "moordhan",
+			"email": "2021ucp1072@mnit.ac.in"
+		},
+		{
+			"name": "Yug Modi",
+			"image": "yug",
+			"email": "2021KUCP1110@iiitkota.ac.in"
+		},
+		{
+
+			"name": "MOHD Anas Ansari",
+			"image": "anas",
+			"email": "2022uec1713@mnit.ac.in"
+		}
+
 	],
 	"team": [
 		[
@@ -305,7 +331,10 @@
 				"image": "alok",
 				"email": "2022uec1721@mnit.ac.in"
 			},
+
+
 			{
+
 				"name": "Aswin Arunkumar T.",
 				"image": "aswin",
 				"email": "2022ucp1892@mnit.ac.in"
@@ -314,6 +343,11 @@
 				"name": "Divyansh ramola",
 				"image": "divyansh",
 				"email": "2022ume1557@mnit.ac.in"
+			},
+			{
+				"name": "Herschelle Mathew Thomas",
+				"image": "harshal",
+				"email": "2022ucp1894@mnit.ac.in"
 			},
 			{
 				"name": "Krishna",
@@ -340,6 +374,7 @@
 				"image": "shubh",
 				"email": "2022uee1016@mnit.ac.in"
 			}
+
 		],
 		[
 			{
@@ -347,11 +382,13 @@
 				"image": "anmol",
 				"email": "2021uee1064@mnit.ac.in"
 			},
+
 			{
 				"name": "Harshit Sandilya",
 				"image": "harshit",
 				"email": "2021UCP1382@mnit.ac.in"
 			},
+
 			{
 				"name": "Mashaal Sayeed",
 				"image": "mashaal",
@@ -410,5 +447,6 @@
 				"email": "2020kucp1046@iiitkota.ac.in"
 			}
 		]
+
 	]
 }

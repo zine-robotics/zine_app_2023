@@ -43,6 +43,8 @@ class AppProviders extends StatelessWidget {
       providers: [
         Provider<AuthRepo>(create: (_) => AuthRepo(store: store)),
         Provider<ChatRepo>(create: (_) => ChatRepo()),
+        Provider<TaskRepo>(create: (_) => TaskRepo(userProv:userProv)),
+        //Provider<TaskRepo>(create: (_)=>,)
         ChangeNotifierProvider(create: (_) => userProv),
         ChangeNotifierProvider(
             create: (_) => SplashVM(
@@ -60,8 +62,12 @@ class AppProviders extends StatelessWidget {
         ChangeNotifierProvider<DashboardVm>(
             create: (_) => DashboardVm(store: store, userProv: userProv)),
         ChangeNotifierProvider<EventsVm>(create: (_) => EventsVm()),
+
+        ChangeNotifierProvider<TaskVm>(create: (_) => TaskVm(taskRepo: TaskRepo(userProv: userProv))),
+
         ChangeNotifierProvider<TaskVm>(
             create: (_) => TaskVm(taskRepo: TaskRepo(userProv: userProv))),
+
         ChangeNotifierProvider<TimelineVm>(create: (_) => TimelineVm()),
         ChangeNotifierProvider<HomeVm>(create: (_) => HomeVm()),
         ChangeNotifierProvider<Language>(create: (_) => language),

@@ -16,8 +16,13 @@ class EmailScreen extends StatelessWidget {
     return Consumer2<PasswordResetVm, UserProv>(
         builder: (context, passVm, userProv, _) {
       if (userProv.isLoggedIn) {
+
+        passVm.setEmail(userProv.currUser.email??"") ;
+        emailController.text = userProv.currUser.email??"";
+
         passVm.setEmail(userProv.currUser.email ?? "");
         emailController.text = userProv.currUser.email ?? "";
+
       }
       return Scaffold(
         resizeToAvoidBottomInset: true,
@@ -95,8 +100,11 @@ class EmailScreen extends StatelessWidget {
                 const SizedBox(
                   height: 20.0,
                 ),
+
+
                 const Text(
                     "We will send a link to reset your password on the registered email address",
+
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontWeight: FontWeight.w200,

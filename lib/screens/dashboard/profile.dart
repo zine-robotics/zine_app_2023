@@ -285,7 +285,7 @@ class ProfileScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    child: Row(
+                    child: const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Icon(

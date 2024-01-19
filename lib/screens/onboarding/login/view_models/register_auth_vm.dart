@@ -116,8 +116,13 @@ class RegisterAuthViewModel extends ChangeNotifier {
           name: data['name'],
           dp: data['dp'],
           type: data['type'],
-          rooms: [],
+
+          rooms:[],
+          tasks: [],
+          roomids: [],
+
           registered: data['registered']);
+
       postDetailsToFirestore(userModel);
 
       print("pushed verify email screen");

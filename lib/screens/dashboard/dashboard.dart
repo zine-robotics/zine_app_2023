@@ -47,7 +47,7 @@ class Dashboard extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
-                                  const Text("hi",
+                                  const Text("Hi",
                                       style: TextStyle(
                                           height: 0.9,
                                           letterSpacing: 0.3,
@@ -109,7 +109,12 @@ class Dashboard extends StatelessWidget {
                             Flexible(
                               flex: 2,
                               fit: FlexFit.tight,
-                              child: Container(
+                              child:GestureDetector(
+                                onTap: () => {
+                                  Navigator.of(context).push(Routes.eventCalender())
+                                },
+                                child:
+                              Container(
                                 height: 200,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(24.0),
@@ -150,24 +155,24 @@ class Dashboard extends StatelessWidget {
                                       style: TextStyle(
                                           fontSize: MediaQuery.of(context)
                                                   .textScaleFactor *
-                                              50,
+                                              90,
                                           fontWeight: FontWeight.w700,
                                           color: const Color(0xff0C72B0)),
                                       textAlign: TextAlign.center,
                                     ),
-                                    Text(
-                                      month.toUpperCase(),
+                                    Text(DateFormat('MMM').format(DateTime.now()).toUpperCase()
+                                      ,
                                       style: TextStyle(
                                           fontSize: MediaQuery.of(context)
                                                   .textScaleFactor *
-                                              25,
+                                              40,
                                           fontWeight: FontWeight.w700,
                                           color: const Color(0xffa3d0ec)),
                                       textAlign: TextAlign.center,
                                     ),
                                   ],
                                 ),
-                              ),
+                              ),)
                             ),
                             const SizedBox(
                               width: 10,
@@ -393,13 +398,23 @@ class Dashboard extends StatelessWidget {
                                 onTap: () => {
                                   Navigator.of(context).push(Routes.tasks())
                                 },
-                                child: Column(
+                                child:  Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      userProv.currUser.tasks!.length
-                                          .toString(),
+
+                                  children:  [
+                                    currUser.tasks !=null ?  Text(
+                                      currUser.tasks!.length.toString(),
+                                      style: TextStyle(
+                                          height: 0.9,
+                                          letterSpacing: 0.3,
+                                          fontSize: 30.0,
+                                          fontWeight: FontWeight.w600,
+                                          color: greyText),
+                                      textAlign: TextAlign.center,
+                                    ):const Text(
+                                      "0",
+
                                       style: TextStyle(
                                           height: 0.9,
                                           letterSpacing: 0.3,
@@ -434,12 +449,11 @@ class Dashboard extends StatelessWidget {
                                   color: Colors.white,
                                 ),
                                 alignment: Alignment.center,
-                                child: Column(
+                                child:  Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Text(
-                                      userProv.currUser.roomIDs!.length
+                                    Text(userProv.currUser.roomids!.length
                                           .toString(),
                                       style: TextStyle(
                                           height: 0.9,

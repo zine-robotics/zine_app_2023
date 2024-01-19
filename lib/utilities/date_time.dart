@@ -24,14 +24,18 @@ String getDate(Timestamp timeStamp) {
 }
 
 String getDay(Timestamp timeStamp) {
+
   return '${timeStamp.toDate().day} ';
 }
 
+
 String getYear(Timestamp timeStamp) {
+
   return '${timeStamp.toDate().year} ';
 }
 
 List<int> getDMY(Timestamp tmp) {
+
   return [tmp.toDate().day, tmp.toDate().month, tmp.toDate().year];
 }
 
@@ -42,7 +46,7 @@ String getDDMMYY(Timestamp timeStamp) {
 String getDDMMYY2(Timestamp timeStamp) {
   return '${timeStamp.toDate().year},${timeStamp.toDate().month},${timeStamp.toDate().day}';
 }
-
-String getDDate(DateTime dt) {
+String getDDate(DateTime dt)
+{
   return '${new DateFormat("yyyy-MM-dd").format(dt)}';
 }

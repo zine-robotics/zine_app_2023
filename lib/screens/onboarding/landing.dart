@@ -23,7 +23,11 @@ class LandingScreen extends StatelessWidget {
                   const SizedBox(
                     height: 35,
                   ),
-                  Row(
+
+                  const Row(
+
+
+
                     children: [
                       //White Circle Size
                       CircleAvatar(

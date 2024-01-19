@@ -31,6 +31,7 @@ class ChatScreen extends StatelessWidget {
         var currUser = userProv.currUser;
         var roomDetails = currUser.roomDetails;
 
+
         return Container(
           color: backgroundGrey,
           child: Padding(
@@ -40,6 +41,7 @@ class ChatScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+
                   // --------------------Channels-------------------------------
                   headingText("Channels"),
                   const Channel(

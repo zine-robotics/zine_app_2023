@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:zineapp2023/screens/chat/chat_home.dart';
+import 'package:zineapp2023/screens/events/eventCalender.dart';
 import 'package:zineapp2023/screens/explore/coming_soon.dart';
 import 'package:zineapp2023/screens/tasks/taskDesc.dart';
+import '../screens/events/eventCalendar.dart';
 import '../screens/explore/achievements.dart';
 import '../screens/explore/team/team.dart';
 import '../screens/explore/explore.dart';
@@ -40,6 +42,8 @@ class RouteName {
   static const tasks = "tasks";
   static const taskDesc = "taskDesc";
   static const comingSoon = "comingSoon";
+  static const eventCalender = "eventCalender";
+  // static const dashboard = "dashboard";
 }
 
 class Routes {
@@ -74,8 +78,8 @@ class Routes {
   static Route tasks() =>
       cupertinoRoute(RouteName.tasks, (ctx) => const ChatHome());
 
-  static Route Event() =>
-      cupertinoRoute(RouteName.eventName, (ctx) => Events());
+  static Route Event({DateTime? selectedDate}) =>
+      cupertinoRoute(RouteName.eventName, (ctx) => Events(selectedDate:selectedDate));
 
   static Route taskDesc() =>
       cupertinoRoute(RouteName.taskDesc, (ctx) => TaskDesc());
@@ -94,4 +98,7 @@ class Routes {
 
   static Route emailScreen() =>
       cupertinoRoute(RouteName.emailScreen, (ctx) => EmailScreen());
+ static Route eventCalender() =>
+     cupertinoRoute(RouteName.emailScreen, (ctx) => EventCalender());
+
 }

@@ -51,4 +51,5 @@ class MessageModel {
         sender_id = snapshot.data()['sender_id'],
         replyTo = snapshot.data()['replyTo'],
         id = snapshot.id;
+
 }

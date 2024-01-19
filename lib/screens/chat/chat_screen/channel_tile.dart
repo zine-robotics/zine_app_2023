@@ -6,6 +6,11 @@ import 'package:zineapp2023/theme/color.dart';
 
 import 'chat_room.dart';
 
+
+
+import 'chat_room.dart';
+
+
 const announceChannelId = 'Hn9GSQnvi5zh9wabLGuT';
 const announceChannelName = 'Zine Channel';
 
@@ -22,6 +27,9 @@ class Channel extends StatelessWidget {
       var lastChat = chatVm.lastChatRoom(name);
       bool unSeen = chatVm.unread(name, userProv.currUser);
       chatVm.listenChanges(name);
+      //Rooms? roomData=chatVm.getRoomData2(name);
+      //print("roomData image is :${roomData}");
+      //print("room data as ${chatVm.}");
 
       return Padding(
         padding: const EdgeInsets.all(5.0),
