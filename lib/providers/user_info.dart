@@ -20,7 +20,6 @@ class UserProv extends ChangeNotifier {
   Future<void> getFirebaseMessagingToken() async {
     await fMessaging.requestPermission();
 
-
     await fMessaging.getToken().then((t) {
       if (t != null) {
         currUser.pushToken = t;
@@ -44,8 +43,7 @@ class UserProv extends ChangeNotifier {
         //       'Message also contained a notification: ${message.notification?.title}');
         // }
       }
-    }
-    );
+    });
   }
 
   Future<void> updatePushToken() async {
@@ -71,16 +69,13 @@ class UserProv extends ChangeNotifier {
     return currUser;
   }
 
+  void updateLast(String name) {
+    currUser.lastSeen[name] = Timestamp.fromDate(DateTime.now());
+  }
 
   void logOut() {
-    void logOut() {
-      _isLoggedIn = false;
-      // currUser = UserModel();
-      // notifyListeners();
-    }
-
-    void updateLast(String name) {
-      currUser.lastSeen[name] = Timestamp.fromDate(DateTime.now());
-    }
+    _isLoggedIn = false;
+    // currUser = UserModel();
+    // notifyListeners();
   }
 }

@@ -107,73 +107,77 @@ class Dashboard extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Flexible(
-                              flex: 2,
-                              fit: FlexFit.tight,
-                              child:GestureDetector(
-                                onTap: () => {
-                                  Navigator.of(context).push(Routes.eventCalender())
-                                },
-                                child:
-                              Container(
-                                height: 200,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(24.0),
-                                  color: Colors.white,
-                                ),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.stretch,
-                                  // ignore: prefer_const_literals_to_create_immutables
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          0, 0, 25, 0),
-                                      child: Text(
-                                        10 <= DateTime.now().day &&
-                                                DateTime.now().day <= 20
-                                            ? "TH"
-                                            : DateTime.now().day % 10 == 1
-                                                ? "ST"
-                                                : DateTime.now().day % 10 == 2
-                                                    ? "ND"
+                                flex: 2,
+                                fit: FlexFit.tight,
+                                child: GestureDetector(
+                                  onTap: () => {
+                                    // Navigator.of(context).push(Routes.eventCalender())
+                                  },
+                                  child: Container(
+                                    height: 200,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(24.0),
+                                      color: Colors.white,
+                                    ),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.stretch,
+                                      // ignore: prefer_const_literals_to_create_immutables
+                                      children: <Widget>[
+                                        Padding(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              0, 0, 25, 0),
+                                          child: Text(
+                                            10 <= DateTime.now().day &&
+                                                    DateTime.now().day <= 20
+                                                ? "TH"
+                                                : DateTime.now().day % 10 == 1
+                                                    ? "ST"
                                                     : DateTime.now().day % 10 ==
-                                                            3
-                                                        ? "RD"
-                                                        : "TH",
-                                        textAlign: TextAlign.right,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: MediaQuery.of(context)
-                                                    .textScaleFactor *
-                                                15,
-                                            color: const Color(0xff0C72B0)),
-                                      ),
+                                                            2
+                                                        ? "ND"
+                                                        : DateTime.now().day %
+                                                                    10 ==
+                                                                3
+                                                            ? "RD"
+                                                            : "TH",
+                                            textAlign: TextAlign.right,
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: MediaQuery.of(context)
+                                                        .textScaleFactor *
+                                                    15,
+                                                color: const Color(0xff0C72B0)),
+                                          ),
+                                        ),
+                                        Text(
+                                          DateTime.now().day.toString(),
+                                          style: TextStyle(
+                                              fontSize: MediaQuery.of(context)
+                                                      .textScaleFactor *
+                                                  90,
+                                              fontWeight: FontWeight.w700,
+                                              color: const Color(0xff0C72B0)),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                        Text(
+                                          DateFormat('MMM')
+                                              .format(DateTime.now())
+                                              .toUpperCase(),
+                                          style: TextStyle(
+                                              fontSize: MediaQuery.of(context)
+                                                      .textScaleFactor *
+                                                  40,
+                                              fontWeight: FontWeight.w700,
+                                              color: const Color(0xffa3d0ec)),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ],
                                     ),
-                                    Text(
-                                      DateTime.now().day.toString(),
-                                      style: TextStyle(
-                                          fontSize: MediaQuery.of(context)
-                                                  .textScaleFactor *
-                                              90,
-                                          fontWeight: FontWeight.w700,
-                                          color: const Color(0xff0C72B0)),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                    Text(DateFormat('MMM').format(DateTime.now()).toUpperCase()
-                                      ,
-                                      style: TextStyle(
-                                          fontSize: MediaQuery.of(context)
-                                                  .textScaleFactor *
-                                              40,
-                                          fontWeight: FontWeight.w700,
-                                          color: const Color(0xffa3d0ec)),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  ],
-                                ),
-                              ),)
-                            ),
+                                  ),
+                                )),
                             const SizedBox(
                               width: 10,
                             ),
@@ -398,31 +402,31 @@ class Dashboard extends StatelessWidget {
                                 onTap: () => {
                                   Navigator.of(context).push(Routes.tasks())
                                 },
-                                child:  Column(
+                                child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
-
-                                  children:  [
-                                    currUser.tasks !=null ?  Text(
-                                      currUser.tasks!.length.toString(),
-                                      style: TextStyle(
-                                          height: 0.9,
-                                          letterSpacing: 0.3,
-                                          fontSize: 30.0,
-                                          fontWeight: FontWeight.w600,
-                                          color: greyText),
-                                      textAlign: TextAlign.center,
-                                    ):const Text(
-                                      "0",
-
-                                      style: TextStyle(
-                                          height: 0.9,
-                                          letterSpacing: 0.3,
-                                          fontSize: 30.0,
-                                          fontWeight: FontWeight.w600,
-                                          color: greyText),
-                                      textAlign: TextAlign.center,
-                                    ),
+                                  children: [
+                                    currUser.tasks != null
+                                        ? Text(
+                                            currUser.tasks!.length.toString(),
+                                            style: TextStyle(
+                                                height: 0.9,
+                                                letterSpacing: 0.3,
+                                                fontSize: 30.0,
+                                                fontWeight: FontWeight.w600,
+                                                color: greyText),
+                                            textAlign: TextAlign.center,
+                                          )
+                                        : const Text(
+                                            "0",
+                                            style: TextStyle(
+                                                height: 0.9,
+                                                letterSpacing: 0.3,
+                                                fontSize: 30.0,
+                                                fontWeight: FontWeight.w600,
+                                                color: greyText),
+                                            textAlign: TextAlign.center,
+                                          ),
                                     SizedBox(
                                       height: 15,
                                     ),
@@ -449,11 +453,12 @@ class Dashboard extends StatelessWidget {
                                   color: Colors.white,
                                 ),
                                 alignment: Alignment.center,
-                                child:  Column(
+                                child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Text(userProv.currUser.roomids!.length
+                                    Text(
+                                      userProv.currUser.roomids!.length
                                           .toString(),
                                       style: TextStyle(
                                           height: 0.9,

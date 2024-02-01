@@ -82,8 +82,9 @@ class WorkshopScreen extends StatelessWidget {
                     child: Column(
                       children: [
                         for (int i = 0; i < timeLineVm.listEvents.length; i++)
-
-                          WorkshopTile(events: timeLineVm.listEvents[i])
+                          WorkshopTile(
+                            events: timeLineVm.listEvents[i],
+                          )
                       ],
                     ),
                   ),

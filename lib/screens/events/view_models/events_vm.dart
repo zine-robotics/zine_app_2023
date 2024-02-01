@@ -24,8 +24,8 @@ class EventsVm extends ChangeNotifier {
     print(index);
     if (index != -1) {
       List<Events> secondPart =
-          _events.sublist(index + 1, _events.length).reversed.toList();
-      List<Events> firstPart = _events.sublist(0, index + 1);
+          _events.sublist(index, _events.length).reversed.toList();
+      List<Events> firstPart = _events.sublist(0, index);
 
       _events = [...firstPart, ...secondPart];
     }
@@ -35,11 +35,4 @@ class EventsVm extends ChangeNotifier {
       prev = _events.length;
     }
   }
-
-
-
-
 }
-
-
-

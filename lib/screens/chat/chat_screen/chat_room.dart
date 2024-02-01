@@ -11,23 +11,30 @@ import '../../../components/gradient.dart';
 import 'chat_view.dart';
 
 class ChatRoom extends StatelessWidget {
-  final roomName;
+  final dynamic roomName;
+  final dynamic roomDetails;
 
-  ChatRoom({Key? key, required this.roomName}) : super(key: key);
+  ChatRoom({Key? key, required this.roomName, this.roomDetails})
+      : super(key: key);
   final TextEditingController messageController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Consumer3<ChatRoomViewModel, DashboardVm, UserProv>(
       builder: (context, chatVm, dashVm, userProv, _) {
-        chatVm.getRoomData(roomName);
-        var listOfUsers = chatVm.listOfUsers;
+        var listOfUsers = [];
+        var image = null;
+        print("room detila");
+        print(roomDetails);
+        if (roomDetails != null && roomDetails['members'] != null) {
+          listOfUsers = roomDetails['members'];
+          image = roomDetails['image'];
+        }
         chatVm.replyfocus.addListener(chatVm.replyListner);
-        chatVm.getRoomData(roomName);
-        // var listOfUsers = chatVm.listOfUsers;
+
         var data = chatVm.getData(roomName);
         UserModel currUser = userProv.getUserInfo();
-        // chatVm.addRouteListener(
-        //     context, roomName, userProv.currUser.email.toString(), userProv);
+        chatVm.addRouteListener(
+            context, roomName, userProv.currUser.email.toString(), userProv);
 
         return GestureDetector(
           onTap: () {
@@ -45,17 +52,11 @@ class ChatRoom extends StatelessWidget {
               toolbarHeight: MediaQuery.of(context).size.height * 0.1,
               title: GestureDetector(
                 onTap: () {
-                  // Navigator.of(context)
-                  //     .push(CupertinoPageRoute(builder: (BuildContext context) {
-
-                  //   return ChatDescription(
-                  //     roomName: roomName,
-                  //     data: listOfUsers
-                  //   );
-
-                  //   return ChatDescription(roomName: roomName, data: []);
-
-                  // }));
+                  Navigator.of(context)
+                      .push(CupertinoPageRoute(builder: (BuildContext context) {
+                    return ChatDescription(
+                        roomName: roomName, image: image, data: listOfUsers);
+                  }));
                 },
                 child: Text(
                   roomName,
@@ -165,7 +166,6 @@ class ChatRoom extends StatelessWidget {
                                 child: Container(
                                   padding:
                                       const EdgeInsets.fromLTRB(5, 0, 0, 0),
-
                                   width: double.infinity,
                                   decoration: BoxDecoration(
                                     borderRadius: const BorderRadius.all(
@@ -180,8 +180,7 @@ class ChatRoom extends StatelessWidget {
                                       //         {chatVm.pickImage(ImageSource.gallery)},
                                       //     icon: Icon(Icons.image)),
                                       const SizedBox(
-
-                                        width:10.0,
+                                        width: 10.0,
                                       ),
 
                                       Expanded(
@@ -189,7 +188,6 @@ class ChatRoom extends StatelessWidget {
                                         child: TextField(
                                           keyboardType: TextInputType.multiline,
                                           focusNode: chatVm.replyfocus,
-
                                           maxLines: 3,
                                           minLines: 1,
                                           controller: messageController,
@@ -217,12 +215,7 @@ class ChatRoom extends StatelessWidget {
                                               from: userProv.currUser.name,
                                               roomId: roomName);
 
-
-                                          chatVm.send(
-                                              from: userProv.currUser.name,
-                                              roomId: roomName);
                                           chatVm.replyTo = null;
-
                                         },
                                         iconSize: 20.0,
                                         icon: const ImageIcon(

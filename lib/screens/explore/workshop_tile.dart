@@ -14,13 +14,8 @@ class WorkshopTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-
-
-
-
-
-
+    List event = events;
+    if (events.length > 1) event = events.sublist(1);
     // print(image[i]);
 
     //print("image error handling:${events[0].image}");
@@ -29,39 +24,30 @@ class WorkshopTile extends StatelessWidget {
         const SizedBox(
           height: 15.0,
         ),
+        for (int j = 0; j < events.length; j++)
+          events[j].isHeading == "true"
+              ? Column(
+                  children: [
+                    Text(
+                      "${events[j].name.toString()}",
+                      style: const TextStyle(
+                          color: textColor,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 25.0),
+                    ),
+                    Text("Stage ${events[j].stage.toString()}",
+                        style:
+                            const TextStyle(color: greyText, fontSize: 16.0)),
+                  ],
+                )
+              : Container(),
 
-          
-
-
-          for(int j=0;j<events.length;j++)
-            events[j].isHeading=="true"?
-              Column(
-              children: [
-
-                Text("${events[j].name.toString()}",style: const TextStyle(
-                    color: textColor, fontWeight: FontWeight.bold, fontSize: 25.0),),
-                Text(
-                    "Stage ${events[j].stage.toString()}",
-                    style: const TextStyle(color: greyText, fontSize: 16.0)),
-
-              ],
-            ):Container(),
-
-
-
-
-
-       /* Text(
+        /* Text(
           "Stage ${events[i].stage.toString()}",
           style: const TextStyle(color: greyText, fontSize: 16.0),
         ),*/
 
-        
-    Timeline.tileBuilder(
-
-
-
-
+        Timeline.tileBuilder(
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           builder: TimelineTileBuilder.connected(
@@ -75,10 +61,8 @@ class WorkshopTile extends StatelessWidget {
                     : CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-
-
-                   Text(
-                    events[index].name!,
+                  Text(
+                    event[index].name!,
                     textAlign:
                         index % 2 == 0 ? TextAlign.right : TextAlign.left,
                     style: const TextStyle(
@@ -89,8 +73,10 @@ class WorkshopTile extends StatelessWidget {
                   const SizedBox(
                     height: 6.0,
                   ),
-                   Text(
-                    events[index].description!,maxLines: 6,overflow: TextOverflow.ellipsis,
+                  Text(
+                    event[index].description!,
+                    maxLines: 6,
+                    overflow: TextOverflow.ellipsis,
                     textAlign:
                         index % 2 == 0 ? TextAlign.right : TextAlign.left,
                     style: const TextStyle(
@@ -109,9 +95,9 @@ class WorkshopTile extends StatelessWidget {
                       ? CrossAxisAlignment.start
                       : CrossAxisAlignment.end,
                   children: [
-                     Text(
+                    Text(
                       DateFormat.yMMMd()
-                          .format(events[index].timeDate!.toDate()),
+                          .format(event[index].timeDate!.toDate()),
                       textAlign:
                           index % 2 != 0 ? TextAlign.right : TextAlign.left,
                       style: const TextStyle(
@@ -119,8 +105,8 @@ class WorkshopTile extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                           fontSize: 13.0),
                     ),
-                     Text(
-                      DateFormat.jm().format(events[index].timeDate!.toDate()),
+                    Text(
+                      DateFormat.jm().format(event[index].timeDate!.toDate()),
                       textAlign:
                           index % 2 != 0 ? TextAlign.right : TextAlign.left,
                       style: const TextStyle(
@@ -128,8 +114,8 @@ class WorkshopTile extends StatelessWidget {
                           fontWeight: FontWeight.w400,
                           fontSize: 13.0),
                     ),
-                     Text(
-                      events[index].venue!,
+                    Text(
+                      event[index].venue!,
                       textAlign:
                           index % 2 != 0 ? TextAlign.right : TextAlign.left,
                       style: const TextStyle(
@@ -146,29 +132,26 @@ class WorkshopTile extends StatelessWidget {
             indicatorBuilder: (context, index) => Padding(
               padding: const EdgeInsets.all(8.0),
               child: CircleAvatar(
-                backgroundColor: iconTile,
-                radius: 30.0,
-                child:
-                /*  AssetImage(
+                  backgroundColor: iconTile,
+                  radius: 30.0,
+                  child:
+                      /*  AssetImage(
                       "assets/images/timeline/${i == 1 ? events[index].name!.toLowerCase() : image[i].toString().toLowerCase()}.png"),
               */
 
-                  events[index].image!.isNotEmpty
-                      ? Image.network(
-                          events[index].image.toString(),
-                          color: Colors.black,
-                          width: 35,
-                        )
-                      : Image.asset(
-                          'assets/images/zine_logo.png',
-                          color: Colors.black,
-                          width: 45,
-                        )
-
-
-              ),
+                      event[index].image!.isNotEmpty
+                          ? Image.network(
+                              event[index].image.toString(),
+                              color: Colors.black,
+                              width: 35,
+                            )
+                          : Image.asset(
+                              'assets/images/zine_logo.png',
+                              color: Colors.black,
+                              width: 45,
+                            )),
             ),
-            itemCount: events.length,
+            itemCount: event.length,
           ),
         )
       ],

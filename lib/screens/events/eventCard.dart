@@ -60,43 +60,56 @@ class _EventCardState extends State<EventCard> {
       child: Stack(
         children: [
           ExpansionTileCard(
-            initiallyExpanded: initExp,
+              initiallyExpanded: initExp,
               contentPadding:
                   const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-              trailing:  SizedBox(width: MediaQuery.of(context).size.width * 0.1),
-          leading:isExpanded? Container(width: 118,height:80,decoration: BoxDecoration( color: Color.fromARGB(255, 12, 113, 176),borderRadius: BorderRadius.only(topLeft: Radius.circular(20.0)),),): SizedBox(width: MediaQuery.of(context).size.width * 0.1),
+              trailing:
+                  SizedBox(width: MediaQuery.of(context).size.width * 0.1),
+              leading: isExpanded
+                  ? Container(
+                      width: 118,
+                      height: 80,
+                      decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 12, 113, 176),
+                        borderRadius:
+                            BorderRadius.only(topLeft: Radius.circular(20.0)),
+                      ),
+                    )
+                  : SizedBox(width: MediaQuery.of(context).size.width * 0.1),
               initialPadding: EdgeInsets.zero,
               borderRadius: const BorderRadius.all(Radius.circular(20)),
               baseColor: const Color.fromARGB(255, 255, 255, 255),
-              expandedColor:const Color.fromARGB(255, 255, 255, 255),
+              expandedColor: const Color.fromARGB(255, 255, 255, 255),
               onExpansionChanged: (value) => {
-              setState(() {
-                isExpanded=value;
-                checked=true;
-              })},
-
+                    setState(() {
+                      isExpanded = value;
+                      checked = true;
+                    })
+                  },
               key: cardA,
               // leading: CircleAvatar(child: Image.asset("assets/images/devs.jpg")),
               title: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                        isExpanded? Text(
-                    event.name.toString(),
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                      fontSize:MediaQuery.of(context).size.width* 0.05,
-                      color:  const Color.fromARGB(255, 12, 113, 176),
-                      fontWeight: FontWeight.w800),
-                         ):
-                  Text(
-                    event.name.toString(),
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                        fontSize: MediaQuery.of(context).size.width* 0.065,
-                        color:  const Color.fromARGB(255, 12, 113, 176),
-                        fontWeight: FontWeight.w800),
-                  ),
-
+                  isExpanded
+                      ? Text(
+                          event.name.toString(),
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                              fontSize:
+                                  MediaQuery.of(context).size.width * 0.05,
+                              color: const Color.fromARGB(255, 12, 113, 176),
+                              fontWeight: FontWeight.w800),
+                        )
+                      : Text(
+                          event.name.toString(),
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                              fontSize:
+                                  MediaQuery.of(context).size.width * 0.065,
+                              color: const Color.fromARGB(255, 12, 113, 176),
+                              fontWeight: FontWeight.w800),
+                        ),
                   if (!isExpanded)
                     Wrap(
                       alignment: WrapAlignment.start,
@@ -109,14 +122,18 @@ class _EventCardState extends State<EventCard> {
                           textAlign: TextAlign.center,
                           style: textStyle3,
                         ),
-                        SizedBox(width: MediaQuery.of(context).size.width* 0.055,),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.055,
+                        ),
                         // const Spacer(),
                         Text(
                           getTime(event.timeDate as Timestamp),
                           textAlign: TextAlign.center,
                           style: textStyle3,
                         ),
-                         SizedBox(width: MediaQuery.of(context).size.width* 0.055,),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.055,
+                        ),
                         // const Spacer(),
                         Text(
                           event.venue.toString(),
@@ -127,101 +144,101 @@ class _EventCardState extends State<EventCard> {
                         //const Spacer(),
                       ],
                     ),
-
                 ],
               ),
-              children: [Row(
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.30,
-
-                    child: Column(
-
-
-                      children: [
-                        Text(
-                          getDay(event.timeDate as Timestamp),
-                          textAlign: TextAlign.left,
-                          softWrap: true,
-                          style: TextStyle(fontSize: 50,color: Colors.white),
-
-                        ),
-                        Text(
-                          getDate(event.timeDate as Timestamp),
-                          textAlign: TextAlign.left,
-                          softWrap: true,
-                          style: TextStyle(fontSize: 30,color: Colors.white),
-
-                        ),
-                        Text(
-                            getTime(event.timeDate as Timestamp),
+              children: [
+                Row(
+                  children: [
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.30,
+                      child: Column(
+                        children: [
+                          Text(
+                            getDay(event.timeDate as Timestamp),
                             textAlign: TextAlign.left,
                             softWrap: true,
-                            style: TextStyle(fontSize: 20,color: Colors.white)
-                        ),
-
-
-                      ],
+                            style: TextStyle(fontSize: 50, color: Colors.white),
+                          ),
+                          Text(
+                            getDate(event.timeDate as Timestamp),
+                            textAlign: TextAlign.left,
+                            softWrap: true,
+                            style: TextStyle(fontSize: 30, color: Colors.white),
+                          ),
+                          Text(getTime(event.timeDate as Timestamp),
+                              textAlign: TextAlign.left,
+                              softWrap: true,
+                              style:
+                                  TextStyle(fontSize: 20, color: Colors.white)),
+                        ],
+                      ),
                     ),
-                  ),
-                  Container(
-                    width:MediaQuery.of(context).size.width * 0.6,
-                    child: Column(
-                      children: [
-
-                        Padding(
-                          padding: const EdgeInsets.only(right: 3,left: 10,bottom: 10),
-                 child:Text(event.description.toString(),style: TextStyle(fontSize: 11),),),],),)
-                  ,SizedBox(height: 150,),],)]),
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.6,
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                right: 3, left: 10, bottom: 10),
+                            child: Text(
+                              event.description.toString(),
+                              style: TextStyle(fontSize: 11),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 150,
+                    ),
+                  ],
+                )
+              ]),
           isExpanded
               ? Container(
-              height: 210,
-              width: 120,
-              decoration: BoxDecoration(
-                color: date!.compareTo(DateTime.now()) >= 0
-                    ? Color.fromARGB(255, 12, 113, 176)
-                    : Colors.grey,
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(20.0),
-                    bottomLeft: Radius.circular(20.0)),
-              ),
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 30,
+                  height: 210,
+                  width: 120,
+                  decoration: BoxDecoration(
+                    color: date!.compareTo(DateTime.now()) >= 0
+                        ? Color.fromARGB(255, 12, 113, 176)
+                        : Colors.grey,
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(20.0),
+                        bottomLeft: Radius.circular(20.0)),
                   ),
-                  Text(
-                    getDay(event.timeDate as Timestamp),
-                    textAlign: TextAlign.left,
-                    softWrap: true,
-                    style: TextStyle(fontSize: 50, color: Colors.white),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 30,
+                      ),
+                      Text(
+                        getDay(event.timeDate as Timestamp),
+                        textAlign: TextAlign.left,
+                        softWrap: true,
+                        style: TextStyle(fontSize: 50, color: Colors.white),
+                      ),
+                      Text(
+                        getDate(event.timeDate as Timestamp),
+                        textAlign: TextAlign.left,
+                        softWrap: true,
+                        style: TextStyle(fontSize: 30, color: Colors.white),
+                      ),
+                      Text(getTime(event.timeDate as Timestamp),
+                          textAlign: TextAlign.left,
+                          softWrap: true,
+                          style: TextStyle(fontSize: 20, color: Colors.white)),
+                      Container(
+                        width: 150,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(100))),
+                      ),
+                    ],
                   ),
-                  Text(
-                    getDate(event.timeDate as Timestamp),
-                    textAlign: TextAlign.left,
-                    softWrap: true,
-                    style: TextStyle(fontSize: 30, color: Colors.white),
-                  ),
-                  Text(getTime(event.timeDate as Timestamp),
-                      textAlign: TextAlign.left,
-                      softWrap: true,
-                      style: TextStyle(fontSize: 20, color: Colors.white)),
-                  Container(
-                    width: 150,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(100))),
-                  ),
-                ],
-              ),
                 )
               : Text("")
         ],
       ),
     );
   }
-
-
 }
-
-

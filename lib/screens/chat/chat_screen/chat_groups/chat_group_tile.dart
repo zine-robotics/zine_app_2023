@@ -6,17 +6,17 @@ import '../../../../theme/color.dart';
 class ChatGroupTile extends StatelessWidget {
   ChatGroupTile(
       {required this.name,
-        required this.chatVm,
-        required this.userProv,
-        required this.groupId,
-        super.key});
+      required this.chatVm,
+      required this.userProv,
+      required this.groupId,
+      required this.roomDetails,
+      super.key});
 
   final String name;
   final dynamic chatVm;
   final dynamic userProv;
   final String groupId;
-
-
+  final dynamic roomDetails;
 
   @override
   Widget build(BuildContext context) {
@@ -24,15 +24,11 @@ class ChatGroupTile extends StatelessWidget {
     chatVm.getLastMessages(name);
     var lastChat = chatVm.lastChatRoom(name);
 
-    bool unSeen = chatVm.unread(name, userProv.currUser);
+//    bool unSeen = chatVm.unread(name, userProv.currUser);
     chatVm.listenChanges(name);
 
     //Rooms docData=chatVm.docData;
     //print("image by fetching:${docData.image}");
-
-
-
-
 
     return Column(
       children: [
@@ -42,7 +38,7 @@ class ChatGroupTile extends StatelessWidget {
             elevation: 0,
             shape: RoundedRectangleBorder(
               borderRadius:
-              BorderRadius.circular(20), // Set the border radius here
+                  BorderRadius.circular(20), // Set the border radius here
             ),
             color: const Color.fromRGBO(170, 170, 170, 0.1),
             child: Column(
@@ -54,22 +50,17 @@ class ChatGroupTile extends StatelessWidget {
                     child: Container(
                       color: Colors.white,
                       padding: const EdgeInsets.all(17.0),
-                      child: Image.asset(
-                        "assets/images/timeline/${name.toLowerCase()}.png",
+                      child: Image.network(
+                        roomDetails['image'],
                         height: 30,
                         width: 30,
                         fit: BoxFit.cover,
                         color: textColor.withOpacity(0.9),
                       ),
-                     /* Image.network(
-                        events[index].image.toString(),
-                        color: Colors.black,
-                        width: 35,
-                      )*/
                     ),
                   ),
                 ),
-                // Spacer(),
+
                 Text(
                   lastChat,
                   style: TextStyle(

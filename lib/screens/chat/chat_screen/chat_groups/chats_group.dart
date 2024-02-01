@@ -16,13 +16,12 @@ class ChatGroups extends StatelessWidget {
         // var listOfuser = currUser.roomIDs;
         var roomDetails = currUser.roomDetails;
         var listOfRoomID = roomDetails["group"].keys.toList();
-        var listOfRoomName = roomDetails["group"].values.toList();
-        print("length of roomDetailes is :${roomDetails["group"].length}");
+        List listOfRoomDetails = roomDetails["group"].values.toList();
+
         // chatVm.getLastMessages(roomName!);
-        // print(aList[0]);
 
         // String? roomName = listOfRoomName[index];
-        //
+
         // Map<dynamic,dynamic> lastChatList = {};
         // for(var item in listOfRoomID){
         //   String? roomName = roomDetails["group"][item];
@@ -31,18 +30,16 @@ class ChatGroups extends StatelessWidget {
         //   chatVm.listenChanges(roomName);
         //   lastChatList[item] = [lastChat,unSeen];
         // }
-        //
+
         // print(lastChatList);
         // var name = chatVm.getData(roomName);
 
         return SizedBox(
-
           height: MediaQuery.of(context).size.height * 0.18,
-
           child: ListView.builder(
             shrinkWrap: true,
             scrollDirection: Axis.horizontal,
-            itemCount: roomDetails["group"].length,
+            itemCount: listOfRoomDetails.length,
             itemBuilder: (BuildContext context, int index) {
               return GestureDetector(
                 onTap: () {
@@ -50,15 +47,17 @@ class ChatGroups extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) =>
-                              ChatRoom(roomName: listOfRoomName[index])));
+                          builder: (context) => ChatRoom(
+                              roomName: listOfRoomDetails[index]['name'],
+                              roomDetails: listOfRoomDetails[index])));
                 },
                 child: ChatGroupTile(
                   // roomId: listOfRoomID?[index],
-                  name: listOfRoomName[index],
+                  name: listOfRoomDetails[index]['name'],
                   chatVm: chatVm,
                   userProv: userProv,
-                  groupId:listOfRoomID[index]
+                  groupId: listOfRoomID[index],
+                  roomDetails: listOfRoomDetails[index],
                   //lastSeen: lastChatList[listOfRoomName[index]][0],
                 ),
               );

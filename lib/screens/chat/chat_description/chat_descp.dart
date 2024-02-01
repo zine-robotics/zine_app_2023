@@ -1,21 +1,23 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:zineapp2023/theme/color.dart';
-
 
 class ChatDescription extends StatelessWidget {
   const ChatDescription({
     required this.roomName,
     required this.data,
+    required this.image,
     super.key,
   });
 
   final String roomName;
+  final dynamic image;
   final dynamic data;
 
   @override
   Widget build(BuildContext context) {
-
-    // print(data);
+    print(data);
 
     return Scaffold(
       backgroundColor: backgroundGrey,
@@ -44,18 +46,30 @@ class ChatDescription extends StatelessWidget {
                 child: Container(
                     color: Colors.white,
                     padding: const EdgeInsets.all(30.0),
-                    child: Image.asset(
-                      "assets/images/timeline/${roomName.toLowerCase()}.png",
-                      height: 50,
-                      width: 50,
-                      fit: BoxFit.cover,
-                      color: textColor.withOpacity(0.9),
-                    )
-                ),
+                    child: image != null
+                        ? Image.network(
+                            image,
+                            height: 50,
+                            width: 50,
+                            fit: BoxFit.cover,
+                            color: textColor.withOpacity(0.9),
+                          )
+                        : Image.asset(
+                            "assets/images/zine_logo.png",
+                            height: 50,
+                            width: 50,
+                            fit: BoxFit.cover,
+                            color: textColor.withOpacity(0.9),
+                          )),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(0,20.0,0,0,),
+              padding: const EdgeInsets.fromLTRB(
+                0,
+                20.0,
+                0,
+                0,
+              ),
               child: Text(
                 roomName,
                 style: const TextStyle(
@@ -65,7 +79,7 @@ class ChatDescription extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(0.0,10,0,10),
+              padding: const EdgeInsets.fromLTRB(0.0, 10, 0, 10),
               child: Text(
                 "${data.length} Active Members",
                 style: const TextStyle(
@@ -74,7 +88,6 @@ class ChatDescription extends StatelessWidget {
                     fontSize: 15),
               ),
             ),
-
             Expanded(
               child: ListView.builder(
                 // physics: NeverScrollableScrollPhysics(),
@@ -82,86 +95,86 @@ class ChatDescription extends StatelessWidget {
                 itemCount: data.length,
                 itemBuilder: (context, index) {
                   return Padding(
-                    padding:
-                    const EdgeInsets.symmetric(horizontal: 8.0, vertical: 0),
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      elevation: 0,
-                      child: Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child: Container(
-                                color: Colors.grey,
-                                padding: const EdgeInsets.all(5.0),
-                                child: Image.asset(
-                                  "assets/images/dp/${data[index].dp}.png",
-                                  height: 45,
-                                  width: 45,
-                                  fit: BoxFit.cover,
-                                  // color: Colors.white,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8.0, vertical: 0),
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        elevation: 0,
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: Container(
+                                  color: Colors.grey,
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: Image.asset(
+                                    "assets/images/dp/${Random().nextInt(25) + 1}.png",
+                                    height: 45,
+                                    width: 45,
+                                    fit: BoxFit.cover,
+                                    // color: Colors.white,
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                data[index].name,
-                                style: TextStyle(
-                                    fontSize:
-                                    MediaQuery.of(context).textScaleFactor *
-                                        15,
-                                    fontWeight: FontWeight.bold,
-                                    color: textDarkBlue),
-                              ),
-                              const SizedBox(
-                                height: 4,
-                              ),
-                              Text(
-                                data[index].email,
-                                style: TextStyle(
-                                    fontSize:
-                                    MediaQuery.of(context).textScaleFactor *
-                                        12.5,
-                                    color: textDarkBlue),
-                              )
-                            ],
-                          ),
-                          const Spacer(),
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(8.0, 16, 16, 0),
-                            child: Text(
-                              data[index].type=='admin'?"Zine Member":"",
-                              style: TextStyle(
-                                  color: textColor,
-                                  fontSize:
-                                  MediaQuery.of(context).textScaleFactor *
-                                      13),
+                            const SizedBox(
+                              width: 5,
                             ),
-                          )
-                        ],
-                      ),
-                    )
-                  );
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  data[index],
+                                  style: TextStyle(
+                                      fontSize: MediaQuery.of(context)
+                                              .textScaleFactor *
+                                          15,
+                                      fontWeight: FontWeight.bold,
+                                      color: textDarkBlue),
+                                ),
+                                const SizedBox(
+                                  height: 4,
+                                ),
+                                // Text(
+                                //   data[index].email,
+                                //   style: TextStyle(
+                                //       fontSize: MediaQuery.of(context)
+                                //               .textScaleFactor *
+                                //           12.5,
+                                //       color: textDarkBlue),
+                                // )
+                              ],
+                            ),
+                            const Spacer(),
+                            // Padding(
+                            //   padding:
+                            //       const EdgeInsets.fromLTRB(8.0, 16, 16, 0),
+                            //   child: Text(
+                            //     "",
+                            //     style: TextStyle(
+                            //         color: textColor,
+                            //         fontSize:
+                            //             MediaQuery.of(context).textScaleFactor *
+                            //                 13),
+                            //   ),
+                            // )
+                          ],
+                        ),
+                      ));
                 },
               ),
             ),
-            SizedBox(height: 20,)
+            SizedBox(
+              height: 20,
+            )
           ],
         ),
       ),
     );
   }
 }
-
-

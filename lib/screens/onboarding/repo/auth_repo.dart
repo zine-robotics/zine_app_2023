@@ -61,35 +61,27 @@ class AuthRepo {
   dynamic getRoomData(String groupID) {
     return _firebaseFirestore
         .collection('rooms')
-    // Assuming there is only one group with the given name
+        // Assuming there is only one group with the given name
         .doc(groupID)
         .get()
         .then((querySnapshot) {
-
-
-          //print("querySnapshot.data() is:${querySnapshot.data()?['image']}");
       return querySnapshot.data();
     });
-
   }
 
   dynamic getRoomMap(dynamic listRoomIds) async {
     dynamic roomDetails = {"group": {}, "project": {}};
     for (var item in listRoomIds) {
-      // print(item);
       dynamic temp = await getRoomData(item);
-       //print(temp['type']);
-       //print(temp['image']);
 
-      roomDetails[temp['type']][item] = temp['name'];
+      roomDetails[temp['type']][item] = temp;
     }
-
     return roomDetails;
   }
 
   Future<Tasks> getTemp(UserTask e) async {
     DocumentSnapshot<Map<String, dynamic>> snapshot =
-    await e.task!.get() as DocumentSnapshot<Map<String, dynamic>>;
+        await e.task!.get() as DocumentSnapshot<Map<String, dynamic>>;
 
     if (!snapshot.data()!.containsKey('link')) {
       snapshot.data()!['links'] = [];
@@ -101,38 +93,20 @@ class AuthRepo {
     return data;
   }
 
-
   Future<List<UserTask>?> getTasks(uid) async {
     var query = await _firebaseFirestore
         .collection("userTasks")
         .where("users", arrayContains: _firebaseFirestore.doc("/users/${uid}"));
     var data = await query.get();
     final docData = data.docs.map((doc) => UserTask.store(doc));
-
     // print(docData.toList());
-
-    print("uid of user from auth_repo:$uid");
-
     return docData.toList();
   }
-
-  // Future<List<UserTask>?> getTasks(uid) async {
-  //   var query = await _firebaseFirestore
-  //       .collection("userTasks")
-  //       .where("users", arrayContains: _firebaseFirestore.doc("/users/${uid}"));
-  //   var data = await query.get();
-  //   final docData = data.docs.map((doc) => UserTask.store(doc));
-  //   // print(docData.toList());
-  //   return docData.toList();
-  // }
 
   Future<UserModel?> getUserbyId(String uid) async {
     print(uid);
     var user = await _firebaseFirestore.collection('users').doc(uid).get();
-
-   // UserModel docData = UserModel.store(user);
-    user.data()?.putIfAbsent("lastSeen", () => {});
-    user.data()?.putIfAbsent("roomids", () => []);
+    user.data()!.putIfAbsent("lastSeen", () => {});
     print(uid);
     var map = {"group": {}, "project": {}};
     if (user['roomids'] != null) map = await getRoomMap(user['roomids']);

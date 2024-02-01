@@ -30,7 +30,7 @@ class ChatScreen extends StatelessWidget {
       builder: (context, chatVm, userProv, _) {
         var currUser = userProv.currUser;
         var roomDetails = currUser.roomDetails;
-
+        var projects = roomDetails['project'].values.toList();
 
         return Container(
           color: backgroundGrey,
@@ -41,7 +41,6 @@ class ChatScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-
                   // --------------------Channels-------------------------------
                   headingText("Channels"),
                   const Channel(
@@ -60,7 +59,7 @@ class ChatScreen extends StatelessWidget {
                     height: 10,
                   ),
 
-                  //--------------------Rooms-----------------------------------
+                  //--------------------Rooms-----------------------------------R
                   !roomDetails["group"].isEmpty
                       ? headingText("Rooms")
                       : Container(),
@@ -69,9 +68,8 @@ class ChatScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             if (currUser.rooms != null)
-                              for (var item
-                                  in roomDetails["project"].values.toList())
-                                Channel(name: item)
+                              for (var item in projects)
+                                Channel(name: item['name'], data: item)
                           ],
                         )
                       : Container(),

@@ -7,17 +7,13 @@ import 'package:zineapp2023/screens/events/view_models/events_vm.dart';
 import 'package:zineapp2023/theme/color.dart';
 
 class Events extends StatelessWidget {
-
-
   final selectedDate;
   const Events({Key? key, this.selectedDate}) : super(key: key);
 
-
-
-
   @override
   Widget build(BuildContext context) {
-    return Consumer2<EventsVm,DashboardVm>(builder: (context, eventsVm,dashVm, _) {
+    return Consumer2<EventsVm, DashboardVm>(
+        builder: (context, eventsVm, dashVm, _) {
       eventsVm.getAllEvents();
       var events = eventsVm.events;
       return Scaffold(
@@ -32,12 +28,10 @@ class Events extends StatelessWidget {
             child: Image.asset(
               "assets/images/backbtn.png",
               height: 30,
-
             ),
           ),
-          title:  Text(
-            dashVm.events.length != 0?
-            "EVENT":"Past Events",
+          title: Text(
+            dashVm.events.length != 0 ? "EVENT" : "Past Events",
             style: TextStyle(
               height: 0.9,
               letterSpacing: 0.3,
@@ -59,9 +53,13 @@ class Events extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   //Text("checkDate :${checkDate.day}"),
-                  for (int i = events.length-1; i >=0 ; i--)
-
-                     EventCard(event: events[i],selectedDate: selectedDate,)
+                  for (int i = events.length - 1; i >= 0; i--)
+                    if (!(events[i].isHeading == "true" &&
+                        events[i].stage == "2"))
+                      EventCard(
+                        event: events[i],
+                        selectedDate: selectedDate,
+                      )
                 ],
               ),
             ),
@@ -70,5 +68,4 @@ class Events extends StatelessWidget {
       );
     });
   }
-
 }

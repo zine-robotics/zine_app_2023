@@ -27,7 +27,6 @@ class ChatRoomViewModel extends ChangeNotifier {
   final picker = ImagePicker();
   dynamic selectedReplyMessage;
 
-
   get roomId => _roomId;
   Map<String, Timestamp> lastChats = {};
   final CollectionReference _rooms =
@@ -55,9 +54,8 @@ class ChatRoomViewModel extends ChangeNotifier {
   }
 
   void replyText(dynamic message) {
-
-    replyTo = message;
-    // print(message.message);
+    print("object");
+    print(message);
 
     selectedReplyMessage = message;
     replyTo = message.id;
@@ -70,6 +68,8 @@ class ChatRoomViewModel extends ChangeNotifier {
 
   void cancelReply() {
     replyTo = null;
+    print("repy to cancel");
+    print(replyTo);
     notifyListeners();
   }
 
@@ -83,42 +83,6 @@ class ChatRoomViewModel extends ChangeNotifier {
   }
 
   List<dynamic> listOfUsers = [];
-
-  // void getListOfUsers(dynamic list){
-  //   listOfUsers = list;
-  //   notifyListeners();
-  // }
-
-  dynamic getRoomData(String groupName) async {
-    print("Function was called Again on a new screen");
-    var data = await chatP.getRooms(groupName);
-    // print(data.members);
-    var membersList = data.members;
-    List<dynamic> list = [];
-
-
-    for (var member in membersList) {
-      var temp = await chatP.getUserDetailsByID(member);
-      list.add(temp as UserModel);
-    }
-
-    // for (var member in membersList) {
-    //   var temp = await chatP.getUserDetailsByID(member);
-    //   list.add(temp as UserModel);
-    // }
-
-
-    // await Future.wait(list as Iterable<Future>);
-    listOfUsers = list;
-
-    // getListOfUsers(list);
-    // notifyListeners();
-    // return list;
-  }
-
-  // dynamic getUserList(String uid){
-  //
-  // }
 
   void listenChanges(String name) {
     var id = null;
@@ -155,12 +119,6 @@ class ChatRoomViewModel extends ChangeNotifier {
           );
     }
   }
-/*  get docData=>_docData;
-  void getRoomData2(String groupId) async{
-    Rooms _docData=await chatP.getRoomData(groupId);
-    print("fetch image is:${_docData.image}");
-    //return _docData;
-}*/
 
   Stream<QuerySnapshot<Object?>> getData(roomName) async* {
     // print(roomName);
@@ -181,19 +139,6 @@ class ChatRoomViewModel extends ChangeNotifier {
 
     notifyListeners();
   }
-/*  dynamic getRoomData2(String name) async{
-    print("chat viewmodel called");
-    Rooms roomData = await chatP.getRoomData(name);
-    print("printing the data of data repo${roomData.image}");
-    return roomData;
-    //notifyListeners();
-}*/
-/*  void getRoomModelData(String name) async
-  {
-    final roomData= await chatP.getRoomsModel(name);
-    print("room data is :${roomData}");
-    return roomData;
-  }*/
 
   void updateMessage(DocumentReference docRef) async {
     await docRef.update({'replyTo': null});
@@ -203,12 +148,6 @@ class ChatRoomViewModel extends ChangeNotifier {
     if (!replyfocus.hasFocus) replyTo = null;
   }
 
-  // void send({from, roomId}) {
-  //   // getChats();
-  //   _text.isEmpty ? null : chatP.sendMessage(from, roomId, _text);
-  //   setText("");
-  //   notifyListeners();
-  // }
   String _lastChatTime = "";
 
   get lastChatTime => _lastChatTime;
@@ -225,7 +164,12 @@ class ChatRoomViewModel extends ChangeNotifier {
     print("function Called");
     dynamic timeStamp = await chatP.getLastChat(roomName);
     dynamic prev = lastChats;
-    lastChats[roomName] = timeStamp;
+    print(lastChats);
+    print(roomName);
+    if (timeStamp != null) {
+      lastChats[roomName] = timeStamp;
+    }
+
     if (!mapEquals(lastChats, prev)) notifyListeners();
   }
 
@@ -240,7 +184,14 @@ class ChatRoomViewModel extends ChangeNotifier {
 
   String lastChatRoom(var name) {
     if (lastChats[name] != null) {
-      var lastChat = getTime(lastChats[name] as Timestamp);
+      DateTime t = (lastChats[name] as Timestamp).toDate();
+      DateTime now = DateTime.now();
+      var lastChat;
+      if ((now.day == t.day && t.month == now.month && t.year == now.year))
+        lastChat = getTime(lastChats[name] as Timestamp);
+      else
+        lastChat =
+            t.day.toString() + " " + getDate(lastChats[name] as Timestamp);
       return lastChat;
     }
     return "";
@@ -248,23 +199,18 @@ class ChatRoomViewModel extends ChangeNotifier {
 
   void roomLeft(var room, var user, UserProv userProv) {
     chatP.updateLastSeen(user, room);
-    //userProv.updateLast(room);         //there is no such function exist
+    userProv.updateLast(room);
     notifyListeners();
     print('left $room');
   }
 
-
-
   void addRouteListener(
       BuildContext context, var room, var user, UserProv userProv) {
-    replyTo = null;
     ModalRoute.of(context)?.addScopedWillPopCallback(() {
       roomLeft(room, user, userProv);
       return Future.value(true);
     });
   }
-
-
 
   Future<void> pickImage(ImageSource source) async {
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
