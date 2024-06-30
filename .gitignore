@@ -46,3 +46,4 @@ android/key.properties
 /upload-keystore.jks
 /upload-keystore.jks.old
 /upload_certificate.pem
+lib/firebase_options.dart
