@@ -54,6 +54,7 @@ class TeamScreen extends StatelessWidget {
             ),
             body: TabBarView(
               children: [
+                // TabBarView Creates views with one child per Tab (each ListView.Builder)
                 for (int i = 0; i < 3; i++)
                   ListView.builder(
                     shrinkWrap: true,
@@ -68,6 +69,8 @@ class TeamScreen extends StatelessWidget {
                               image: dict.teamScreen.team![i][index].image!,
                               name: dict.teamScreen.team![i][index].name!,
                               id: dict.teamScreen.team![i][index].email!,
+                              bio: dict.teamScreen.team![i][index].bio!,
+                              linkedin: dict.teamScreen.team![i][index].linkedIn!,
                             );
                     },
                   )

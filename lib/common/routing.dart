@@ -14,7 +14,6 @@ import '../screens/explore/about/about.dart';
 import '../screens/explore/project.dart';
 import '../screens/events/events.dart';
 
-
 /// This file contains the routes to different screens. Please create a new route
 /// for the router to use here or else you'll have to route directly to the screen
 /// you made.
@@ -43,6 +42,7 @@ class RouteName {
 }
 
 class Routes {
+  //Simplification for easier fucntion usage down below
   static cupertinoRoute(
           String name, Widget Function(BuildContext) widgetProvider) =>
       CupertinoPageRoute(
@@ -56,8 +56,10 @@ class Routes {
   static Route homeScreen() =>
       cupertinoRoute(RouteName.homeScreen, (ctx) => const Home());
 
-  static Route teamScreen() =>
-      cupertinoRoute(RouteName.teamScreen, (ctx) => const TeamScreen());
+  static Route teamScreen() => cupertinoRoute(
+        RouteName.teamScreen,
+        (ctx) => const TeamScreen(),
+      );
 
   static Route achievementScreen() => cupertinoRoute(
       RouteName.achievementScreen, (ctx) => const AchievementScreen());

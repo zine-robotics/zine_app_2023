@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../theme/color.dart';
 
-class TeamTile extends StatelessWidget {
+class TeamTile extends StatefulWidget {
   final String year;
   final String name;
   final String id;
   final String image;
+  final String bio;
+  final String linkedin;
 
   const TeamTile({
     super.key,
@@ -14,58 +18,132 @@ class TeamTile extends StatelessWidget {
     required this.image,
     required this.name,
     required this.id,
+    required this.bio,
+    required this.linkedin,
   });
 
   @override
+  State<TeamTile> createState() => _TeamTileState();
+}
+
+class _TeamTileState extends State<TeamTile> {
+  bool expanded = true;
+  @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 0),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15.0),
-      ),
-      elevation: 0,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 13.0, vertical: 13.0),
-        child: Row(
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(20.0), //or 15.0
-              child: Image.asset(
-                'assets/images/$year/$image.webp',
-                height: 75.0,
-                width: 75.0,
-                fit: BoxFit.cover,
-              ),
-            ),
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    name,
-                    style: const TextStyle(
-                        fontSize: 18.0,
-                        color: textDarkBlue,
-                        fontWeight: FontWeight.bold),
+    const duration = Duration(milliseconds: 500);
+    return InkWell(
+        onTap: () => setState(() => expanded = !expanded),
+        child: Card(
+            child: AnimatedContainer(
+          duration: duration,
+          height: expanded ? 100 : 220,
+          child: Stack(
+            children: [
+              AnimatedPositioned(
+                  curve: Curves.easeInOut,
+                  top: 13,
+                  left: expanded ? 100 : 13,
+                  duration: duration,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        widget.name,
+                        style: const TextStyle(
+                            fontSize: 18.0,
+                            color: textDarkBlue,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(
+                        height: 5.0,
+                      ),
+                      Text(
+                        widget.id,
+                        style: const TextStyle(
+                            fontSize: 12.0,
+                            color: textColor,
+                            fontWeight: FontWeight.w300),
+                      )
+                    ],
+                  )),
+              AnimatedPositioned(
+                curve: Curves.easeInOut,
+                duration: duration,
+                bottom: 13.0,
+                left: 13.0,
+                child: AnimatedContainer(
+                  duration: duration,
+                  height: expanded ? 75 : 130,
+                  child: AspectRatio(
+                    aspectRatio: 1 / 1,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10.0),
+                      child: Image.asset(
+                        fit: BoxFit.cover,
+                        'assets/images/${widget.year}/${widget.image}.webp',
+                      ),
+                    ),
                   ),
-                  const SizedBox(
-                    height: 5.0,
-                  ),
-                  Text(
-                    id,
-                    style: const TextStyle(
-                        fontSize: 12.0,
-                        color: textColor,
-                        fontWeight: FontWeight.w300),
-                  )
-                ],
+                ),
               ),
-            )
-          ],
-        ),
-      ),
-    );
+              Positioned(
+                right: 13.0,
+                top: 27.0,
+                child: AnimatedRotation(
+                  duration: duration,
+                  turns: expanded ? 0 : 1.0 / 4.0,
+                  child: const Icon(Icons.keyboard_arrow_down_sharp),
+                ),
+              ),
+              Positioned(
+                top: 70,
+                right: 13,
+                width: 230,
+                child: AnimatedContainer(
+                  height: expanded ? 0 : 160,
+                  duration: duration,
+                  child: Column(
+                    children: [
+                      Flexible(
+                        fit: FlexFit.loose,
+                        child: Text(
+                          widget.bio,
+                          overflow: TextOverflow.fade,
+                        ),
+                      ),
+                      Flexible(
+                        fit: FlexFit.tight,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            ElevatedButton(
+                              clipBehavior: Clip.hardEdge,
+                              onPressed: () {
+                                final email =
+                                    Uri(scheme: 'https', path: widget.linkedin);
+                                launchUrl(email);
+                              },
+                              child: const Icon(FontAwesomeIcons.linkedin),
+                            ),
+                            ElevatedButton(
+                              clipBehavior: Clip.hardEdge,
+                              child: const Icon(Icons.email),
+                              onPressed: () {
+                                final email =
+                                    Uri(scheme: 'mailto', path: widget.id);
+                                launchUrl(email);
+                              },
+                              // label: const Icon(Icons.email),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              )
+            ],
+          ),
+        )));
   }
 }
