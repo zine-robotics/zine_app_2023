@@ -47,3 +47,6 @@ android/key.properties
 /upload-keystore.jks.old
 /upload_certificate.pem
 lib/firebase_options.dart
+devtools_options.yaml
+firebase.json
+android/app/google-services.json
