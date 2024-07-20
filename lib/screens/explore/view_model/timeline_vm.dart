@@ -28,6 +28,9 @@ class TimelineVm extends ChangeNotifier {
       case RouteName.wokrshopTimeline:
         await Navigator.of(context).push(Routes.comingSoon());
         break;
+      case RouteName.publicEvents:
+        await Navigator.of(context).push(Routes.publicEvents());
+        break;
     }
   }
 

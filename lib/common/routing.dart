@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:zineapp2023/screens/chat/chat_home.dart';
 import 'package:zineapp2023/screens/explore/coming_soon.dart';
+import 'package:zineapp2023/screens/explore/public_events/events_screen.dart';
 import 'package:zineapp2023/screens/tasks/taskDesc.dart';
 import '../screens/explore/achievements.dart';
 import '../screens/explore/team/team.dart';
@@ -39,6 +40,7 @@ class RouteName {
   static const tasks = "tasks";
   static const taskDesc = "taskDesc";
   static const comingSoon = "comingSoon";
+  static const publicEvents = "publicEvents";
 }
 
 class Routes {
@@ -78,6 +80,11 @@ class Routes {
 
   static Route Event() =>
       cupertinoRoute(RouteName.eventName, (ctx) => Events());
+
+  static Route publicEvents() {
+    print("hi");
+    return cupertinoRoute(RouteName.publicEvents, (ctx) => EventsScreen());
+  }
 
   static Route taskDesc() =>
       cupertinoRoute(RouteName.taskDesc, (ctx) => TaskDesc());

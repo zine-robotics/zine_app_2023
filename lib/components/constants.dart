@@ -19,6 +19,11 @@ const exploreCards = [
     "route": "workshop",
     "image": "assets/images/explore/workshops.png"
   },
+  {
+    "name": "Events",
+    "route": "publicEvents",
+    "image": "assets/images/explore/workshops.png"
+  }
 ];
 
 // final emailReg = RegExp(r'^20\d\d((kucp)|(kuec)|(ucp)|(uec)|(uee)|(uch)|(ume)|(uce)|(umt)|(uar))\d{4}@((mnit)|(iiitkota)).ac.in$');

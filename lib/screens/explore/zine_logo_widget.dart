@@ -29,7 +29,7 @@ class ZineWhiteLogoWidget extends StatelessWidget {
                             'https://www.instagram.com/zine.robotics/');
                       },
                       child: const Padding(
-                        padding: EdgeInsets.fromLTRB(9.0,18,9,18),
+                        padding: EdgeInsets.fromLTRB(9.0, 18, 9, 18),
                         child: FaIcon(
                           FontAwesomeIcons.instagram,
                           color: Colors.white,
@@ -38,11 +38,10 @@ class ZineWhiteLogoWidget extends StatelessWidget {
                     ),
                     InkWell(
                       onTap: () {
-                        dashboardVm.launchUrl(
-                            'https://zine.co.in/');
+                        dashboardVm.launchUrl('https://zine.co.in/');
                       },
                       child: const Padding(
-                        padding: EdgeInsets.fromLTRB(9.0,18,20,18),
+                        padding: EdgeInsets.fromLTRB(9.0, 18, 20, 18),
                         child: FaIcon(
                           FontAwesomeIcons.globe,
                           color: Colors.white,
@@ -74,7 +73,7 @@ class ZineWhiteLogoWidget extends StatelessWidget {
                 ),
               ),
               const SizedBox(
-                height: 50,
+                height: 20,
               ),
             ],
           ),

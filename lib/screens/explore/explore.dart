@@ -43,7 +43,7 @@ class Explore extends StatelessWidget {
                             height: 25,
                           ),
                           Container(
-                            height: MediaQuery.of(context).size.height * 0.48,
+                            height: MediaQuery.of(context).size.height * 0.68,
                             width: MediaQuery.of(context).size.width,
                             decoration: const BoxDecoration(
                               color: Color(0xFFEFEFEF),
