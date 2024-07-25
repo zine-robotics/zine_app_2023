@@ -1,7 +1,4 @@
-import 'dart:isolate';
-
 import 'package:flutter/material.dart';
-import 'package:table_calendar/table_calendar.dart';
 import 'package:zineapp2023/models/events.dart';
 import 'package:zineapp2023/screens/explore/public_events/view_models/public_events_vm.dart';
 import 'package:zineapp2023/theme/color.dart';
@@ -25,6 +22,10 @@ class EventTile extends StatefulWidget {
 class _EventTileState extends State<EventTile> {
   @override
   Widget build(BuildContext context) {
+    double availableHeight = MediaQuery.of(context).size.height -
+        (kBottomNavigationBarHeight + kToolbarHeight);
+    double compressedHeight = availableHeight / 6;
+    double expandedHeight = availableHeight / 3.2;
     bool expanded = !(widget.evm.selectedEvent == widget.event);
     return AnimatedContainer(
         duration: const Duration(milliseconds: 250),
@@ -46,7 +47,7 @@ class _EventTileState extends State<EventTile> {
                   // decoration: BoxDecoration(image: DecorationImage(image: AssetImage(bundle: ))),
                   duration: Duration(milliseconds: 250),
                   width: double.maxFinite,
-                  height: expanded ? 130 : 240,
+                  height: expanded ? compressedHeight : expandedHeight,
                   child: Stack(alignment: Alignment.center, children: [
                     widget.index.isEven
                         ? AnimatedPositioned(

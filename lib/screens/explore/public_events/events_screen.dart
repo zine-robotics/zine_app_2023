@@ -1,17 +1,10 @@
 // ignore_for_file: prefer_const_constructors
-
-import 'dart:math';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:table_calendar/table_calendar.dart';
 import 'package:zineapp2023/screens/explore/public_events/event_calendar.dart';
 import 'package:zineapp2023/screens/explore/public_events/event_tile.dart';
 import 'package:zineapp2023/screens/explore/public_events/view_models/public_events_vm.dart';
 import 'package:zineapp2023/theme/color.dart';
-import 'package:zineapp2023/models/events.dart';
 
 class EventsScreen extends StatelessWidget {
   EventsScreen({super.key});
@@ -42,6 +35,9 @@ class EventsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // var height = MediaQuery.of(context).size.height;
+    double availableHeight = MediaQuery.of(context).size.height -
+        (kBottomNavigationBarHeight + kToolbarHeight);
     return Scaffold(
       backgroundColor: backgroundGrey,
       appBar: AppBar(
@@ -79,31 +75,48 @@ class EventsScreen extends StatelessWidget {
           }
           return Column(
             children: [
-              Padding(
+              Container(
+                height: availableHeight / 2,
+                color: backgroundGrey,
                 padding: const EdgeInsets.fromLTRB(30, 5, 30, 5),
-                child: AspectRatio(
-                  aspectRatio: 1,
-                  child: Card(
-                    color: Colors.white,
-                    child: EventCalendar(
-                      evm: evm,
-                    ),
+                child: Card(
+                  color: Colors.white,
+                  child: EventCalendar(
+                    evm: evm,
                   ),
                 ),
               ),
               const SizedBox(height: 10),
               (evm.events.isNotEmpty)
                   ? Expanded(
+                      child: ShaderMask(
+                      shaderCallback: (bounds) => LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          stops: [
+                            0.0,
+                            0.05,
+                            0.95,
+                            1.0
+                          ],
+                          colors: [
+                            Colors.transparent,
+                            backgroundGrey,
+                            backgroundGrey,
+                            backgroundGrey,
+                          ]).createShader(bounds),
                       child: ListView.builder(
-                      controller: _controller,
-                      itemBuilder: (context, index) {
-                        return EventTile(
-                          evm: evm,
-                          index: index,
-                          event: evm.events[index],
-                        );
-                      },
-                      itemCount: evm.events.length,
+                        clipBehavior: Clip.hardEdge,
+                        controller: _controller,
+                        itemBuilder: (context, index) {
+                          return EventTile(
+                            evm: evm,
+                            index: index,
+                            event: evm.events[index],
+                          );
+                        },
+                        itemCount: evm.events.length,
+                      ),
                     ))
                   : Expanded(
                       child: Center(
