@@ -93,16 +93,12 @@ class EventsScreen extends StatelessWidget {
                       shaderCallback: (bounds) => LinearGradient(
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
-                          stops: [
+                          stops: const [
                             0.0,
                             0.05,
-                            0.95,
-                            1.0
                           ],
-                          colors: [
+                          colors: const [
                             Colors.transparent,
-                            backgroundGrey,
-                            backgroundGrey,
                             backgroundGrey,
                           ]).createShader(bounds),
                       child: ListView.builder(
