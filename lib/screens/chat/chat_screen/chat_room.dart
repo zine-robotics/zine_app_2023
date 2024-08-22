@@ -10,31 +10,58 @@ import 'package:zineapp2023/theme/color.dart';
 import '../../../components/gradient.dart';
 import 'chat_view.dart';
 
-class ChatRoom extends StatelessWidget {
+class ChatRoom extends StatefulWidget {
   final dynamic roomName;
-  final dynamic roomDetails;
 
-  ChatRoom({Key? key, required this.roomName, this.roomDetails})
+  final String? roomId;
+
+  ChatRoom({Key? key, required this.roomName,this.roomId})
       : super(key: key);
+
+  @override
+  State<ChatRoom> createState() => _ChatRoomState();
+}
+
+class _ChatRoomState extends State<ChatRoom> {
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      var chatRoomView=Provider.of<ChatRoomViewModel>(context, listen: false);
+      widget.roomId!=null? chatRoomView.fetchMessages(widget.roomId!): "";
+      // chatRoomView.fetchMessages();
+    });
+  }
   final TextEditingController messageController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Consumer3<ChatRoomViewModel, DashboardVm, UserProv>(
       builder: (context, chatVm, dashVm, userProv, _) {
         var listOfUsers = [];
         var image = null;
-        print("room detila");
-        print(roomDetails);
-        if (roomDetails != null && roomDetails['members'] != null) {
-          listOfUsers = roomDetails['members'];
-          image = roomDetails['image'];
-        }
-        chatVm.replyfocus.addListener(chatVm.replyListner);
+        // print("room detila");
+        // print(roomDetails);
+        // if (roomDetails != null && roomDetails['members'] != null) {
+        //   listOfUsers = roomDetails['members'];
+        //   image = roomDetails['image'];
+        // }
+        // chatVm.replyfocus.addListener(chatVm.replyListner);
 
-        var data = chatVm.getData(roomName);
+        // var data = chatVm.getData(roomName);//earlier data from firebase
+
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (widget.roomId != null) {
+
+            chatVm.subscribeToRoom(widget.roomId!);
+          }
+        });
+
+
         UserModel currUser = userProv.getUserInfo();
         chatVm.addRouteListener(
-            context, roomName, userProv.currUser.email.toString(), userProv);
+            context, widget.roomName, userProv.currUser.email.toString(), userProv);
 
         return GestureDetector(
           onTap: () {
@@ -54,12 +81,14 @@ class ChatRoom extends StatelessWidget {
                 onTap: () {
                   Navigator.of(context)
                       .push(CupertinoPageRoute(builder: (BuildContext context) {
+                        // return Text("chatDesctiption remove");
                     return ChatDescription(
-                        roomName: roomName, image: image, data: listOfUsers);
+                        roomName: widget.roomName, image: image, data: listOfUsers);
                   }));
                 },
                 child: Text(
-                  roomName,
+                  widget.roomName,
+                  // "hello again",
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 25,
@@ -87,9 +116,10 @@ class ChatRoom extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    chatV(data, currUser, dashVm, chatVm.replyText,
-                        chatVm.updateMessage, context),
-                    currUser.type == 'user' && roomName == "Announcements"
+                    // chatV(data, currUser, dashVm, chatVm.replyText,
+                    //     chatVm.updateMessage, context),
+                     chatV(context,chatVm.messageStream),
+                    currUser.type == 'user' && widget.roomName == "Announcements"
                         ? Container()
                         : Column(
                             mainAxisAlignment: MainAxisAlignment.start,
@@ -209,13 +239,14 @@ class ChatRoom extends StatelessWidget {
                                             horizontal: 4.0, vertical: 1.0),
                                         padding: EdgeInsets.zero,
                                         onPressed: () {
+                                          chatVm.sendMessage(messageController.text,widget.roomName);
                                           messageController.text = "";
 
-                                          chatVm.send(
-                                              from: userProv.currUser.name,
-                                              roomId: roomName);
-
-                                          chatVm.replyTo = null;
+                                          // chatVm.send(
+                                          //     from: userProv.currUser.name,
+                                          //     roomId: roomName);
+                                          //
+                                          // chatVm.replyTo = null;
                                         },
                                         iconSize: 20.0,
                                         icon: const ImageIcon(

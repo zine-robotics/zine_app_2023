@@ -11,7 +11,7 @@ class Rooms {
     this.uid,
     this.name,
     required this.members,
-     this.image
+    this.image
   });
 
   Rooms.fromJson(Map<String, dynamic> json) {

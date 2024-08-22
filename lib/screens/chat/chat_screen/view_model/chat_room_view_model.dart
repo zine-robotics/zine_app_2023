@@ -1,3 +1,5 @@
+import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -5,7 +7,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import "package:flutter/material.dart";
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
+import 'package:stomp_dart_client/stomp.dart';
+import 'package:stomp_dart_client/stomp_config.dart';
+import 'package:stomp_dart_client/stomp_frame.dart';
 import 'package:zineapp2023/models/message.dart';
+import 'package:zineapp2023/models/temp_message.dart';
+import 'package:zineapp2023/models/temp_rooms.dart';
 import 'package:zineapp2023/models/user.dart';
 import 'package:zineapp2023/providers/user_info.dart';
 import 'package:zineapp2023/utilities/date_time.dart';
@@ -15,13 +23,20 @@ import '../repo/chat_repo.dart';
 
 class ChatRoomViewModel extends ChangeNotifier {
   final UserProv userProv;
-  ChatRoomViewModel({required this.userProv});
+
+  ChatRoomViewModel({required this.userProv}) {
+    initializeWebSocket();  //constructor to initialize the webSocket for single time only!!
+  }
+
+
+  //===================================================NEWER CODE====================================================//
   final chatP = ChatRepo();
+  Map<String, dynamic> _subscriptions = {};
 
   dynamic allData;
   dynamic replyTo;
   FocusNode replyfocus = FocusNode();
-  String _roomId = "Hn9GSQnvi5zh9wabLGuT";
+  String _roomId = "352";
   final name = "Announcement";
   Map<String, dynamic> chatSubscription = {};
   final picker = ImagePicker();
@@ -32,9 +47,211 @@ class ChatRoomViewModel extends ChangeNotifier {
   final CollectionReference _rooms =
       FirebaseFirestore.instance.collection('rooms');
 
-  void setRoomId(String value) {
-    _roomId = value;
+
+
+  //-------------------message fetching using http--------------------//
+  List<TempMessageModel> _messages = [];
+  bool _isLoading = false;
+  final StreamController<List<TempMessageModel>> _messageStreamController=StreamController<List<TempMessageModel>>.broadcast();
+  List<TempMessageModel> get messages => _messages;
+
+  bool get isLoading => _isLoading;
+  Stream<List<TempMessageModel>> get messageStream =>_messageStreamController.stream;
+  Future<void> fetchMessages(String TemproomId) async {
+    _isLoading = true;
+    // notifyListeners();
+
+    try {
+      _messages = await chatP.getChatMessages( TemproomId );
+      // _error =null;
+      _messageStreamController.add(_messages);
+    } catch (e) {
+      print(e);
+      _messageStreamController.addError('Failed to load data');
+      // _error ='Failed to load data';
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
   }
+
+  //-----------------------------------------stomp_client-----------------------------------------//
+
+  late StompClient _client;
+
+  bool isConnected = false;
+
+  // late final messageData;
+
+  final String webSocketUrl =
+      'http://ec2-18-116-38-241.us-east-2.compute.amazonaws.com/ws';
+
+  void initializeWebSocket() {
+    print("\n----------initializing web socket------------\n ");
+    _client = StompClient(
+      config: StompConfig(
+        useSockJS: true,
+        url: webSocketUrl,
+        onConnect: onConnectCallback,
+        onWebSocketError: (dynamic error) => print('WebSocket error: $error'),
+        onDebugMessage: (dynamic message) => print('Debug: $message'),
+      ),
+    );
+    print("Activating WebSocket client");
+    _client.activate();
+  }
+
+  void onConnectCallback(StompFrame connectFrame) {
+    isConnected = true;
+    print("inside the callback");
+    subscribeToRoom(_roomId);
+
+  }
+  void subscribeToRoom(String roomId)
+  {
+    if (!_client.connected) {
+      print("WebSocket not connected yet.");
+      return;
+    }
+    // if (_subscriptions.containsKey(_roomId)) {
+    //   _subscriptions[_roomId]?.unsubscribe();
+    // }
+    final subscription=_client.subscribe(
+      destination: '/room/$roomId', //  widget.chatId
+      headers: {},
+      callback: (StompFrame frame) {
+        // print("sucessfully connected:${frame.body}");
+        // messageData = json.decode(frame.body!);
+        print("Successfully connected: ${frame.body}");
+
+        try{
+          final Map<String, dynamic> messageData = json.decode(frame.body!);
+          final TempMessageModel messageData1 =
+              TempMessageModel.fromJson(messageData);
+          _messages.add(messageData1);
+          _messageStreamController
+              .add(List.from(_messages)); // Add the new message to the list
+          notifyListeners();
+        }
+        catch(e)
+        {
+          print("\n error parsing messaging \n");
+        }
+        // messages = jsonDecode(frame.body!).reversed.toList();
+        // Notify listeners or update UI
+      },
+    );
+
+    _subscriptions[roomId] = subscription;
+    _roomId = roomId;
+  }
+
+  //---------------------------------------------MODIFY: ADD unsubscribe->to release the resource and keep track of active subsciber----------------//
+  void unsubscribeFromRoom(String roomId) {
+    final subscription = _subscriptions[roomId];
+    if (subscription != null) {
+      try {
+
+        subscription.unsubscribe(unsubscribeHeaders: {});
+        print("Unsubscribed from room: $roomId");
+      } catch (e) {
+        print("Error unsubscribing from room $roomId: $e");
+      } finally {
+        _subscriptions.remove(roomId);
+      }
+    } else {
+      print("No active subscription found for room: $roomId");
+    }
+  }
+
+  void setRoomId(String roomId) {
+    _roomId = roomId;
+    if (isConnected) {
+      subscribeToRoom(roomId);
+    }
+  }
+  Map<String, int> roomNameToId = {
+    "Backend": 302,
+    "real-time-chat": 352,
+    "task instance":902,
+    "task instance": 652,
+  };
+
+
+  void sendMessage(String user_message, String roomName) async {
+    // int? roomId=roomNameToId[roomName];
+    if (!_client.connected) {
+      print("Not connected to the WebSocket server.");
+      return;
+    }
+
+    final messageData = {
+      "content": user_message.toString(),
+      "sentFrom": 403,
+      "roomId": _roomId,//352,
+      "type": "text",
+      // "timestamp": DateTime.now()
+    };
+
+
+
+    final jsonBody = json.encode(messageData);
+
+    try {
+      _client.send(
+        destination: '/app/message',
+        body: jsonBody,
+      );
+      print("\n-------message Sent--------\n");
+
+    } catch (e) {
+      print('Not connected to the WebSocket server.$e');
+    }
+
+    // Optionally, handle Firebase notifications if needed
+    // sendFCMMessage(roomName, from, message);
+  }
+
+
+  //-------------------it will fetch all room data---------------------------------------------//
+  //---------------MODIFY: get user details and pass email -------------//
+  List<TempRooms>? _user_rooms;
+  List<TempRooms>? _userProjects;
+  bool _isRoomLoading=false;
+
+  List<TempRooms>? get user_rooms => _user_rooms;
+  List<TempRooms>? get userProjects => _userProjects;
+  bool get isRoomLoading =>_isRoomLoading;
+  Future<void> loadRooms() async {
+    String email = 'herschellethomas10@gmail.com';
+
+    _isRoomLoading=true;
+
+    notifyListeners();
+    try {
+      List<TempRooms>?allRooms=await chatP.fetchRooms(email);
+      if(allRooms !=null)
+        {
+          _user_rooms=allRooms.where((room)=>room.type=="group").toList();
+          _userProjects=allRooms.where((room)=>room.type=="project").toList();
+        }
+
+      // _error =null;
+    } catch (e) {
+      print(e);
+      // _error ='Failed to load data';
+    } finally {
+      _isRoomLoading=false;
+      notifyListeners();
+    }
+  }
+
+
+
+
+  //=====================================================older code===================================================================//
+
+
 
   var _data;
   var _docData;
@@ -222,4 +439,20 @@ class ChatRoomViewModel extends ChangeNotifier {
       await chatP.uploadImageToFirebase(imageFile);
     }
   }
+
+  void disconnect() {
+    for (var roomId in _subscriptions.keys) {
+      unsubscribeFromRoom(roomId);
+    }
+    _client.deactivate();
+    isConnected = false;
+  }
+
+  @override
+  void dispose() {
+    disconnect(); // Ensure clean-up on disposal
+    _messageStreamController.close();
+    super.dispose();
+  }
+
 }
