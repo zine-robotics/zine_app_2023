@@ -51,9 +51,11 @@ class ChatRoomViewModel extends ChangeNotifier {
 
   //-------------------message fetching using http--------------------//
   List<TempMessageModel> _messages = [];
+  List<TempMessageModel> _tempMessages = [];
   bool _isLoading = false;
   final StreamController<List<TempMessageModel>> _messageStreamController=StreamController<List<TempMessageModel>>.broadcast();
   List<TempMessageModel> get messages => _messages;
+  Set<String> activeRoomSubscriptions = {};
 
   bool get isLoading => _isLoading;
   Stream<List<TempMessageModel>> get messageStream =>_messageStreamController.stream;
@@ -94,7 +96,7 @@ class ChatRoomViewModel extends ChangeNotifier {
         url: webSocketUrl,
         onConnect: onConnectCallback,
         onWebSocketError: (dynamic error) => print('WebSocket error: $error'),
-        onDebugMessage: (dynamic message) => print('Debug: $message'),
+        // onDebugMessage: (dynamic message) => print('Debug: $message'),
       ),
     );
     print("Activating WebSocket client");
@@ -109,33 +111,44 @@ class ChatRoomViewModel extends ChangeNotifier {
   }
   void subscribeToRoom(String roomId)
   {
-    if (!_client.connected) {
-      print("WebSocket not connected yet.");
+    if (!_client.connected ||activeRoomSubscriptions.contains(roomId) ) {
+      print("preventing multiple subscription");
       return;
     }
     // if (_subscriptions.containsKey(_roomId)) {
     //   _subscriptions[_roomId]?.unsubscribe();
     // }
+    activeRoomSubscriptions.add(roomId);
     final subscription=_client.subscribe(
       destination: '/room/$roomId', //  widget.chatId
       headers: {},
       callback: (StompFrame frame) {
         // print("sucessfully connected:${frame.body}");
         // messageData = json.decode(frame.body!);
-        print("Successfully connected: ${frame.body}");
+        // print("Successfully connected: ${json.decode(frame.body!)}");
+        // print("inside the callback");
 
         try{
           final Map<String, dynamic> messageData = json.decode(frame.body!);
-          final TempMessageModel messageData1 =
-              TempMessageModel.fromJson(messageData);
+          TempMessageModel messageData1 =
+          TempMessageModel.fromJson(messageData);
+          // print("\nmessage added is:${messageData1}");
           _messages.add(messageData1);
-          _messageStreamController
-              .add(List.from(_messages)); // Add the new message to the list
-          notifyListeners();
+          // List<TempMessageModel> tempMessageList = [messageData1];
+          _messageStreamController.add(List.from(_messages));
+
+          // _messages = List.from(_tempMessages); // Ensure _messages is updated
+          // _messageStreamController.add(_messages);
+
+
         }
         catch(e)
         {
-          print("\n error parsing messaging \n");
+          print("\n error parsing messaging :${e} \n");
+        }
+        finally
+        {
+        notifyListeners();
         }
         // messages = jsonDecode(frame.body!).reversed.toList();
         // Notify listeners or update UI
@@ -165,10 +178,12 @@ class ChatRoomViewModel extends ChangeNotifier {
   }
 
   void setRoomId(String roomId) {
-    _roomId = roomId;
-    if (isConnected) {
-      subscribeToRoom(roomId);
-    }
+    if(_roomId!=roomId)
+      {
+        unsubscribeFromRoom(_roomId);
+        _roomId=roomId;
+        subscribeToRoom(roomId);
+      }
   }
   Map<String, int> roomNameToId = {
     "Backend": 302,
@@ -186,20 +201,27 @@ class ChatRoomViewModel extends ChangeNotifier {
     }
 
     final messageData = {
-      "content": user_message.toString(),
-      "sentFrom": 403,
-      "roomId": _roomId,//352,
       "type": "text",
-      // "timestamp": DateTime.now()
+      "content": user_message.toString(),
+      "timestamp": DateTime.now().millisecondsSinceEpoch, // or DateTime.now().toIso8601String()
+      "sentFrom": 403,
+      "roomId": int.parse(_roomId),
+      // "replyTo": null
     };
-
-
+    // print("message_body:${messageData}");
+    // final newMessage = TempMessageModel.fromJson(messageData);
+    //
+    // // Add the new message to the list
+    // _messages.add(newMessage);
+    //
+    // // Update the stream with the new list of messages
+    // _messageStreamController.add(List.from(_messages));
 
     final jsonBody = json.encode(messageData);
 
     try {
       _client.send(
-        destination: '/app/message',
+        destination: "/app/message",
         body: jsonBody,
       );
       print("\n-------message Sent--------\n");
@@ -247,8 +269,40 @@ class ChatRoomViewModel extends ChangeNotifier {
   }
 
 
+  dynamic getUserMessageById(List<TempMessageModel> chats, String replyTo) {
+    Iterable<TempMessageModel> msg =
+    chats.where((element) => element.id == replyTo);
+    if (msg.isNotEmpty) {
+      return msg.first;
+    }
+    return null;
+  }
 
+  void userReplyText(dynamic message) {
+    print("object");
+    print(message);
 
+    selectedReplyMessage = message;
+    replyTo = message.id;
+    print(replyTo);
+
+    replyfocus.requestFocus();
+
+    notifyListeners();
+  }
+
+  // void updateUserMessage(List<Message> messages, int messageId) {
+  //   // Find the message with the given ID
+  //   Message? message = messages.firstWhere((msg) => msg.id == messageId, orElse: () => null);
+  //
+  //   if (message != null) {
+  //     // Update the replyTo field to null
+  //     message.replyTo = null;
+  //     print('Message updated successfully.');
+  //   } else {
+  //     print('Message with ID $messageId not found.');
+  //   }
+  // }
   //=====================================================older code===================================================================//
 
 
@@ -399,20 +453,20 @@ class ChatRoomViewModel extends ChangeNotifier {
     return false;
   }
 
-  String lastChatRoom(var name) {
-    if (lastChats[name] != null) {
-      DateTime t = (lastChats[name] as Timestamp).toDate();
-      DateTime now = DateTime.now();
-      var lastChat;
-      if ((now.day == t.day && t.month == now.month && t.year == now.year))
-        lastChat = getTime(lastChats[name] as Timestamp);
-      else
-        lastChat =
-            t.day.toString() + " " + getDate(lastChats[name] as Timestamp);
-      return lastChat;
-    }
-    return "";
-  }
+  // String lastChatRoom(var name) {
+  //   if (lastChats[name] != null) {
+  //     DateTime t = (lastChats[name] as Timestamp).toDate();
+  //     DateTime now = DateTime.now();
+  //     var lastChat;
+  //     if ((now.day == t.day && t.month == now.month && t.year == now.year))
+  //       lastChat = getTime(lastChats[name] as Timestamp);
+  //     else
+  //       lastChat =
+  //           t.day.toString() + " " + getDate(lastChats[name] as Timestamp);
+  //     return lastChat;
+  //   }
+  //   return "";
+  // }
 
   void roomLeft(var room, var user, UserProv userProv) {
     chatP.updateLastSeen(user, room);

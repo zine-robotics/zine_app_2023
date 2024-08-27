@@ -1,6 +1,49 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 
+//===============================Newer CODE=========================================//
+DateTime convertTimestamp(int timestamp) {
+  if (timestamp > 1000000000) {
+    // Convert from milliseconds
+    return DateTime.fromMillisecondsSinceEpoch(timestamp);
+  } else {
+    // Convert from seconds
+    return DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
+  }
+}
+
+
+String getChatTime(int timeStamp) {
+  DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(timeStamp);
+  return '${dateTime.hour}:${dateTime.minute >= 10 ? dateTime.minute : '0${dateTime.minute}'}';
+}
+String getChatDate(int timeStamp) {
+  DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(timeStamp);
+  List<String> months = [
+    'JAN',
+    'FEB',
+    'MAR',
+    'APR',
+    'MAY',
+    'JUNE',
+    'JULY',
+    'AUG',
+    'SEP',
+    'OCT',
+    'NOV',
+    'DEC'
+  ];
+  return '${months[dateTime.month - 1]}';
+}
+
+
+
+//================================Older CODE========================================//
+
+
+
+
+
 String getTime(Timestamp timeStamp) {
   return '${timeStamp.toDate().hour}:${timeStamp.toDate().minute >= 10 ? timeStamp.toDate().minute : '0${timeStamp.toDate().minute}'}';
 }
@@ -22,6 +65,8 @@ String getDate(Timestamp timeStamp) {
   ];
   return '${months[timeStamp.toDate().month - 1]}';
 }
+
+
 
 String getDay(Timestamp timeStamp) {
 

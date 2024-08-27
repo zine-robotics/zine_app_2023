@@ -31,7 +31,7 @@ class DashRepo {
 
       var date = doc.data()['timeDate'];
       //print("date is:${date}");
-      date=getDDMMYY2(date as Timestamp);
+      // date=getDDMMYY2(date as Timestamp);
       //print('date is :$date');
 
 

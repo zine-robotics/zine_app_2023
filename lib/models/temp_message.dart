@@ -4,8 +4,8 @@ class TempMessageModel {
   String? content;
   String? contentUrl;
   int? timestamp;
-  SentFrom? sentFrom;
-  RoomId? roomId;
+  dynamic sentFrom;
+  dynamic roomId;
   ReplyTo? replyTo;
 
   TempMessageModel(
@@ -23,7 +23,13 @@ class TempMessageModel {
     type = json['type'];
     content = json['content'];
     contentUrl = json['contentUrl'];
-    timestamp = json['timestamp'];
+    if (json['timestamp'] is int) {
+      timestamp = json['timestamp'];
+    } else if (json['timestamp'] is String) {
+      timestamp = DateTime.parse(json['timestamp']).millisecondsSinceEpoch;
+    } else {
+      timestamp = null;
+    }
     sentFrom = json['sentFrom'] != null
         ? new SentFrom.fromJson(json['sentFrom'])
         : null;

@@ -29,8 +29,15 @@ class _ChatRoomState extends State<ChatRoom> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       var chatRoomView=Provider.of<ChatRoomViewModel>(context, listen: false);
+      // chatRoomView.setRoomId(widget.roomId!);
       widget.roomId!=null? chatRoomView.fetchMessages(widget.roomId!): "";
+      // chatRoomView.subscribeToRoom(widget.roomId!);
+
       // chatRoomView.fetchMessages();
+      if (widget.roomId != null) {
+
+        chatRoomView.subscribeToRoom(widget.roomId!);
+      }
     });
   }
   final TextEditingController messageController = TextEditingController();
@@ -49,14 +56,7 @@ class _ChatRoomState extends State<ChatRoom> {
         // }
         // chatVm.replyfocus.addListener(chatVm.replyListner);
 
-        // var data = chatVm.getData(roomName);//earlier data from firebase
-
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          if (widget.roomId != null) {
-
-            chatVm.subscribeToRoom(widget.roomId!);
-          }
-        });
+        // var data = chatVm.getData(roomName);//earlier data from firebas
 
 
         UserModel currUser = userProv.getUserInfo();
@@ -118,7 +118,7 @@ class _ChatRoomState extends State<ChatRoom> {
                   children: [
                     // chatV(data, currUser, dashVm, chatVm.replyText,
                     //     chatVm.updateMessage, context),
-                     chatV(context,chatVm.messageStream),
+                     chatV(context,chatVm.messageStream,dashVm,chatVm.userReplyText),
                     currUser.type == 'user' && widget.roomName == "Announcements"
                         ? Container()
                         : Column(
