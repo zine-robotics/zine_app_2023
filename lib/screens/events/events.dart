@@ -15,6 +15,7 @@ class Events extends StatelessWidget {
     return Consumer2<EventsVm, DashboardVm>(
         builder: (context, eventsVm, dashVm, _) {
       eventsVm.getAllEvents();
+      var tempEvents=eventsVm.tempEvents;
       var events = eventsVm.events;
       return Scaffold(
         extendBody: true,
@@ -31,7 +32,7 @@ class Events extends StatelessWidget {
             ),
           ),
           title: Text(
-            dashVm.events.length != 0 ? "EVENT" : "Past Events",
+            eventsVm.tempEvents.length != 0 ? "EVENT" : "Past Events",
             style: TextStyle(
               height: 0.9,
               letterSpacing: 0.3,
@@ -53,11 +54,11 @@ class Events extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   //Text("checkDate :${checkDate.day}"),
-                  for (int i = events.length - 1; i >= 0; i--)
-                    if (!(events[i].isHeading == "true" &&
-                        events[i].stage == "2"))
+                  for (int i = tempEvents.length - 1; i >= 0; i--)
+                    if (tempEvents[i].recruitment?.id == 1 )
                       EventCard(
                         event: events[i],
+                        tempEvent: tempEvents[i],
                         selectedDate: selectedDate,
                       )
                 ],

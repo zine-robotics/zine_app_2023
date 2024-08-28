@@ -1,10 +1,30 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import "package:flutter/material.dart";
 import 'package:zineapp2023/models/events.dart';
+import 'package:zineapp2023/models/temp_events.dart';
 import 'package:zineapp2023/screens/events/repo/events_repo.dart';
 
 class EventsVm extends ChangeNotifier {
+  //====================================NEWER CODE=========================================//
   final eventRepo = EventsRepo();
+  List<TempEvents> _tempEvents = [];
+  List<TempEvents> get tempEvents => _tempEvents;
+
+  Future<void> tempGetAllEvent() async {
+    try {
+      _tempEvents = await eventRepo.fetchEvents();
+
+    } catch (e) {
+      print('Error fetching events: $e');
+    }
+    finally{
+      notifyListeners();
+    }
+  }
+
+  //====================================OLDER CODE=========================================//
+
+
 
   List<Events> _events = [];
   dynamic prev = 0;

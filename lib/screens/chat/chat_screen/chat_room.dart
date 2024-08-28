@@ -7,6 +7,7 @@ import 'package:zineapp2023/screens/chat/chat_description/chat_descp.dart';
 import 'package:zineapp2023/screens/chat/chat_screen/view_model/chat_room_view_model.dart';
 import 'package:zineapp2023/screens/dashboard/view_models/dashboard_vm.dart';
 import 'package:zineapp2023/theme/color.dart';
+import 'package:zineapp2023/utilities/string_formatters.dart';
 import '../../../components/gradient.dart';
 import 'chat_view.dart';
 
@@ -125,7 +126,7 @@ class _ChatRoomState extends State<ChatRoom> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              chatVm.replyfocus.hasFocus &&
+                              chatVm.userReplyfocus.hasFocus &&
                                       chatVm.replyTo != null
                                   ? Column(
                                       crossAxisAlignment:
@@ -140,7 +141,7 @@ class _ChatRoomState extends State<ChatRoom> {
                                             child: Text(
                                               "Reply To " +
                                                   chatVm.selectedReplyMessage
-                                                      .from,
+                                                      .sentFrom.name.toString(),
                                               textAlign: TextAlign.left,
                                               style: TextStyle(
                                                   color: greyText,
@@ -167,7 +168,7 @@ class _ChatRoomState extends State<ChatRoom> {
                                                   const EdgeInsets.all(10.0),
                                               child: Text(
                                                 chatVm.selectedReplyMessage
-                                                    .message,
+                                                    .content.toString(),
 
                                                 // softWrap: true,
                                                 textAlign: TextAlign.left,
@@ -180,7 +181,7 @@ class _ChatRoomState extends State<ChatRoom> {
                                             right: 0,
                                             child: IconButton(
                                               iconSize: 20,
-                                              onPressed: chatVm.cancelReply,
+                                              onPressed: chatVm.userCancelReply,
                                               icon: Icon(Icons.cancel_outlined),
                                             ),
                                           ),
@@ -217,7 +218,7 @@ class _ChatRoomState extends State<ChatRoom> {
                                         flex: 1,
                                         child: TextField(
                                           keyboardType: TextInputType.multiline,
-                                          focusNode: chatVm.replyfocus,
+                                          focusNode: chatVm.userReplyfocus,
                                           maxLines: 3,
                                           minLines: 1,
                                           controller: messageController,

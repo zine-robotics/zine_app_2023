@@ -36,11 +36,12 @@ class ChatRoomViewModel extends ChangeNotifier {
   dynamic allData;
   dynamic replyTo;
   FocusNode replyfocus = FocusNode();
+  FocusNode userReplyfocus = FocusNode();
   String _roomId = "352";
   final name = "Announcement";
   Map<String, dynamic> chatSubscription = {};
   final picker = ImagePicker();
-  dynamic selectedReplyMessage;
+  late TempMessageModel selectedReplyMessage;
 
   get roomId => _roomId;
   Map<String, Timestamp> lastChats = {};
@@ -270,15 +271,17 @@ class ChatRoomViewModel extends ChangeNotifier {
 
 
   dynamic getUserMessageById(List<TempMessageModel> chats, String replyTo) {
+    print("inside the user message id:\n chats:${chats} \t replyTo:${replyTo}");
     Iterable<TempMessageModel> msg =
-    chats.where((element) => element.id == replyTo);
+    chats.where((element) => element.id.toString() == replyTo);
+    print("message is :${msg}");
     if (msg.isNotEmpty) {
       return msg.first;
     }
     return null;
   }
 
-  void userReplyText(dynamic message) {
+  void userReplyText(TempMessageModel message) {
     print("object");
     print(message);
 
@@ -290,7 +293,12 @@ class ChatRoomViewModel extends ChangeNotifier {
 
     notifyListeners();
   }
-
+  void userCancelReply() {
+    replyTo = null;
+    print("repy to cancel");
+    print(replyTo);
+    notifyListeners();
+  }
   // void updateUserMessage(List<Message> messages, int messageId) {
   //   // Find the message with the given ID
   //   Message? message = messages.firstWhere((msg) => msg.id == messageId, orElse: () => null);

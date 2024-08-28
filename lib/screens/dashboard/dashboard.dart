@@ -4,20 +4,23 @@ import 'package:zineapp2023/models/user.dart';
 import 'package:zineapp2023/providers/user_info.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:zineapp2023/screens/dashboard/view_models/dashboard_vm.dart';
+import 'package:zineapp2023/screens/events/view_models/events_vm.dart';
 import 'package:zineapp2023/theme/color.dart';
 import 'package:zineapp2023/utilities/string_formatters.dart';
 import 'package:intl/intl.dart';
 import '../../common/routing.dart';
+import '../../utilities/date_time.dart';
 
 class Dashboard extends StatelessWidget {
   const Dashboard({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Consumer2<DashboardVm, UserProv>(
-      builder: (context, dashboardVm, userProv, _) {
+    return Consumer3<DashboardVm, UserProv,EventsVm>(
+      builder: (context, dashboardVm, userProv,eventVm, _) {
         dashboardVm.getRecentEvent();
         UserModel currUser = userProv.getUserInfo();
+        eventVm.tempGetAllEvent();
         String month = DateFormat.MMMM().format(DateTime.now());
 
         return Scaffold(
@@ -197,7 +200,7 @@ class Dashboard extends StatelessWidget {
                                   ),
                                   child: Column(
                                     mainAxisAlignment:
-                                        dashboardVm.events.length != 0
+                                        eventVm.tempEvents.length != 0
                                             ? MainAxisAlignment.end
                                             : MainAxisAlignment.center,
                                     crossAxisAlignment:
@@ -206,9 +209,9 @@ class Dashboard extends StatelessWidget {
                                       const SizedBox(
                                         height: 15,
                                       ),
-                                      dashboardVm.events.length != 0
+                                      eventVm.tempEvents.length != 0
                                           ? Text(
-                                              dashboardVm.events[0].eventType,
+                                              eventVm.tempEvents[0].type.toString(),
                                               style: const TextStyle(
                                                   height: 0.9,
                                                   letterSpacing: 0.3,
@@ -237,9 +240,9 @@ class Dashboard extends StatelessWidget {
                                       const SizedBox(
                                         height: 10,
                                       ),
-                                      dashboardVm.events.length != 0
+                                      eventVm.tempEvents.length != 0
                                           ? Text(
-                                              dashboardVm.events[0]!.name,
+                                              eventVm.tempEvents[0]!.name.toString(),
                                               style: const TextStyle(
                                                   fontSize: 16.0,
                                                   fontWeight: FontWeight.w700,
@@ -250,7 +253,7 @@ class Dashboard extends StatelessWidget {
                                       const SizedBox(
                                         height: 10,
                                       ),
-                                      dashboardVm.events.length != 0
+                                      eventVm.tempEvents.length != 0
                                           ? Container(
                                               margin: const EdgeInsets.all(5),
                                               width: MediaQuery.of(context)
@@ -273,14 +276,15 @@ class Dashboard extends StatelessWidget {
                                                     CrossAxisAlignment.center,
                                                 children: [
                                                   Text(
-                                                    dashboardVm.events.length >
+                                                    eventVm.tempEvents.length >
                                                             0
                                                         ? DateFormat.MMMMd()
-                                                            .format(dashboardVm
-                                                                .events[0]!
-                                                                .timeDate
-                                                                .toDate())
-                                                        : "Date",
+                                                            .format(convertTimestamp(eventVm
+                                                                .tempEvents[0]!
+                                                                .startDateTime!)
+                                                                )
+                                                        :
+                                                    "Date",
                                                     style: const TextStyle(
                                                         fontSize: 18.0,
                                                         fontWeight:
@@ -296,10 +300,11 @@ class Dashboard extends StatelessWidget {
                                                     height: 10,
                                                   ),
                                                   Text(
-                                                    dashboardVm.events.length >
-                                                            0
-                                                        ? '${DateFormat.jm().format(dashboardVm.events[0]!.timeDate.toDate())}\n ${dashboardVm.events[0]!.venue}'
-                                                        : "Venue",
+                                                    eventVm.tempEvents[0].startDateTime !=null
+
+                                                        ? '${DateFormat.jm().format(convertTimestamp(eventVm.tempEvents[0]!.startDateTime!))}\n ${eventVm.tempEvents[0]!.venue.toString()}'
+                                                        :
+                                                    "Venue",
                                                     style: const TextStyle(
                                                         fontSize: 18.0,
                                                         fontWeight:

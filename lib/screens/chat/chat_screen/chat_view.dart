@@ -20,7 +20,7 @@ Widget chatV(BuildContext context,Stream<List<TempMessageModel>>messageStream,da
   return StreamBuilder<List<TempMessageModel>>(
     stream: messageStream,
     builder: (context, snapshot) {
-      print(chatRoomViewModel.replyTo);
+      print("chat reply to :${chatRoomViewModel.replyTo}");
       if(snapshot.connectionState==ConnectionState.waiting)
       {
         return Center(child: CircularProgressIndicator(),);
@@ -68,19 +68,21 @@ Widget chatV(BuildContext context,Stream<List<TempMessageModel>>messageStream,da
                 var currIndx = chats.length - index - 1;
                 var showDate = index == chats.length - 1 ||
                     (chats.length - index >= 2 &&
-                        (chats[currIndx].timestamp!) !=
-                            (
+                        getChatDate(chats[currIndx].timestamp!) !=
+                            getChatDate(
                                 chats[chats.length - index - 2].timestamp! ));
 
                 bool group = index > 0 &&
                     chats[currIndx].sentFrom?.name.toString() ==
                         chats[chats.length - index].sentFrom?.name.toString() &&
-                    (chats[currIndx].timestamp! ) ==
-                        (chats[chats.length - index].timestamp! );
+                    getChatDate(chats[currIndx].timestamp! ) ==
+                        getChatDate(chats[chats.length - index].timestamp! );
                 dynamic repliedMessage = null;
-                if (chats[currIndx].replyTo != null) {
+                print("reply to:${chats[currIndx].replyTo?.id}");
+                if (chats[currIndx].replyTo?.id.toString() != null) {
                   repliedMessage = chatRoomViewModel.getUserMessageById(
-                      chats, chats[currIndx].replyTo.toString());
+                      chats, chats[currIndx].replyTo!.id.toString());
+                  // print("checking reply content:${chats[currIndx].content}");
                 }
 
                 return chats[currIndx].content!.isEmpty
@@ -309,13 +311,13 @@ Widget chatV(BuildContext context,Stream<List<TempMessageModel>>messageStream,da
                         child: SwipeTo(
                           onRightSwipe: (details) {
                             // print(details);
-                            chatRoomViewModel.replyText(chats[currIndx]);
-                            chatRoomViewModel.replyfocus.requestFocus();
+                            chatRoomViewModel.userReplyText(chats[currIndx]);
+                            chatRoomViewModel.userReplyfocus.requestFocus();
                           },
                           onLeftSwipe: (details) {
                             // print(details);
-                            chatRoomViewModel.replyText(chats[currIndx]);
-                            chatRoomViewModel.replyfocus.requestFocus();
+                            chatRoomViewModel.userReplyText(chats[currIndx]);
+                            chatRoomViewModel.userReplyfocus.requestFocus();
                           },
                           child: ListTile(
                             horizontalTitleGap: 6,
@@ -366,7 +368,7 @@ Widget chatV(BuildContext context,Stream<List<TempMessageModel>>messageStream,da
                                 child: group
                                     ? const Text("")
                                     : Text(
-                                  "${chats[currIndx].sentFrom?.name}     ${chats[currIndx].timestamp! }",
+                                  "${chats[currIndx].sentFrom?.name}     ${getChatTime(chats[currIndx].timestamp!) }",
                                   style: const TextStyle(
                                     fontWeight:
                                     FontWeight.w400,
