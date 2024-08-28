@@ -1,5 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:zineapp2023/models/user.dart';
 import '../common/data_store.dart';
@@ -8,74 +8,72 @@ class UserProv extends ChangeNotifier {
   final DataStore dataStore;
 
   bool _isLoggedIn = false;
-  UserModel currUser = UserModel();
+  UserModel _currUser = UserModel();
 
   UserProv({required this.dataStore});
 
   bool get isLoggedIn => _isLoggedIn;
 
-  FirebaseMessaging fMessaging = FirebaseMessaging.instance;
-  final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
+  // FirebaseMessaging fMessaging = FirebaseMessaging.instance;
+  // final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
 
-  Future<void> getFirebaseMessagingToken() async {
-    await fMessaging.requestPermission();
+  // Future<void> getFirebaseMessagingToken() async {
+  //   await fMessaging.requestPermission();
 
-    await fMessaging.getToken().then((t) {
-      if (t != null) {
-        currUser.pushToken = t;
-        // print('Push Token: $t');
-        updatePushToken();
-        fMessaging.subscribeToTopic("Announcements");
-        for (var rooms in currUser.rooms!) {
-          fMessaging.subscribeToTopic(rooms);
-        }
-      }
-    });
+  //   await fMessaging.getToken().then((t) {
+  //     if (t != null) {
+  //       _currUser.pushToken = t;
+  //       // print('Push Token: $t');
+  //       updatePushToken();
+  //       fMessaging.subscribeToTopic("Announcements");
+  //       for (var rooms in _currUser.rooms!) {
+  //         fMessaging.subscribeToTopic(rooms);
+  //       }
+  //     }
+  //   });
 
-    // TODO- Create a Handler for ForeGround Messages
-    // for handling foreground messages
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      // print('Got a message whilst in the foreground!');
-      // print('Message data: ${message.data}');
+  // TODO- Create a Handler for ForeGround Messages
+  // for handling foreground messages
+  //   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+  //     // print('Got a message whilst in the foreground!');
+  //     // print('Message data: ${message.data}');
 
-      if (message.notification != null) {
-        //   print(
-        //       'Message also contained a notification: ${message.notification?.title}');
-        // }
-      }
-    });
-  }
+  //     if (message.notification != null) {
+  //       //   print(
+  //       //       'Message also contained a notification: ${message.notification?.title}');
+  //       // }
+  //     }
+  //   });
+  // }
 
-  Future<void> updatePushToken() async {
-    await _firebaseFirestore
-        .collection('users')
-        .doc(currUser.uid)
-        .update({'pushToken': currUser.pushToken});
-  }
+  // Future<void> updatePushToken() async {
+  //   await _firebaseFirestore
+  //       .collection('users')
+  //       .doc(_currUser.uid)
+  //       .update({'pushToken': _currUser.pushToken});
+  // }
 
   void updateUserInfo(UserModel userModel) async {
     _isLoggedIn = true;
 
-    currUser = userModel;
-    print(currUser.type);
+    _currUser = userModel;
+    print(_currUser.type);
     await dataStore.setString("loggedIn", 'true');
-    await dataStore.setString('uid', currUser.uid.toString());
-    await getFirebaseMessagingToken();
+    await dataStore.setString('uid', _currUser.uid.toString());
+    // await getFirebaseMessagingToken();
 
     notifyListeners();
   }
 
-  dynamic getUserInfo() {
-    return currUser;
-  }
+  UserModel get getUserInfo => _currUser;
 
-  void logOut(){
+  void logOut() {
     _isLoggedIn = false;
-    // currUser = UserModel();
+    // _currUser = UserModel();
     // notifyListeners();
   }
 
   // void updateLast(String name) {
-  //   currUser.lastSeen[name] = Timestamp.fromDate(DateTime.now());
+  //   _currUser.lastSeen[name] = Timestamp.fromDate(DateTime.now());
   // }
 }

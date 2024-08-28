@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_notification_channel/flutter_notification_channel.dart';
 import 'package:flutter_notification_channel/notification_importance.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -35,24 +36,23 @@ Future<void> main() async {
   //   sound: true,
   // );
   // ignore: unused_local_variable
-  DataStore store = DefaultStore(await SharedPreferences.getInstance());
+  DataStore store = DefaultStore();
   UserProv userProv = UserProv(dataStore: store);
+  FlutterSecureStorage secureStorage = const FlutterSecureStorage();
 
-  runApp(MyApp(
-    store: store,
-    userProv: userProv,
-  ));
+  runApp(MyApp(store: store, userProv: userProv, secureStorage: secureStorage));
 }
 
 class MyApp extends StatelessWidget {
   final DataStore store;
   final UserProv userProv;
+  final FlutterSecureStorage secureStorage;
 
-  const MyApp({
-    super.key,
-    required this.store,
-    required this.userProv,
-  });
+  const MyApp(
+      {super.key,
+      required this.store,
+      required this.userProv,
+      required this.secureStorage});
 
   @override
   Widget build(BuildContext context) {
