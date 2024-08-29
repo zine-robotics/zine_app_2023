@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:zineapp2023/models/user.dart';
 import 'package:zineapp2023/providers/user_info.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:zineapp2023/screens/chat/chat_screen/view_model/chat_room_view_model.dart';
 import 'package:zineapp2023/screens/dashboard/view_models/dashboard_vm.dart';
 import 'package:zineapp2023/screens/events/view_models/events_vm.dart';
 import 'package:zineapp2023/theme/color.dart';
@@ -11,16 +12,29 @@ import 'package:intl/intl.dart';
 import '../../common/routing.dart';
 import '../../utilities/date_time.dart';
 
-class Dashboard extends StatelessWidget {
+class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
 
   @override
+  State<Dashboard> createState() => _DashboardState();
+}
+
+class _DashboardState extends State<Dashboard> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<EventsVm>(context, listen: false).tempGetAllEvent();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Consumer3<DashboardVm, UserProv,EventsVm>(
-      builder: (context, dashboardVm, userProv,eventVm, _) {
-        dashboardVm.getRecentEvent();
+    return Consumer4<DashboardVm, UserProv,EventsVm,ChatRoomViewModel>(
+      builder: (context, dashboardVm, userProv,eventVm,chatVm, _) {
+        // dashboardVm.getRecentEvent();
         UserModel currUser = userProv.getUserInfo();
-        eventVm.tempGetAllEvent();
+        // eventVm.tempGetAllEvent();
         String month = DateFormat.MMMM().format(DateTime.now());
 
         return Scaffold(
@@ -463,8 +477,8 @@ class Dashboard extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     Text(
-                                      userProv.currUser.roomids!.length
-                                          .toString(),
+                                      // userProv.currUser.roomids!.length
+                                      chatVm.user_rooms?.length !=null ?chatVm.user_rooms!.length.toString() :"0",
                                       style: TextStyle(
                                           height: 0.9,
                                           letterSpacing: 0.3,

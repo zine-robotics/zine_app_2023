@@ -107,13 +107,13 @@ class ChatRoomViewModel extends ChangeNotifier {
   void onConnectCallback(StompFrame connectFrame) {
     isConnected = true;
     print("inside the callback");
-    subscribeToRoom(_roomId);
-
   }
+
   void subscribeToRoom(String roomId)
   {
-    if (!_client.connected ||activeRoomSubscriptions.contains(roomId) ) {
-      print("preventing multiple subscription");
+    print("inside the subscribeToRoom & roomId:$roomId");
+    if (!_client.connected ) {
+      print("client is not connected");
       return;
     }
     // if (_subscriptions.containsKey(_roomId)) {
@@ -162,11 +162,13 @@ class ChatRoomViewModel extends ChangeNotifier {
 
   //---------------------------------------------MODIFY: ADD unsubscribe->to release the resource and keep track of active subsciber----------------//
   void unsubscribeFromRoom(String roomId) {
+    print("attempting to unsubscribe roomId:$roomId");
     final subscription = _subscriptions[roomId];
     if (subscription != null) {
       try {
 
-        subscription.unsubscribe(unsubscribeHeaders: {});
+        // subscription.unsubscribe(unsubscribeHeaders: {});
+        subscription();
         print("Unsubscribed from room: $roomId");
       } catch (e) {
         print("Error unsubscribing from room $roomId: $e");
@@ -179,6 +181,7 @@ class ChatRoomViewModel extends ChangeNotifier {
   }
 
   void setRoomId(String roomId) {
+    print("insdie the setRoomID:$roomId");
     if(_roomId!=roomId)
       {
         unsubscribeFromRoom(_roomId);
@@ -298,6 +301,16 @@ class ChatRoomViewModel extends ChangeNotifier {
     print("repy to cancel");
     print(replyTo);
     notifyListeners();
+  }
+  dynamic userGetMessageById(List<TempMessageModel> chats, String replyTo) {
+    print("inside the uerGetmessagebyId: chats:${chats} replyTo:${replyTo}");
+
+    Iterable<TempMessageModel> msg =
+    chats.where((element) => element.id.toString() == replyTo);
+    if (msg.isNotEmpty) {
+      return msg.first;
+    }
+    return null;
   }
   // void updateUserMessage(List<Message> messages, int messageId) {
   //   // Find the message with the given ID
@@ -486,7 +499,7 @@ class ChatRoomViewModel extends ChangeNotifier {
   void addRouteListener(
       BuildContext context, var room, var user, UserProv userProv) {
     ModalRoute.of(context)?.addScopedWillPopCallback(() {
-      roomLeft(room, user, userProv);
+      // roomLeft(room, user, userProv);
       return Future.value(true);
     });
   }

@@ -32,13 +32,8 @@ class _ChatRoomState extends State<ChatRoom> {
       var chatRoomView=Provider.of<ChatRoomViewModel>(context, listen: false);
       // chatRoomView.setRoomId(widget.roomId!);
       widget.roomId!=null? chatRoomView.fetchMessages(widget.roomId!): "";
-      // chatRoomView.subscribeToRoom(widget.roomId!);
+      chatRoomView.setRoomId(widget.roomId!);
 
-      // chatRoomView.fetchMessages();
-      if (widget.roomId != null) {
-
-        chatRoomView.subscribeToRoom(widget.roomId!);
-      }
     });
   }
   final TextEditingController messageController = TextEditingController();

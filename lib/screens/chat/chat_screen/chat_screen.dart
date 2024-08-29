@@ -16,14 +16,14 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      var chatRoomView=Provider.of<ChatRoomViewModel>(context, listen: false);
-      chatRoomView.loadRooms();
-    });
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   WidgetsBinding.instance.addPostFrameCallback((_) {
+  //     var chatRoomView=Provider.of<ChatRoomViewModel>(context, listen: false);
+  //     chatRoomView.loadRooms();
+  //   });
+  // }
   Widget headingText(String text) {
     return Padding(
       padding: const EdgeInsets.all(8.0),

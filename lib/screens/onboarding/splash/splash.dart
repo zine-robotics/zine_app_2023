@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:zineapp2023/screens/chat/chat_screen/view_model/chat_room_view_model.dart';
+import 'package:zineapp2023/screens/events/view_models/events_vm.dart';
 
 import '/components/gradient.dart';
 import '/screens/onboarding/splash/viewModel/splashVm.dart';
@@ -16,6 +18,11 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      var chatRoomView=Provider.of<ChatRoomViewModel>(context, listen: false);
+      chatRoomView.loadRooms();
+
+    });
     var splashVm = Provider.of<SplashVM>(context, listen: false);
     Timer(const Duration(seconds: 4), () => splashVm.isLogged(context));
   }

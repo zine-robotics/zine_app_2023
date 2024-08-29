@@ -11,8 +11,10 @@ class EventsVm extends ChangeNotifier {
   List<TempEvents> get tempEvents => _tempEvents;
 
   Future<void> tempGetAllEvent() async {
+    print("inside the getallevents");
     try {
       _tempEvents = await eventRepo.fetchEvents();
+      _tempEvents.sort((a, b) => b.startDateTime!.compareTo(a.startDateTime!));
 
     } catch (e) {
       print('Error fetching events: $e');
@@ -38,6 +40,7 @@ class EventsVm extends ChangeNotifier {
   get events => _events;
 
   void getAllEvents() async {
+
     _events = await eventRepo.getEvents();
     int index = _events.indexWhere(
         (element) => element.timeDate!.compareTo(Timestamp.now()) > 0);

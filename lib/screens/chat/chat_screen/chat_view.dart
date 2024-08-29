@@ -20,7 +20,7 @@ Widget chatV(BuildContext context,Stream<List<TempMessageModel>>messageStream,da
   return StreamBuilder<List<TempMessageModel>>(
     stream: messageStream,
     builder: (context, snapshot) {
-      print("chat reply to :${chatRoomViewModel.replyTo}");
+      // print("chat reply to :${chatRoomViewModel.replyTo}");
       if(snapshot.connectionState==ConnectionState.waiting)
       {
         return Center(child: CircularProgressIndicator(),);
@@ -80,7 +80,7 @@ Widget chatV(BuildContext context,Stream<List<TempMessageModel>>messageStream,da
                 dynamic repliedMessage = null;
                 print("reply to:${chats[currIndx].replyTo?.id}");
                 if (chats[currIndx].replyTo?.id.toString() != null) {
-                  repliedMessage = chatRoomViewModel.getUserMessageById(
+                  repliedMessage = chatRoomViewModel.userGetMessageById(
                       chats, chats[currIndx].replyTo!.id.toString());
                   // print("checking reply content:${chats[currIndx].content}");
                 }
@@ -319,6 +319,7 @@ Widget chatV(BuildContext context,Stream<List<TempMessageModel>>messageStream,da
                             chatRoomViewModel.userReplyText(chats[currIndx]);
                             chatRoomViewModel.userReplyfocus.requestFocus();
                           },
+
                           child: ListTile(
                             horizontalTitleGap: 6,
                             contentPadding: EdgeInsets.zero,
@@ -353,6 +354,7 @@ Widget chatV(BuildContext context,Stream<List<TempMessageModel>>messageStream,da
                             //                   "assets/images/zine_logo.png"),
                             //             ),
                             //           ),
+
                             subtitle: group
                                 ? null
                                 : Padding(
