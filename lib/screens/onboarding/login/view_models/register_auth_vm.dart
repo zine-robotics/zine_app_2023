@@ -126,7 +126,8 @@ class RegisterAuthViewModel extends ChangeNotifier {
               rootNavigator: true)
           .push(
               CupertinoPageRoute(builder: (ctx) => const VerifyEmailScreen()));
-    } on FirebaseAuthException catch (e) {
+    } on AuthException catch (e) {
+      // FIXME: add these codes
       switch (e.code) {
         case "email-already-in-use":
           errorText = "This email is already in use, Contact Team Zine";

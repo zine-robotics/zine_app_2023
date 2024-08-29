@@ -88,8 +88,9 @@ class LoginAuthViewModel with ChangeNotifier {
               rootNavigator: true)
           .pushAndRemoveUntil(
               Routes.homeScreen(), (Route<dynamic> route) => false);
-    } on FirebaseAuthException catch (e) {
+    } on AuthException catch (e) {
       switch (e.code) {
+        //TODO: ENSURE THAT ERRORS ARE BEING caught here
         case "invalid-email":
           errorText = "Your email address appears to be malformed";
           break;
@@ -118,6 +119,8 @@ class LoginAuthViewModel with ChangeNotifier {
           errorText = "Please verify your email and login";
           break;
         default:
+          print(
+              "Errors are probably not being proccessed probably. Check login_auth_vm.dart");
           errorText = "An undefined Error happened";
       }
       setLoading(false);

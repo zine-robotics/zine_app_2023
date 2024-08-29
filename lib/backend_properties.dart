@@ -9,4 +9,10 @@ class BackendProperties {
   static Uri registerUri = baseUrl.replace(path: '/auth/register');
 
   static Uri roomDataUri = baseUrl.replace(path: '/rooms/user');
+  static Uri allRoomDataUri = baseUrl.replace(path: '/rooms/get-all');
+
+  static Uri allTasksUri = baseUrl.replace(path: '/tasks');
+  static Uri taskDetailUri(String taskId) {
+    return baseUrl.replace(path: '/tasks/$taskId');
+  }
 }

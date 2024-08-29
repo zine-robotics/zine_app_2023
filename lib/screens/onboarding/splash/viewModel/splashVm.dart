@@ -15,14 +15,14 @@ class SplashVM extends ChangeNotifier {
   SplashVM(
       {required this.store, required this.userProv, required this.authRepo});
 
-  String getData(String param) {
-    String? data = store.getString(param);
+  Future<String> getData(String param)  async {
+    String? data = await store.getString(param);
     return data.toString();
   }
 
   Future<void> isLogged(BuildContext context) async {
-    String? logged = store.getString('loggedIn');
-    String? uid = store.getString('uid');
+    String? logged = await store.getString('loggedIn');
+    String? uid = await store.getString('uid');
 
     if (logged != null && logged.toString() == 'true') {
       UserModel? currUser = await authRepo.getUserbyId(uid.toString());

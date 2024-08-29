@@ -1,159 +1,196 @@
-import 'package:firebase_auth/firebase_auth.dart' as auth;
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:convert';
+import 'package:http/http.dart';
+import 'package:requests/requests.dart';
+import 'package:zineapp2023/models/rooms.dart';
 import 'package:zineapp2023/models/tasks.dart';
+import 'package:http/http.dart' as http;
 import 'package:zineapp2023/models/userTask.dart';
 import 'package:zineapp2023/providers/user_info.dart';
-
+import 'package:zineapp2023/backend_properties.dart';
 import '/common/data_store.dart';
 import '../../../models/user.dart';
 
 class AuthRepo {
-  final auth.FirebaseAuth _firebaseAuth = auth.FirebaseAuth.instance;
-  final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
+  // final auth.FirebaseAuth _firebaseAuth = auth.FirebaseAuth.instance;
+  // final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
 
   late DataStore store;
 
   AuthRepo({required this.store});
 
-  Future<void> sendResetEmail(String email) async {
-    await _firebaseAuth.sendPasswordResetEmail(email: email);
-  }
-
-  Future<UserModel?> _userFromFirebase({required auth.User? user}) async {
-    if (user == null) {
-      return null;
+  Future<bool> sendResetEmail(String email) async {
+    Response res = await Requests.post(
+      BackendProperties.resetUri
+          .replace(queryParameters: {'email': email.toString()}).toString(),
+    );
+    if (res.statusCode == 200) {
+      return true;
+    } else {
+      return false;
     }
-    UserModel? userMod = await getUserbyId(user.uid);
-
-    return userMod;
   }
 
   Future<UserModel?> signInWithEmailAndPassword({
     String? email,
     String? password,
   }) async {
-    final credential = await _firebaseAuth.signInWithEmailAndPassword(
-      email: email!,
-      password: password!,
-    );
+    Response res = await http.post(BackendProperties.loginUri,
+        body: jsonEncode({"email": email, "password": password}),
+        headers: {"Content-Type": "application/json"});
+    String userToken = "";
+    print("Reponse Code ${res.statusCode}");
+    // String toastText = 'An Undefined Error Occured';
 
-    if (!credential.user!.emailVerified) {
-      signOut();
-      print("User Logged out");
-      throw FirebaseAuthException(code: 'unverified-email');
+    switch (res.statusCode) {
+      case 403:
+        Map<String, dynamic> resBody = jsonDecode(res.body);
+        if (resBody['failureReason'] == 'USER_NOT_VERIFIED_EMAIL_RESENT' ||
+            resBody['failureReason'] == 'USER_NOT_VERIFIED') {
+          throw AuthException(code: 'unverified-emai');
+        }
+
+        throw AuthException(code: '403 Error');
+
+      case 400:
+        throw AuthException(code: 'user-not-exist');
+
+      case 200:
+        Map<String, dynamic> resBody = jsonDecode(res.body);
+        if (!resBody.containsKey('jwt')) {
+          throw AuthException(code: 'backend-not-responding');
+        } else {
+          userToken = (resBody['jwt'] as String);
+        }
     }
 
-    return _userFromFirebase(user: credential.user);
+    return getUserbyId(userToken);
   }
 
   Future<bool> isUserReg(String email) async {
-    var user = await _firebaseFirestore
-        .collection("registrations")
-        .where("email", isEqualTo: email)
-        .get();
-    if (user.size == 1) return true;
-    return false;
-  }
-
-  dynamic getRoomData(String groupID) {
-    return _firebaseFirestore
-        .collection('rooms')
-        // Assuming there is only one group with the given name
-        .doc(groupID)
-        .get()
-        .then((querySnapshot) {
-      return querySnapshot.data();
-        });
+    //FIXME : Implement This
+    return true;
   }
 
   dynamic getRoomMap(dynamic listRoomIds) async {
     dynamic roomDetails = {"group": {}, "project": {}};
-    for (var item in listRoomIds) {
+    for (var roomId in listRoomIds) {
       // print(item);
-      dynamic temp = await getRoomData(item);
+      //IM JUST WINGING IT OVER HERE WELL BURN THE BRIDGES WHEN WE GET TO EM
+      Response res = await Requests.get(
+          BackendProperties.roomDataUri.toString(),
+          body: jsonEncode({'roomId': "$roomId"}),
+          headers: {"Content-Type": "application/json"});
+
+      if (res.statusCode != 200) {
+        throw AuthException(code: 'It should probably return 200. Test Throw');
+      }
+
+      Map<String, dynamic> temp = jsonDecode(res.body);
       // print(temp['type']);
 
-      roomDetails[temp['type']][item] = temp['name'];
+      roomDetails[temp['type']][roomId] = temp['name'];
     }
     return roomDetails;
   }
 
-  Future<Tasks> getTemp(UserTask e) async {
-    DocumentSnapshot<Map<String, dynamic>> snapshot =
-        await e.task!.get() as DocumentSnapshot<Map<String, dynamic>>;
+  // Future<Tasks> getTemp(UserTask e) async {
+  //   // We are just Seeing if the given UserTask has any links and if it doesnt
+  //   DocumentSnapshot<Map<String, dynamic>> snapshot = await e.task!.get()
+  //       as DocumentSnapshot<Map<String, dynamic>>; // get tasks
 
-    if (!snapshot.data()!.containsKey('link')) {
-      snapshot.data()!['links'] = [];
-      await e.task!.update({'link': []});
-    }
+  //   if (!snapshot.data()!.containsKey('link')) {
+  //     // if task  doees not has link
+  //     snapshot.data()!['links'] = []; //
+  //     await e.task!.update({'link': []}); //set link = 0
+  //   }
 
-    Tasks data = Tasks.store(snapshot);
+  //   Tasks data = Tasks.store(snapshot);
 
-    return data;
-  }
+  //   return data;
+  // }
 
   Future<List<UserTask>?> getTasks(uid) async {
-    var query = await _firebaseFirestore
-        .collection("userTasks")
-        .where("users", arrayContains: _firebaseFirestore.doc("/users/${uid}"));
-    var data = await query.get();
-    final docData = data.docs.map((doc) => UserTask.store(doc));
-    // print(docData.toList());
-    return docData.toList();
+    //FIXME: Implement tits
+  }
+
+  Future<List<Rooms>?> getRoomIds(uid) async {
+    Response res = await Requests.get(BackendProperties.roomDataUri.toString(),
+        queryParameters: {"email": "shmokedev2@gmail.com"}); //TODO: FIX THIS
+    return [];
   }
 
   Future<UserModel?> getUserbyId(String uid) async {
-    var user = await _firebaseFirestore.collection('users').doc(uid).get();
-    user.data()!.putIfAbsent("lastSeen", () => {});
+    Response res = await Requests.get(BackendProperties.userInfoUri.toString(),
+        headers: {'Authorization': 'Bearer $uid'});
 
-    var map = await getRoomMap(user['roomids']);
+    if (res.statusCode != 200 || res.body.isEmpty) return null;
+    print('User Body ${res.body}');
+    Map<String, dynamic> user = jsonDecode(res.body);
+
+    //USER DOES NOT HAVE TASKIDS, ENDPOINT FOR QUERYING USER'S TASK IDS
+
     var tasks = await getTasks(uid);
-    List<Future<void>> futures = [];
-    for (var e in tasks!) {
-      futures.add(getTemp(e).then((value) => e.template = value));
-    }
+    var rooms = await getRoomIds(uid);
 
-    await Future.wait(futures);
+    var roomDetails = getRoomMap(rooms);
 
-    // print(tasks);
+    // // List<Future<void>> futures = [];
+    // // for (var e in tasks!) {
+    // futures.add(getTemp(e).then((value) => e.template = value));
+    // // }
+
+    // await Future.wait(futures);
+
+    // // print(tasks);
+
+    // Above code just set User's links to empty, if the key wasnt created
 
     UserModel userMod = UserModel(
-        uid: user['uid'],
+        uid: uid,
         email: user['email'],
         name: user['name'],
-        dp: user['dp'],
+        dp: int.tryParse(user['dp'] ?? "1"),
         type: user['type'],
-        registered: user['registered'],
+        registered:
+            user['registered']! ?? false, //SDK CONSTRAINTS MIGHT F WITH THIS
         tasks: tasks,
-        rooms: user['rooms'],
-        roomIDs: user['roomids'],
-        roomDetails: map,
-        lastSeen: user.data()!['lastSeen'] != null ? user['lastSeen'] : {});
+        rooms: rooms,
+        roomIDs: rooms,
+        roomDetails: roomDetails, // FIXME:
+        lastSeen: user['lastSeen'] ?? {});
 
     return userMod;
   }
 
   Future<UserModel?> createUserWithEmailAndPassword({
-    String? name,
-    String? email,
-    String? password,
+    String name = 'New Recruit',
+    String email = 'a@gmail.com',
+    String password = 'password',
   }) async {
-    final credential = await _firebaseAuth.createUserWithEmailAndPassword(
-      email: email!,
-      password: password!,
-    );
+    //Verification mail is sent automatically.
+//TODO: ADD TRY CATCH
 
-    credential.user!.sendEmailVerification();
+    Response res = await http.post(BackendProperties.registerUri,
+        body: jsonEncode({"name": name, "email": email, "password": password}),
+        headers: {"Content-Type": "application/json"});
+    print("THSHFkjsdh ${res.statusCode}");
+    print("djsfkjsdf ${res.url}");
+    if (res.statusCode != 200) {
+      throw AuthException(code: 'Auth Error');
+    }
 
-    return UserModel(
-      uid: credential.user!.uid,
-    );
+    return UserModel();
   }
 
   Future<void> signOut() async {
-    await _firebaseAuth.signOut();
+    // await _firebaseAuth.signOut();
     store.delete(key: 'uid');
-    store.setString('loggedIn','true');
+    store.setString('loggedIn', 'true');
   }
+}
+
+class AuthException implements Exception {
+  String code;
+
+  AuthException({required this.code});
 }
