@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+//import 'package:table_calendar/table_calendar.dart';
 import 'package:zineapp2023/models/events.dart';
 import 'package:zineapp2023/screens/dashboard/repo/dash_repo.dart';
 
@@ -8,8 +9,8 @@ import '../../../providers/user_info.dart';
 class DashboardVm extends ChangeNotifier {
   final DataStore store;
   final UserProv userProv;
+  List<Map<String, dynamic>> _eventsDate = [];
   final dashRepo = DashRepo();
-
   static const Map<String, String> routes = {
     "ALGORITHMS": "ALGO",
     "BEE": "BEE",
@@ -21,10 +22,12 @@ class DashboardVm extends ChangeNotifier {
     "MACHINE LEARNING": "ML"
   };
 
+
   DashboardVm({required this.store, required this.userProv});
 
   List<Events> _events = [];
-  dynamic prev = 0;
+
+  dynamic prev=0;
 
   get events => _events;
 
@@ -35,6 +38,7 @@ class DashboardVm extends ChangeNotifier {
       prev = _events.length;
     }
   }
+
 
   void launchUrl(url) {
     dashRepo.launchUrlStart(url: url);

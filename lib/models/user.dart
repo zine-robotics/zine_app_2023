@@ -9,7 +9,7 @@ class UserModel {
   String? pushToken;
   List<UserTask>? tasks = [];
   List<dynamic>? rooms = [];
-  List<dynamic>? roomIDs = [];
+  List<dynamic>? roomids = [];
   dynamic roomDetails = {};
   dynamic lastSeen;
   int? dp;
@@ -25,7 +25,7 @@ class UserModel {
       this.pushToken,
       this.lastSeen,
       this.rooms,
-      this.roomIDs,
+      this.roomids,
       this.roomDetails});
 
   UserModel.fromJson(Map<String, dynamic> json) {
@@ -38,7 +38,7 @@ class UserModel {
     registered = json['registered'];
     pushToken = json['pushToken'];
     rooms = json['rooms'];
-    roomIDs = json['roomids'];
+    roomids = json['roomids'];
     lastSeen = json['lastSeen'];
   }
 
@@ -53,8 +53,20 @@ class UserModel {
     data['registered'] = registered;
     data['pushToken'] = pushToken;
     data['rooms'] = rooms;
-    data['roomids'] = roomIDs;
+    data['roomids'] = roomids;
     data['lastSeen'] = lastSeen;
     return data;
   }
+  UserModel.store(snapshot)
+      : email = snapshot.data()['email'],
+        uid = snapshot.data()['uid'],
+        name = snapshot.data()['name'],
+        type = snapshot.data()['type'],
+        tasks = snapshot.data()['tasks'],
+        dp = snapshot.data()['dp'],
+        registered = snapshot.data()['registered'],
+        pushToken = snapshot.data()['pushToken'],
+        rooms = snapshot.data()['rooms'],
+        roomids = snapshot.data()['roomids'],
+        lastSeen = snapshot.data()['lastSeen'];
 }

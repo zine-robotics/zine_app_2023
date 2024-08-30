@@ -26,7 +26,7 @@ class TimelineVm extends ChangeNotifier {
         await Navigator.of(context).push(Routes.achievementScreen());
         break;
       case RouteName.wokrshopTimeline:
-        await Navigator.of(context).push(Routes.comingSoon());
+        await Navigator.of(context).push(Routes.workshopTimeline());
         break;
       case RouteName.publicEvents:
         await Navigator.of(context).push(Routes.publicEvents());
@@ -40,25 +40,25 @@ class TimelineVm extends ChangeNotifier {
   }
 
   void getStagesEvents() async {
-    // print("called");
     setLoading(true);
-    List<dynamic> list = await eventRepo.getEvents();
-    setLoading(false);
+    List<Events> list = await eventRepo.getEvents();
+
     listEvents = [];
-    for (int i = 1; i <= 6; i++) {
-      List<dynamic>? subList =
-          list.where((element) => element.stage == i).toList();
+
+    for (int i = 1; i <= list.length; i++) {
+      List<dynamic>? subList = list
+          .where((element) => element.stage == i.toString())
+          .where((element) => element.recruitment == 'true')
+          .toList();
+
       if (subList != null) {
         listEvents.add(subList);
-        // if(listEvents[i].length>0)
-        // {
-        //   print(listEvents[i][0].name);
-        // }
       } else {
         listEvents.add([]);
       }
     }
-    // print(listEvents);
+    setLoading(false);
+
     if (prev != listEvents.length) {
       prev = listEvents.length;
       notifyListeners();

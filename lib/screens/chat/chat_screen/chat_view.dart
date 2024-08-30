@@ -3,29 +3,52 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:swipe_to/swipe_to.dart';
+import 'package:zineapp2023/models/temp_message.dart';
+import 'package:zineapp2023/screens/chat/chat_screen/view_model/chat_room_view_model.dart';
 import 'package:zineapp2023/utilities/string_formatters.dart';
 
 import '../../../models/message.dart';
 import '../../../theme/color.dart';
 import '../../../utilities/date_time.dart';
 
-Widget chatV(var data, var currUser, var dashVm, dynamic reply,
-    dynamic updateMessage, BuildContext context) {
-  return StreamBuilder<QuerySnapshot>(
-    stream: data,
-    builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-      if (snapshot.hasData) {
-        List<MessageModel> chats = snapshot.data!.docs.map((doc) {
-          MessageModel message = MessageModel.store(doc);
-          if (message.replyTo == null) {
-            // Assuming you have access to the document reference
-            updateMessage(doc.reference);
-          }
-          return message;
-        }).toList();
+Widget chatV(BuildContext context,Stream<List<TempMessageModel>>messageStream,dashVm, dynamic reply) {
+  ChatRoomViewModel chatRoomViewModel =
+  Provider.of<ChatRoomViewModel>(context, listen: true);
+
+  return StreamBuilder<List<TempMessageModel>>(
+    stream: messageStream,
+    builder: (context, snapshot) {
+      // print("chat reply to :${chatRoomViewModel.replyTo}");
+      if(snapshot.connectionState==ConnectionState.waiting)
+      {
+        return Center(child: CircularProgressIndicator(),);
+      }
+      else if(snapshot.hasError)
+      {
+        return Center(child: Text('Error:${snapshot.error}'),);
+      }
+      else if(!snapshot.hasData || snapshot.data!.isEmpty)
+      {
+        return Center(child: Text('No messages'),);
+      }
+      else if (snapshot.hasData) {
+        List<TempMessageModel> chats=snapshot.data!;
+            // .map((doc) {
+        //   MessageModel message = MessageModel.store(doc);
+        //   if (message.replyTo == null) {
+        //     // Assuming you have access to the document reference
+        //     updateMessage(doc.reference);
+        //   }
+        //   return message;
+        // }).toList();
+
+
+
         return Flexible(
           // Flexible prevents overflow error when keyboard is opened
+
           child: GestureDetector(
             onTap: () {
               FocusScopeNode currentFocus = FocusScope.of(context);
@@ -42,41 +65,45 @@ Widget chatV(var data, var currUser, var dashVm, dynamic reply,
               key: UniqueKey(),
               itemCount: chats.length,
               itemBuilder: (BuildContext context, int index) {
+                var currIndx = chats.length - index - 1;
                 var showDate = index == chats.length - 1 ||
                     (chats.length - index >= 2 &&
-                        getDate(chats[chats.length - index - 1].timeStamp!) !=
-                            getDate(
-                                chats[chats.length - index - 2].timeStamp!));
+                        getChatDate(chats[currIndx].timestamp!) !=
+                            getChatDate(
+                                chats[chats.length - index - 2].timestamp! ));
 
                 bool group = index > 0 &&
-                    chats[chats.length - index - 1].from.toString() ==
-                        chats[chats.length - index].from.toString() &&
-                    getDate(chats[chats.length - index - 1].timeStamp!) ==
-                        getDate(chats[chats.length - index].timeStamp!);
+                    chats[currIndx].sentFrom?.name.toString() ==
+                        chats[chats.length - index].sentFrom?.name.toString() &&
+                    getChatDate(chats[currIndx].timestamp! ) ==
+                        getChatDate(chats[chats.length - index].timestamp! );
+                dynamic repliedMessage = null;
+                print("reply to:${chats[currIndx].replyTo?.id}");
+                if (chats[currIndx].replyTo?.id.toString() != null) {
+                  repliedMessage = chatRoomViewModel.userGetMessageById(
+                      chats, chats[currIndx].replyTo!.id.toString());
+                  // print("checking reply content:${chats[currIndx].content}");
+                }
 
-                return chats[chats.length - index - 1].message!.isEmpty
+                return chats[currIndx].content!.isEmpty
                     ? Container()
                     : Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      chats[chats.length - index - 1].replyTo != null
+                      repliedMessage != null
                           ? Padding(
-                        padding: const EdgeInsets.fromLTRB(
-                            0, 10, 0, 5),
+                        padding:
+                        const EdgeInsets.fromLTRB(0, 10, 0, 5),
                         child: Padding(
-                          padding: currUser.name !=
-                              chats[chats.length - index - 1]
-                                  .from
+                          padding:
+                          "herschelle" != chats[currIndx].sentFrom?.name  //currUser.name != chats[currIndx].from
                               ? EdgeInsets.symmetric(
                               horizontal: 35.0)
                               : EdgeInsets.all(0),
                           child: Text(
-                            "${currUser.name == chats[chats.length - index - 1].from ? "You" : chats[chats.length - index - 1].from.toString().firstName()} replied to ${chats[chats.length - index - 1].replyTo["from"].toString().firstName()} ",
-                            textAlign: currUser.name ==
-                                chats[chats.length -
-                                    index -
-                                    1]
-                                    .from
+                            "${"herschelle" == chats[currIndx].sentFrom?.name.toString() ? "You" : chats[currIndx].sentFrom?.name.toString()} replied to ${chats[currIndx].replyTo?.sentFrom?.name} ",
+                            textAlign: "herschelle" ==
+                                chats[currIndx].sentFrom?.name
                                 ? TextAlign.right
                                 : TextAlign.left,
                             style: TextStyle(
@@ -85,23 +112,19 @@ Widget chatV(var data, var currUser, var dashVm, dynamic reply,
                         ),
                       )
                           : Container(),
-                      chats[chats.length - index - 1].replyTo != null
+                      repliedMessage != null
                           ? Row(
                         // direction: Axis.horizontal,
-                        mainAxisAlignment: currUser.name ==
-                            chats[chats.length - index - 1]
-                                .from
+                        mainAxisAlignment:
+                        "herschelle" == chats[currIndx].sentFrom?.name
                             ? MainAxisAlignment.end
                             : MainAxisAlignment.start,
-                        crossAxisAlignment: currUser.name ==
-                            chats[chats.length - index - 1]
-                                .from
+                        crossAxisAlignment:
+                        "herschelle" == chats[currIndx].sentFrom?.name
                             ? CrossAxisAlignment.end
                             : CrossAxisAlignment.start,
                         children: [
-                          currUser.name ==
-                              chats[chats.length - index - 1]
-                                  .from
+                          "herschelle" == chats[currIndx].sentFrom?.name
                               ? Container()
                               : CircleAvatar(
                             backgroundColor:
@@ -113,40 +136,38 @@ Widget chatV(var data, var currUser, var dashVm, dynamic reply,
                               //     "assets/images/zine_logo.png"),
                             ),
                           ),
-                          currUser.name ==
-                              chats[chats.length - index - 1]
-                                  .from
+                          "herschelle" == chats[currIndx].sentFrom?.name
                               ? IntrinsicHeight(
                             child: Column(
                               children: [
                                 Container(
-                                  decoration: const BoxDecoration(
+                                  decoration:
+                                  const BoxDecoration(
                                     color: backgroundGrey,
                                     borderRadius:
                                     BorderRadius.only(
-                                      topRight: Radius.circular(10.0),
-                                      topLeft: Radius.circular(20.0),
-                                      bottomLeft: Radius.circular(20.0),
-                                      bottomRight: Radius.circular(10.0),
+                                      topRight:
+                                      Radius.circular(
+                                          10.0),
+                                      topLeft:
+                                      Radius.circular(
+                                          20.0),
+                                      bottomLeft:
+                                      Radius.circular(
+                                          20.0),
+                                      bottomRight:
+                                      Radius.circular(
+                                          10.0),
                                     ),
                                   ),
                                   child: Padding(
                                     padding:
-                                    const EdgeInsets
-                                        .all(12.0),
+                                    const EdgeInsets.all(
+                                        12.0),
                                     child: Text(
-
-                                      chats[chats.length -
-                                          index -
-                                          1]
-                                          .replyTo !=
-                                          null
-                                          ? chats[chats
-                                          .length -
-                                          index -
-                                          1]
-                                          .replyTo[
-                                      'message']
+                                      repliedMessage != null
+                                          ? repliedMessage
+                                          .message
                                           .toString()
                                           : " ",
                                       // softWrap: true,
@@ -168,17 +189,15 @@ Widget chatV(var data, var currUser, var dashVm, dynamic reply,
                                       .symmetric(
                                       horizontal: 4),
                                   child: Container(
-                                    color:
-                                    const Color(0xff68a5ca),
+                                    color: const Color(
+                                        0xff68a5ca),
                                     width: 4,
                                     child: const Padding(
-                                      padding:
-                                      EdgeInsets
+                                      padding: EdgeInsets
                                           .symmetric(
-                                          vertical:
-                                          12.0),
+                                          vertical: 12.0),
                                       child: Text(
-                                        "       ",
+                                        "",
                                       ),
                                     ),
                                   ),
@@ -186,9 +205,7 @@ Widget chatV(var data, var currUser, var dashVm, dynamic reply,
                               ],
                             ),
                           ),
-                          currUser.name ==
-                              chats[chats.length - index - 1]
-                                  .from
+                          "herschelle" == chats[currIndx].sentFrom?.name
                               ? IntrinsicHeight(
                             child: Column(
                               children: [
@@ -197,15 +214,13 @@ Widget chatV(var data, var currUser, var dashVm, dynamic reply,
                                       .symmetric(
                                       horizontal: 4),
                                   child: Container(
-                                    color:
-                                    const Color(0xff0C72B0),
+                                    color: const Color(
+                                        0xff0C72B0),
                                     width: 4,
                                     child: const Padding(
-                                      padding:
-                                      EdgeInsets
+                                      padding: EdgeInsets
                                           .symmetric(
-                                          vertical:
-                                          12.0),
+                                          vertical: 12.0),
                                       child: Text(
                                         "       ",
                                       ),
@@ -221,15 +236,15 @@ Widget chatV(var data, var currUser, var dashVm, dynamic reply,
                                 Container(
                                   decoration: BoxDecoration(
                                       color: backgroundGrey,
-                                      borderRadius: currUser
-                                          .name !=
-                                          chats[chats.length - index - 1]
-                                              .from
+                                      borderRadius: "herschelle" !=
+                                          chats[currIndx]
+                                              .sentFrom?.name
                                           ? const BorderRadius.only(
                                           topRight:
                                           Radius.circular(
                                               15.0),
-                                          topLeft: Radius.circular(
+                                          topLeft:
+                                          Radius.circular(
                                               5.0),
                                           bottomLeft:
                                           Radius.circular(
@@ -245,26 +260,28 @@ Widget chatV(var data, var currUser, var dashVm, dynamic reply,
                                           bottomRight: Radius.circular(5.0))),
                                   child: Padding(
                                     padding:
-                                    const EdgeInsets
-                                        .all(12.0),
+                                    const EdgeInsets.all(
+                                        12.0),
                                     child: Text(
-                                      chats[chats.length -
-                                          index -
-                                          1]
-                                          .replyTo !=
-                                          null
-                                          ? chats[chats
-                                          .length -
-                                          index -
-                                          1]
-                                          .replyTo[
-                                      'message']
-                                          .toString().substring(0,30) +" . . ."
-                                          : " ",
+                                      repliedMessage.message
+                                          .toString()
+                                          .length >
+                                          20
+                                          ? repliedMessage
+                                          .message
+                                          .toString()
+                                          .substring(
+                                          0, 20) +
+                                          " . . ."
+                                          : repliedMessage
+                                          .message
+                                          .toString(),
                                       textAlign:
                                       TextAlign.right,
                                       style: TextStyle(
-                                          color: Colors.black.withOpacity(0.5),
+                                          color: Colors.black
+                                              .withOpacity(
+                                              0.5),
                                           fontSize: 13),
                                     ),
                                   ),
@@ -280,35 +297,40 @@ Widget chatV(var data, var currUser, var dashVm, dynamic reply,
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
                             DateFormat.yMMMMd()
-                                .format(chats[chats.length - index - 1]
-                                .timeStamp!
-                                .toDate())
+                                .format(
+                                convertTimestamp(chats[currIndx].timestamp!) )
                                 .toString(),
                             textAlign: TextAlign.center,
                             style: const TextStyle(color: greyText),
                           ),
                         ),
                       Container(
-                        alignment: currUser.name ==
-                            chats[chats.length - index - 1].from
+                        alignment: "herschelle" == chats[currIndx].sentFrom?.name
                             ? Alignment.centerRight
                             : Alignment.centerLeft,
                         child: SwipeTo(
-                          onRightSwipe:
-                          reply(chats[chats.length - index - 1]),
+                          onRightSwipe: (details) {
+                            // print(details);
+                            chatRoomViewModel.userReplyText(chats[currIndx]);
+                            chatRoomViewModel.userReplyfocus.requestFocus();
+                          },
+                          onLeftSwipe: (details) {
+                            // print(details);
+                            chatRoomViewModel.userReplyText(chats[currIndx]);
+                            chatRoomViewModel.userReplyfocus.requestFocus();
+                          },
+
                           child: ListTile(
                             horizontalTitleGap: 6,
                             contentPadding: EdgeInsets.zero,
                             dense: true,
-                            leading: currUser.name ==
-                                chats[chats.length - index - 1].from
+                            leading: "herschelle" == chats[currIndx].sentFrom?.name
                                 ? null
                                 : CircleAvatar(
                               backgroundColor:
                               const Color(0x0f2F80ED),
                               child: Padding(
-                                padding:
-                                const EdgeInsets.all(3.0),
+                                padding: const EdgeInsets.all(3.0),
                                 child: Image.asset(
                                     "assets/images/zine_logo.png"),
                               ),
@@ -317,7 +339,7 @@ Widget chatV(var data, var currUser, var dashVm, dynamic reply,
                             // * Because Priyansh Said So :) *
 
                             // trailing: currUser.name !=
-                            //         chats[chats.length - index - 1].from
+                            //         chats[currIndx].from
                             //     ? null
                             //     : group
                             //         ? const CircleAvatar(
@@ -332,22 +354,23 @@ Widget chatV(var data, var currUser, var dashVm, dynamic reply,
                             //                   "assets/images/zine_logo.png"),
                             //             ),
                             //           ),
+
                             subtitle: group
                                 ? null
                                 : Padding(
                               padding: const EdgeInsets.all(6.0),
                               child: Align(
-                                alignment: currUser.name !=
+                                alignment: "herschelle" !=
                                     chats[chats.length -
                                         index -
                                         1]
-                                        .from
+                                        .sentFrom?.name
                                     ? Alignment.bottomLeft
                                     : Alignment.bottomRight,
                                 child: group
                                     ? const Text("")
                                     : Text(
-                                  "${chats[chats.length - index - 1].from}     ${getTime(chats[chats.length - index - 1].timeStamp!)}",
+                                  "${chats[currIndx].sentFrom?.name}     ${getChatTime(chats[currIndx].timestamp!) }",
                                   style: const TextStyle(
                                     fontWeight:
                                     FontWeight.w400,
@@ -359,11 +382,9 @@ Widget chatV(var data, var currUser, var dashVm, dynamic reply,
                               ),
                             ),
                             title: Wrap(
-                              crossAxisAlignment:
-                              WrapCrossAlignment.end,
-                              alignment: currUser.name ==
-                                  chats[chats.length - index - 1]
-                                      .from
+                              crossAxisAlignment: WrapCrossAlignment.end,
+                              alignment:
+                              "herschelle" == chats[currIndx].sentFrom?.name
                                   ? WrapAlignment.end
                                   : WrapAlignment.start,
                               direction: Axis.horizontal,
@@ -371,11 +392,11 @@ Widget chatV(var data, var currUser, var dashVm, dynamic reply,
                                 // Text("Something"),
                                 Container(
                                   decoration: BoxDecoration(
-                                    color: currUser.name ==
+                                    color: "herschelle" ==
                                         chats[chats.length -
                                             index -
                                             1]
-                                            .from
+                                            .sentFrom?.name
                                         ? const Color(0xff68a5ca)
                                         : const Color(0xff0C72B0),
                                     borderRadius: BorderRadius.only(
@@ -383,21 +404,19 @@ Widget chatV(var data, var currUser, var dashVm, dynamic reply,
                                         const Radius.circular(15.0),
                                         topRight:
                                         const Radius.circular(15.0),
-                                        bottomRight: currUser.name ==
+                                        bottomRight: "herschelle" ==
                                             chats[chats.length -
                                                 index -
                                                 1]
-                                                .from
+                                                .sentFrom?.name
                                             ? const Radius.circular(0.0)
-                                            : const Radius.circular(
-                                            15.0),
-                                        bottomLeft: currUser.name ==
+                                            : const Radius.circular(15.0),
+                                        bottomLeft: "herschelle" ==
                                             chats[chats.length -
                                                 index -
                                                 1]
-                                                .from
-                                            ? const Radius.circular(
-                                            15.0)
+                                                .sentFrom?.name
+                                            ? const Radius.circular(15.0)
                                             : const Radius.circular(0.0)),
                                     // border: Border.all(color: greyText, width: 2.0),
                                   ),
@@ -406,9 +425,8 @@ Widget chatV(var data, var currUser, var dashVm, dynamic reply,
                                   child: Padding(
                                     padding: const EdgeInsets.all(10.0),
                                     child: SelectableLinkify(
-                                      text: chats[
-                                      chats.length - index - 1]
-                                          .message
+                                      text: chats[currIndx]
+                                          .content
                                           .toString(),
                                       style: const TextStyle(
                                         fontWeight: FontWeight.w400,

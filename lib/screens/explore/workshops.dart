@@ -19,6 +19,7 @@ class WorkshopScreen extends StatelessWidget {
     return Consumer4<Language, UserProv, TimelineVm, DashboardVm>(
       builder: (context, dict, userProv, timeLineVm, dashVm, _) {
         UserModel currUser = userProv.getUserInfo();
+        print("list events length:${timeLineVm.listEvents.length})");
         return timeLineVm.isLoading
             ? const Loader()
             : Scaffold(
@@ -80,8 +81,10 @@ class WorkshopScreen extends StatelessWidget {
                     padding: const EdgeInsets.all(10),
                     child: Column(
                       children: [
-                        for (int i = 0; i < 6; i++)
-                          WorkshopTile(events: timeLineVm.listEvents[i], i: i)
+                        for (int i = 0; i < timeLineVm.listEvents.length; i++)
+                          WorkshopTile(
+                            events: timeLineVm.listEvents[i],
+                          )
                       ],
                     ),
                   ),

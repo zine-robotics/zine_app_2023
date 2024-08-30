@@ -9,7 +9,6 @@ class LandingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: Center(
         child: Container(
@@ -24,7 +23,11 @@ class LandingScreen extends StatelessWidget {
                   const SizedBox(
                     height: 35,
                   ),
+
                   const Row(
+
+
+
                     children: [
                       //White Circle Size
                       CircleAvatar(
@@ -53,7 +56,9 @@ class LandingScreen extends StatelessWidget {
                       )
                     ],
                   ),
-                  const Spacer(flex: 3,),
+                  const Spacer(
+                    flex: 3,
+                  ),
                   const Text(
                     'DESIGN.\nCREATE.\nINNOVATE.\n',
                     style: TextStyle(
@@ -65,7 +70,7 @@ class LandingScreen extends StatelessWidget {
                       color: Colors.white,
                     ),
                   ),
-                  const Spacer(flex:2),
+                  const Spacer(flex: 2),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
@@ -77,8 +82,8 @@ class LandingScreen extends StatelessWidget {
                                   builder: (context) => const LoginPage()));
                         },
                         style: ButtonStyle(
-                          padding:
-                              MaterialStateProperty.all(const EdgeInsets.all(20.0)),
+                          padding: MaterialStateProperty.all(
+                              const EdgeInsets.all(20.0)),
                           backgroundColor:
                               MaterialStateProperty.all(Colors.white),
                           shape:
@@ -104,8 +109,8 @@ class LandingScreen extends StatelessWidget {
                         onPressed: () =>
                             Navigator.of(context).push(Routes.exploreScreen()),
                         style: ButtonStyle(
-                          padding:
-                              MaterialStateProperty.all(const EdgeInsets.all(20.0)),
+                          padding: MaterialStateProperty.all(
+                              const EdgeInsets.all(20.0)),
                           backgroundColor:
                               MaterialStateProperty.all(Colors.white),
                           shape:
@@ -124,7 +129,9 @@ class LandingScreen extends StatelessWidget {
                               fontWeight: FontWeight.w400),
                         ),
                       ),
-                      const SizedBox(height: 30.0,)
+                      const SizedBox(
+                        height: 30.0,
+                      )
                     ],
                   )
                 ],

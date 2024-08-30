@@ -16,8 +16,13 @@ class EmailScreen extends StatelessWidget {
     return Consumer2<PasswordResetVm, UserProv>(
         builder: (context, passVm, userProv, _) {
       if (userProv.isLoggedIn) {
+
         passVm.setEmail(userProv.currUser.email??"") ;
         emailController.text = userProv.currUser.email??"";
+
+        passVm.setEmail(userProv.currUser.email ?? "");
+        emailController.text = userProv.currUser.email ?? "";
+
       }
       return Scaffold(
         resizeToAvoidBottomInset: true,
@@ -37,7 +42,7 @@ class EmailScreen extends StatelessWidget {
                     BorderRadius.vertical(bottom: Radius.circular(25.0)),
                 gradient: mainGrad //need to replace with made component
                 ),
-            child: const Row(
+            child: Row(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 //White Circle Size
@@ -95,7 +100,11 @@ class EmailScreen extends StatelessWidget {
                 const SizedBox(
                   height: 20.0,
                 ),
-                const Text("We will send a link to reset your password on the registered email address",
+
+
+                const Text(
+                    "We will send a link to reset your password on the registered email address",
+
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontWeight: FontWeight.w200,
@@ -131,16 +140,15 @@ class EmailScreen extends StatelessWidget {
                             cursorColor: textColor,
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return "Please enter an email address";}
+                                return "Please enter an email address";
+                              }
                               // } else if (!emailReg.hasMatch(passVm.email)) {
                               //   return "Not a valid email.";
                               // }
                               return null;
                             },
                             decoration: const InputDecoration(
-                              errorStyle: TextStyle(
-                                color: Colors.red
-                              ),
+                              errorStyle: TextStyle(color: Colors.red),
                               contentPadding:
                                   EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 15.0),
                               floatingLabelBehavior:

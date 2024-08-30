@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:zineapp2023/api.dart';
 import 'package:zineapp2023/screens/dashboard/view_models/dashboard_vm.dart';
 import 'package:zineapp2023/screens/events/eventCard.dart';
 import 'package:zineapp2023/screens/events/view_models/events_vm.dart';
 import 'package:zineapp2023/theme/color.dart';
 
 class Events extends StatelessWidget {
-  const Events({super.key});
+  final selectedDate;
+  const Events({Key? key, this.selectedDate}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Consumer2<EventsVm,DashboardVm>(builder: (context, eventsVm,dashVm, _) {
+    return Consumer2<EventsVm, DashboardVm>(
+        builder: (context, eventsVm, dashVm, _) {
       eventsVm.getAllEvents();
+      var tempEvents=eventsVm.tempEvents;
       var events = eventsVm.events;
       return Scaffold(
         extendBody: true,
@@ -25,12 +29,10 @@ class Events extends StatelessWidget {
             child: Image.asset(
               "assets/images/backbtn.png",
               height: 30,
-              color: Colors.black,
             ),
           ),
-          title:  Text(
-            dashVm.events.length != 0?
-            "EVENT":"Past Events",
+          title: Text(
+            eventsVm.tempEvents.length != 0 ? "EVENT" : "Past Events",
             style: TextStyle(
               height: 0.9,
               letterSpacing: 0.3,
@@ -51,8 +53,14 @@ class Events extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  for (int i = events.length-1; i >=0 ; i--)
-                    EventCard(event: events[i])
+                  //Text("checkDate :${checkDate.day}"),
+                  for (int i = tempEvents.length - 1; i >= 0; i--)
+                    if (tempEvents[i].recruitment?.id == 1 )
+                      EventCard(
+                        event: events[i],
+                        tempEvent: tempEvents[i],
+                        selectedDate: selectedDate,
+                      )
                 ],
               ),
             ),

@@ -1,24 +1,33 @@
 import 'package:flutter/material.dart';
-
+import 'package:zineapp2023/models/temp_rooms.dart';
 import '../../../../theme/color.dart';
 
 class ChatGroupTile extends StatelessWidget {
   ChatGroupTile(
       {required this.name,
-        required this.chatVm,
-        required this.userProv,
-        super.key});
+      required this.chatVm,
+      required this.userProv,
+      required this.groupId,
+      required this.roomDetails,
+      super.key});
 
   final String name;
   final dynamic chatVm;
   final dynamic userProv;
+  final String groupId;
+  TempRooms roomDetails;
 
   @override
   Widget build(BuildContext context) {
-    chatVm.getLastMessages(name);
-    var lastChat = chatVm.lastChatRoom(name);
-    bool unSeen = chatVm.unread(name, userProv.currUser);
-    chatVm.listenChanges(name);
+    //var roomData= chatVm.getRoomData2(groupId);
+    // chatVm.getLastMessages(name);
+    // var lastChat = chatVm.lastChatRoom(name);
+
+//    bool unSeen = chatVm.unread(name, userProv.currUser);
+//     chatVm.listenChanges(name);
+
+    //Rooms docData=chatVm.docData;
+    //print("image by fetching:${docData.image}");
 
     return Column(
       children: [
@@ -28,7 +37,7 @@ class ChatGroupTile extends StatelessWidget {
             elevation: 0,
             shape: RoundedRectangleBorder(
               borderRadius:
-              BorderRadius.circular(20), // Set the border radius here
+                  BorderRadius.circular(20), // Set the border radius here
             ),
             color: const Color.fromRGBO(170, 170, 170, 0.1),
             child: Column(
@@ -40,23 +49,28 @@ class ChatGroupTile extends StatelessWidget {
                     child: Container(
                       color: Colors.white,
                       padding: const EdgeInsets.all(17.0),
-                      child: Image.asset(
-                        "assets/images/timeline/${name.toLowerCase()}.png",
-                        height: 30,
-                        width: 30,
-                        fit: BoxFit.cover,
-                        color: textColor.withOpacity(0.9),
-                      ),
+                      child:
+                      // roomDetails.dpUrl !=null ? Image.network(
+                      //   roomDetails.dpUrl.toString(),
+                      //   height: 30,
+                      //   width: 30,
+                      //   fit: BoxFit.cover,
+                      //   color: textColor.withOpacity(0.9),
+                      // ):
+                      Image.asset("assets/images/zine_logo.png",height: 50,
+                          width: 50,
+                          fit: BoxFit.cover,
+                          color: textColor.withOpacity(0.9),),
                     ),
                   ),
                 ),
-                // Spacer(),
-                Text(
-                  lastChat,
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: greyText.withOpacity(0.6)),
-                ),
+
+                // Text(
+                //   lastChat,
+                //   style: TextStyle(
+                //       fontWeight: FontWeight.bold,
+                //       color: greyText.withOpacity(0.6)),
+                // ),
                 const SizedBox(
                   height: 10,
                 ),

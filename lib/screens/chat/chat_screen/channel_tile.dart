@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zineapp2023/providers/user_info.dart';
 import 'package:zineapp2023/screens/chat/chat_screen/view_model/chat_room_view_model.dart';
-import 'package:zineapp2023/theme/color.dart';
+
 
 import 'chat_room.dart';
 
@@ -12,16 +12,19 @@ const announceChannelName = 'Zine Channel';
 class Channel extends StatelessWidget {
   final name;
 
-  const Channel({super.key, required this.name});
+  final String? roomId;
+
+  const Channel({super.key, required this.name, this.roomId});
 
   @override
   Widget build(BuildContext context) {
     return Consumer2<ChatRoomViewModel, UserProv>(
         builder: (context, chatVm, userProv, _) {
-      chatVm.getLastMessages(name);
-      var lastChat = chatVm.lastChatRoom(name);
-      bool unSeen = chatVm.unread(name, userProv.currUser);
-      chatVm.listenChanges(name);
+      // chatVm.getLastMessages(name);
+      // var lastChat = chatVm.lastChatRoom(name);
+      // bool unSeen = chatVm.unread(name, userProv.currUser);
+      // chatVm.listenChanges(name);
+
 
       return Padding(
         padding: const EdgeInsets.all(5.0),
@@ -31,7 +34,10 @@ class Channel extends StatelessWidget {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => ChatRoom(roomName: name)));
+                    builder: (context) => ChatRoom(
+                          roomName: name,
+                          roomId: roomId,
+                        )));
           },
           child: Container(
             decoration: const BoxDecoration(
@@ -68,46 +74,49 @@ class Channel extends StatelessWidget {
                       ),
                     ],
                   ),
-                  Row(
-                    children: [
-                      Row(
-                        children: [
-                          unSeen
-                              ? Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color:
-                                        const Color.fromRGBO(47, 128, 237, 1),
-                                  ),
-                                  height: 20,
-                                  width: 20,
-                                  // child: const Center(
-                                  //   child: Text(
-                                  //     '',
-                                  //     // chats[index]["newMsg"].toString(),
-                                  //     style: TextStyle(
-                                  //       color: Colors.white,
-                                  //       fontSize: 12,
-                                  //     ),
-                                  //   ),
-                                  // ),
-                                )
-                              : const SizedBox(),
-                          const SizedBox(
-                            width: 10,
-                          )
-                        ],
-                      ),
-                      Text(
-                        lastChat,
-                        style: const TextStyle(
-                          fontSize: 10,
-                          fontWeight: FontWeight.w400,
-                          color: Color.fromRGBO(51, 51, 51, 0.5),
-                        ),
-                      ),
-                    ],
-                  )
+
+                  // -------------------modification for new unseen and lastseen--------------//
+
+                  // Row(
+                  //   children: [
+                  //     Row(
+                  //       children: [
+                  //         unSeen
+                  //             ? Container(
+                  //                 decoration: BoxDecoration(
+                  //                   borderRadius: BorderRadius.circular(10),
+                  //                   color:
+                  //                       const Color.fromRGBO(47, 128, 237, 1),
+                  //                 ),
+                  //                 height: 20,
+                  //                 width: 20,
+                  //                 // child: const Center(
+                  //                 //   child: Text(
+                  //                 //     '',
+                  //                 //     // chats[index]["newMsg"].toString(),
+                  //                 //     style: TextStyle(
+                  //                 //       color: Colors.white,
+                  //                 //       fontSize: 12,
+                  //                 //     ),
+                  //                 //   ),
+                  //                 // ),
+                  //               )
+                  //             : const SizedBox(),
+                  //         const SizedBox(
+                  //           width: 10,
+                  //         )
+                  //       ],
+                  //     ),
+                  //     Text(
+                  //       lastChat,
+                  //       style: const TextStyle(
+                  //         fontSize: 10,
+                  //         fontWeight: FontWeight.w400,
+                  //         color: Color.fromRGBO(51, 51, 51, 0.5),
+                  //       ),
+                  //     ),
+                  //   ],
+                  // )
                 ],
               ),
             ),
@@ -117,4 +126,3 @@ class Channel extends StatelessWidget {
     });
   }
 }
-

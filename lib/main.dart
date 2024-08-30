@@ -64,9 +64,9 @@ class MyApp extends StatelessWidget {
         navigatorKey: NavigationService.navigatorKey,
         title: 'Zine',
         theme: ThemeData(
-          fontFamily: 'Poppins',
-          primarySwatch: Colors.blue,
-        ),
+            fontFamily: 'Poppins',
+            primarySwatch: Colors.blue,
+            useMaterial3: false),
         home: const SplashScreen(),
       ),
     );

@@ -239,92 +239,7 @@
 			"description": "Some special people are usually deprived of normal communication with other people in the society. It has been observed that they find it really difficult at times to interact with normal people with their gestures , as only a very few of those are recognized by most people. Since people with hearing impairment cannot talk like normal people so they have to depend on some sort of visual communication in most of the time. Visual-gestural language is their primary means of expression which involves various hand gestures , facial expressions like eyebrow movement and lip-mouth movement. What we aim to achieve ? The idea is to make computers to understand human language and develop a user friendly human computer interfaces (HCI). Making a computer understand speech, facial expressions and human gestures are some steps towards it thereby making a translation system that can successfully convert this visual gestural language into digital English text or speech."
 		}
 	],
-	"team": [
-		[
-			{
-				"name": "Anmol Bansal",
-				"image": "anmol",
-				"email": "2021uee1064@mnit.ac.in"
-			},
-			{
-				"name": "Granth Gupta",
-				"image": "granth",
-				"email": "2021KUCP1015@iiitkota.ac.in"
-			},
-			{
-				"name": "Harshit Sandilya",
-				"image": "harshit",
-				"email": "2021UCP1382@mnit.ac.in"
-			},
-
-			{
-				"name": "Mashaal Sayeed",
-				"image": "mashaal",
-				"email": "2021ucp1011@mnit.ac.in"
-			},
-			{
-				"name": "Moordhan Songade",
-				"image": "moordhan",
-				"email": "2021ucp1072@mnit.ac.in"
-			},
-			{
-				"name": "Priyansh Kothari",
-				"image": "priyansh",
-				"email": "2021UCP1013@mnit.ac.in"
-			},
-			{
-				"name": "Rupesh Yadav",
-				"image": "rupesh",
-				"email": "2021UEC1533@mnit.ac.in"
-			},
-			{
-				"name": "Yug Modi",
-				"image": "yug",
-				"email": "2021KUCP1110@iiitkota.ac.in"
-			}
-		],
-		[
-			{
-				"name": "Abhinav Kumar",
-				"image": "abhinav",
-				"email": "2020uee1476@mnit.ac.in"
-			},
-			{
-				"name": "Ashok Saini",
-				"image": "ashok",
-				"email": "2020uee1992@mnit.ac.in"
-			},
-			{
-				"name": "Divyansh Garg",
-				"image": "divyansh",
-				"email": "2020kuec2018@iiitkota.ac.in"
-			},
-			{
-				"name": "Mahak Garg",
-				"image": "mahak",
-				"email": "2020uee1312@mnit.ac.in"
-			},
-			{
-				"name": "Nishant Garg",
-				"image": "nishant",
-				"email": "2020ucp1869@mnit.ac.in"
-			},
-			{
-				"name": "Pranjali Srivastava",
-				"image": "pranjali",
-				"email": "2020ume1941@mnit.ac.in"
-			},
-			{
-				"name": "Sudeshna Sonkar",
-				"image": "sudeshna",
-				"email": "2020ume1225@mnit.ac.in"
-			},
-			{
-				"name": "Vinamra Vashistha",
-				"image": "vinamra",
-				"email": "2020kucp1046@iiitkota.ac.in"
-			}
-		],
+	"alumini": [
 		[
 			{
 				"name": "Apoorv Raj",
@@ -377,5 +292,161 @@
 				"email": "2019ume1141@mnit.ac.in"
 			}
 		]
+
+
+	],
+	"team Removed": [
+		{
+			"name": "Granth Gupta",
+			"image": "granth",
+			"email": "2021KUCP1015@iiitkota.ac.in"
+		},
+		{
+			"name": "Moordhan Songade",
+			"image": "moordhan",
+			"email": "2021ucp1072@mnit.ac.in"
+		},
+		{
+			"name": "Yug Modi",
+			"image": "yug",
+			"email": "2021KUCP1110@iiitkota.ac.in"
+		},
+		{
+
+			"name": "MOHD Anas Ansari",
+			"image": "anas",
+			"email": "2022uec1713@mnit.ac.in"
+		}
+
+	],
+	"team": [
+		[
+			{
+				"name": "Aditya Wadje",
+				"image": "aditya",
+				"email": "2022uec1438@mnit.ac.in"
+			},
+			{
+				"name": "Alok kumar",
+				"image": "alok",
+				"email": "2022uec1721@mnit.ac.in"
+			},
+
+
+			{
+
+				"name": "Aswin Arunkumar T.",
+				"image": "aswin",
+				"email": "2022ucp1892@mnit.ac.in"
+			},
+			{
+				"name": "Divyansh ramola",
+				"image": "divyansh",
+				"email": "2022ume1557@mnit.ac.in"
+			},
+			{
+				"name": "Herschelle Mathew Thomas",
+				"image": "harshal",
+				"email": "2022ucp1894@mnit.ac.in"
+			},
+			{
+				"name": "Krishna",
+				"image": "krishna",
+				"email": "2022uee1133@mnit.ac.in"
+			},
+			{
+				"name": "Kushal",
+				"image": "kushal",
+				"email": "2022uec1893@mnit.ac.in"
+			},
+			{
+				"name": "Mahaveer",
+				"image": "mahaveer",
+				"email": "2022uec1726@mnit.ac.in"
+			},
+			{
+				"name": "Nitin jangir",
+				"image": "nitin",
+				"email": "2022uce1480@mnit.ac.in"
+			},
+			{
+				"name": "Shubh Chordia",
+				"image": "shubh",
+				"email": "2022uee1016@mnit.ac.in"
+			}
+
+		],
+		[
+			{
+				"name": "Anmol Bansal",
+				"image": "anmol",
+				"email": "2021uee1064@mnit.ac.in"
+			},
+
+			{
+				"name": "Harshit Sandilya",
+				"image": "harshit",
+				"email": "2021UCP1382@mnit.ac.in"
+			},
+
+			{
+				"name": "Mashaal Sayeed",
+				"image": "mashaal",
+				"email": "2021ucp1011@mnit.ac.in"
+			},
+			{
+				"name": "Priyansh Kothari",
+				"image": "priyansh",
+				"email": "2021UCP1013@mnit.ac.in"
+			},
+			{
+				"name": "Rupesh Yadav",
+				"image": "rupesh",
+				"email": "2021UEC1533@mnit.ac.in"
+			}
+		],
+		[
+			{
+				"name": "Abhinav Kumar",
+				"image": "abhinav",
+				"email": "2020uee1476@mnit.ac.in"
+			},
+			{
+				"name": "Ashok Saini",
+				"image": "ashok",
+				"email": "2020uee1992@mnit.ac.in"
+			},
+			{
+				"name": "Divyansh Garg",
+				"image": "divyansh",
+				"email": "2020kuec2018@iiitkota.ac.in"
+			},
+			{
+				"name": "Mahak Garg",
+				"image": "mahak",
+				"email": "2020uee1312@mnit.ac.in"
+			},
+			{
+				"name": "Nishant Garg",
+				"image": "nishant",
+				"email": "2020ucp1869@mnit.ac.in"
+			},
+			{
+				"name": "Pranjali Srivastava",
+				"image": "pranjali",
+				"email": "2020ume1941@mnit.ac.in"
+			},
+			{
+				"name": "Sudeshna Sonkar",
+				"image": "sudeshna",
+				"email": "2020ume1225@mnit.ac.in"
+			},
+			{
+				"name": "Vinamra Vashistha",
+				"image": "vinamra",
+				"email": "2020kucp1046@iiitkota.ac.in"
+			}
+		]
+
 	]
 }

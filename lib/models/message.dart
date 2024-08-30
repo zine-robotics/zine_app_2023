@@ -8,6 +8,7 @@ class MessageModel {
   String? sender_id;
   dynamic replyTo;
   String? type;
+  String? id;
 
   MessageModel({
     this.message,
@@ -48,5 +49,7 @@ class MessageModel {
         type = snapshot.data()['type'],
         message = snapshot.data()['message'],
         sender_id = snapshot.data()['sender_id'],
-        replyTo = snapshot.data()['replyTo'];
+        replyTo = snapshot.data()['replyTo'],
+        id = snapshot.id;
+
 }
