@@ -59,6 +59,7 @@ class UserProv extends ChangeNotifier {
     _currUser = userModel;
     print(_currUser.type);
     await dataStore.setString("loggedIn", 'true');
+    await dataStore.setString('id', _currUser.id.toString());
     await dataStore.setString('uid', _currUser.uid.toString());
     // await getFirebaseMessagingToken();
 
@@ -68,7 +69,7 @@ class UserProv extends ChangeNotifier {
   UserModel get getUserInfo => _currUser;
 
   void updateLast(String name) {
-    _currUser.lastSeen[name] =  DateTime.now();
+    _currUser.lastSeen[name] = DateTime.now();
   }
 
   void logOut() {

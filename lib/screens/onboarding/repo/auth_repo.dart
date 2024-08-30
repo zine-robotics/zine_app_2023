@@ -149,6 +149,7 @@ class AuthRepo {
 
     UserModel userMod = UserModel(
         uid: uid,
+        id: user['id'],
         email: user['email'],
         name: user['name'],
         dp: int.tryParse(user['dp'] ?? "1"),

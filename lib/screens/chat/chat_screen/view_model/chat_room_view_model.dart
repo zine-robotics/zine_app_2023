@@ -17,6 +17,7 @@ import 'package:zineapp2023/models/temp_rooms.dart';
 import 'package:zineapp2023/models/user.dart';
 import 'package:zineapp2023/providers/user_info.dart';
 import 'package:zineapp2023/utilities/date_time.dart';
+import 'package:zineapp2023/backend_properties.dart';
 
 import '../../../../models/rooms.dart';
 import '../repo/chat_repo.dart';
@@ -25,9 +26,8 @@ class ChatRoomViewModel extends ChangeNotifier {
   final UserProv userProv;
 
   ChatRoomViewModel({required this.userProv}) {
-    initializeWebSocket();  //constructor to initialize the webSocket for single time only!!
+    initializeWebSocket(); //constructor to initialize the webSocket for single time only!!
   }
-
 
   //===================================================NEWER CODE====================================================//
   final chatP = ChatRepo();
@@ -48,24 +48,24 @@ class ChatRoomViewModel extends ChangeNotifier {
   final CollectionReference _rooms =
       FirebaseFirestore.instance.collection('rooms');
 
-
-
   //-------------------message fetching using http--------------------//
   List<TempMessageModel> _messages = [];
   List<TempMessageModel> _tempMessages = [];
   bool _isLoading = false;
-  final StreamController<List<TempMessageModel>> _messageStreamController=StreamController<List<TempMessageModel>>.broadcast();
+  final StreamController<List<TempMessageModel>> _messageStreamController =
+      StreamController<List<TempMessageModel>>.broadcast();
   List<TempMessageModel> get messages => _messages;
   Set<String> activeRoomSubscriptions = {};
 
   bool get isLoading => _isLoading;
-  Stream<List<TempMessageModel>> get messageStream =>_messageStreamController.stream;
+  Stream<List<TempMessageModel>> get messageStream =>
+      _messageStreamController.stream;
   Future<void> fetchMessages(String TemproomId) async {
     _isLoading = true;
     // notifyListeners();
 
     try {
-      _messages = await chatP.getChatMessages( TemproomId );
+      _messages = await chatP.getChatMessages(TemproomId);
       // _error =null;
       _messageStreamController.add(_messages);
     } catch (e) {
@@ -86,15 +86,15 @@ class ChatRoomViewModel extends ChangeNotifier {
 
   // late final messageData;
 
-  final String webSocketUrl =
-      'http://ec2-18-116-38-241.us-east-2.compute.amazonaws.com/ws';
+  // final String webSocketUrl =
+  //     'http://ec2-18-116-38-241.us-east-2.compute.amazonaws.com/ws';
 
   void initializeWebSocket() {
     print("\n----------initializing web socket------------\n ");
     _client = StompClient(
       config: StompConfig(
         useSockJS: true,
-        url: webSocketUrl,
+        url: BackendProperties.websocketUri.toString(),
         onConnect: onConnectCallback,
         onWebSocketError: (dynamic error) => print('WebSocket error: $error'),
         // onDebugMessage: (dynamic message) => print('Debug: $message'),
@@ -109,10 +109,9 @@ class ChatRoomViewModel extends ChangeNotifier {
     print("inside the callback");
   }
 
-  void subscribeToRoom(String roomId)
-  {
+  void subscribeToRoom(String roomId) {
     print("inside the subscribeToRoom & roomId:$roomId");
-    if (!_client.connected ) {
+    if (!_client.connected) {
       print("client is not connected");
       return;
     }
@@ -120,7 +119,7 @@ class ChatRoomViewModel extends ChangeNotifier {
     //   _subscriptions[_roomId]?.unsubscribe();
     // }
     activeRoomSubscriptions.add(roomId);
-    final subscription=_client.subscribe(
+    final subscription = _client.subscribe(
       destination: '/room/$roomId', //  widget.chatId
       headers: {},
       callback: (StompFrame frame) {
@@ -129,10 +128,10 @@ class ChatRoomViewModel extends ChangeNotifier {
         // print("Successfully connected: ${json.decode(frame.body!)}");
         // print("inside the callback");
 
-        try{
+        try {
           final Map<String, dynamic> messageData = json.decode(frame.body!);
           TempMessageModel messageData1 =
-          TempMessageModel.fromJson(messageData);
+              TempMessageModel.fromJson(messageData);
           // print("\nmessage added is:${messageData1}");
           _messages.add(messageData1);
           // List<TempMessageModel> tempMessageList = [messageData1];
@@ -140,16 +139,10 @@ class ChatRoomViewModel extends ChangeNotifier {
 
           // _messages = List.from(_tempMessages); // Ensure _messages is updated
           // _messageStreamController.add(_messages);
-
-
-        }
-        catch(e)
-        {
+        } catch (e) {
           print("\n error parsing messaging :${e} \n");
-        }
-        finally
-        {
-        notifyListeners();
+        } finally {
+          notifyListeners();
         }
         // messages = jsonDecode(frame.body!).reversed.toList();
         // Notify listeners or update UI
@@ -166,7 +159,6 @@ class ChatRoomViewModel extends ChangeNotifier {
     final subscription = _subscriptions[roomId];
     if (subscription != null) {
       try {
-
         // subscription.unsubscribe(unsubscribeHeaders: {});
         subscription();
         print("Unsubscribed from room: $roomId");
@@ -182,20 +174,19 @@ class ChatRoomViewModel extends ChangeNotifier {
 
   void setRoomId(String roomId) {
     print("insdie the setRoomID:$roomId");
-    if(_roomId!=roomId)
-      {
-        unsubscribeFromRoom(_roomId);
-        _roomId=roomId;
-        subscribeToRoom(roomId);
-      }
+    if (_roomId != roomId) {
+      unsubscribeFromRoom(_roomId);
+      _roomId = roomId;
+      subscribeToRoom(roomId);
+    }
   }
+
   Map<String, int> roomNameToId = {
     "Backend": 302,
     "real-time-chat": 352,
-    "task instance":902,
+    "task instance": 902,
     "task instance": 652,
   };
-
 
   void sendMessage(String user_message, String roomName) async {
     // int? roomId=roomNameToId[roomName];
@@ -207,8 +198,9 @@ class ChatRoomViewModel extends ChangeNotifier {
     final messageData = {
       "type": "text",
       "content": user_message.toString(),
-      "timestamp": DateTime.now().millisecondsSinceEpoch, // or DateTime.now().toIso8601String()
-      "sentFrom": 403,
+      "timestamp": DateTime.now()
+          .millisecondsSinceEpoch, // or DateTime.now().toIso8601String()
+      "sentFrom": userProv.getUserInfo.id!,
       "roomId": int.parse(_roomId),
       // "replyTo": null
     };
@@ -229,7 +221,6 @@ class ChatRoomViewModel extends ChangeNotifier {
         body: jsonBody,
       );
       print("\n-------message Sent--------\n");
-
     } catch (e) {
       print('Not connected to the WebSocket server.$e');
     }
@@ -238,45 +229,43 @@ class ChatRoomViewModel extends ChangeNotifier {
     // sendFCMMessage(roomName, from, message);
   }
 
-
   //-------------------it will fetch all room data---------------------------------------------//
   //---------------MODIFY: get user details and pass email -------------//
   List<TempRooms>? _user_rooms;
   List<TempRooms>? _userProjects;
-  bool _isRoomLoading=false;
+  bool _isRoomLoading = false;
 
   List<TempRooms>? get user_rooms => _user_rooms;
   List<TempRooms>? get userProjects => _userProjects;
-  bool get isRoomLoading =>_isRoomLoading;
+  bool get isRoomLoading => _isRoomLoading;
   Future<void> loadRooms() async {
     String email = 'herschellethomas10@gmail.com';
 
-    _isRoomLoading=true;
+    _isRoomLoading = true;
 
     notifyListeners();
     try {
-      List<TempRooms>?allRooms=await chatP.fetchRooms(email);
-      if(allRooms !=null)
-        {
-          _user_rooms=allRooms.where((room)=>room.type=="group").toList();
-          _userProjects=allRooms.where((room)=>room.type=="project").toList();
-        }
+      List<TempRooms>? allRooms = await chatP.fetchRooms(email);
+      if (allRooms != null) {
+        _user_rooms = allRooms.where((room) => room.type == "group").toList();
+        _userProjects =
+            allRooms.where((room) => room.type == "project").toList();
+      }
 
       // _error =null;
     } catch (e) {
       print(e);
       // _error ='Failed to load data';
     } finally {
-      _isRoomLoading=false;
+      _isRoomLoading = false;
       notifyListeners();
     }
   }
 
-
   dynamic getUserMessageById(List<TempMessageModel> chats, String replyTo) {
     print("inside the user message id:\n chats:${chats} \t replyTo:${replyTo}");
     Iterable<TempMessageModel> msg =
-    chats.where((element) => element.id.toString() == replyTo);
+        chats.where((element) => element.id.toString() == replyTo);
     print("message is :${msg}");
     if (msg.isNotEmpty) {
       return msg.first;
@@ -296,17 +285,19 @@ class ChatRoomViewModel extends ChangeNotifier {
 
     notifyListeners();
   }
+
   void userCancelReply() {
     replyTo = null;
     print("repy to cancel");
     print(replyTo);
     notifyListeners();
   }
+
   dynamic userGetMessageById(List<TempMessageModel> chats, String replyTo) {
     print("inside the uerGetmessagebyId: chats:${chats} replyTo:${replyTo}");
 
     Iterable<TempMessageModel> msg =
-    chats.where((element) => element.id.toString() == replyTo);
+        chats.where((element) => element.id.toString() == replyTo);
     if (msg.isNotEmpty) {
       return msg.first;
     }
@@ -325,8 +316,6 @@ class ChatRoomViewModel extends ChangeNotifier {
   //   }
   // }
   //=====================================================older code===================================================================//
-
-
 
   var _data;
   var _docData;
@@ -529,5 +518,4 @@ class ChatRoomViewModel extends ChangeNotifier {
     _messageStreamController.close();
     super.dispose();
   }
-
 }

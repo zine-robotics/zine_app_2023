@@ -15,4 +15,6 @@ class BackendProperties {
   static Uri taskDetailUri(String taskId) {
     return baseUrl.replace(path: '/tasks/$taskId');
   }
+
+  static Uri websocketUri = baseUrl.replace(path: '/ws');
 }

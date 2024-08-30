@@ -2,6 +2,7 @@ import 'package:zineapp2023/models/userTask.dart';
 
 class UserModel {
   String? email;
+  int? id;
   String? uid;
   String? type = 'user';
   String? name;
@@ -16,6 +17,7 @@ class UserModel {
 
   UserModel(
       {this.uid,
+      this.id,
       this.email,
       this.name,
       this.type,
@@ -29,6 +31,7 @@ class UserModel {
       this.roomDetails});
 
   UserModel.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
     email = json['email'];
     uid = json['uid'];
     name = json['name'];
@@ -45,6 +48,7 @@ class UserModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['email'] = email;
+    data['id'] = id;
     data['uid'] = uid;
     data['name'] = name;
     data['type'] = type;
@@ -57,16 +61,4 @@ class UserModel {
     data['lastSeen'] = lastSeen;
     return data;
   }
-  UserModel.store(snapshot)
-      : email = snapshot.data()['email'],
-        uid = snapshot.data()['uid'],
-        name = snapshot.data()['name'],
-        type = snapshot.data()['type'],
-        tasks = snapshot.data()['tasks'],
-        dp = snapshot.data()['dp'],
-        registered = snapshot.data()['registered'],
-        pushToken = snapshot.data()['pushToken'],
-        rooms = snapshot.data()['rooms'],
-        roomids = snapshot.data()['roomids'],
-        lastSeen = snapshot.data()['lastSeen'];
 }
