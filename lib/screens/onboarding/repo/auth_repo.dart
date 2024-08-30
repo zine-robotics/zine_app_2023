@@ -157,7 +157,6 @@ class AuthRepo {
             user['registered']! ?? false, //SDK CONSTRAINTS MIGHT F WITH THIS
         tasks: tasks,
         rooms: rooms,
-        roomIDs: rooms,
         roomDetails: roomDetails, // FIXME:
         lastSeen: user['lastSeen'] ?? {});
 

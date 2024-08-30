@@ -25,7 +25,7 @@ class _TaskScreenState extends State<TaskScreen> {
   @override
   Widget build(BuildContext context) {
     return Consumer2<UserProv, TaskVm>(builder: (context, userProv, taskVm, _) {
-      List<UserTask>? tasks = userProv.currUser.tasks;
+      List<UserTask>? tasks = userProv.getUserInfo.tasks;
 
       taskVm.tasks = tasks;
 

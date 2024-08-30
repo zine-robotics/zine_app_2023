@@ -68,7 +68,7 @@ class UserProv extends ChangeNotifier {
   UserModel get getUserInfo => _currUser;
 
   void updateLast(String name) {
-    currUser.lastSeen[name] = Timestamp.fromDate(DateTime.now());
+    _currUser.lastSeen[name] =  DateTime.now();
   }
 
   void logOut() {

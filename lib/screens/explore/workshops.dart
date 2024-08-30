@@ -18,7 +18,7 @@ class WorkshopScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer4<Language, UserProv, TimelineVm, DashboardVm>(
       builder: (context, dict, userProv, timeLineVm, dashVm, _) {
-        UserModel currUser = userProv.getUserInfo();
+        UserModel currUser = userProv.getUserInfo;
         print("list events length:${timeLineVm.listEvents.length})");
         return timeLineVm.isLoading
             ? const Loader()

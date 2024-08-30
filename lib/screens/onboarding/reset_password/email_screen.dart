@@ -17,11 +17,11 @@ class EmailScreen extends StatelessWidget {
         builder: (context, passVm, userProv, _) {
       if (userProv.isLoggedIn) {
 
-        passVm.setEmail(userProv.currUser.email??"") ;
-        emailController.text = userProv.currUser.email??"";
+        passVm.setEmail(userProv.getUserInfo.email??"") ;
+        emailController.text = userProv.getUserInfo.email??"";
 
-        passVm.setEmail(userProv.currUser.email ?? "");
-        emailController.text = userProv.currUser.email ?? "";
+        passVm.setEmail(userProv.getUserInfo.email ?? "");
+        emailController.text = userProv.getUserInfo.email ?? "";
 
       }
       return Scaffold(

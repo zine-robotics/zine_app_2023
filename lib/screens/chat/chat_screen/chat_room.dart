@@ -55,9 +55,9 @@ class _ChatRoomState extends State<ChatRoom> {
         // var data = chatVm.getData(roomName);//earlier data from firebas
 
 
-        UserModel currUser = userProv.getUserInfo();
+        UserModel currUser = userProv.getUserInfo;
         chatVm.addRouteListener(
-            context, widget.roomName, userProv.currUser.email.toString(), userProv);
+            context, widget.roomName, userProv.getUserInfo.email.toString(), userProv);
 
         return GestureDetector(
           onTap: () {

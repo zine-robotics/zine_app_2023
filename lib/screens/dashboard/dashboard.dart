@@ -33,7 +33,7 @@ class _DashboardState extends State<Dashboard> {
     return Consumer4<DashboardVm, UserProv,EventsVm,ChatRoomViewModel>(
       builder: (context, dashboardVm, userProv,eventVm,chatVm, _) {
         // dashboardVm.getRecentEvent();
-        UserModel currUser = userProv.getUserInfo();
+        UserModel currUser = userProv.getUserInfo;
         // eventVm.tempGetAllEvent();
         String month = DateFormat.MMMM().format(DateTime.now());
 

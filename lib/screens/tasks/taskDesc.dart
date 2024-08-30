@@ -257,7 +257,7 @@ class _TaskDescState extends State<TaskDesc> {
                                 style:
                                     TextStyle(color: Colors.grey, fontSize: 9),
                                 textAlign:
-                                    dashVm.userProv.currUser.name.toString() ==
+                                    dashVm.userProv.getUserInfo.name.toString() ==
                                             cheklist[i]['user'].toString()
                                         ? TextAlign.left
                                         : TextAlign.right,
@@ -269,7 +269,7 @@ class _TaskDescState extends State<TaskDesc> {
                                     .bodyMedium!
                                     .copyWith(fontSize: 12),
                                 textAlign:
-                                    dashVm.userProv.currUser.name.toString() ==
+                                    dashVm.userProv.getUserInfo.name.toString() ==
                                             cheklist[i]['user'].toString()
                                         ? TextAlign.left
                                         : TextAlign.right,
@@ -282,7 +282,7 @@ class _TaskDescState extends State<TaskDesc> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                '${dashVm.userProv.currUser.name.toString()}@${DateTime.now().hour},${DateTime.now().minute} :${DateTime.now().day},${DateTime.now().month},${DateTime.now().year}',
+                                '${dashVm.userProv.getUserInfo.name.toString()}@${DateTime.now().hour},${DateTime.now().minute} :${DateTime.now().day},${DateTime.now().month},${DateTime.now().year}',
                                 style:
                                     TextStyle(color: Colors.grey, fontSize: 9),
                                 textAlign: TextAlign.left,

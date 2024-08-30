@@ -17,7 +17,7 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer2<RegisterAuthViewModel, UserProv>(
       builder: (context, regVm, userProv, _) {
-        UserModel currUser = userProv.getUserInfo();
+        UserModel currUser = userProv.getUserInfo;
         return Scaffold(
           backgroundColor: backgroundGrey,
           appBar: AppBar(

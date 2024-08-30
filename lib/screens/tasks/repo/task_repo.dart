@@ -52,10 +52,10 @@ class TaskRepo {
     Map<String, dynamic> checkpointData = {
       "message": message,
       "timeDate": Timestamp.now(),
-      "user": userProv.currUser.name.toString(),
+      "user": userProv.getUserInfo.name.toString(),
     };
     //check if its working
-    // userProv.currUser.tasks?[curr].checkpoints?.add(checkpointData);
+    // userProv.getUserInfo.tasks?[curr].checkpoints?.add(checkpointData);
     await _firebaseFirestore
 
         .collection("userTasks")
@@ -71,10 +71,10 @@ class TaskRepo {
     Map<String, dynamic> linkData = {
       "heading": heading,
       "timeDate": Timestamp.now(),
-      "user": userProv.currUser.name.toString(),
+      "user": userProv.getUserInfo.name.toString(),
       "link": link,
     };
-    userProv.currUser.tasks?[curr].links?.add(linkData);
+    userProv.getUserInfo.tasks?[curr].links?.add(linkData);
     await _firebaseFirestore.collection("userTasks").doc(docRefId).update({
       "links": FieldValue.arrayUnion([linkData])
     });

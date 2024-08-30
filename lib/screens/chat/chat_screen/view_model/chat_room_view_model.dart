@@ -425,7 +425,7 @@ class ChatRoomViewModel extends ChangeNotifier {
     _text.isEmpty
         ? null
         : chatP.sendMessage(
-            from, roomId, _text, replyTo, userProv!.currUser.uid.toString());
+            from, roomId, _text, replyTo, userProv!.getUserInfo.uid.toString());
     replyTo = null;
     setText("");
 
