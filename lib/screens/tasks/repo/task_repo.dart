@@ -14,17 +14,15 @@ class TaskRepo {
 
   TaskRepo({required this.userProv});
 
-  dynamic getUserModel(uid) async {
-    var user = await _firebaseFirestore.collection('users').doc(uid).get();
-    UserModel docData2 = UserModel.store(user);
-    //print("user name is:${docData2.name}");
-    print("getUserModel is called");
-    return docData2;
-  }
+  // dynamic getUserModel(uid) async {
+  //   var user = await _firebaseFirestore.collection('users').doc(uid).get();
+  //   // UserModel docData2 = UserModel.store(user);
+  //   //print("user name is:${docData2.name}");
+  //   print("getUserModel is called");
+  //   return docData2;
+  // }
 
   dynamic getTasks(uid) async {
-
-
     var query = await _firebaseFirestore
         .collection("userTasks")
         .where("users", arrayContains: _firebaseFirestore.doc("/users/$uid"));
@@ -34,7 +32,6 @@ class TaskRepo {
 
     print("getTasks is finished");
     return docData.toList();
-
   }
 
   dynamic getDocRef(ref) async {
@@ -42,11 +39,6 @@ class TaskRepo {
     Tasks docData = Tasks.store(doc);
     return docData;
   }
-
-
-
-
-
 
   dynamic addCheckpoints(String message, String docRefId, int curr) async {
     Map<String, dynamic> checkpointData = {
@@ -57,15 +49,12 @@ class TaskRepo {
     //check if its working
     // userProv.getUserInfo.tasks?[curr].checkpoints?.add(checkpointData);
     await _firebaseFirestore
-
         .collection("userTasks")
         .doc(docRefId.toString())
         .update({
       "checkpoints": FieldValue.arrayUnion([checkpointData])
     });
-
   }
-
 
   dynamic addLinks(heading, link, String docRefId, int curr) async {
     Map<String, dynamic> linkData = {

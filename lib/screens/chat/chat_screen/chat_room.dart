@@ -16,26 +16,24 @@ class ChatRoom extends StatefulWidget {
 
   final String? roomId;
 
-  ChatRoom({Key? key, required this.roomName,this.roomId})
-      : super(key: key);
+  ChatRoom({Key? key, required this.roomName, this.roomId}) : super(key: key);
 
   @override
   State<ChatRoom> createState() => _ChatRoomState();
 }
 
 class _ChatRoomState extends State<ChatRoom> {
-
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      var chatRoomView=Provider.of<ChatRoomViewModel>(context, listen: false);
+      var chatRoomView = Provider.of<ChatRoomViewModel>(context, listen: false);
       // chatRoomView.setRoomId(widget.roomId!);
-      widget.roomId!=null? chatRoomView.fetchMessages(widget.roomId!): "";
+      widget.roomId != null ? chatRoomView.fetchMessages(widget.roomId!) : "";
       chatRoomView.setRoomId(widget.roomId!);
-
     });
   }
+
   final TextEditingController messageController = TextEditingController();
 
   @override
@@ -44,6 +42,12 @@ class _ChatRoomState extends State<ChatRoom> {
       builder: (context, chatVm, dashVm, userProv, _) {
         var listOfUsers = [];
         var image = null;
+        UserModel currUser = userProv.getUserInfo;
+        bool isNotAllowedTyping = true;
+
+        if (currUser.type == 'user' && widget.roomName == 'Announcements') {
+          isNotAllowedTyping = false;
+        }
         // print("room detila");
         // print(roomDetails);
         // if (roomDetails != null && roomDetails['members'] != null) {
@@ -54,10 +58,8 @@ class _ChatRoomState extends State<ChatRoom> {
 
         // var data = chatVm.getData(roomName);//earlier data from firebas
 
-
-        UserModel currUser = userProv.getUserInfo;
-        chatVm.addRouteListener(
-            context, widget.roomName, userProv.getUserInfo.email.toString(), userProv);
+        chatVm.addRouteListener(context, widget.roomName,
+            userProv.getUserInfo.email.toString(), userProv);
 
         return GestureDetector(
           onTap: () {
@@ -77,9 +79,11 @@ class _ChatRoomState extends State<ChatRoom> {
                 onTap: () {
                   Navigator.of(context)
                       .push(CupertinoPageRoute(builder: (BuildContext context) {
-                        // return Text("chatDesctiption remove");
+                    // return Text("chatDesctiption remove");
                     return ChatDescription(
-                        roomName: widget.roomName, image: image, data: listOfUsers);
+                        roomName: widget.roomName,
+                        image: image,
+                        data: listOfUsers);
                   }));
                 },
                 child: Text(
@@ -114,8 +118,10 @@ class _ChatRoomState extends State<ChatRoom> {
                   children: [
                     // chatV(data, currUser, dashVm, chatVm.replyText,
                     //     chatVm.updateMessage, context),
-                     chatV(context,chatVm.messageStream,dashVm,chatVm.userReplyText),
-                    currUser.type == 'user' && widget.roomName == "Announcements"
+                    chatV(context, chatVm.messageStream, dashVm,
+                        chatVm.userReplyText),
+
+                    !isNotAllowedTyping
                         ? Container()
                         : Column(
                             mainAxisAlignment: MainAxisAlignment.start,
@@ -136,7 +142,8 @@ class _ChatRoomState extends State<ChatRoom> {
                                             child: Text(
                                               "Reply To " +
                                                   chatVm.selectedReplyMessage
-                                                      .sentFrom.name.toString(),
+                                                      .sentFrom.name
+                                                      .toString(),
                                               textAlign: TextAlign.left,
                                               style: TextStyle(
                                                   color: greyText,
@@ -163,7 +170,8 @@ class _ChatRoomState extends State<ChatRoom> {
                                                   const EdgeInsets.all(10.0),
                                               child: Text(
                                                 chatVm.selectedReplyMessage
-                                                    .content.toString(),
+                                                    .content
+                                                    .toString(),
 
                                                 // softWrap: true,
                                                 textAlign: TextAlign.left,
@@ -235,7 +243,9 @@ class _ChatRoomState extends State<ChatRoom> {
                                             horizontal: 4.0, vertical: 1.0),
                                         padding: EdgeInsets.zero,
                                         onPressed: () {
-                                          chatVm.sendMessage(messageController.text,widget.roomName);
+                                          chatVm.sendMessage(
+                                              messageController.text,
+                                              widget.roomName);
                                           messageController.text = "";
 
                                           // chatVm.send(

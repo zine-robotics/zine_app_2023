@@ -177,10 +177,12 @@ class AuthRepo {
         headers: {"Content-Type": "application/json"});
     print("THSHFkjsdh ${res.statusCode}");
     print("djsfkjsdf ${res.url}");
-    if (res.statusCode != 200) {
-      throw AuthException(code: 'Auth Error');
-    }
+    switch (res.statusCode) {
+      case 409: //TODO: ADD COMMON CASES
+        throw AuthException(code: 'email-already-in-use');
 
+      default:
+    }
     return UserModel();
   }
 
