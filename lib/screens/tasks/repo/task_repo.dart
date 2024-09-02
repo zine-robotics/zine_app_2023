@@ -1,4 +1,8 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:http/http.dart' as http;
+import 'package:zineapp2023/backend_properties.dart';
 
 import 'package:zineapp2023/models/user.dart';
 
@@ -23,15 +27,17 @@ class TaskRepo {
   // }
 
   dynamic getTasks(uid) async {
-    var query = await _firebaseFirestore
-        .collection("userTasks")
-        .where("users", arrayContains: _firebaseFirestore.doc("/users/$uid"));
-    var data = await query.get();
+    try {
+      http.Response res = await http.get(BackendProperties.taskByIdUri,
+          headers: {'Authorization': 'Bearer $uid'});
+      print("Get Tasks Response ${res.body}");
 
-    final docData = data.docs.map((doc) => UserTask.store(doc));
+      return jsonDecode(res.body);
+    } catch (e) {
+      print("Error");
+    }
 
     print("getTasks is finished");
-    return docData.toList();
   }
 
   dynamic getDocRef(ref) async {

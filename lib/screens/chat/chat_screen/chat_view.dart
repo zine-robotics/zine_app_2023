@@ -74,16 +74,17 @@ Widget chatV(BuildContext context, Stream<List<TempMessageModel>> messageStream,
                     (chats.length - index >= 2 &&
                         getChatDate(chats[currIndx].timestamp!) !=
                             getChatDate(
-                                chats[chats.length - index - 2].timestamp! ));
+                                chats[chats.length - index - 2].timestamp!));
 
                 bool group = index > 0 &&
                     chats[currIndx].sentFrom?.name.toString() ==
                         chats[chats.length - index].sentFrom?.name.toString() &&
-                    getChatDate(chats[currIndx].timestamp! ) ==
-                        getChatDate(chats[chats.length - index].timestamp! );
+                    getChatDate(chats[currIndx].timestamp!) ==
+                        getChatDate(chats[chats.length - index].timestamp!);
                 dynamic repliedMessage = null;
                 print("reply to:${chats[currIndx].replyTo?.id}");
                 if (chats[currIndx].replyTo?.id.toString() != null) {
+                  print("Replyin to A text");
                   repliedMessage = chatRoomViewModel.userGetMessageById(
                       chats, chats[currIndx].replyTo!.id.toString());
                   // print("checking reply content:${chats[currIndx].content}");
@@ -331,13 +332,13 @@ Widget chatV(BuildContext context, Stream<List<TempMessageModel>> messageStream,
                                   chatRoomViewModel.userReplyfocus
                                       .requestFocus();
                                 },
-                                onLeftSwipe: (details) {
-                                  // print(details);
-                                  chatRoomViewModel
-                                      .userReplyText(chats[currIndx]);
-                                  chatRoomViewModel.userReplyfocus
-                                      .requestFocus();
-                                },
+                                // onLeftSwipe: (details) {
+                                //   // print(details);
+                                //   chatRoomViewModel
+                                //       .userReplyText(chats[currIndx]);
+                                //   chatRoomViewModel.userReplyfocus
+                                //       .requestFocus();
+                                // },
                                 child: ListTile(
                                   horizontalTitleGap: 6,
                                   contentPadding: EdgeInsets.zero,
