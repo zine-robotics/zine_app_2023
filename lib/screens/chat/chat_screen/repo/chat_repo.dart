@@ -217,6 +217,7 @@ class ChatRepo {
     try {
       String url = "http://ec2-18-116-38-241.us-east-2.compute.amazonaws.com/messages/roomMsg?roomId=$TemproomId";
       final response = await http.get(Uri.parse(url));
+      // print("checking :${jsonDecode(response.body)}");
       if (response.statusCode == 200) {
         final List<dynamic> jsonResponse = jsonDecode(response.body);
         List<TempMessageModel> messages = jsonResponse.map((json) => TempMessageModel.fromJson(json)).toList();
@@ -227,7 +228,7 @@ class ChatRepo {
         return [];
       }
     } catch (e) {
-      print("An error occurred: $e");
+      print("An error occurred!!: $e");
       return [];
     }
   }

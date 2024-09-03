@@ -35,9 +35,10 @@ class ChatRoomViewModel extends ChangeNotifier {
 
   dynamic allData;
   dynamic replyTo;
+  dynamic replyUsername;
   FocusNode replyfocus = FocusNode();
-  FocusNode userReplyfocus = FocusNode();
-  String _roomId = "352";
+
+  String _roomId = "625";
   final name = "Announcement";
   Map<String, dynamic> chatSubscription = {};
   final picker = ImagePicker();
@@ -123,25 +124,21 @@ class ChatRoomViewModel extends ChangeNotifier {
       destination: '/room/$roomId', //  widget.chatId
       headers: {},
       callback: (StompFrame frame) {
-        // print("sucessfully connected:${frame.body}");
         // messageData = json.decode(frame.body!);
-        // print("Successfully connected: ${json.decode(frame.body!)}");
-        // print("inside the callback");
 
+        // print("frame.body:${frame.body}");
         try {
           final Map<String, dynamic> messageData = json.decode(frame.body!);
           TempMessageModel messageData1 =
               TempMessageModel.fromJson(messageData);
-          // print("\nmessage added is:${messageData1}");
-          _messages.add(messageData1);
-          // List<TempMessageModel> tempMessageList = [messageData1];
-          _messageStreamController.add(List.from(_messages));
 
-          // _messages = List.from(_tempMessages); // Ensure _messages is updated
-          // _messageStreamController.add(_messages);
+          _messages.add(messageData1);
+          _messageStreamController.add(List.from(_messages));
+          print("sucess!!");
         } catch (e) {
           print("\n error parsing messaging :${e} \n");
         } finally {
+
           notifyListeners();
         }
         // messages = jsonDecode(frame.body!).reversed.toList();
@@ -153,7 +150,7 @@ class ChatRoomViewModel extends ChangeNotifier {
     _roomId = roomId;
   }
 
-  //---------------------------------------------MODIFY: ADD unsubscribe->to release the resource and keep track of active subsciber----------------//
+  //---------------------------------------------MODIFY: ADD multiple subscribtion->----------------//
   void unsubscribeFromRoom(String roomId) {
     print("attempting to unsubscribe roomId:$roomId");
     final subscription = _subscriptions[roomId];
@@ -202,8 +199,12 @@ class ChatRoomViewModel extends ChangeNotifier {
           .millisecondsSinceEpoch, // or DateTime.now().toIso8601String()
       "sentFrom": userProv.getUserInfo.id!,
       "roomId": int.parse(_roomId),
-      // "replyTo": null
     };
+    if (replyTo != null && replyUsername != null) {
+      messageData['replyTo'] = replyTo;
+    }
+
+    print("during sent replyTo:$replyTo \t replyusername:$replyUsername");
     // print("message_body:${messageData}");
     // final newMessage = TempMessageModel.fromJson(messageData);
     //
@@ -262,24 +263,16 @@ class ChatRoomViewModel extends ChangeNotifier {
     }
   }
 
-  dynamic getUserMessageById(List<TempMessageModel> chats, String replyTo) {
-    print("inside the user message id:\n chats:${chats} \t replyTo:${replyTo}");
-    Iterable<TempMessageModel> msg =
-        chats.where((element) => element.id.toString() == replyTo);
-    print("message is :${msg}");
-    if (msg.isNotEmpty) {
-      return msg.first;
-    }
-    return null;
-  }
+
 
   void userReplyText(TempMessageModel message) {
-    print("object");
+    print("inside the userReplyText");
     print(message);
 
     selectedReplyMessage = message;
     replyTo = message.id;
-    print(replyTo);
+    replyUsername=message?.sentFrom.name.toString();
+    print("reply in user Reply:${replyTo.runtimeType}");
 
     replyfocus.requestFocus();
 
@@ -288,13 +281,13 @@ class ChatRoomViewModel extends ChangeNotifier {
 
   void userCancelReply() {
     replyTo = null;
-    print("repy to cancel");
+    print("repy to cancel replyTo:$replyTo");
     print(replyTo);
     notifyListeners();
   }
 
   dynamic userGetMessageById(List<TempMessageModel> chats, String replyTo) {
-    print("inside the uerGetmessagebyId: chats:${chats} replyTo:${replyTo}");
+    // print("inside the uerGetmessagebyId: chats replyTo:${replyTo}");
 
     Iterable<TempMessageModel> msg =
         chats.where((element) => element.id.toString() == replyTo);
@@ -416,6 +409,7 @@ class ChatRoomViewModel extends ChangeNotifier {
         : chatP.sendMessage(
             from, roomId, _text, replyTo, userProv!.getUserInfo.uid.toString());
     replyTo = null;
+
     setText("");
 
     notifyListeners();

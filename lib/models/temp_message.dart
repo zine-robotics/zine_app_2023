@@ -6,23 +6,25 @@ class TempMessageModel {
   int? timestamp;
   dynamic sentFrom;
   dynamic roomId;
-  ReplyTo? replyTo;
+  dynamic replyTo;
 
-  TempMessageModel(
-      {this.id,
-        this.type,
-        this.content,
-        this.contentUrl,
-        this.timestamp,
-        this.sentFrom,
-        this.roomId,
-        this.replyTo});
+  TempMessageModel({
+    this.id,
+    this.type,
+    this.content,
+    this.contentUrl,
+    this.timestamp,
+    this.sentFrom,
+    this.roomId,
+    this.replyTo,
+  });
 
   TempMessageModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     type = json['type'];
     content = json['content'];
     contentUrl = json['contentUrl'];
+
     if (json['timestamp'] is int) {
       timestamp = json['timestamp'];
     } else if (json['timestamp'] is String) {
@@ -30,30 +32,28 @@ class TempMessageModel {
     } else {
       timestamp = null;
     }
-    sentFrom = json['sentFrom'] != null
-        ? new SentFrom.fromJson(json['sentFrom'])
-        : null;
-    roomId =
-    json['roomId'] != null ? new RoomId.fromJson(json['roomId']) : null;
-    replyTo =
-    json['replyTo'] != null ? new ReplyTo.fromJson(json['replyTo']) : null;
+
+    sentFrom = json['sentFrom'] != null ? SentFrom.fromJson(json['sentFrom']) : null;
+    roomId = json['roomId'] != null ? RoomId.fromJson(json['roomId']) : null;
+    replyTo = json['replyTo'] != null ? ReplyTo.fromJson(json['replyTo']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['type'] = this.type;
-    data['content'] = this.content;
-    data['contentUrl'] = this.contentUrl;
-    data['timestamp'] = this.timestamp;
-    if (this.sentFrom != null) {
-      data['sentFrom'] = this.sentFrom!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['type'] = type;
+    data['content'] = content;
+    data['contentUrl'] = contentUrl;
+    data['timestamp'] = timestamp;
+
+    if (sentFrom != null) {
+      data['sentFrom'] = sentFrom!.toJson();
     }
-    if (this.roomId != null) {
-      data['roomId'] = this.roomId!.toJson();
+    if (roomId != null) {
+      data['roomId'] = roomId!.toJson();
     }
-    if (this.replyTo != null) {
-      data['replyTo'] = this.replyTo!.toJson();
+    if (replyTo != null) {
+      data['replyTo'] = replyTo!.toJson();
     }
     return data;
   }
@@ -69,15 +69,16 @@ class SentFrom {
   String? dp;
   bool? emailVerified;
 
-  SentFrom(
-      {this.id,
-        this.name,
-        this.email,
-        this.type,
-        this.pushToken,
-        this.registered,
-        this.dp,
-        this.emailVerified});
+  SentFrom({
+    this.id,
+    this.name,
+    this.email,
+    this.type,
+    this.pushToken,
+    this.registered,
+    this.dp,
+    this.emailVerified,
+  });
 
   SentFrom.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -91,15 +92,15 @@ class SentFrom {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['email'] = this.email;
-    data['type'] = this.type;
-    data['pushToken'] = this.pushToken;
-    data['registered'] = this.registered;
-    data['dp'] = this.dp;
-    data['emailVerified'] = this.emailVerified;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['email'] = email;
+    data['type'] = type;
+    data['pushToken'] = pushToken;
+    data['registered'] = registered;
+    data['dp'] = dp;
+    data['emailVerified'] = emailVerified;
     return data;
   }
 }
@@ -112,13 +113,14 @@ class RoomId {
   String? dpUrl;
   int? timestamp;
 
-  RoomId(
-      {this.id,
-        this.name,
-        this.description,
-        this.type,
-        this.dpUrl,
-        this.timestamp});
+  RoomId({
+    this.id,
+    this.name,
+    this.description,
+    this.type,
+    this.dpUrl,
+    this.timestamp,
+  });
 
   RoomId.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -126,19 +128,51 @@ class RoomId {
     description = json['description'];
     type = json['type'];
     dpUrl = json['dpUrl'];
-    timestamp = json['timestamp'];
+    // timestamp = json['timestamp'];
+    if (json['timestamp'] is int) {
+      timestamp = json['timestamp'];
+    } else if (json['timestamp'] is String) {
+      timestamp = DateTime.parse(json['timestamp']).millisecondsSinceEpoch;
+    } else {
+      timestamp = null;
+    }
+
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['description'] = this.description;
-    data['type'] = this.type;
-    data['dpUrl'] = this.dpUrl;
-    data['timestamp'] = this.timestamp;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['description'] = description;
+    data['type'] = type;
+    data['dpUrl'] = dpUrl;
+    data['timestamp'] = timestamp;
     return data;
   }
+}
+
+// Helper method to handle parsing integers
+int? _parseInt(dynamic value) {
+  if (value is int) {
+    return value;
+  } else if (value is String) {
+    return int.tryParse(value);
+  }
+  return null;
+}
+
+// Helper method to handle parsing timestamps
+int? _parseTimestamp(dynamic value) {
+  if (value is int) {
+    return value;
+  } else if (value is String) {
+    try {
+      return DateTime.parse(value).millisecondsSinceEpoch;
+    } catch (_) {
+      return null;
+    }
+  }
+  return null;
 }
 
 class ReplyTo {
@@ -146,49 +180,58 @@ class ReplyTo {
   String? type;
   String? content;
   String? contentUrl;
-  int? timestamp;
+  int? timestamp ;
   SentFrom? sentFrom;
   RoomId? roomId;
-  Null replyTo;
+  ReplyTo? replyTo;
 
-  ReplyTo(
-      {this.id,
-        this.type,
-        this.content,
-        this.contentUrl,
-        this.timestamp,
-        this.sentFrom,
-        this.roomId,
-        this.replyTo});
+  ReplyTo({
+    this.id,
+    this.type,
+    this.content,
+    this.contentUrl,
+    this.timestamp,
+    this.sentFrom,
+    this.roomId,
+    this.replyTo,
+  });
 
   ReplyTo.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
+    id = _parseInt( json['id'] );
     type = json['type'];
     content = json['content'];
     contentUrl = json['contentUrl'];
-    timestamp = json['timestamp'];
-    sentFrom = json['sentFrom'] != null
-        ? new SentFrom.fromJson(json['sentFrom'])
-        : null;
-    roomId =
-    json['roomId'] != null ? new RoomId.fromJson(json['roomId']) : null;
-    replyTo = json['replyTo'];
+    // timestamp =  _parseTimestamp(json['timestamp']) ;
+    if (json['timestamp'] is int) {
+      timestamp = json['timestamp'];
+    } else if (json['timestamp'] is String) {
+      timestamp = DateTime.parse(json['timestamp']).millisecondsSinceEpoch;
+    } else {
+      timestamp = null;
+    }
+
+    sentFrom = json['sentFrom'] != null ? SentFrom.fromJson(json['sentFrom']) : null;
+    roomId = json['roomId'] != null ? RoomId.fromJson(json['roomId']) : null;
+    replyTo = json['replyTo'] != null ? ReplyTo.fromJson(json['replyTo']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['type'] = this.type;
-    data['content'] = this.content;
-    data['contentUrl'] = this.contentUrl;
-    data['timestamp'] = this.timestamp;
-    if (this.sentFrom != null) {
-      data['sentFrom'] = this.sentFrom!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['type'] = type;
+    data['content'] = content;
+    data['contentUrl'] = contentUrl;
+    data['timestamp'] = timestamp;
+
+    if (sentFrom != null) {
+      data['sentFrom'] = sentFrom!.toJson();
     }
-    if (this.roomId != null) {
-      data['roomId'] = this.roomId!.toJson();
+    if (roomId != null) {
+      data['roomId'] = roomId!.toJson();
     }
-    data['replyTo'] = this.replyTo;
+    if (replyTo != null) {
+      data['replyTo'] = replyTo!.toJson();
+    }
     return data;
   }
 }

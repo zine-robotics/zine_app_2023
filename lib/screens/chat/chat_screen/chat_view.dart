@@ -24,7 +24,7 @@ Widget chatV(BuildContext context, Stream<List<TempMessageModel>> messageStream,
   return StreamBuilder<List<TempMessageModel>>(
     stream: messageStream,
     builder: (context, snapshot) {
-      // print("chat reply to :${chatRoomViewModel.replyTo}");
+      print("chat reply to :${chatRoomViewModel.replyTo}");
       if(snapshot.connectionState==ConnectionState.waiting)
       {
         return Center(child: CircularProgressIndicator(),);
@@ -81,15 +81,14 @@ Widget chatV(BuildContext context, Stream<List<TempMessageModel>> messageStream,
                         chats[chats.length - index].sentFrom?.name.toString() &&
                     getChatDate(chats[currIndx].timestamp!) ==
                         getChatDate(chats[chats.length - index].timestamp!);
-                dynamic repliedMessage = null;
-                print("reply to:${chats[currIndx].replyTo?.id}");
+                dynamic repliedMessage=null ;
+                // print("reply to:${chats[currIndx].replyTo?.id}");
                 if (chats[currIndx].replyTo?.id.toString() != null) {
-                  print("Replyin to A text");
                   repliedMessage = chatRoomViewModel.userGetMessageById(
                       chats, chats[currIndx].replyTo!.id.toString());
                   // print("checking reply content:${chats[currIndx].content}");
                 }
-
+                // print("replied message${repliedMessage}");
                 return chats[currIndx].content!.isEmpty
                     ? Container()
                     : Column(
@@ -178,7 +177,7 @@ Widget chatV(BuildContext context, Stream<List<TempMessageModel>> messageStream,
                                                       child: Text(
                                                         repliedMessage != null
                                                             ? repliedMessage
-                                                                .message
+                                                                .content
                                                                 .toString()
                                                             : " ",
                                                         // softWrap: true,
@@ -278,18 +277,18 @@ Widget chatV(BuildContext context, Stream<List<TempMessageModel>> messageStream,
                                                           const EdgeInsets.all(
                                                               12.0),
                                                       child: Text(
-                                                        repliedMessage.message
+                                                        repliedMessage.content
                                                                     .toString()
                                                                     .length >
                                                                 20
                                                             ? repliedMessage
-                                                                    .message
+                                                                    .content
                                                                     .toString()
                                                                     .substring(
                                                                         0, 20) +
                                                                 " . . ."
                                                             : repliedMessage
-                                                                .message
+                                                                .content
                                                                 .toString(),
                                                         textAlign:
                                                             TextAlign.right,
@@ -329,7 +328,7 @@ Widget chatV(BuildContext context, Stream<List<TempMessageModel>> messageStream,
                                   // print(details);
                                   chatRoomViewModel
                                       .userReplyText(chats[currIndx]);
-                                  chatRoomViewModel.userReplyfocus
+                                  chatRoomViewModel.replyfocus
                                       .requestFocus();
                                 },
                                 // onLeftSwipe: (details) {

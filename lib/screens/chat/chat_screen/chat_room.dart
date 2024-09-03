@@ -121,13 +121,13 @@ class _ChatRoomState extends State<ChatRoom> {
                     chatV(context, chatVm.messageStream, dashVm,
                         chatVm.userReplyText),
 
-                    !isNotAllowedTyping
+                    currUser.type == 'user' && widget.roomName == 'Announcements'
                         ? Container()
                         : Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              chatVm.userReplyfocus.hasFocus &&
+                              chatVm.replyfocus.hasFocus &&
                                       chatVm.replyTo != null
                                   ? Column(
                                       crossAxisAlignment:
@@ -221,7 +221,7 @@ class _ChatRoomState extends State<ChatRoom> {
                                         flex: 1,
                                         child: TextField(
                                           keyboardType: TextInputType.multiline,
-                                          focusNode: chatVm.userReplyfocus,
+                                          focusNode: chatVm.replyfocus,
                                           maxLines: 3,
                                           minLines: 1,
                                           controller: messageController,
@@ -252,7 +252,8 @@ class _ChatRoomState extends State<ChatRoom> {
                                           //     from: userProv.currUser.name,
                                           //     roomId: roomName);
                                           //
-                                          // chatVm.replyTo = null;
+                                          chatVm.replyTo = null;
+
                                         },
                                         iconSize: 20.0,
                                         icon: const ImageIcon(
