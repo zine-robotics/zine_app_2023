@@ -127,9 +127,8 @@ class _DashboardState extends State<Dashboard> {
                                 flex: 2,
                                 fit: FlexFit.tight,
                                 child: GestureDetector(
-                                  onTap: () => {
-                                    // Navigator.of(context).push(Routes.eventCalender())
-                                  },
+                                  onTap: () => Navigator.of(context)
+                                      .push(Routes.publicEvents()),
                                   child: Container(
                                     height: 200,
                                     decoration: BoxDecoration(

@@ -22,7 +22,6 @@ class EventsRepo {
   Future<List<TempEvents>> fetchEvents() async {
     try {
       Uri url = BackendProperties.eventsUri;
-      // "http://ec2-18-116-38-241.us-east-2.compute.amazonaws.com/event";
       final response = await http.get(url);
       if (response.statusCode == 200) {
         Map<String, dynamic> jsonResponse = jsonDecode(response.body);

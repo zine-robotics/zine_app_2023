@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:zineapp2023/models/events.dart';
+import 'package:zineapp2023/models/temp_events.dart';
 import 'package:zineapp2023/screens/explore/public_events/view_models/public_events_vm.dart';
 import 'package:zineapp2023/theme/color.dart';
 import 'package:intl/intl.dart';
@@ -13,7 +14,7 @@ class EventTile extends StatefulWidget {
   });
   final PublicEventsVM evm;
   final int index;
-  final Events event;
+  final TempEvents event;
 
   @override
   State<EventTile> createState() => _EventTileState();
@@ -27,8 +28,9 @@ class _EventTileState extends State<EventTile> {
     double compressedHeight = availableHeight / 6;
     double expandedHeight = availableHeight / 3.2;
     bool expanded = !(widget.evm.selectedEvent == widget.event);
+    const duration = Duration(milliseconds: 250);
     return AnimatedContainer(
-        duration: const Duration(milliseconds: 250),
+        duration: duration,
         width: double.maxFinite,
         child: InkWell(
           borderRadius: BorderRadius.circular(10),
@@ -45,13 +47,13 @@ class _EventTileState extends State<EventTile> {
                 clipBehavior: Clip.antiAlias,
                 child: AnimatedContainer(
                   // decoration: BoxDecoration(image: DecorationImage(image: AssetImage(bundle: ))),
-                  duration: Duration(milliseconds: 250),
+                  duration: duration,
                   width: double.maxFinite,
                   height: expanded ? compressedHeight : expandedHeight,
                   child: Stack(alignment: Alignment.center, children: [
                     widget.index.isEven
                         ? AnimatedPositioned(
-                            duration: Duration(milliseconds: 250),
+                            duration: duration,
                             left: expanded ? 30 : 0,
                             right: expanded ? 0 : 280,
                             top: 0,
@@ -62,7 +64,7 @@ class _EventTileState extends State<EventTile> {
                             ),
                           )
                         : AnimatedPositioned(
-                            duration: Duration(milliseconds: 250),
+                            duration: duration,
                             right: expanded ? 30 : 0,
                             left: expanded ? 0 : 280,
                             top: 0,
@@ -73,21 +75,25 @@ class _EventTileState extends State<EventTile> {
                             ),
                           ),
                     Positioned.fill(
-                      left: widget.index.isEven ? 40 : null,
-                      right: widget.index.isEven ? null : 40,
+                      left: widget.index.isEven ? 25 : null,
+                      right: widget.index.isEven ? null : 25,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            widget.event.timeDate!.toDate().day.toString(),
+                            DateTime.fromMillisecondsSinceEpoch(
+                                    widget.event.startDateTime!)
+                                .day
+                                .toString(),
                             style: TextStyle(
                                 fontSize: 40,
                                 fontWeight: FontWeight.bold,
                                 color: expanded ? textDarkBlue : Colors.white),
                           ),
                           Text(
-                            DateFormat('MMMM')
-                                .format(widget.event.timeDate!.toDate()),
+                            DateFormat('MMMM').format(
+                                DateTime.fromMillisecondsSinceEpoch(
+                                    widget.event.startDateTime!)),
                             style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
@@ -124,7 +130,7 @@ class _EventTileState extends State<EventTile> {
                         left: widget.index.isEven ? null : 20,
                         right: widget.index.isEven ? 20 : null,
                         child: AnimatedContainer(
-                          duration: const Duration(milliseconds: 250),
+                          duration: duration,
                           height: expanded ? 0 : 130,
                           width: MediaQuery.of(context).size.width - 20 - 160,
                           child: Column(
