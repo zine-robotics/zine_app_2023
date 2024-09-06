@@ -41,6 +41,7 @@ Future<void> _showNotification({String? title, String? body}) async {
 //-------------------------------------listen notification by FCM--------------------------//
 void setupForegroundMessageListener() {
   FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
+    print("message data:${message.notification}");
     if (message.notification != null) {
       await _showNotification(
         title: message.notification!.title,
