@@ -88,8 +88,7 @@ class ChatRoomViewModel extends ChangeNotifier {
 
   // late final messageData;
 
-  // final String webSocketUrl =
-  //     'http://ec2-18-116-38-241.us-east-2.compute.amazonaws.com/ws';
+  
 
   void initializeWebSocket() {
     print("\n----------initializing web socket------------\n ");
