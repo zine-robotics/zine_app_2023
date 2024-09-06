@@ -17,6 +17,7 @@ class Events extends StatelessWidget {
       eventsVm.getAllEvents();
       var tempEvents=eventsVm.tempEvents;
       var events = eventsVm.events;
+      print("tempevents in events:${tempEvents[0].recruitment?.id}");
       return Scaffold(
         extendBody: true,
         appBar: AppBar(
@@ -55,7 +56,7 @@ class Events extends StatelessWidget {
                 children: [
                   //Text("checkDate :${checkDate.day}"),
                   for (int i = tempEvents.length - 1; i >= 0; i--)
-                    if (tempEvents[i].recruitment?.id == 1 )
+                    // if (tempEvents[i].recruitment?.id == 1 )
                       EventCard(
                         event: events[i],
                         tempEvent: tempEvents[i],

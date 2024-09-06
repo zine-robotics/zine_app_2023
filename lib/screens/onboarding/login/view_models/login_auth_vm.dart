@@ -73,10 +73,12 @@ class LoginAuthViewModel with ChangeNotifier {
     setLoading(true);
 
     try {
+      String pushToken =
+          await userProvider.getFirebaseMessagingToken() ?? 'null';
       var value = await myRepo.signInWithEmailAndPassword(
-        email: data['email'],
-        password: data['password'],
-      );
+          email: data['email'],
+          password: data['password'],
+          pushToken: pushToken);
       print(value);
       userProvider.updateUserInfo(value!);
 

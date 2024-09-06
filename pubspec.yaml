@@ -62,6 +62,7 @@ dependencies:
   timelines: ^0.1.0
   url_launcher: ^6.3.0
   flutter_neat_and_clean_calendar: ^0.3.16+36
+  flutter_local_notifications: ^17.2.0
 
   xml:
   path:

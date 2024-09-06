@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import "package:flutter/material.dart";
 import 'package:image_picker/image_picker.dart';
@@ -134,11 +135,10 @@ class ChatRoomViewModel extends ChangeNotifier {
 
           _messages.add(messageData1);
           _messageStreamController.add(List.from(_messages));
-          print("sucess!!");
+          print("success!!");
         } catch (e) {
           print("\n error parsing messaging :${e} \n");
         } finally {
-
           notifyListeners();
         }
         // messages = jsonDecode(frame.body!).reversed.toList();
@@ -239,8 +239,11 @@ class ChatRoomViewModel extends ChangeNotifier {
   List<TempRooms>? get user_rooms => _user_rooms;
   List<TempRooms>? get userProjects => _userProjects;
   bool get isRoomLoading => _isRoomLoading;
+
+  var fMessaging = FirebaseMessaging.instance;
+  
   Future<void> loadRooms() async {
-    String email = 'herschellethomas10@gmail.com';
+    String email = 'herschellethomas10@gmail.com'; //FIXME : Fix this
 
     _isRoomLoading = true;
 
@@ -248,7 +251,12 @@ class ChatRoomViewModel extends ChangeNotifier {
     try {
       List<TempRooms>? allRooms = await chatP.fetchRooms(email);
       if (allRooms != null) {
+        for (TempRooms room in allRooms!) {
+          print('Subscribing to room${room.id}');
+          fMessaging.subscribeToTopic("room${room.id}");
+        }
         _user_rooms = allRooms.where((room) => room.type == "group").toList();
+
         _userProjects =
             allRooms.where((room) => room.type == "project").toList();
       }
@@ -263,15 +271,13 @@ class ChatRoomViewModel extends ChangeNotifier {
     }
   }
 
-
-
   void userReplyText(TempMessageModel message) {
     print("inside the userReplyText");
     print(message);
 
     selectedReplyMessage = message;
     replyTo = message.id;
-    replyUsername=message?.sentFrom.name.toString();
+    replyUsername = message?.sentFrom.name.toString();
     print("reply in user Reply:${replyTo.runtimeType}");
 
     replyfocus.requestFocus();
