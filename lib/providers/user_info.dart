@@ -85,3 +85,6 @@ class UserProv extends ChangeNotifier {
   //   _currUser.lastSeen[name] = Timestamp.fromDate(DateTime.now());
   // }
 }
+
+
+

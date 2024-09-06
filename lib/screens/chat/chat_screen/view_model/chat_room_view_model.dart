@@ -134,7 +134,7 @@ class ChatRoomViewModel extends ChangeNotifier {
 
           _messages.add(messageData1);
           _messageStreamController.add(List.from(_messages));
-          print("sucess!!");
+          print("success!!");
         } catch (e) {
           print("\n error parsing messaging :${e} \n");
         } finally {

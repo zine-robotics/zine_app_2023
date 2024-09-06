@@ -28,7 +28,7 @@ class EventsRepo {
         List<dynamic> eventJson = jsonResponse['events'];
         List<TempEvents> events =
             eventJson.map((json) => TempEvents.fromJson(json)).toList();
-        // print("inside the chat_repo and message:${messages.toList()}");
+        // print("inside the chat_repo and message:${events.toList()}");
         return events;
       } else {
         print("Failed to load messages: ${response.statusCode}");
