@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zineapp2023/api.dart';
+import 'package:zineapp2023/backend_properties.dart';
 import 'package:zineapp2023/models/message.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:zineapp2023/models/temp_message.dart';
@@ -165,8 +166,8 @@ class ChatRepo {
         .where("email", isEqualTo: user)
         .get()
         .then((value) => value.docs[0].reference.set({
-      "lastSeen": {room: Timestamp.fromDate(DateTime.now())}
-    }, SetOptions(merge: true)));
+              "lastSeen": {room: Timestamp.fromDate(DateTime.now())}
+            }, SetOptions(merge: true)));
   }
 
   void sendMessage(String from, String roomName, String message, dynamic reply,
@@ -204,23 +205,27 @@ class ChatRepo {
     final UploadTask uploadTask = storageReference.putFile(image);
     final TaskSnapshot downloadUrl = (await uploadTask);
     final String url =
-    (await downloadUrl.ref.getDownloadURL().catchError((e) => {null}));
+        (await downloadUrl.ref.getDownloadURL().catchError((e) => {null}));
 
     return url;
   }
 //=====================================================NEWER CODE================================================================//
 
 //------------------------------------Fetching_all_messages_through_RoomId-------------------------------------------//
-  Future<List<TempMessageModel>> getChatMessages(String TemproomId) async {
+  Future<List<TempMessageModel>> getChatMessages(String tempRoomId) async {
     // print("\n ----------getchatMessage Called------------------ \n");
-    String groupID='352';
+    // String groupID='352';
     try {
-      String url = "http://ec2-18-116-38-241.us-east-2.compute.amazonaws.com/messages/roomMsg?roomId=$TemproomId";
-      final response = await http.get(Uri.parse(url));
+      Uri url = BackendProperties.roomMessageUri(tempRoomId);
+      //     "http://172.20.10.4:8080/messages/roomMsg?roomId=$TemproomId";
+
+      final response = await http.get(url);
       // print("checking :${jsonDecode(response.body)}");
       if (response.statusCode == 200) {
         final List<dynamic> jsonResponse = jsonDecode(response.body);
-        List<TempMessageModel> messages = jsonResponse.map((json) => TempMessageModel.fromJson(json)).toList();
+        List<TempMessageModel> messages = jsonResponse
+            .map((json) => TempMessageModel.fromJson(json))
+            .toList();
         // print("inside the chat_repo and message:${messages.toList()}");
         return messages;
       } else {
@@ -235,21 +240,18 @@ class ChatRepo {
 
   //---------------------------------Fetching_Rooms_Details-----------------------//
 
-  Future<List<TempRooms>?> fetchRooms(String email) async
-  {
-    String url='http://ec2-18-116-38-241.us-east-2.compute.amazonaws.com/rooms/user'
-        '?email=$email';
-    final response=await http.get(Uri.parse(url));
+  Future<List<TempRooms>?> fetchRooms(String email) async {
+    Uri url = BackendProperties.roomDataUri(email);
+    // 'http://172.20.10.4:8080/rooms/user'
+    //     '?email=$email';
+    final response = await http.get(url);
 
-    if(response.statusCode==200)
-    {
-      final List<dynamic> jsonResponse=jsonDecode(response.body);
-      return jsonResponse.map((json)=>TempRooms.fromJson(json)).toList();
-    }
-    else{
+    if (response.statusCode == 200) {
+      final List<dynamic> jsonResponse = jsonDecode(response.body);
+      return jsonResponse.map((json) => TempRooms.fromJson(json)).toList();
+    } else {
       print("failed to load the rooms info :${response.statusCode}");
       return [];
     }
   }
-
 }

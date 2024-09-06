@@ -32,12 +32,17 @@ class AuthRepo {
     }
   }
 
-  Future<UserModel?> signInWithEmailAndPassword({
-    String? email,
-    String? password,
-  }) async {
+  // Future<void> updateToken()
+  // {
+  //   //TODO: Implement this
+
+  // }
+
+  Future<UserModel?> signInWithEmailAndPassword(
+      {String? email, String? password, String? pushToken}) async {
     Response res = await http.post(BackendProperties.loginUri,
-        body: jsonEncode({"email": email, "password": password}),
+        body: jsonEncode(
+            {"email": email, "password": password, "pushToken": pushToken}),
         headers: {"Content-Type": "application/json"});
     String userToken = "";
     print("Reponse Code ${res.statusCode}");
@@ -116,8 +121,10 @@ class AuthRepo {
   }
 
   Future<List<Rooms>?> getRoomIds(uid) async {
-    Response res = await Requests.get(BackendProperties.roomDataUri.toString(),
-        queryParameters: {"email": "shmokedev2@gmail.com"}); //TODO: FIX THIS
+    // Uri roomUri = BackendProperties.roomDataUri(email)
+    // http.Response res = await http.get()
+    // Response res = await Requests.get(BackendProperties.roomDataUri.toString(),
+    //     queryParameters: {"email": "shmokedev2@gmail.com"}); //TODO: FIX THIS
     return [];
   }
 
@@ -173,7 +180,11 @@ class AuthRepo {
 //TODO: ADD TRY CATCH
 
     Response res = await http.post(BackendProperties.registerUri,
-        body: jsonEncode({"name": name, "email": email, "password": password}),
+        body: jsonEncode({
+          "name": name,
+          "email": email,
+          "password": password,
+        }),
         headers: {"Content-Type": "application/json"});
     print("THSHFkjsdh ${res.statusCode}");
     print("djsfkjsdf ${res.url}");
