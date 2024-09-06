@@ -13,7 +13,7 @@ class UserProv extends ChangeNotifier {
   UserProv({required this.dataStore});
 
   bool get isLoggedIn => _isLoggedIn;
-
+//-----------------------catch the token before the signup and send with the token------------//
   // FirebaseMessaging fMessaging = FirebaseMessaging.instance;
   // final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
 
@@ -31,6 +31,7 @@ class UserProv extends ChangeNotifier {
   //       }
   //     }
   //   });
+
 
   // TODO- Create a Handler for ForeGround Messages
   // for handling foreground messages
