@@ -81,10 +81,13 @@ class EventsScreen extends StatelessWidget {
                 height: availableHeight / 2,
                 color: backgroundGrey,
                 padding: const EdgeInsets.fromLTRB(30, 5, 30, 5),
-                child: Card(
-                  color: Colors.white,
-                  child: EventCalendar(
-                    evm: evm,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(25),
+                  child: Card(
+                    color: Colors.white,
+                    child: EventCalendar(
+                      evm: evm,
+                    ),
                   ),
                 ),
               ),
@@ -95,10 +98,13 @@ class EventsScreen extends StatelessWidget {
                       clipBehavior: Clip.hardEdge,
                       controller: _controller,
                       itemBuilder: (context, index) {
-                        return EventTile(
-                          evm: evm,
-                          index: index,
-                          event: evm.events[index],
+                        return Padding(
+                          padding: const EdgeInsets.fromLTRB(30, 5, 30, 5),
+                          child: EventTile(
+                            evm: evm,
+                            index: index,
+                            event: evm.events[index],
+                          ),
                         );
                       },
                       itemCount: evm.events.length,

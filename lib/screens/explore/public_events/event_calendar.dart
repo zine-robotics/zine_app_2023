@@ -41,8 +41,8 @@ class EventCalendar extends StatelessWidget {
       headerStyle: const HeaderStyle(
         titleTextStyle: TextStyle(
             color: textColor, fontWeight: FontWeight.bold, fontSize: 30),
-        rightChevronVisible: false,
-        leftChevronVisible: false,
+        rightChevronVisible: true,
+        leftChevronVisible: true,
         formatButtonVisible: false,
         titleCentered: true,
       ),
