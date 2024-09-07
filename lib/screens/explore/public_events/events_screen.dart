@@ -78,7 +78,7 @@ class EventsScreen extends StatelessWidget {
           return Column(
             children: [
               Container(
-                height: availableHeight / 2,
+                // height: availableHeight / 2,
                 color: backgroundGrey,
                 padding: const EdgeInsets.fromLTRB(30, 5, 30, 5),
                 child: ClipRRect(

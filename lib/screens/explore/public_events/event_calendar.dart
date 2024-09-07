@@ -40,7 +40,7 @@ class EventCalendar extends StatelessWidget {
       onDaySelected: evm.selectEvent,
       headerStyle: const HeaderStyle(
         titleTextStyle: TextStyle(
-            color: textColor, fontWeight: FontWeight.bold, fontSize: 30),
+            color: textColor, fontWeight: FontWeight.bold, fontSize: 28),
         rightChevronVisible: true,
         leftChevronVisible: true,
         formatButtonVisible: false,
