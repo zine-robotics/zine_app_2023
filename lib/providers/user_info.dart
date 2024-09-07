@@ -60,6 +60,7 @@ class UserProv extends ChangeNotifier {
 
     _currUser = userModel;
     print(_currUser.type);
+    print("User Info Loaded");
     await dataStore.setString("loggedIn", 'true');
     await dataStore.setString('id', _currUser.id.toString());
     await dataStore.setString('uid', _currUser.uid.toString());
@@ -85,6 +86,3 @@ class UserProv extends ChangeNotifier {
   //   _currUser.lastSeen[name] = Timestamp.fromDate(DateTime.now());
   // }
 }
-
-
-

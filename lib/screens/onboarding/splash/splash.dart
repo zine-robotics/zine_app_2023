@@ -19,8 +19,6 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      var chatRoomView = Provider.of<ChatRoomViewModel>(context, listen: false);
-      chatRoomView.loadRooms();
       var eventsView = Provider.of<EventsVm>(
         context,
         listen: false,
@@ -28,7 +26,10 @@ class _SplashScreenState extends State<SplashScreen> {
       eventsView.getAllEvents();
     });
     var splashVm = Provider.of<SplashVM>(context, listen: false);
-    Timer(const Duration(seconds: 4), () => splashVm.isLogged(context));
+    Timer(const Duration(seconds: 4), () {
+      splashVm.isLogged(context);
+      
+    });
   }
 
   @override

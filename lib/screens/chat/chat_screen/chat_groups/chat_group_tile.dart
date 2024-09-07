@@ -50,17 +50,23 @@ class ChatGroupTile extends StatelessWidget {
                       color: Colors.white,
                       padding: const EdgeInsets.all(17.0),
                       child:
-                      // roomDetails.dpUrl !=null ? Image.network(
-                      //   roomDetails.dpUrl.toString(),
-                      //   height: 30,
-                      //   width: 30,
-                      //   fit: BoxFit.cover,
-                      //   color: textColor.withOpacity(0.9),
-                      // ):
-                      Image.asset("assets/images/zine_logo.png",height: 50,
-                          width: 50,
-                          fit: BoxFit.cover,
-                          color: textColor.withOpacity(0.9),),
+                          // roomDetails.dpUrl !=null ? Image.network(
+                          //   roomDetails.dpUrl.toString(),
+                          //   height: 30,
+                          //   width: 30,
+                          //   fit: BoxFit.cover,
+                          //   color: textColor.withOpacity(0.9),
+                          // ):
+
+                          (roomDetails.dpUrl == null)
+                              ? Image.asset(
+                                  "assets/images/zine_logo.png",
+                                  height: 50,
+                                  width: 50,
+                                  fit: BoxFit.cover,
+                                  color: textColor.withOpacity(0.9),
+                                )
+                              : Image.network(roomDetails.dpUrl!),
                     ),
                   ),
                 ),

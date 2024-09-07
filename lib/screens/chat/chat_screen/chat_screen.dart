@@ -16,14 +16,15 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   WidgetsBinding.instance.addPostFrameCallback((_) {
-  //     var chatRoomView=Provider.of<ChatRoomViewModel>(context, listen: false);
-  //     chatRoomView.loadRooms();
-  //   });
-  // }
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      var chatRoomView = Provider.of<ChatRoomViewModel>(context, listen: false);
+      chatRoomView.loadRooms();
+    });
+  }
+
   Widget headingText(String text) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -43,67 +44,73 @@ class _ChatScreenState extends State<ChatScreen> {
     return Consumer2<ChatRoomViewModel, UserProv>(
       builder: (context, chatVm, userProv, _) {
         // var currUser = userProv.currUser;
-        List<TempRooms>? roomDetails=chatVm.user_rooms;
-        List<TempRooms>? projectDetails=chatVm.userProjects;
+        List<TempRooms>? roomDetails = chatVm.user_rooms;
+        List<TempRooms>? projectDetails = chatVm.userProjects;
         // var roomDetails = currUser.roomDetails;
         // var projects = roomDetails['project'].values.toList();
 
+        return chatVm.isRoomLoading
+            ? const Center(child: CircularProgressIndicator())
+            : chatVm.isError
+                ? const Text("An Error Occured")
+                : Container(
+                    color: backgroundGrey,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: SingleChildScrollView(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // --------------------Channels-------------------------------
+                            headingText("Channels"),
+                            Channel(
+                              name: "Announcements",
+                              roomId: "452",
+                            ),
 
-        return Container(
-          color: backgroundGrey,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // --------------------Channels-------------------------------
-                  headingText("Channels"),
-                   Channel(
-                    name: "Announcements",
-                    roomId: "452",
+                            //--------------------Groups/Room----------------------------------
+                            roomDetails != null
+                                ? headingText("Groups")
+                                : Container(),
+                            roomDetails != null
+                                ? ChatGroups(roomDetails: roomDetails)
+                                : Container(),
 
-                  ),
+                            const SizedBox(
+                              height: 20,
+                            ),
 
-                  //--------------------Groups/Room----------------------------------
-                  roomDetails !=null
-                      ? headingText("Groups")
-                      : Container(),
-                  roomDetails !=null
-                      ? ChatGroups(roomDetails: roomDetails )
-                      : Container(),
-
-                  const SizedBox(
-                    height: 20,
-                  ),
-
-                  //--------------------Projects-----------------------------------R
-                  projectDetails !=null
-                      ? headingText("Project")
-                      : Container(),
-                  if (projectDetails !=null)
-                    Container(
-                      height: MediaQuery.of(context).size.height * 0.5, // You can adjust the height as needed
-                      child: chatVm.isRoomLoading? Center(child: CircularProgressIndicator()) :ListView.builder(
-                        itemCount: projectDetails?.length,
-                        itemBuilder: (BuildContext context, int index) {
-
-                          TempRooms item = projectDetails[index];
-                          return Channel(
-                            name: item.name ?? " ",
-                            roomId:item.id.toString(),
-                          );
-                        },
+                            //--------------------Projects-----------------------------------R
+                            projectDetails != null
+                                ? headingText("Project")
+                                : Container(),
+                            if (projectDetails != null)
+                              Container(
+                                height: MediaQuery.of(context).size.height *
+                                    0.5, // You can adjust the height as needed
+                                child: chatVm.isRoomLoading
+                                    ? Center(child: CircularProgressIndicator())
+                                    : ListView.builder(
+                                        itemCount: projectDetails?.length,
+                                        itemBuilder:
+                                            (BuildContext context, int index) {
+                                          TempRooms item =
+                                              projectDetails[index];
+                                          return Channel(
+                                            name: item.name ?? " ",
+                                            roomId: item.id.toString(),
+                                          );
+                                        },
+                                      ),
+                              )
+                            else
+                              Center(child: Text('No rooms available')),
+                          ],
+                        ),
                       ),
-                    )
-                  else
-                    Center(child: Text('No rooms available')),
-                ],
-              ),
-            ),
-          ),
-        );
+                    ),
+                  );
       },
     );
   }
