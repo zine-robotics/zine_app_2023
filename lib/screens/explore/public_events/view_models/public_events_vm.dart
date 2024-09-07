@@ -1,6 +1,9 @@
+import 'dart:core';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:zineapp2023/models/temp_events.dart';
+import 'package:zineapp2023/models/temp_message.dart';
 import 'package:zineapp2023/screens/events/repo/events_repo.dart';
 import 'package:zineapp2023/screens/explore/public_events/repo/public_events_repo.dart';
 import 'package:table_calendar/src/shared/utils.dart';
@@ -10,14 +13,14 @@ class PublicEventsVM extends ChangeNotifier {
   // final PublicEventsRepo peRepo = PublicEventsRepo();
   final EventsRepo eventsRepo = EventsRepo();
   List<TempEvents> _events = [];
-
-  TempEvents _selectedEvent = TempEvents(
-      name: 'null',
-      startDateTime:
-          DateTime.now().millisecondsSinceEpoch); //defualt Selected Event
+  static var nullEvent = TempEvents(
+      name: 'null', startDateTime: DateTime.now().millisecondsSinceEpoch);
+  TempEvents _selectedEvent = nullEvent; //defualt Selected Event
+  TempEvents _expandedEvent = nullEvent;
   int _selectedIndex = -1;
-  bool _isLoaded = false;
-  bool _isError = false;
+  int _expandedIndex = -1;
+  var _isLoaded = false;
+  var _isError = false;
 
   void loadEvents() async {
     if (_isLoaded) return;
@@ -52,14 +55,27 @@ class PublicEventsVM extends ChangeNotifier {
     notifyListeners();
   }
 
+  void toggleExpansion() {
+    if (_expandedEvent == nullEvent) {
+      _expandedEvent = _selectedEvent;
+      _expandedIndex = _selectedIndex;
+    } else {
+      _expandedEvent = nullEvent;
+      _expandedIndex = -1;
+    }
+  }
+
   void selectEventIndex(int index) {
     _selectedEvent = _events[index];
     _selectedIndex = index;
+    toggleExpansion();
     notifyListeners();
   }
 
   TempEvents get selectedEvent => _selectedEvent;
+  TempEvents get expandedEvent => _expandedEvent;
   int get selectedIndex => _selectedIndex;
+  int get expandedIndex => _expandedIndex;
 
   bool get isError => _isError;
   bool get isLoaded => _isLoaded;

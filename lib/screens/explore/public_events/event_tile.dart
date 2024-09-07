@@ -15,7 +15,6 @@ class EventTile extends StatefulWidget {
   final PublicEventsVM evm;
   final int index;
   final TempEvents event;
-
   @override
   State<EventTile> createState() => _EventTileState();
 }
@@ -27,7 +26,7 @@ class _EventTileState extends State<EventTile> {
         (kBottomNavigationBarHeight + kToolbarHeight);
     double compressedHeight = availableHeight / 6;
     double expandedHeight = availableHeight / 3.2;
-    bool expanded = !(widget.evm.selectedEvent == widget.event);
+    bool expanded = !(widget.evm.expandedEvent == widget.event);
     const duration = Duration(milliseconds: 250);
     return AnimatedContainer(
         duration: duration,
@@ -36,7 +35,7 @@ class _EventTileState extends State<EventTile> {
           borderRadius: BorderRadius.circular(10),
           onTap: () {
             widget.evm.selectEventIndex(widget.index);
-            setState(() => expanded = !expanded);
+            setState(() {});
           },
           child: Padding(
             padding: const EdgeInsets.all(8.0),
