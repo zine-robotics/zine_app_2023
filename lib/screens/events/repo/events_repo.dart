@@ -9,14 +9,14 @@ import 'package:http/http.dart' as http;
 class EventsRepo {
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
 
-  dynamic getEvents() async {
-    var querySnapshot = await _firebaseFirestore
-        .collection("events")
-        .orderBy('timeDate', descending: false)
-        .get();
-    final docData = querySnapshot.docs.map((doc) => Events.store(doc));
-    return docData.toList();
-  }
+  // dynamic getEvents() async {
+  //   var querySnapshot = await _firebaseFirestore
+  //       .collection("events")
+  //       .orderBy('timeDate', descending: false)
+  //       .get();
+  //   final docData = querySnapshot.docs.map((doc) => Events.store(doc));
+  //   return docData.toList();
+  // }
 
   //==================================================NEWER CODE=======================================//
   Future<List<TempEvents>> fetchEvents() async {

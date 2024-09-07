@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:zineapp2023/models/events.dart';
+import 'package:zineapp2023/models/temp_events.dart';
+import 'package:zineapp2023/models/temp_rooms.dart';
 import 'package:zineapp2023/screens/dashboard/repo/dash_repo.dart';
 import 'package:zineapp2023/screens/events/repo/events_repo.dart';
 
@@ -7,9 +9,8 @@ import '../../../common/routing.dart';
 
 class TimelineVm extends ChangeNotifier {
   final EventsRepo eventRepo = EventsRepo();
-  List<dynamic> listEvents = [];
+  Map<int, List<TempEvents>> sortedEvents = {};
   bool isLoading = false;
-  var prev = 0;
 
   Future<dynamic> routeMe(BuildContext context, String route) async {
     switch (route) {
@@ -41,27 +42,28 @@ class TimelineVm extends ChangeNotifier {
 
   void getStagesEvents() async {
     setLoading(true);
-    List<Events> list = await eventRepo.getEvents();
+    // List<Events> list = await eventRepo.getEvents();
+    List<TempEvents> list = await eventRepo.fetchEvents();
 
-    listEvents = [];
+    List<TempEvents> recruitmentEvents =
+        list.where((element) => element.recruitment != null).toList();
 
-    for (int i = 1; i <= list.length; i++) {
-      List<dynamic>? subList = list
-          .where((element) => element.stage == i.toString())
-          .where((element) => element.recruitment == 'true')
-          .toList();
+    // for (int i = 1; i <= list.length; i++) {
+    //   List<dynamic>? subList = list
+    //       .where((element) => element.stage == i.toString())
+    //       .where((element) => element.recruitment == 'true')
+    //       .toList();
 
-      if (subList != null) {
-        listEvents.add(subList);
+    for (TempEvents event in recruitmentEvents) {
+      if (sortedEvents.containsKey(event.recruitment!.stage!)) {
+        sortedEvents[event.recruitment!.stage!]!.add(event);
       } else {
-        listEvents.add([]);
+        sortedEvents[event.recruitment!.stage!] = [event];
       }
     }
+
     setLoading(false);
 
-    if (prev != listEvents.length) {
-      prev = listEvents.length;
-      notifyListeners();
-    }
+    notifyListeners();
   }
 }

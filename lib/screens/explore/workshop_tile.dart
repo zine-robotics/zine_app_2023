@@ -3,19 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:timelines/timelines.dart';
+import 'package:zineapp2023/models/temp_events.dart';
 import '../../models/events.dart';
 import '../../theme/color.dart';
 import '../events/view_models/events_vm.dart';
 
 class WorkshopTile extends StatelessWidget {
-  List<Events> events;
-
+  List<TempEvents> events;
   WorkshopTile({required this.events, super.key});
 
   @override
   Widget build(BuildContext context) {
-    List event = events;
-    if (events.length > 1) event = events.sublist(1);
+    List<TempEvents> event = events;
     // print(image[i]);
 
     //print("image error handling:${events[0].image}");
@@ -24,23 +23,36 @@ class WorkshopTile extends StatelessWidget {
         const SizedBox(
           height: 15.0,
         ),
-        for (int j = 0; j < events.length; j++)
-          events[j].isHeading == "true"
-              ? Column(
-                  children: [
-                    Text(
-                      "${events[j].name.toString()}",
-                      style: const TextStyle(
-                          color: textColor,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 25.0),
-                    ),
-                    Text("Stage ${events[j].stage.toString()}",
-                        style:
-                            const TextStyle(color: greyText, fontSize: 16.0)),
-                  ],
-                )
-              : Container(),
+        Column(
+          children: [
+            Text(
+              events[0].recruitment!.title!,
+              style: const TextStyle(
+                  color: textColor,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 25.0),
+            ),
+            Text("Stage ${events[0].recruitment!.stage}",
+                style: const TextStyle(color: greyText, fontSize: 16.0)),
+          ],
+        ),
+        // for (int j = 0; j < events.length; j++)
+        //   events[j].isHeading == "true"
+        //       ? Column(
+        //           children: [
+        //             Text(
+        //               "${events[j].name.toString()}",
+        //               style: const TextStyle(
+        //                   color: textColor,
+        //                   fontWeight: FontWeight.bold,
+        //                   fontSize: 25.0),
+        //             ),
+        //             Text("Stage ${events[j].stage.toString()}",
+        //                 style:
+        //                     const TextStyle(color: greyText, fontSize: 16.0)),
+        //           ],
+        //         )
+        //       : Container(),
 
         /* Text(
           "Stage ${events[i].stage.toString()}",
@@ -96,8 +108,10 @@ class WorkshopTile extends StatelessWidget {
                       : CrossAxisAlignment.end,
                   children: [
                     Text(
-                      DateFormat.yMMMd()
-                          .format(event[index].timeDate!.toDate()),
+                      DateFormat.yMMMd().format(
+                          DateTime.fromMillisecondsSinceEpoch(
+                              event[index].startDateTime!)),
+                      // .format(event[index].timeDate!.toDate()),
                       textAlign:
                           index % 2 != 0 ? TextAlign.right : TextAlign.left,
                       style: const TextStyle(
@@ -106,7 +120,9 @@ class WorkshopTile extends StatelessWidget {
                           fontSize: 13.0),
                     ),
                     Text(
-                      DateFormat.jm().format(event[index].timeDate!.toDate()),
+                      DateFormat.jm().format(
+                          DateTime.fromMillisecondsSinceEpoch(
+                              event[index].startDateTime!)),
                       textAlign:
                           index % 2 != 0 ? TextAlign.right : TextAlign.left,
                       style: const TextStyle(
@@ -139,17 +155,18 @@ class WorkshopTile extends StatelessWidget {
                       "assets/images/timeline/${i == 1 ? events[index].name!.toLowerCase() : image[i].toString().toLowerCase()}.png"),
               */
 
-                      event[index].image!.isNotEmpty
-                          ? Image.network(
-                              event[index].image.toString(),
-                              color: Colors.black,
-                              width: 35,
-                            )
-                          : Image.asset(
-                              'assets/images/zine_logo.png',
-                              color: Colors.black,
-                              width: 45,
-                            )),
+                      // event[index].image!.isNotEmpty
+                      //     ? Image.network(
+                      //         event[index].image.toString(),
+                      //         color: Colors.black,
+                      //         width: 35,
+                      //       )
+                      //     :
+                      Image.asset(
+                    'assets/images/zine_logo.png',
+                    color: Colors.black,
+                    width: 45,
+                  )),
             ),
             itemCount: event.length,
           ),

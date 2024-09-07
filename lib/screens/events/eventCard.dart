@@ -8,10 +8,9 @@ import 'package:zineapp2023/theme/color.dart';
 import 'package:zineapp2023/utilities/date_time.dart';
 
 class EventCard extends StatefulWidget {
-  final Events event;
   final TempEvents tempEvent;
   final selectedDate;
-  const EventCard({Key? key, required this.event, this.selectedDate,required this.tempEvent})
+  const EventCard({Key? key, this.selectedDate, required this.tempEvent})
       : super(key: key);
 
   @override
@@ -24,13 +23,14 @@ class _EventCardState extends State<EventCard> {
   var isExpanded = false;
   @override
   Widget build(BuildContext context) {
-    final Events event = widget.event;
+    // final Events event = widget.event;
     final TempEvents tempEvent = widget.tempEvent;
     // print("date passsing from the eventCalender${widget.selectedDate}");
 
     bool initExp = false;
-    DateTime? date = widget.event.timeDate?.toDate();
-    DateTime? tempDate = convertTimestamp(widget.tempEvent.startDateTime!);
+    DateTime? date =
+        DateTime.fromMillisecondsSinceEpoch(tempEvent.startDateTime!);
+    // DateTime? tempDate = convertTimestamp(widget.tempEvent.startDateTime!);
 
     if (widget.selectedDate != null && !checked) {
       print(getDDate(date!));
@@ -40,10 +40,12 @@ class _EventCardState extends State<EventCard> {
     }
     //isExpanded=int.parse(compareDay.toString())==checkDay ? true :false;
 
-    bool isOld =
-        Timestamp.fromDate(DateTime.now()).compareTo(Timestamp.fromDate(convertTimestamp(widget.tempEvent.startDateTime!))) > 0
-            ? false
-            : true;
+    bool isOld = Timestamp.fromDate(DateTime.now()).compareTo(
+                Timestamp.fromDate(
+                    convertTimestamp(widget.tempEvent.startDateTime!))) >
+            0
+        ? false
+        : true;
     var textStyleC = TextStyle(
         fontSize: 15,
         color: !isOld
@@ -158,18 +160,22 @@ class _EventCardState extends State<EventCard> {
                       child: Column(
                         children: [
                           Text(
-                            getDay(Timestamp.fromDate(convertTimestamp(tempEvent.startDateTime!)) ),
+                            getDay(Timestamp.fromDate(
+                                convertTimestamp(tempEvent.startDateTime!))),
                             textAlign: TextAlign.left,
                             softWrap: true,
                             style: TextStyle(fontSize: 50, color: Colors.white),
                           ),
                           Text(
-                            getDate(Timestamp.fromDate(convertTimestamp(tempEvent.startDateTime!))),
+                            getDate(Timestamp.fromDate(
+                                convertTimestamp(tempEvent.startDateTime!))),
                             textAlign: TextAlign.left,
                             softWrap: true,
                             style: TextStyle(fontSize: 30, color: Colors.white),
                           ),
-                          Text(getTime(Timestamp.fromDate(convertTimestamp(tempEvent.startDateTime!))),
+                          Text(
+                              getTime(Timestamp.fromDate(
+                                  convertTimestamp(tempEvent.startDateTime!))),
                               textAlign: TextAlign.left,
                               softWrap: true,
                               style:
@@ -216,18 +222,22 @@ class _EventCardState extends State<EventCard> {
                         height: 30,
                       ),
                       Text(
-                        getDay(Timestamp.fromDate(convertTimestamp(tempEvent.startDateTime!)) ),
+                        getDay(Timestamp.fromDate(
+                            convertTimestamp(tempEvent.startDateTime!))),
                         textAlign: TextAlign.left,
                         softWrap: true,
                         style: TextStyle(fontSize: 50, color: Colors.white),
                       ),
                       Text(
-                        getDate(Timestamp.fromDate(convertTimestamp(tempEvent.startDateTime!)) ),
+                        getDate(Timestamp.fromDate(
+                            convertTimestamp(tempEvent.startDateTime!))),
                         textAlign: TextAlign.left,
                         softWrap: true,
                         style: TextStyle(fontSize: 30, color: Colors.white),
                       ),
-                      Text(getTime(Timestamp.fromDate(convertTimestamp(tempEvent.startDateTime!))),
+                      Text(
+                          getTime(Timestamp.fromDate(
+                              convertTimestamp(tempEvent.startDateTime!))),
                           textAlign: TextAlign.left,
                           softWrap: true,
                           style: TextStyle(fontSize: 20, color: Colors.white)),
