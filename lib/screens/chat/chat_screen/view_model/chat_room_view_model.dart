@@ -22,9 +22,11 @@ import 'package:zineapp2023/backend_properties.dart';
 
 import '../../../../models/rooms.dart';
 import '../repo/chat_repo.dart';
+import 'package:http/http.dart'as http;
 
 class ChatRoomViewModel extends ChangeNotifier {
   final UserProv userProv;
+
 
   ChatRoomViewModel({required this.userProv}) {
     initializeWebSocket(); //constructor to initialize the webSocket for single time only!!
@@ -242,7 +244,8 @@ class ChatRoomViewModel extends ChangeNotifier {
   var fMessaging = FirebaseMessaging.instance;
   
   Future<void> loadRooms() async {
-    String email = 'herschellethomas10@gmail.com'; //FIXME : Fix this
+    UserModel currUser = userProv.getUserInfo;
+    String email ='herschellethomas10@gmail.com'; //currUser.email.toString();  //FIXME : Fix this
 
     _isRoomLoading = true;
 
@@ -313,6 +316,52 @@ class ChatRoomViewModel extends ChangeNotifier {
   //     print('Message with ID $messageId not found.');
   //   }
   // }
+  dynamic updateSeen(String email_id,String room_id)
+
+  async{
+    print("inside teh updateSeen");
+    final url='http://192.168.216.251:8080/user/${email_id}/${room_id}/seen';
+    try{
+      final response = await http.put(Uri.parse(url));
+      if (response.statusCode == 200) {
+        print("seen for room:$room_id updated");
+      } else {
+        print("error occure:");
+      }
+    }
+    catch(e)
+    {
+      print("some error occured:$e");
+    }
+    finally
+    {
+      print("sucess!!");
+    }
+  }
+  int? _lastSeenMessage;
+  int? get lastSeenMessage=>_lastSeenMessage;
+
+  Future<void> fetchLastSeen(String emailId, String roomId) async {
+    print("inside the fetchLastSeen");
+    try {
+      final response = await chatP.getLastSeen(emailId, roomId);
+      _lastSeenMessage = response['last_seen'];
+    } catch (e) {
+        print("error occur:${e}");
+    } finally {
+      notifyListeners(); // Notify UI to update with fetched data
+    }
+  }
+
+  List<ActiveMember> _activeMembers = [];
+  List<ActiveMember>  get activeMembers=>_activeMembers;
+  dynamic getTotalActiveMember(String roomId) async {
+    print("inside the totalactivemember");
+    _activeMembers = await chatP.fetchTotalActiveMember(roomId);
+    notifyListeners();
+  }
+
+
   //=====================================================older code===================================================================//
 
   var _data;

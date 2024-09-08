@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zineapp2023/models/user.dart';
 import 'package:zineapp2023/providers/user_info.dart';
 import 'package:zineapp2023/screens/chat/chat_description/chat_descp.dart';
@@ -10,28 +11,40 @@ import 'package:zineapp2023/theme/color.dart';
 import 'package:zineapp2023/utilities/string_formatters.dart';
 import '../../../components/gradient.dart';
 import 'chat_view.dart';
+import 'package:zineapp2023/common/data_store.dart';
+
 
 class ChatRoom extends StatefulWidget {
   final dynamic roomName;
-
+  String? email;
   final String? roomId;
 
-  ChatRoom({Key? key, required this.roomName, this.roomId}) : super(key: key);
+  ChatRoom({Key? key, required this.roomName, this.roomId,this.email}) : super(key: key);
 
   @override
   State<ChatRoom> createState() => _ChatRoomState();
 }
 
+
 class _ChatRoomState extends State<ChatRoom> {
+
   @override
   void initState() {
     super.initState();
+    _saveRoomNameToPreferences();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       var chatRoomView = Provider.of<ChatRoomViewModel>(context, listen: false);
-      // chatRoomView.setRoomId(widget.roomId!);
       widget.roomId != null ? chatRoomView.fetchMessages(widget.roomId!) : "";
       chatRoomView.setRoomId(widget.roomId!);
+      // chatRoomView.fetchLastSeen(widget.email!.toString(),widget.roomId!.toString());
+      chatRoomView.updateSeen(widget.email!.toString(),widget.roomId.toString());
+      chatRoomView.getTotalActiveMember(widget.roomId!.toString());
     });
+  }
+  Future<void> _saveRoomNameToPreferences() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString("roomName", widget.roomName.toString());
+    // print('Room name saved: ${widget.roomName}');
   }
 
   final TextEditingController messageController = TextEditingController();
@@ -39,11 +52,14 @@ class _ChatRoomState extends State<ChatRoom> {
   @override
   Widget build(BuildContext context) {
     return Consumer3<ChatRoomViewModel, DashboardVm, UserProv>(
-      builder: (context, chatVm, dashVm, userProv, _) {
-        var listOfUsers = [];
+      builder: (context, chatVm, dashVm, userProv,_) {
+        // var listOfUsers = [];
         var image = null;
+        // print("chatRoom:${widget.roomName}");
         UserModel currUser = userProv.getUserInfo;
         bool isNotAllowedTyping = true;
+        List<ActiveMember>listOfUsers= chatVm.activeMembers;
+        //
 
         if (currUser.type == 'user' && widget.roomName == 'Announcements') {
           isNotAllowedTyping = false;

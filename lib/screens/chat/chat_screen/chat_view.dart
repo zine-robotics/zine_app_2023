@@ -88,7 +88,6 @@ Widget chatV(BuildContext context, Stream<List<TempMessageModel>> messageStream,
                       chats, chats[currIndx].replyTo!.id.toString());
                   // print("checking reply content:${chats[currIndx].content}");
                 }
-                // print("replied message${repliedMessage}");
                 return chats[currIndx].content!.isEmpty
                     ? Container()
                     : Column(
@@ -176,9 +175,13 @@ Widget chatV(BuildContext context, Stream<List<TempMessageModel>> messageStream,
                                                               12.0),
                                                       child: Text(
                                                         repliedMessage != null
-                                                            ? repliedMessage
+                                                            ? (repliedMessage
                                                                 .content
-                                                                .toString()
+                                                                .toString()).length>20? repliedMessage
+                                                            .content
+                                                            .toString().substring(0,20)+'...':repliedMessage
+                                                            .content
+                                                            .toString()
                                                             : " ",
                                                         // softWrap: true,
                                                         textAlign:

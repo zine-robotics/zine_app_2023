@@ -254,4 +254,46 @@ class ChatRepo {
       return [];
     }
   }
+
+  //--------------------------------check LastSeen----------------------------------//
+  dynamic getLastSeen(String email_id,String room_id) async
+  {
+    print("inside teh getLastSeen");
+    print("email:$email_id and roomid:$room_id");
+    try{
+      Uri url = Uri.parse(
+          'http://192.168.216.251:8080/user/$email_id/$room_id/last-seen');
+      final response = await http.get(url);
+      print("response status code:${response.statusCode}");
+      if (response.statusCode == 200) {
+        final jsonResponse = jsonDecode(response.body);
+        print("lastseen: response:${jsonResponse}");
+      } else {
+        print("failed to load the rooms info :${response.statusCode}");
+        return null;
+      }
+    }catch(e)
+    {
+      print("error occur:${e}");
+    }
+  }
+
+  Future<List<ActiveMember>> fetchTotalActiveMember(String roomId) async {
+    try {
+      final String baseUrl = "http://ec2-18-116-38-241.us-east-2.compute.amazonaws.com/members/get";
+      Uri url = Uri.parse('$baseUrl?roomId=$roomId');
+      final response = await http.get(url);
+      if (response.statusCode == 200) {
+        List<dynamic> users = jsonDecode(response.body);
+        List<ActiveMember> members = users.map((json) => ActiveMember.fromJson(json)).toList();
+        return members;
+      } else {
+        print("Failed to load users, status code: ${response.statusCode}");
+        return [];
+      }
+    } catch (error) {
+      print("Error occurred while fetching users: $error");
+      return [];
+    }
+  }
 }

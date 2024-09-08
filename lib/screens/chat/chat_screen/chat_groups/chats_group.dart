@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zineapp2023/models/temp_rooms.dart';
 import 'package:zineapp2023/screens/chat/chat_screen/view_model/chat_room_view_model.dart';
+import '../../../../models/user.dart';
 import '../../../../providers/user_info.dart';
 import '../chat_room.dart';
 import 'chat_group_tile.dart';
@@ -15,6 +16,7 @@ class ChatGroups extends StatelessWidget {
     return Consumer2<ChatRoomViewModel, UserProv>(
       builder: (context, chatVm, userProv, _) {
         // var currUser = userProv.currUser;
+        UserModel currUser = userProv.getUserInfo;
 
         // var listOfuser = currUser.roomIDs;
         // var roomDetails = currUser.roomDetails;
@@ -58,6 +60,7 @@ class ChatGroups extends StatelessWidget {
                           builder: (context) => ChatRoom(
                               roomName: item.name,
                               roomId:item.id.toString(),
+                              email: currUser.email,
                               )));
                 },
                 child: ChatGroupTile(

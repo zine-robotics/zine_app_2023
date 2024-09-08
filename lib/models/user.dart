@@ -62,3 +62,27 @@ class UserModel {
     return data;
   }
 }
+class ActiveMember {
+  String? name;
+  String? email;
+  String? role;
+  Null? dpUrl;
+
+  ActiveMember({this.name, this.email, this.role, this.dpUrl});
+
+  ActiveMember.fromJson(Map<String, dynamic> json) {
+    name = json['name'];
+    email = json['email'];
+    role = json['role'];
+    dpUrl = json['dpUrl'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['name'] = this.name;
+    data['email'] = this.email;
+    data['role'] = this.role;
+    data['dpUrl'] = this.dpUrl;
+    return data;
+  }
+}

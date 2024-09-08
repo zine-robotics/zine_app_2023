@@ -53,7 +53,7 @@ class EventsScreen extends StatelessWidget {
             size: 40,
           ),
           onPressed: () {
-            Navigator.pop(context);
+            // Navigator.canPop(context);
           },
         ),
         title: const Text(
