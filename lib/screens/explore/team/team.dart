@@ -70,7 +70,9 @@ class TeamScreen extends StatelessWidget {
                               name: dict.teamScreen.team![i][index].name!,
                               id: dict.teamScreen.team![i][index].email!,
                               bio: dict.teamScreen.team![i][index].bio!,
-                              linkedin: dict.teamScreen.team![i][index].linkedIn!,
+                              linkedin:
+                                  dict.teamScreen.team![i][index].linkedIn!,
+                              branch: "Electronics & Communication",
                             );
                     },
                   )

@@ -12,16 +12,17 @@ class TeamTile extends StatefulWidget {
   final String image;
   final String bio;
   final String linkedin;
+  final String branch;
 
-  const TeamTile({
-    super.key,
-    required this.year,
-    required this.image,
-    required this.name,
-    required this.id,
-    required this.bio,
-    required this.linkedin,
-  });
+  const TeamTile(
+      {super.key,
+      required this.year,
+      required this.image,
+      required this.name,
+      required this.id,
+      required this.bio,
+      required this.linkedin,
+      required this.branch});
 
   @override
   State<TeamTile> createState() => _TeamTileState();
@@ -38,13 +39,14 @@ class _TeamTileState extends State<TeamTile> {
           child: Card(
               child: AnimatedContainer(
             duration: duration,
-            height: expanded ? 100 : 220,
+            height: expanded ? 100 : 160,
             child: Stack(
               children: [
                 AnimatedPositioned(
                     curve: Curves.easeInOut,
-                    top: 13,
-                    left: expanded ? 100 : 13,
+                    top: expanded ? 30 : 50,
+                    right: expanded ? 100 : 80,
+                    // left: expanded ? 100 : 13,
                     duration: duration,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -60,7 +62,7 @@ class _TeamTileState extends State<TeamTile> {
                           height: 5.0,
                         ),
                         Text(
-                          widget.id,
+                          widget.branch,
                           style: const TextStyle(
                               fontSize: 12.0,
                               color: textColor,
@@ -102,17 +104,17 @@ class _TeamTileState extends State<TeamTile> {
                   right: 13,
                   width: 230,
                   child: AnimatedContainer(
-                    height: expanded ? 0 : 160,
+                    height: expanded ? 0 : 100,
                     duration: duration,
                     child: Column(
                       children: [
-                        Flexible(
-                          fit: FlexFit.loose,
-                          child: Text(
-                            widget.bio,
-                            overflow: TextOverflow.fade,
-                          ),
-                        ),
+                        // Flexible(
+                        //   fit: FlexFit.loose,
+                        //   child: Text(
+                        //     widget.bio,
+                        //     overflow: TextOverflow.fade,
+                        //   ),
+                        // ),
                         Flexible(
                           fit: FlexFit.tight,
                           child: Row(
@@ -121,9 +123,9 @@ class _TeamTileState extends State<TeamTile> {
                               ElevatedButton(
                                 clipBehavior: Clip.hardEdge,
                                 onPressed: () {
-                                  final email = Uri(
+                                  final linkedIn = Uri(
                                       scheme: 'https', path: widget.linkedin);
-                                  dashboardVm.launchUrl(email);
+                                  dashboardVm.launchUrl(linkedIn);
                                 },
                                 child: const Icon(FontAwesomeIcons.linkedin),
                               ),
