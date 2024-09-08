@@ -30,50 +30,6 @@ Future<void> main() async {
   await initializeNotifications();
   setupForegroundMessageListener();
   FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
-  // // await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  //
-  // // await FlutterNotificationChannel.registerNotificationChannel(
-  // //     description: 'For Showing Message Notification',
-  // //     id: 'chats',
-  // //     importance: NotificationImportance.IMPORTANCE_HIGH,
-  // //     name: 'Chats');
-  // // log('\nNotification Channel Result: $result');
-  // const AndroidInitializationSettings initializationSettingsAndroid =
-  // AndroidInitializationSettings('@mipmap/ic_launcher');
-  // final InitializationSettings initializationSettings =
-  // InitializationSettings(
-  //   android: initializationSettingsAndroid,
-  // );
-  // await flutterLocalNotificationsPlugin.initialize(initializationSettings);
-  // FirebaseMessaging messaging = FirebaseMessaging.instance;
-  // await messaging.requestPermission(
-  //   alert: true,
-  //   announcement: false,
-  //   badge: true,
-  //   carPlay: false,
-  //   criticalAlert: true,
-  //   provisional: false,
-  //   sound: true,
-  // );
-  // await messaging.setForegroundNotificationPresentationOptions(
-  //     alert: true, badge: true, sound: true);
-  //
-  // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-  // FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
-  //   // print('Got a message whilst in the foreground!');
-  //   // print('Message data: ${message.data}');
-  //
-  //   if (message.notification != null) {
-  //     print(
-  //         'Message also contained a notification: ${message.notification?.title}');
-  //     await _showNotification(
-  //       title: message.notification!.title,
-  //       body: message.notification!.body,
-  //     );
-  //   }
-  // });
-
-  // ignore: unused_local_variable
   DataStore store = DefaultStore();
   UserProv userProv = UserProv(dataStore: store);
   FlutterSecureStorage secureStorage = const FlutterSecureStorage();
@@ -110,23 +66,4 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-// Future<void> _showNotification({String? title, String? body}) async {
-//   const AndroidNotificationDetails androidPlatformChannelSpecifics =
-//   AndroidNotificationDetails(
-//     'your_channel_id', // Replace with your channel ID
-//     'your_channel_name', // Replace with your channel name
-//     importance: Importance.max,
-//     priority: Priority.high,
-//     playSound: true,
-//   );
-//   const NotificationDetails platformChannelSpecifics =
-//   NotificationDetails(android: androidPlatformChannelSpecifics);
-//
-//   await flutterLocalNotificationsPlugin.show(
-//     0, // Notification ID
-//     title,
-//     body,
-//     platformChannelSpecifics,
-//     payload: 'item x',
-//   );
-// }
+

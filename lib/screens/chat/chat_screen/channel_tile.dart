@@ -4,6 +4,7 @@ import 'package:zineapp2023/providers/user_info.dart';
 import 'package:zineapp2023/screens/chat/chat_screen/view_model/chat_room_view_model.dart';
 
 
+import '../../../models/user.dart';
 import 'chat_room.dart';
 
 const announceChannelId = 'Hn9GSQnvi5zh9wabLGuT';
@@ -20,6 +21,7 @@ class Channel extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer2<ChatRoomViewModel, UserProv>(
         builder: (context, chatVm, userProv, _) {
+          UserModel currUser = userProv.getUserInfo;
       // chatVm.getLastMessages(name);
       // var lastChat = chatVm.lastChatRoom(name);
       // bool unSeen = chatVm.unread(name, userProv.currUser);
@@ -37,6 +39,7 @@ class Channel extends StatelessWidget {
                     builder: (context) => ChatRoom(
                           roomName: name,
                           roomId: roomId,
+                          email:currUser.email,
                         )));
           },
           child: Container(
