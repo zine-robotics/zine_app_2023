@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:zineapp2023/screens/explore/public_events/view_models/public_events_vm.dart';
 import 'package:zineapp2023/theme/color.dart';
@@ -9,6 +10,8 @@ class EventCalendar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double availableHeight = MediaQuery.of(context).size.height -
+        (kBottomNavigationBarHeight + kToolbarHeight);
     return TableCalendar(
       calendarStyle: const CalendarStyle(
           selectedTextStyle: TextStyle(color: Colors.white),

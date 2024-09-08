@@ -22,12 +22,11 @@ class DashboardVm extends ChangeNotifier {
     "MACHINE LEARNING": "ML"
   };
 
-
   DashboardVm({required this.store, required this.userProv});
 
   List<Events> _events = [];
 
-  dynamic prev=0;
+  dynamic prev = 0;
 
   get events => _events;
 
@@ -39,8 +38,7 @@ class DashboardVm extends ChangeNotifier {
     }
   }
 
-
   void launchUrl(url) {
-    dashRepo.launchUrlStart(url: url);
+    dashRepo.launchUrlStart(url: url.toString());
   }
 }

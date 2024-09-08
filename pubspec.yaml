@@ -17,7 +17,6 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-
 version: 3.0.0+13
 
 environment:
@@ -30,6 +29,7 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  auto_size_text: ^3.0.0
   carousel_slider: ^4.2.1
   cloud_firestore: ^4.13.6
   cupertino_icons: ^1.0.2
@@ -42,30 +42,27 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_linkify: ^6.0.0
+  flutter_local_notifications: ^17.2.0
+  flutter_neat_and_clean_calendar: ^0.3.16+36
   flutter_notification_channel: ^2.0.0
   flutter_secure_storage: ^9.2.2
   fluttertoast: ^8.1.2
   font_awesome_flutter: ^10.7.0
   http: any
   image_picker: ^1.0.5
-  stomp_dart_client: ^1.0.0
-
   intl: ^0.19.0
-
   linkwell: ^2.0.6
+  path: null
   pin_code_fields: ^8.0.1
   provider: ^6.0.5
   requests: ^4.7.0
   shared_preferences: ^2.0.17
+  stomp_dart_client: ^1.0.0
   swipe_to: ^1.0.2
   table_calendar: ^3.1.2
   timelines: ^0.1.0
   url_launcher: ^6.3.0
-  flutter_neat_and_clean_calendar: ^0.3.16+36
-  flutter_local_notifications: ^17.2.0
-
-  xml:
-  path:
+  xml: null
 
 dev_dependencies:
   flutter_launcher_icons: ^0.13.1

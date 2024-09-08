@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
@@ -32,6 +33,9 @@ class _TeamTileState extends State<TeamTile> {
   bool expanded = true;
   @override
   Widget build(BuildContext context) {
+    double availableHeight = MediaQuery.of(context).size.height -
+        (kBottomNavigationBarHeight + kToolbarHeight);
+    print("Available Height $availableHeight");
     const duration = Duration(milliseconds: 500);
     return Consumer<DashboardVm>(builder: (context, dashboardVm, _) {
       return InkWell(
@@ -39,34 +43,39 @@ class _TeamTileState extends State<TeamTile> {
           child: Card(
               child: AnimatedContainer(
             duration: duration,
-            height: expanded ? 100 : 160,
+            height: expanded ? availableHeight * 0.14 : availableHeight * 0.21,
             child: Stack(
               children: [
                 AnimatedPositioned(
                     curve: Curves.easeInOut,
-                    top: expanded ? 30 : 50,
-                    right: expanded ? 100 : 80,
+                    top: expanded
+                        ? availableHeight * 0.04
+                        : availableHeight * 0.06,
+                    right: expanded
+                        ? availableHeight * 0.135
+                        : availableHeight * 0.1,
                     // left: expanded ? 100 : 13,
                     duration: duration,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
+                        AutoSizeText(
                           widget.name,
+                          maxFontSize: 18,
+                          minFontSize: 10,
                           style: const TextStyle(
-                              fontSize: 18.0,
+                              // fontSize: 18.0,
                               color: textDarkBlue,
                               fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(
                           height: 5.0,
                         ),
-                        Text(
+                        AutoSizeText(
                           widget.branch,
+                          maxFontSize: 12.0,
                           style: const TextStyle(
-                              fontSize: 12.0,
-                              color: textColor,
-                              fontWeight: FontWeight.w300),
+                              color: textColor, fontWeight: FontWeight.w300),
                         )
                       ],
                     )),
@@ -77,7 +86,9 @@ class _TeamTileState extends State<TeamTile> {
                   left: 13.0,
                   child: AnimatedContainer(
                     duration: duration,
-                    height: expanded ? 75 : 130,
+                    height: expanded
+                        ? availableHeight * 0.11
+                        : availableHeight * 0.177,
                     child: AspectRatio(
                       aspectRatio: 1 / 1,
                       child: ClipRRect(
@@ -100,9 +111,9 @@ class _TeamTileState extends State<TeamTile> {
                   ),
                 ),
                 Positioned(
-                  top: 70,
-                  right: 13,
-                  width: 230,
+                  bottom: 0,
+                  right: MediaQuery.of(context).size.width * 0.01,
+                  width: MediaQuery.of(context).size.width * 0.6,
                   child: AnimatedContainer(
                     height: expanded ? 0 : 100,
                     duration: duration,
@@ -120,6 +131,9 @@ class _TeamTileState extends State<TeamTile> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
+                              Container(
+                                color: greyText,
+                              ),
                               ElevatedButton(
                                 clipBehavior: Clip.hardEdge,
                                 onPressed: () {
