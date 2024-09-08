@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:zineapp2023/models/temp_rooms.dart';
 import 'package:zineapp2023/screens/chat/chat_screen/view_model/chat_room_view_model.dart';
 
+import '../../../models/rooms.dart';
 import '../../../providers/user_info.dart';
 import '../../../theme/color.dart';
 import 'chat_groups/chats_group.dart';
@@ -43,8 +43,8 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     return Consumer2<ChatRoomViewModel, UserProv>(
       builder: (context, chatVm, userProv, _) {
-        List<TempRooms>? roomDetails = chatVm.user_rooms;
-        List<TempRooms>? projectDetails = chatVm.userProjects;
+        List<Rooms>? roomDetails = chatVm.user_rooms;
+        List<Rooms>? projectDetails = chatVm.userProjects;
         return chatVm.isRoomLoading
             ? const Center(child: CircularProgressIndicator())
                 : Container(
@@ -91,7 +91,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                         itemCount: projectDetails?.length,
                                         itemBuilder:
                                             (BuildContext context, int index) {
-                                          TempRooms item =
+                                          Rooms item =
                                               projectDetails[index];
                                           return Channel(
                                             roomDetail:projectDetails[index],

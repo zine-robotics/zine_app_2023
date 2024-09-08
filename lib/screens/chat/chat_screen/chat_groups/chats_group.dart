@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:zineapp2023/models/temp_rooms.dart';
 import 'package:zineapp2023/screens/chat/chat_screen/view_model/chat_room_view_model.dart';
+import '../../../../models/rooms.dart';
 import '../../../../models/user.dart';
 import '../../../../providers/user_info.dart';
 import '../chat_room.dart';
 import 'chat_group_tile.dart';
 
 class ChatGroups extends StatelessWidget {
-  final List<TempRooms>? roomDetails;
+  final List<Rooms>? roomDetails;
   const ChatGroups({super.key,this.roomDetails});
 
   @override

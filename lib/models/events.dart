@@ -1,54 +1,77 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Events {
-  String? name;
+  int? id;
   String? description;
+  String? type;
+  String? name;
   String? venue;
-  String? eventType;
-  String? stage;
-  String? isHeading;
-  Timestamp? timeDate;
-  String? image;
-  String? recruitment;
+  int? startDateTime;
+  int? endDateTime;
+  Recruitment? recruitment;
 
-  Events({this.name, this.description, this.venue, this.timeDate,this.isHeading,this.image,this.recruitment});
+  Events(
+      {this.id,
+        this.description,
+        this.type,
+        this.name,
+        this.venue,
+        this.startDateTime,
+        this.endDateTime,
+        this.recruitment});
 
   Events.fromJson(Map<String, dynamic> json) {
-    name = json['name'];
+    id = json['id'];
     description = json['description'];
+    type = json['type'];
+    name = json['name'];
     venue = json['venue'];
-    timeDate = json['timeDate'];
-    eventType = json['eventType'];
-    stage = json['stage'];
-    isHeading=json['isHeading'];
-    image=json['image'];
-    recruitment=json['recruitment'];
+    startDateTime = json['startDateTime'];
+    endDateTime = json['endDateTime'];
+    recruitment = json['recruitment'] != null
+        ? new Recruitment.fromJson(json['recruitment'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['name'] = name;
-    data['description'] = description;
-    data['venue'] = venue;
-    data['time'] = timeDate;
-    data['eventType'] = eventType;
-    data['stage'] = stage;
-    data['isHeading']=isHeading;
-    data['image']=image;
-    data['recruitment']=recruitment;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['description'] = this.description;
+    data['type'] = this.type;
+    data['name'] = this.name;
+    data['venue'] = this.venue;
+    data['startDateTime'] = this.startDateTime;
+    data['endDateTime'] = this.endDateTime;
+    if (this.recruitment != null) {
+      data['recruitment'] = this.recruitment!.toJson();
+    }
     return data;
   }
+}
 
-  Events.store(snapshot)
-      : venue = snapshot.data()['venue'],
-        description = snapshot.data()['description'],
-        timeDate = snapshot.data()['timeDate'],
-        name = snapshot.data()['name'],
-        stage = snapshot.data()['stage'].toString() ,
-        isHeading=snapshot.data()['isHeading'].toString(),
-        image=snapshot.data()['image'].toString(),
-        recruitment=snapshot.data()['recruitment'].toString(),
-        eventType = snapshot.data()['eventType'];
+class Recruitment {
+  int? id;
+  String? title;
+  int? stage;
+  String? description;
+
+  Recruitment({this.id, this.title, this.stage, this.description});
+
+  Recruitment.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    title = json['title'];
+    stage = json['stage'];
+    description = json['description'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['title'] = this.title;
+    data['stage'] = this.stage;
+    data['description'] = this.description;
+    return data;
+  }
 }
 
 

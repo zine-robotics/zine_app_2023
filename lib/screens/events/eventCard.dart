@@ -3,12 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:expansion_tile_card/expansion_tile_card.dart';
 import 'package:zineapp2023/components/gradient.dart';
 import 'package:zineapp2023/models/events.dart';
-import 'package:zineapp2023/models/temp_events.dart';
 import 'package:zineapp2023/theme/color.dart';
 import 'package:zineapp2023/utilities/date_time.dart';
 
 class EventCard extends StatefulWidget {
-  final TempEvents tempEvent;
+  final Events tempEvent;
   final selectedDate;
   const EventCard({Key? key, this.selectedDate, required this.tempEvent})
       : super(key: key);
@@ -24,7 +23,7 @@ class _EventCardState extends State<EventCard> {
   @override
   Widget build(BuildContext context) {
     // final Events event = widget.event;
-    final TempEvents tempEvent = widget.tempEvent;
+    final Events tempEvent = widget.tempEvent;
     // print("date passsing from the eventCalender${widget.selectedDate}");
 
     bool initExp = false;

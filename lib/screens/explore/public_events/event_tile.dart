@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:zineapp2023/models/events.dart';
-import 'package:zineapp2023/models/temp_events.dart';
 import 'package:zineapp2023/screens/explore/public_events/view_models/public_events_vm.dart';
 import 'package:zineapp2023/theme/color.dart';
 import 'package:intl/intl.dart';
@@ -16,7 +15,7 @@ class EventTile extends StatefulWidget {
   });
   final PublicEventsVM evm;
   final int index;
-  final TempEvents event;
+  final Events event;
   @override
   State<EventTile> createState() => _EventTileState();
 }

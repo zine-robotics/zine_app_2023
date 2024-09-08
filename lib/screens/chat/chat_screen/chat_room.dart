@@ -10,7 +10,7 @@ import 'package:zineapp2023/screens/dashboard/view_models/dashboard_vm.dart';
 import 'package:zineapp2023/theme/color.dart';
 import 'package:zineapp2023/utilities/string_formatters.dart';
 import '../../../components/gradient.dart';
-import '../../../models/temp_rooms.dart';
+import '../../../models/rooms.dart';
 import 'chat_view.dart';
 import 'package:zineapp2023/common/data_store.dart';
 
@@ -19,7 +19,7 @@ class ChatRoom extends StatefulWidget {
   // final dynamic roomName;
   String? email;
   // final String? roomId;
-  TempRooms? roomDetail;
+  Rooms? roomDetail;
 
   ChatRoom({Key? key,  this.roomDetail, this.email}) : super(key: key);
 

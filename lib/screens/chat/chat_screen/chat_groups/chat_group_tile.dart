@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:zineapp2023/models/temp_rooms.dart';
+import '../../../../models/rooms.dart';
 import '../../../../theme/color.dart';
 import '../../../../utilities/date_time.dart';
 
@@ -17,7 +17,7 @@ class ChatGroupTile extends StatelessWidget {
   final dynamic chatVm;
   final dynamic userProv;
   final String groupId;
-  TempRooms roomDetails;
+  Rooms roomDetails;
 
   @override
   Widget build(BuildContext context) {

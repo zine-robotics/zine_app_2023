@@ -1,7 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:zineapp2023/models/events.dart';
-import 'package:zineapp2023/models/temp_events.dart';
-import 'package:zineapp2023/models/temp_rooms.dart';
 import 'package:zineapp2023/screens/dashboard/repo/dash_repo.dart';
 import 'package:zineapp2023/screens/events/repo/events_repo.dart';
 
@@ -9,7 +7,7 @@ import '../../../common/routing.dart';
 
 class TimelineVm extends ChangeNotifier {
   final EventsRepo eventRepo = EventsRepo();
-  Map<int, List<TempEvents>> sortedEvents = {};
+  Map<int, List<Events>> sortedEvents = {};
   bool isLoading = false;
 
   Future<dynamic> routeMe(BuildContext context, String route) async {
@@ -43,9 +41,9 @@ class TimelineVm extends ChangeNotifier {
   void getStagesEvents() async {
     setLoading(true);
     // List<Events> list = await eventRepo.getEvents();
-    List<TempEvents> list = await eventRepo.fetchEvents();
+    List<Events> list = await eventRepo.fetchEvents();
 
-    List<TempEvents> recruitmentEvents =
+    List<Events> recruitmentEvents =
         list.where((element) => element.recruitment != null).toList();
 
     // for (int i = 1; i <= list.length; i++) {
@@ -54,7 +52,7 @@ class TimelineVm extends ChangeNotifier {
     //       .where((element) => element.recruitment == 'true')
     //       .toList();
 
-    for (TempEvents event in recruitmentEvents) {
+    for (Events event in recruitmentEvents) {
       if (sortedEvents.containsKey(event.recruitment!.stage!)) {
         sortedEvents[event.recruitment!.stage!]!.add(event);
       } else {
