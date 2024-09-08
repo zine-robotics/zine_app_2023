@@ -50,3 +50,27 @@ class Events {
         recruitment=snapshot.data()['recruitment'].toString(),
         eventType = snapshot.data()['eventType'];
 }
+
+
+//----------------------------------------lastSeen Api--------------------------------------//
+class LastSeen {
+  int? lastMessageTimestamp;
+  int? unreadMessages;
+  int? userLastSeen;
+
+  LastSeen({this.lastMessageTimestamp, this.unreadMessages, this.userLastSeen});
+
+  LastSeen.fromJson(Map<String, dynamic> json) {
+    lastMessageTimestamp = json['lastMessageTimestamp'];
+    unreadMessages = json['unreadMessages'];
+    userLastSeen = json['userLastSeen'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['lastMessageTimestamp'] = this.lastMessageTimestamp;
+    data['unreadMessages'] = this.unreadMessages;
+    data['userLastSeen'] = this.userLastSeen;
+    return data;
+  }
+}

@@ -5,32 +5,62 @@ class TempRooms {
   String? type;
   String? dpUrl;
   int? timestamp;
+  int? lastMessageTimestamp;
+  int? unreadMessages;
+  int? userLastSeen;
 
-  TempRooms(
-      {this.id,
-        this.name,
-        this.description,
-        this.type,
-        this.dpUrl,
-        this.timestamp});
+  TempRooms({
+    this.id,
+    this.name,
+    this.description,
+    this.type,
+    this.dpUrl,
+    this.timestamp,
+    this.lastMessageTimestamp,
+    this.unreadMessages,
+    this.userLastSeen,
+  });
 
   TempRooms.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    name = json['name'];
-    description = json['description'];
-    type = json['type'];
-    dpUrl = json['dpUrl'];
-    timestamp = json['timestamp'];
+    id = json['room']['id'];
+    name = json['room']['name'];
+    description = json['room']['description'];
+    type = json['room']['type'];
+    dpUrl = json['room']['dpUrl'];
+    timestamp = json['room']['timestamp'];
+    lastMessageTimestamp = json['lastMessageTimestamp'];
+    unreadMessages = json['unreadMessages'];
+    userLastSeen = json['userLastSeen'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['description'] = this.description;
-    data['type'] = this.type;
-    data['dpUrl'] = this.dpUrl;
-    data['timestamp'] = this.timestamp;
+    final Map<String, dynamic> data = <String, dynamic>{};
+
+    data['room'] = {
+      'id': id,
+      'name': name,
+      'description': description,
+      'type': type,
+      'dpUrl': dpUrl,
+      'timestamp': timestamp,
+    };
+
+    data['lastMessageTimestamp'] = lastMessageTimestamp;
+    data['unreadMessages'] = unreadMessages;
+    data['userLastSeen'] = userLastSeen;
+
     return data;
   }
+
+  // If storing from Firestore snapshot
+  TempRooms.store(snapshot)
+      : id = snapshot.data()['id'],
+        name = snapshot.data()['name'],
+        description = snapshot.data()['description'],
+        type = snapshot.data()['type'],
+        dpUrl = snapshot.data()['dpUrl'],
+        timestamp = snapshot.data()['timestamp'],
+        lastMessageTimestamp = snapshot.data()['lastMessageTimestamp'],
+        unreadMessages = snapshot.data()['unreadMessages'],
+        userLastSeen = snapshot.data()['userLastSeen'];
 }

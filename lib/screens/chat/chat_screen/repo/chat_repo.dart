@@ -12,6 +12,7 @@ import 'package:zineapp2023/models/temp_rooms.dart';
 import 'package:zineapp2023/providers/user_info.dart';
 import 'package:http/http.dart' as http;
 
+import '../../../../models/events.dart';
 import '../../../../models/rooms.dart';
 import '../../../../models/user.dart';
 
@@ -256,28 +257,35 @@ class ChatRepo {
   }
 
   //--------------------------------check LastSeen----------------------------------//
-  dynamic getLastSeen(String email_id,String room_id) async
-  {
-    print("inside teh getLastSeen");
-    print("email:$email_id and roomid:$room_id");
-    try{
-      Uri url = Uri.parse(
-          'http://192.168.216.251:8080/user/$email_id/$room_id/last-seen');
+  Future<LastSeen?> fetchLastSeen(String emailId, String roomId) async {
+    print("inside fetchLastSeen");
+    print("email: $emailId and roomId: $roomId");
+
+    try {
+      Uri url = BackendProperties.lastSeenUri(emailId, roomId);
       final response = await http.get(url);
-      print("response status code:${response.statusCode}");
+
+      print("response status code: ${response.statusCode}");
       if (response.statusCode == 200) {
-        final jsonResponse = jsonDecode(response.body);
-        print("lastseen: response:${jsonResponse}");
+        final Map<String, dynamic> responseData = json.decode(response.body);
+        if (responseData.containsKey('info')) {
+          final Map<String, dynamic> info = responseData['info'];
+          return LastSeen.fromJson(info);
+        } else {
+          print("Key 'info' not found in response.");
+          return null;
+        }
       } else {
-        print("failed to load the rooms info :${response.statusCode}");
+        print("Failed to load the rooms info: ${response.statusCode}");
         return null;
       }
-    }catch(e)
-    {
-      print("error occur:${e}");
+    } catch (e) {
+      print("Error occurred: $e");
+      return null;
     }
   }
 
+//-------------------------------total activememeber subscribe to same room---------------------//
   Future<List<ActiveMember>> fetchTotalActiveMember(String roomId) async {
     try {
       final String baseUrl = "http://ec2-18-116-38-241.us-east-2.compute.amazonaws.com/members/get";

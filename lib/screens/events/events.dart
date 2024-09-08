@@ -14,10 +14,12 @@ class Events extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer2<EventsVm, DashboardVm>(
         builder: (context, eventsVm, dashVm, _) {
-      eventsVm.getAllEvents();
-      var tempEvents=eventsVm.tempEvents;
+      // eventsVm.getAllEvents();
+
+      var tempEvents = eventsVm.tempEvents;
       var events = eventsVm.events;
       print("tempevents in events:${tempEvents[0].recruitment?.id}");
+
       return Scaffold(
         extendBody: true,
         appBar: AppBar(
@@ -43,30 +45,34 @@ class Events extends StatelessWidget {
             ),
           ),
         ),
-        body: Container(
-          decoration: const BoxDecoration(
-            color: backgroundGrey,
-          ),
-          height: double.infinity,
-          child: SafeArea(
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  //Text("checkDate :${checkDate.day}"),
-                  for (int i = tempEvents.length - 1; i >= 0; i--)
-                    // if (tempEvents[i].recruitment?.id == 1 )
-                      EventCard(
-                        event: events[i],
-                        tempEvent: tempEvents[i],
-                        selectedDate: selectedDate,
-                      )
-                ],
+        body: eventsVm.isLoading
+            ? const Center(
+                child: CircularProgressIndicator(),
+              )
+            : Container(
+                decoration: const BoxDecoration(
+                  color: backgroundGrey,
+                ),
+                height: double.infinity,
+                child: SafeArea(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        //Text("checkDate :${checkDate.day}"),
+                        for (int i = tempEvents.length - 1; i >= 0; i--)
+                          // if (tempEvents[i].recruitment?.id == 1 )
+                          EventCard(
+                            // event: events[i],
+                            tempEvent: tempEvents[i],
+                            selectedDate: selectedDate,
+                          )
+                      ],
+                    ),
+                  ),
+                ),
               ),
-            ),
-          ),
-        ),
       );
     });
   }

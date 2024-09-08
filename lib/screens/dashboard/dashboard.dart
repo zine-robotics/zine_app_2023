@@ -30,8 +30,8 @@ class _DashboardState extends State<Dashboard> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer4<DashboardVm, UserProv,EventsVm,ChatRoomViewModel>(
-      builder: (context, dashboardVm, userProv,eventVm,chatVm, _) {
+    return Consumer4<DashboardVm, UserProv, EventsVm, ChatRoomViewModel>(
+      builder: (context, dashboardVm, userProv, eventVm, chatVm, _) {
         // dashboardVm.getRecentEvent();
         UserModel currUser = userProv.getUserInfo;
         // eventVm.tempGetAllEvent();
@@ -202,7 +202,8 @@ class _DashboardState extends State<Dashboard> {
                               fit: FlexFit.tight,
                               child: GestureDetector(
                                 onTap: () => {
-                                  Navigator.of(context).push(Routes.Event())
+                                  Navigator.of(context)
+                                      .push(Routes.publicEvents())
                                 },
                                 child: Container(
                                   height: 200,
@@ -224,7 +225,8 @@ class _DashboardState extends State<Dashboard> {
                                       ),
                                       eventVm.tempEvents.length != 0
                                           ? Text(
-                                              eventVm.tempEvents[0].type.toString(),
+                                              eventVm.tempEvents[0].type
+                                                  .toString(),
                                               style: const TextStyle(
                                                   height: 0.9,
                                                   letterSpacing: 0.3,
@@ -255,7 +257,8 @@ class _DashboardState extends State<Dashboard> {
                                       ),
                                       eventVm.tempEvents.length != 0
                                           ? Text(
-                                              eventVm.tempEvents[0]!.name.toString(),
+                                              eventVm.tempEvents[0]!.name
+                                                  .toString(),
                                               style: const TextStyle(
                                                   fontSize: 16.0,
                                                   fontWeight: FontWeight.w700,
@@ -291,13 +294,11 @@ class _DashboardState extends State<Dashboard> {
                                                   Text(
                                                     eventVm.tempEvents.length >
                                                             0
-                                                        ? DateFormat.MMMMd()
-                                                            .format(convertTimestamp(eventVm
+                                                        ? DateFormat.MMMMd().format(
+                                                            convertTimestamp(eventVm
                                                                 .tempEvents[0]!
-                                                                .startDateTime!)
-                                                                )
-                                                        :
-                                                    "Date",
+                                                                .startDateTime!))
+                                                        : "Date",
                                                     style: const TextStyle(
                                                         fontSize: 18.0,
                                                         fontWeight:
@@ -313,11 +314,11 @@ class _DashboardState extends State<Dashboard> {
                                                     height: 10,
                                                   ),
                                                   Text(
-                                                    eventVm.tempEvents[0].startDateTime !=null
-
+                                                    eventVm.tempEvents[0]
+                                                                .startDateTime !=
+                                                            null
                                                         ? '${DateFormat.jm().format(convertTimestamp(eventVm.tempEvents[0]!.startDateTime!))}\n ${eventVm.tempEvents[0]!.venue.toString()}'
-                                                        :
-                                                    "Venue",
+                                                        : "Venue",
                                                     style: const TextStyle(
                                                         fontSize: 18.0,
                                                         fontWeight:
@@ -477,7 +478,9 @@ class _DashboardState extends State<Dashboard> {
                                   children: [
                                     Text(
                                       // userProv.currUser.roomids!.length
-                                      chatVm.user_rooms?.length !=null ?chatVm.user_rooms!.length.toString() :"0",
+                                      chatVm.user_rooms?.length != null
+                                          ? chatVm.user_rooms!.length.toString()
+                                          : "0",
                                       style: TextStyle(
                                           height: 0.9,
                                           letterSpacing: 0.3,

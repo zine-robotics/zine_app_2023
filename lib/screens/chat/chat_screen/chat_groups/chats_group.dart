@@ -15,30 +15,7 @@ class ChatGroups extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer2<ChatRoomViewModel, UserProv>(
       builder: (context, chatVm, userProv, _) {
-        // var currUser = userProv.currUser;
         UserModel currUser = userProv.getUserInfo;
-
-        // var listOfuser = currUser.roomIDs;
-        // var roomDetails = currUser.roomDetails;
-        // var listOfRoomID = roomDetails["group"].keys.toList();
-        // List<TempRooms>? roomDetails=chatVm.user_rooms;
-        // List listOfRoomDetails = roomDetails["group"].values.toList();
-
-        // chatVm.getLastMessages(roomName!);
-
-        // String? roomName = listOfRoomName[index];
-
-        // Map<dynamic,dynamic> lastChatList = {};
-        // for(var item in listOfRoomID){
-        //   String? roomName = roomDetails["group"][item];
-        //   var lastChat = chatVm.lastChatRoom(roomName);
-        //   bool unSeen = chatVm.unread(roomName!, userProv.currUser);
-        //   chatVm.listenChanges(roomName);
-        //   lastChatList[item] = [lastChat,unSeen];
-        // }
-
-        // print(lastChatList);
-        // var name = chatVm.getData(roomName);
 
         return SizedBox(
           height: MediaQuery.of(context).size.height * 0.19,
@@ -48,29 +25,22 @@ class ChatGroups extends StatelessWidget {
             itemCount: roomDetails?.length ??0,
             itemBuilder: (BuildContext context, int index) {
               if (roomDetails == null) return SizedBox.shrink();
-              TempRooms item = roomDetails![index];
-              // print("Room Details: $roomDetails");
-              // print("Item: ${roomDetails?[index]}");
               return GestureDetector(
                 onTap: () {
-                  // chatVm.setRoomId(roomId);
                   Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) => ChatRoom(
-                              roomName: item.name,
-                              roomId:item.id.toString(),
                               email: currUser.email,
+                              roomDetail:roomDetails![index]
                               )));
                 },
                 child: ChatGroupTile(
-                  // roomId: listOfRoomID?[index],
                   name: roomDetails![index].name.toString() ?? " unknown ",
                   chatVm: chatVm,
                   userProv: userProv,
                   groupId: roomDetails![index].id.toString(),
                   roomDetails: roomDetails![index] ,
-                  //lastSeen: lastChatList[listOfRoomName[index]][0],
                 ),
               );
             },

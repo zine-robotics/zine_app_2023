@@ -15,18 +15,14 @@ class EventsVm extends ChangeNotifier {
     try {
       _tempEvents = await eventRepo.fetchEvents();
       _tempEvents.sort((a, b) => b.startDateTime!.compareTo(a.startDateTime!));
-
     } catch (e) {
       print('Error fetching events: $e');
-    }
-    finally{
+    } finally {
       notifyListeners();
     }
   }
 
   //====================================OLDER CODE=========================================//
-
-
 
   List<Events> _events = [];
   dynamic prev = 0;
@@ -40,8 +36,8 @@ class EventsVm extends ChangeNotifier {
   get events => _events;
 
   void getAllEvents() async {
-
-    _events = await eventRepo.getEvents();
+    setLoading(true);
+    // _events = await eventRepo.getEvents();
     int index = _events.indexWhere(
         (element) => element.timeDate!.compareTo(Timestamp.now()) > 0);
     print(index);
@@ -52,7 +48,7 @@ class EventsVm extends ChangeNotifier {
 
       _events = [...firstPart, ...secondPart];
     }
-
+    setLoading(false);
     if (_events.length != prev) {
       notifyListeners();
       prev = _events.length;

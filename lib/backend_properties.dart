@@ -30,4 +30,12 @@ class BackendProperties {
 
   static Uri eventsUri = baseUrl.replace(path: '/event');
   static Uri websocketUri = baseUrl.replace(path: '/ws');
+  static Uri lastSeenUri(String emailId, String roomId) {
+    return baseUrl.replace(
+        path: '/user/$emailId/$roomId/last-seen');
+  }
+  static Uri activeMemberUri=baseUrl.replace(path:'/members/get');
+  static Uri updateLastSeenUri(String emailId,String roomId){
+    return baseUrl.replace(path:'/user/$emailId/$roomId/seen');
+  }
 }
