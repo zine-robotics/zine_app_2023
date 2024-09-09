@@ -47,65 +47,65 @@ class _ChatScreenState extends State<ChatScreen> {
         List<Rooms>? projectDetails = chatVm.userProjects;
         return chatVm.isRoomLoading
             ? const Center(child: CircularProgressIndicator())
-                : Container(
-                    color: backgroundGrey,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: SingleChildScrollView(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            // --------------------Channels-------------------------------
-                            headingText("Channels"),
-                            ///MODIFY:api problem
-                            // Channel(
-                            //   // name: "Announcements",
-                            //   // roomId: "452",
-                            //   roomDetail: [name:"Announcements",roomId:"452"],
-                            // ),
+            : Container(
+                color: backgroundGrey,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // --------------------Channels-------------------------------
+                        headingText("Channels"),
 
-                            //--------------------Groups/Room----------------------------------
-                            roomDetails != null
-                                ? headingText("Groups")
-                                : Container(),
-                            roomDetails != null
-                                ? ChatGroups(roomDetails: roomDetails)
-                                : Container(),
+                        ///MODIFY:api problem
+                        // Channel(
+                        //   // name: "Announcements",
+                        //   // roomId: "452",
+                        //   roomDetail: [name:"Announcements",roomId:"452"],
+                        // ),
 
-                            const SizedBox(
-                              height: 20,
-                            ),
+                        //--------------------Groups/Room----------------------------------
+                        roomDetails != null
+                            ? headingText("Groups")
+                            : Container(),
+                        roomDetails != null
+                            ? ChatGroups(roomDetails: roomDetails)
+                            : Container(),
 
-                            //--------------------Projects-----------------------------------R
-                            projectDetails != null
-                                ? headingText("Project")
-                                : Container(),
-                            if (projectDetails != null)
-                              Container(
-                                height: MediaQuery.of(context).size.height *
-                                    0.5, // You can adjust the height as needed
-                                child: chatVm.isRoomLoading
-                                    ? Center(child: CircularProgressIndicator())
-                                    : ListView.builder(
-                                        itemCount: projectDetails?.length,
-                                        itemBuilder:
-                                            (BuildContext context, int index) {
-                                          Rooms item =
-                                              projectDetails[index];
-                                          return Channel(
-                                            roomDetail:projectDetails[index],
-                                          );
-                                        },
-                                      ),
-                              )
-                            else
-                              Center(child: Text('No rooms available')),
-                          ],
+                        const SizedBox(
+                          height: 20,
                         ),
-                      ),
+
+                        //--------------------Projects-----------------------------------R
+                        projectDetails != null
+                            ? headingText("Project")
+                            : Container(),
+                        if (projectDetails != null)
+                          Container(
+                            height: MediaQuery.of(context).size.height *
+                                0.5, // You can adjust the height as needed
+                            child: chatVm.isRoomLoading
+                                ? Center(child: CircularProgressIndicator())
+                                : ListView.builder(
+                                    itemCount: projectDetails?.length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      Rooms item = projectDetails[index];
+                                      return Channel(
+                                        roomDetail: projectDetails[index],
+                                      );
+                                    },
+                                  ),
+                          )
+                        else
+                          Center(child: Text('No rooms available')),
+                      ],
                     ),
-                  );
+                  ),
+                ),
+              );
       },
     );
   }

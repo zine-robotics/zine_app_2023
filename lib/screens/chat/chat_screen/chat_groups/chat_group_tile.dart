@@ -74,7 +74,7 @@ class ChatGroupTile extends StatelessWidget {
                 ),
 
                 Text(
-                DateFormat("d MMM").format(convertTimestamp(roomDetails.lastMessageTimestamp!)),
+                  getLastSeenFormat(roomDetails.lastMessageTimestamp!),
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: greyText.withOpacity(0.6)),

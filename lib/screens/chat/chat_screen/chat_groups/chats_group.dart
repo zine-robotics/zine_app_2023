@@ -9,7 +9,7 @@ import 'chat_group_tile.dart';
 
 class ChatGroups extends StatelessWidget {
   final List<Rooms>? roomDetails;
-  const ChatGroups({super.key,this.roomDetails});
+  const ChatGroups({super.key, this.roomDetails});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class ChatGroups extends StatelessWidget {
           child: ListView.builder(
             shrinkWrap: true,
             scrollDirection: Axis.horizontal,
-            itemCount: roomDetails?.length ??0,
+            itemCount: roomDetails?.length ?? 0,
             itemBuilder: (BuildContext context, int index) {
               if (roomDetails == null) return SizedBox.shrink();
               return GestureDetector(
@@ -32,15 +32,14 @@ class ChatGroups extends StatelessWidget {
                       MaterialPageRoute(
                           builder: (context) => ChatRoom(
                               email: currUser.email,
-                              roomDetail:roomDetails![index]
-                              )));
+                              roomDetail: roomDetails![index])));
                 },
                 child: ChatGroupTile(
-                  name: roomDetails![index].name.toString() ?? " unknown ",
+                  name: roomDetails![index].name.toString(),
                   chatVm: chatVm,
                   userProv: userProv,
                   groupId: roomDetails![index].id.toString(),
-                  roomDetails: roomDetails![index] ,
+                  roomDetails: roomDetails![index],
                 ),
               );
             },
