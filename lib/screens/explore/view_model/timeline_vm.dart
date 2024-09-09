@@ -7,9 +7,8 @@ import '../../../common/routing.dart';
 
 class TimelineVm extends ChangeNotifier {
   final EventsRepo eventRepo = EventsRepo();
-  List<dynamic> listEvents = [];
+  Map<int, List<Events>> sortedEvents = {};
   bool isLoading = false;
-  var prev = 0;
 
   Future<dynamic> routeMe(BuildContext context, String route) async {
     switch (route) {
@@ -41,27 +40,28 @@ class TimelineVm extends ChangeNotifier {
 
   void getStagesEvents() async {
     setLoading(true);
-    List<Events> list = await eventRepo.getEvents();
+    // List<Events> list = await eventRepo.getEvents();
+    List<Events> list = await eventRepo.fetchEvents();
 
-    listEvents = [];
+    List<Events> recruitmentEvents =
+        list.where((element) => element.recruitment != null).toList();
 
-    for (int i = 1; i <= list.length; i++) {
-      List<dynamic>? subList = list
-          .where((element) => element.stage == i.toString())
-          .where((element) => element.recruitment == 'true')
-          .toList();
+    // for (int i = 1; i <= list.length; i++) {
+    //   List<dynamic>? subList = list
+    //       .where((element) => element.stage == i.toString())
+    //       .where((element) => element.recruitment == 'true')
+    //       .toList();
 
-      if (subList != null) {
-        listEvents.add(subList);
+    for (Events event in recruitmentEvents) {
+      if (sortedEvents.containsKey(event.recruitment!.stage!)) {
+        sortedEvents[event.recruitment!.stage!]!.add(event);
       } else {
-        listEvents.add([]);
+        sortedEvents[event.recruitment!.stage!] = [event];
       }
     }
+
     setLoading(false);
 
-    if (prev != listEvents.length) {
-      prev = listEvents.length;
-      notifyListeners();
-    }
+    notifyListeners();
   }
 }

@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import "package:flutter/material.dart";
 import 'package:image_picker/image_picker.dart';
@@ -12,18 +13,20 @@ import 'package:stomp_dart_client/stomp.dart';
 import 'package:stomp_dart_client/stomp_config.dart';
 import 'package:stomp_dart_client/stomp_frame.dart';
 import 'package:zineapp2023/models/message.dart';
-import 'package:zineapp2023/models/temp_message.dart';
-import 'package:zineapp2023/models/temp_rooms.dart';
 import 'package:zineapp2023/models/user.dart';
 import 'package:zineapp2023/providers/user_info.dart';
 import 'package:zineapp2023/utilities/date_time.dart';
 import 'package:zineapp2023/backend_properties.dart';
 
+
+import '../../../../models/events.dart';
 import '../../../../models/rooms.dart';
 import '../repo/chat_repo.dart';
+import 'package:http/http.dart'as http;
 
 class ChatRoomViewModel extends ChangeNotifier {
   final UserProv userProv;
+
 
   ChatRoomViewModel({required this.userProv}) {
     initializeWebSocket(); //constructor to initialize the webSocket for single time only!!
@@ -42,24 +45,24 @@ class ChatRoomViewModel extends ChangeNotifier {
   final name = "Announcement";
   Map<String, dynamic> chatSubscription = {};
   final picker = ImagePicker();
-  late TempMessageModel selectedReplyMessage;
+  late MessageModel selectedReplyMessage;
 
   get roomId => _roomId;
   Map<String, Timestamp> lastChats = {};
   final CollectionReference _rooms =
       FirebaseFirestore.instance.collection('rooms');
 
-  //-------------------message fetching using http--------------------//
-  List<TempMessageModel> _messages = [];
-  List<TempMessageModel> _tempMessages = [];
+  //-------------------------------------------------message fetching using http--------------------//
+  List<MessageModel> _messages = [];
+  List<MessageModel> _tempMessages = [];
   bool _isLoading = false;
-  final StreamController<List<TempMessageModel>> _messageStreamController =
-      StreamController<List<TempMessageModel>>.broadcast();
-  List<TempMessageModel> get messages => _messages;
+  final StreamController<List<MessageModel>> _messageStreamController =
+      StreamController<List<MessageModel>>.broadcast();
+  List<MessageModel> get messages => _messages;
   Set<String> activeRoomSubscriptions = {};
 
   bool get isLoading => _isLoading;
-  Stream<List<TempMessageModel>> get messageStream =>
+  Stream<List<MessageModel>> get messageStream =>
       _messageStreamController.stream;
   Future<void> fetchMessages(String TemproomId) async {
     _isLoading = true;
@@ -79,7 +82,7 @@ class ChatRoomViewModel extends ChangeNotifier {
     }
   }
 
-  //-----------------------------------------stomp_client-----------------------------------------//
+  //-------------------------------------------------------------stomp_client-----------------------------------------//
 
   late StompClient _client;
 
@@ -87,8 +90,7 @@ class ChatRoomViewModel extends ChangeNotifier {
 
   // late final messageData;
 
-  // final String webSocketUrl =
-  //     'http://ec2-18-116-38-241.us-east-2.compute.amazonaws.com/ws';
+  
 
   void initializeWebSocket() {
     print("\n----------initializing web socket------------\n ");
@@ -116,9 +118,6 @@ class ChatRoomViewModel extends ChangeNotifier {
       print("client is not connected");
       return;
     }
-    // if (_subscriptions.containsKey(_roomId)) {
-    //   _subscriptions[_roomId]?.unsubscribe();
-    // }
     activeRoomSubscriptions.add(roomId);
     final subscription = _client.subscribe(
       destination: '/room/$roomId', //  widget.chatId
@@ -129,16 +128,15 @@ class ChatRoomViewModel extends ChangeNotifier {
         // print("frame.body:${frame.body}");
         try {
           final Map<String, dynamic> messageData = json.decode(frame.body!);
-          TempMessageModel messageData1 =
-              TempMessageModel.fromJson(messageData);
+          MessageModel messageData1 =
+          MessageModel.fromJson(messageData);
 
           _messages.add(messageData1);
           _messageStreamController.add(List.from(_messages));
-          print("sucess!!");
+          print("success!!");
         } catch (e) {
           print("\n error parsing messaging :${e} \n");
         } finally {
-
           notifyListeners();
         }
         // messages = jsonDecode(frame.body!).reversed.toList();
@@ -203,17 +201,7 @@ class ChatRoomViewModel extends ChangeNotifier {
     if (replyTo != null && replyUsername != null) {
       messageData['replyTo'] = replyTo;
     }
-
     print("during sent replyTo:$replyTo \t replyusername:$replyUsername");
-    // print("message_body:${messageData}");
-    // final newMessage = TempMessageModel.fromJson(messageData);
-    //
-    // // Add the new message to the list
-    // _messages.add(newMessage);
-    //
-    // // Update the stream with the new list of messages
-    // _messageStreamController.add(List.from(_messages));
-
     final jsonBody = json.encode(messageData);
 
     try {
@@ -225,30 +213,36 @@ class ChatRoomViewModel extends ChangeNotifier {
     } catch (e) {
       print('Not connected to the WebSocket server.$e');
     }
-
-    // Optionally, handle Firebase notifications if needed
-    // sendFCMMessage(roomName, from, message);
   }
 
-  //-------------------it will fetch all room data---------------------------------------------//
-  //---------------MODIFY: get user details and pass email -------------//
-  List<TempRooms>? _user_rooms;
-  List<TempRooms>? _userProjects;
+  //-------------------------------------------------it will fetch all room data---------------------------------------------//
+
+  List<Rooms>? _user_rooms;
+  List<Rooms>? _userProjects;
   bool _isRoomLoading = false;
 
-  List<TempRooms>? get user_rooms => _user_rooms;
-  List<TempRooms>? get userProjects => _userProjects;
+  List<Rooms>? get user_rooms => _user_rooms;
+  List<Rooms>? get userProjects => _userProjects;
   bool get isRoomLoading => _isRoomLoading;
+
+  var fMessaging = FirebaseMessaging.instance;
+  
   Future<void> loadRooms() async {
-    String email = 'herschellethomas10@gmail.com';
+    UserModel currUser = userProv.getUserInfo;
+    String email =currUser.email.toString();//currUser.email.toString();  //FIXME : Fix this
 
     _isRoomLoading = true;
 
     notifyListeners();
     try {
-      List<TempRooms>? allRooms = await chatP.fetchRooms(email);
+      List<Rooms>? allRooms = await chatP.fetchRooms(email);
       if (allRooms != null) {
+        for (Rooms room in allRooms!) {
+          print('Subscribing to room${room.id}');
+          fMessaging.subscribeToTopic("room${room.id}");
+        }
         _user_rooms = allRooms.where((room) => room.type == "group").toList();
+
         _userProjects =
             allRooms.where((room) => room.type == "project").toList();
       }
@@ -263,15 +257,13 @@ class ChatRoomViewModel extends ChangeNotifier {
     }
   }
 
-
-
-  void userReplyText(TempMessageModel message) {
+  void userReplyText(MessageModel message) {
     print("inside the userReplyText");
     print(message);
 
     selectedReplyMessage = message;
     replyTo = message.id;
-    replyUsername=message?.sentFrom.name.toString();
+    replyUsername = message?.sentFrom.name.toString();
     print("reply in user Reply:${replyTo.runtimeType}");
 
     replyfocus.requestFocus();
@@ -286,198 +278,75 @@ class ChatRoomViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  dynamic userGetMessageById(List<TempMessageModel> chats, String replyTo) {
+  dynamic userGetMessageById(List<MessageModel> chats, String replyTo) {
     // print("inside the uerGetmessagebyId: chats replyTo:${replyTo}");
 
-    Iterable<TempMessageModel> msg =
+    Iterable<MessageModel> msg =
         chats.where((element) => element.id.toString() == replyTo);
     if (msg.isNotEmpty) {
       return msg.first;
     }
     return null;
   }
-  // void updateUserMessage(List<Message> messages, int messageId) {
-  //   // Find the message with the given ID
-  //   Message? message = messages.firstWhere((msg) => msg.id == messageId, orElse: () => null);
-  //
-  //   if (message != null) {
-  //     // Update the replyTo field to null
-  //     message.replyTo = null;
-  //     print('Message updated successfully.');
-  //   } else {
-  //     print('Message with ID $messageId not found.');
-  //   }
-  // }
-  //=====================================================older code===================================================================//
 
-  var _data;
-  var _docData;
+  //-----------------------------------------------------Update LastSeen to Room------------------------------------//
+  dynamic updateSeen(String email_id, String room_id, int userLastSeen,int lastMessageTimestamp,int unreadMessages)
+  async{
+   Uri url = BackendProperties.updateLastSeenUri(email_id, room_id);
+    print("inside teh updateSeen for email:$email_id and roomid:$room_id");
+    try{
+      final Map<String, dynamic> jsonData = {
+      'info': {
+      'userLastSeen': userLastSeen,
+      'lastMessageTimestamp':lastMessageTimestamp  ,
+        'unreadMessages':unreadMessages
+      }
+      };
+      final response = await http.put(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode(jsonData),
+      );
+      if (response.statusCode == 200) {
+        print("seen for room:$room_id updated");
+      } else {
+        print("error occure:During put operation");
+      }
+    }
+    catch(e)
+    {
+      print("some error During put operation:$e");
+    }
+  }
+  //-----------------------------------------------------INFO about lastMessageSeen------------------------------------//
+  LastSeen? _lastSeen;
+  LastSeen? get lastSeen=>_lastSeen;
 
-  get data => _data;
+  dynamic getLastSeen(String emailId, String roomId) async {
+    print("inside the getlastseen for roomid:$roomId");
+    _lastSeen = await chatP.fetchLastSeen(emailId, roomId);
+    notifyListeners();
+  }
+//------------------------------------------------------INFO about Active member-----------------------------//
+  List<ActiveMember> _activeMembers = [];
+  List<ActiveMember>  get activeMembers=>_activeMembers;
+  dynamic getTotalActiveMember(String roomId) async {
+    print("inside the totalactivemember");
+    _activeMembers = await chatP.fetchTotalActiveMember(roomId);
+    notifyListeners();
+  }
 
+  //------------------------------------------------------------chat text value-------------------------------------------//
   String _text = "";
-
   get text => _text;
 
   void setText(String value) {
     _text = value;
   }
+  //=====================================================older code===================================================================//
 
-  void getChats() async {
-    allData = await chatP.getChatStream(_roomId);
-  }
-
-  void replyText(dynamic message) {
-    print("object");
-    print(message);
-
-    selectedReplyMessage = message;
-    replyTo = message.id;
-    print(replyTo);
-
-    replyfocus.requestFocus();
-
-    notifyListeners();
-  }
-
-  void cancelReply() {
-    replyTo = null;
-    print("repy to cancel");
-    print(replyTo);
-    notifyListeners();
-  }
-
-  dynamic getMessageById(List<MessageModel> chats, String replyTo) {
-    Iterable<MessageModel> msg =
-        chats.where((element) => element.id == replyTo);
-    if (msg.isNotEmpty) {
-      return msg.first;
-    }
-    return null;
-  }
-
-  List<dynamic> listOfUsers = [];
-
-  void listenChanges(String name) {
-    var id = null;
-    // print(chatSubscription[name]);
-    if (chatSubscription[name] == null) {
-      _rooms
-          .where("name", isEqualTo: name)
-          .limit(1)
-          .get()
-          .then((value) => id = value.docs[0].id)
-          .catchError((e) => {print(e)})
-          .whenComplete(
-            () => {
-              if (id != null)
-                {
-                  chatSubscription[name] =
-                      _rooms.doc(id).collection("messages").snapshots().listen(
-                    (QuerySnapshot snapshot) {
-                      for (var change in snapshot.docChanges) {
-                        if (change.type == DocumentChangeType.added) {
-                          // print("added");
-                          notifyListeners();
-                        } else if (change.type == DocumentChangeType.modified) {
-                          // print("modified");
-                          notifyListeners();
-                        } else if (change.type == DocumentChangeType.removed) {
-                          notifyListeners();
-                        }
-                      }
-                    },
-                  )
-                }
-            },
-          );
-    }
-  }
-
-  Stream<QuerySnapshot<Object?>> getData(roomName) async* {
-    // print(roomName);
-    allData = await chatP.getChatStream(roomName);
-    yield* allData;
-  }
-
-  void send({from, roomId}) {
-    // getChats();
-    print("sending");
-    print(replyTo);
-    _text.isEmpty
-        ? null
-        : chatP.sendMessage(
-            from, roomId, _text, replyTo, userProv!.getUserInfo.uid.toString());
-    replyTo = null;
-
-    setText("");
-
-    notifyListeners();
-  }
-
-  void updateMessage(DocumentReference docRef) async {
-    await docRef.update({'replyTo': null});
-  }
-
-  void replyListner() {
-    if (!replyfocus.hasFocus) replyTo = null;
-  }
-
-  String _lastChatTime = "";
-
-  get lastChatTime => _lastChatTime;
-
-  void setTimeChat(String value) {
-    _lastChatTime = value;
-  }
-
-  bool rederDate(var index) {
-    return false;
-  }
-
-  dynamic getLastMessages(String roomName) async {
-    print("function Called");
-    dynamic timeStamp = await chatP.getLastChat(roomName);
-    dynamic prev = lastChats;
-    print(lastChats);
-    print(roomName);
-    if (timeStamp != null) {
-      lastChats[roomName] = timeStamp;
-    }
-
-    if (!mapEquals(lastChats, prev)) notifyListeners();
-  }
-
-  bool unread(String name, UserModel user) {
-    if (lastChats[name] != null) {
-      if (user.lastSeen != null && user.lastSeen[name] != null) {
-        return lastChats[name]!.compareTo(user.lastSeen[name]) > 0;
-      }
-    }
-    return false;
-  }
-
-  // String lastChatRoom(var name) {
-  //   if (lastChats[name] != null) {
-  //     DateTime t = (lastChats[name] as Timestamp).toDate();
-  //     DateTime now = DateTime.now();
-  //     var lastChat;
-  //     if ((now.day == t.day && t.month == now.month && t.year == now.year))
-  //       lastChat = getTime(lastChats[name] as Timestamp);
-  //     else
-  //       lastChat =
-  //           t.day.toString() + " " + getDate(lastChats[name] as Timestamp);
-  //     return lastChat;
-  //   }
-  //   return "";
-  // }
-
-  void roomLeft(var room, var user, UserProv userProv) {
-    chatP.updateLastSeen(user, room);
-    userProv.updateLast(room);
-    notifyListeners();
-    print('left $room');
-  }
 
   void addRouteListener(
       BuildContext context, var room, var user, UserProv userProv) {
@@ -487,16 +356,6 @@ class ChatRoomViewModel extends ChangeNotifier {
     });
   }
 
-  Future<void> pickImage(ImageSource source) async {
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-    dynamic imageFile;
-
-    if (pickedFile != null) {
-      imageFile = File(pickedFile.path);
-
-      await chatP.uploadImageToFirebase(imageFile);
-    }
-  }
 
   void disconnect() {
     for (var roomId in _subscriptions.keys) {

@@ -2,18 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:decorated_icon/decorated_icon.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:zineapp2023/screens/explore/public_events/events_screen.dart';
 import 'view_models/home_view_model.dart';
 
 import '../explore/explore.dart';
 import '../../screens/chat/chat_home.dart';
 import '../../screens/dashboard/dashboard.dart';
 import '../../theme/color.dart';
+
 class Home extends StatelessWidget {
   const Home({super.key});
 
   static final List<Widget> _widgetOptions = <Widget>[
     const ChatHome(),
     const Explore(),
+    EventsScreen(),
     const Dashboard(),
   ];
 
@@ -25,9 +28,9 @@ class Home extends StatelessWidget {
         extendBody: false,
         backgroundColor: backgroundGrey,
         bottomNavigationBar: Padding(
-          padding: const EdgeInsets.only(left: 15,right: 15,bottom: 8),
+          padding: const EdgeInsets.only(left: 15, right: 15, bottom: 8),
           child: Container(
-             // Adjust the margin as needed
+            // Adjust the margin as needed
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
               boxShadow: [
@@ -37,7 +40,7 @@ class Home extends StatelessWidget {
                 ),
               ],
             ),
-            child:  ClipRRect(
+            child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
               child: BottomNavigationBar(
                 elevation: 0,
@@ -45,7 +48,8 @@ class Home extends StatelessWidget {
                 items: const <BottomNavigationBarItem>[
                   BottomNavigationBarItem(
                     icon: FaIcon(
-                      FontAwesomeIcons.solidMessage,
+                      FontAwesomeIcons.message,
+                      color: blurBlue,
                       size: 20,
                     ),
                     activeIcon: DecoratedIcon(
@@ -62,7 +66,10 @@ class Home extends StatelessWidget {
                     label: 'Timeline',
                   ),
                   BottomNavigationBarItem(
-                    icon: Icon(Icons.home),
+                    icon: Icon(
+                      Icons.home_outlined,
+                      color: blurBlue,
+                    ),
                     activeIcon: DecoratedIcon(
                       Icons.home,
                       color: textColor,
@@ -76,7 +83,27 @@ class Home extends StatelessWidget {
                     label: 'Home',
                   ),
                   BottomNavigationBarItem(
-                    icon: Icon(Icons.account_circle),
+                    icon: Icon(
+                      Icons.calendar_month_outlined,
+                      color: blurBlue,
+                    ),
+                    activeIcon: DecoratedIcon(
+                      Icons.calendar_month_rounded,
+                      color: textColor,
+                      shadows: [
+                        BoxShadow(
+                          blurRadius: 42.0,
+                          color: blurBlue,
+                        ),
+                      ],
+                    ),
+                    label: 'Events',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(
+                      Icons.account_circle_outlined,
+                      color: blurBlue,
+                    ),
                     activeIcon: DecoratedIcon(
                       Icons.account_circle,
                       color: textColor,

@@ -1,10 +1,11 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:zineapp2023/models/user.dart';
 import 'package:zineapp2023/theme/color.dart';
 
 class ChatDescription extends StatelessWidget {
-  const ChatDescription({
+  ChatDescription({
     required this.roomName,
     required this.data,
     required this.image,
@@ -13,7 +14,7 @@ class ChatDescription extends StatelessWidget {
 
   final String roomName;
   final dynamic image;
-  final dynamic data;
+  List<ActiveMember> data;
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +49,7 @@ class ChatDescription extends StatelessWidget {
                     padding: const EdgeInsets.all(30.0),
                     child: image != null
                         ? Image.network(
-                            image,
+                            image['dpUrl'],
                             height: 50,
                             width: 50,
                             fit: BoxFit.cover,
@@ -129,7 +130,7 @@ class ChatDescription extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  data[index],
+                                  data[index].name.toString(),
                                   style: TextStyle(
                                       fontSize: MediaQuery.of(context)
                                               .textScaleFactor *
@@ -140,14 +141,14 @@ class ChatDescription extends StatelessWidget {
                                 const SizedBox(
                                   height: 4,
                                 ),
-                                // Text(
-                                //   data[index].email,
-                                //   style: TextStyle(
-                                //       fontSize: MediaQuery.of(context)
-                                //               .textScaleFactor *
-                                //           12.5,
-                                //       color: textDarkBlue),
-                                // )
+                                Text(
+                                  data[index].email.toString(),
+                                  style: TextStyle(
+                                      fontSize: MediaQuery.of(context)
+                                              .textScaleFactor *
+                                          12.5,
+                                      color: textDarkBlue),
+                                )
                               ],
                             ),
                             const Spacer(),

@@ -31,15 +31,6 @@ class DashboardVm extends ChangeNotifier {
 
   get events => _events;
 
-  void getRecentEvent() async {
-    _events = await dashRepo.getLatestEvents();
-    if (_events.length != prev) {
-      notifyListeners();
-      prev = _events.length;
-    }
-  }
-
-
   void launchUrl(url) {
     dashRepo.launchUrlStart(url: url);
   }

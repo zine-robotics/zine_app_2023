@@ -21,24 +21,28 @@ class EventCalendar extends StatelessWidget {
             color: blurBlue,
           )),
       eventLoader: evm.getEvents,
-      focusedDay: (evm.isLoaded && !evm.isError && evm.events.isNotEmpty)
+      focusedDay: !(evm.isLoaded && !evm.isError && evm.events.isNotEmpty)
           ? DateTime.now()
-          : evm.selectedEvent.timeDate!.toDate(),
+          : DateTime.fromMillisecondsSinceEpoch(
+              evm.selectedEvent.startDateTime!),
       selectedDayPredicate: (day) {
         if (evm.isError || !evm.isLoaded || evm.events.isEmpty) {
           return false;
         } else {
-          return isSameDay(evm.selectedEvent.timeDate!.toDate(), day);
+          return isSameDay(
+              DateTime.fromMillisecondsSinceEpoch(
+                  evm.selectedEvent.startDateTime!),
+              day);
         }
       },
-      firstDay: DateTime.now(),
+      firstDay: evm.getFirstEventDate(),
       lastDay: evm.getLastEventDate(),
       onDaySelected: evm.selectEvent,
       headerStyle: const HeaderStyle(
         titleTextStyle: TextStyle(
-            color: textColor, fontWeight: FontWeight.bold, fontSize: 30),
-        rightChevronVisible: false,
-        leftChevronVisible: false,
+            color: textColor, fontWeight: FontWeight.bold, fontSize: 28),
+        rightChevronVisible: true,
+        leftChevronVisible: true,
         formatButtonVisible: false,
         titleCentered: true,
       ),

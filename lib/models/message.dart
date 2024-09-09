@@ -1,55 +1,237 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 class MessageModel {
-  String? message;
-  String? group;
-  String? from;
-  Timestamp? timeStamp;
-  String? sender_id;
-  dynamic replyTo;
+  int? id;
   String? type;
-  String? id;
+  String? content;
+  String? contentUrl;
+  int? timestamp;
+  dynamic sentFrom;
+  dynamic roomId;
+  dynamic replyTo;
 
   MessageModel({
-    this.message,
-    this.group,
-    this.from,
-    this.timeStamp,
-    this.replyTo,
+    this.id,
     this.type,
-    this.sender_id,
+    this.content,
+    this.contentUrl,
+    this.timestamp,
+    this.sentFrom,
+    this.roomId,
+    this.replyTo,
   });
 
   MessageModel.fromJson(Map<String, dynamic> json) {
-    message = json['message'];
-    group = json['group'];
-    from = json['from'];
-    timeStamp = json['to'];
+    id = json['id'];
     type = json['type'];
-    replyTo = json['replyTo'];
-    sender_id = json['sender_id'];
+    content = json['content'];
+    contentUrl = json['contentUrl'];
+
+    if (json['timestamp'] is int) {
+      timestamp = json['timestamp'];
+    } else if (json['timestamp'] is String) {
+      timestamp = DateTime.parse(json['timestamp']).millisecondsSinceEpoch;
+    } else {
+      timestamp = null;
+    }
+
+    sentFrom = json['sentFrom'] != null ? SentFrom.fromJson(json['sentFrom']) : null;
+    roomId = json['roomId'] != null ? RoomId.fromJson(json['roomId']) : null;
+    replyTo = json['replyTo'] != null ? ReplyTo.fromJson(json['replyTo']) : null;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['message'] = message;
-    data['group'] = group;
-    data['from'] = from;
-    data['timeStamp'] = timeStamp;
+    data['id'] = id;
     data['type'] = type;
-    data['replyTo'] = replyTo;
-    data['sender_id'] = sender_id;
+    data['content'] = content;
+    data['contentUrl'] = contentUrl;
+    data['timestamp'] = timestamp;
+
+    if (sentFrom != null) {
+      data['sentFrom'] = sentFrom!.toJson();
+    }
+    if (roomId != null) {
+      data['roomId'] = roomId!.toJson();
+    }
+    if (replyTo != null) {
+      data['replyTo'] = replyTo!.toJson();
+    }
     return data;
   }
+}
 
-  MessageModel.store(snapshot)
-      : from = snapshot.data()['from'],
-        group = snapshot.data()['group'],
-        timeStamp = snapshot.data()['timeStamp'],
-        type = snapshot.data()['type'],
-        message = snapshot.data()['message'],
-        sender_id = snapshot.data()['sender_id'],
-        replyTo = snapshot.data()['replyTo'],
-        id = snapshot.id;
+class SentFrom {
+  int? id;
+  String? name;
+  String? email;
+  String? type;
+  String? pushToken;
+  bool? registered;
+  String? dp;
+  bool? emailVerified;
 
+  SentFrom({
+    this.id,
+    this.name,
+    this.email,
+    this.type,
+    this.pushToken,
+    this.registered,
+    this.dp,
+    this.emailVerified,
+  });
+
+  SentFrom.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    email = json['email'];
+    type = json['type'];
+    pushToken = json['pushToken'];
+    registered = json['registered'];
+    dp = json['dp'];
+    emailVerified = json['emailVerified'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['email'] = email;
+    data['type'] = type;
+    data['pushToken'] = pushToken;
+    data['registered'] = registered;
+    data['dp'] = dp;
+    data['emailVerified'] = emailVerified;
+    return data;
+  }
+}
+
+class RoomId {
+  int? id;
+  String? name;
+  String? description;
+  String? type;
+  String? dpUrl;
+  int? timestamp;
+
+  RoomId({
+    this.id,
+    this.name,
+    this.description,
+    this.type,
+    this.dpUrl,
+    this.timestamp,
+  });
+
+  RoomId.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    description = json['description'];
+    type = json['type'];
+    dpUrl = json['dpUrl'];
+    // timestamp = json['timestamp'];
+    if (json['timestamp'] is int) {
+      timestamp = json['timestamp'];
+    } else if (json['timestamp'] is String) {
+      timestamp = DateTime.parse(json['timestamp']).millisecondsSinceEpoch;
+    } else {
+      timestamp = null;
+    }
+
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['description'] = description;
+    data['type'] = type;
+    data['dpUrl'] = dpUrl;
+    data['timestamp'] = timestamp;
+    return data;
+  }
+}
+
+// Helper method to handle parsing integers
+int? _parseInt(dynamic value) {
+  if (value is int) {
+    return value;
+  } else if (value is String) {
+    return int.tryParse(value);
+  }
+  return null;
+}
+
+// Helper method to handle parsing timestamps
+int? _parseTimestamp(dynamic value) {
+  if (value is int) {
+    return value;
+  } else if (value is String) {
+    try {
+      return DateTime.parse(value).millisecondsSinceEpoch;
+    } catch (_) {
+      return null;
+    }
+  }
+  return null;
+}
+
+class ReplyTo {
+  int? id;
+  String? type;
+  String? content;
+  String? contentUrl;
+  int? timestamp ;
+  SentFrom? sentFrom;
+  RoomId? roomId;
+  ReplyTo? replyTo;
+
+  ReplyTo({
+    this.id,
+    this.type,
+    this.content,
+    this.contentUrl,
+    this.timestamp,
+    this.sentFrom,
+    this.roomId,
+    this.replyTo,
+  });
+
+  ReplyTo.fromJson(Map<String, dynamic> json) {
+    id = _parseInt( json['id'] );
+    type = json['type'];
+    content = json['content'];
+    contentUrl = json['contentUrl'];
+    // timestamp =  _parseTimestamp(json['timestamp']) ;
+    if (json['timestamp'] is int) {
+      timestamp = json['timestamp'];
+    } else if (json['timestamp'] is String) {
+      timestamp = DateTime.parse(json['timestamp']).millisecondsSinceEpoch;
+    } else {
+      timestamp = null;
+    }
+
+    sentFrom = json['sentFrom'] != null ? SentFrom.fromJson(json['sentFrom']) : null;
+    roomId = json['roomId'] != null ? RoomId.fromJson(json['roomId']) : null;
+    replyTo = json['replyTo'] != null ? ReplyTo.fromJson(json['replyTo']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['type'] = type;
+    data['content'] = content;
+    data['contentUrl'] = contentUrl;
+    data['timestamp'] = timestamp;
+
+    if (sentFrom != null) {
+      data['sentFrom'] = sentFrom!.toJson();
+    }
+    if (roomId != null) {
+      data['roomId'] = roomId!.toJson();
+    }
+    if (replyTo != null) {
+      data['replyTo'] = replyTo!.toJson();
+    }
+    return data;
+  }
 }

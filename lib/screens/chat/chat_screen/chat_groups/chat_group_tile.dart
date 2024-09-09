@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:zineapp2023/models/temp_rooms.dart';
+import 'package:intl/intl.dart';
+import '../../../../models/rooms.dart';
 import '../../../../theme/color.dart';
+import '../../../../utilities/date_time.dart';
 
 class ChatGroupTile extends StatelessWidget {
   ChatGroupTile(
@@ -15,7 +17,7 @@ class ChatGroupTile extends StatelessWidget {
   final dynamic chatVm;
   final dynamic userProv;
   final String groupId;
-  TempRooms roomDetails;
+  Rooms roomDetails;
 
   @override
   Widget build(BuildContext context) {
@@ -50,27 +52,33 @@ class ChatGroupTile extends StatelessWidget {
                       color: Colors.white,
                       padding: const EdgeInsets.all(17.0),
                       child:
-                      // roomDetails.dpUrl !=null ? Image.network(
-                      //   roomDetails.dpUrl.toString(),
-                      //   height: 30,
-                      //   width: 30,
-                      //   fit: BoxFit.cover,
-                      //   color: textColor.withOpacity(0.9),
-                      // ):
-                      Image.asset("assets/images/zine_logo.png",height: 50,
-                          width: 50,
-                          fit: BoxFit.cover,
-                          color: textColor.withOpacity(0.9),),
+                          // roomDetails.dpUrl !=null ? Image.network(
+                          //   roomDetails.dpUrl.toString(),
+                          //   height: 30,
+                          //   width: 30,
+                          //   fit: BoxFit.cover,
+                          //   color: textColor.withOpacity(0.9),
+                          // ):
+
+                          (roomDetails.dpUrl == null)
+                              ? Image.asset(
+                                  "assets/images/zine_logo.png",
+                                  height: 50,
+                                  width: 50,
+                                  fit: BoxFit.cover,
+                                  color: textColor.withOpacity(0.9),
+                                )
+                              : Image.network(roomDetails.dpUrl!),
                     ),
                   ),
                 ),
 
-                // Text(
-                //   lastChat,
-                //   style: TextStyle(
-                //       fontWeight: FontWeight.bold,
-                //       color: greyText.withOpacity(0.6)),
-                // ),
+                Text(
+                DateFormat("d MMM").format(convertTimestamp(roomDetails.lastMessageTimestamp!)),
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: greyText.withOpacity(0.6)),
+                ),
                 const SizedBox(
                   height: 10,
                 ),

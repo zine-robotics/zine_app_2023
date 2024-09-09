@@ -46,16 +46,30 @@ class EventsScreen extends StatelessWidget {
         centerTitle: true,
         backgroundColor: backgroundGrey,
         surfaceTintColor: backgroundGrey,
-        leading: IconButton(
-          icon: const Icon(
-            color: greyText,
-            Icons.arrow_back_rounded,
-            size: 40,
-          ),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
+        //
+        // leading: IconButton(
+        //   icon: const Icon(
+        //     color: greyText,
+        //     Icons.arrow_back_rounded,
+        //     size: 40,
+        //   ),
+        //   onPressed: () {
+        //     // Navigator.canPop(context);
+        //   },
+        // ),
+
+        leading: (Navigator.canPop(context))
+            ? IconButton(
+                icon: const Icon(
+                  color: greyText,
+                  Icons.arrow_back_rounded,
+                  size: 40,
+                ),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              )
+            : null,
         title: const Text(
           "UPCOMING EVENTS",
           style: TextStyle(
@@ -76,43 +90,36 @@ class EventsScreen extends StatelessWidget {
           return Column(
             children: [
               Container(
-                height: availableHeight / 2,
+                // height: availableHeight / 2,
                 color: backgroundGrey,
                 padding: const EdgeInsets.fromLTRB(30, 5, 30, 5),
-                child: Card(
-                  color: Colors.white,
-                  child: EventCalendar(
-                    evm: evm,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(25),
+                  child: Card(
+                    color: Colors.white,
+                    child: EventCalendar(
+                      evm: evm,
+                    ),
                   ),
                 ),
               ),
               const SizedBox(height: 10),
               (evm.events.isNotEmpty)
                   ? Expanded(
-                      child: ShaderMask(
-                      shaderCallback: (bounds) => LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          stops: const [
-                            0.0,
-                            0.05,
-                          ],
-                          colors: const [
-                            Colors.transparent,
-                            backgroundGrey,
-                          ]).createShader(bounds),
                       child: ListView.builder(
-                        clipBehavior: Clip.hardEdge,
-                        controller: _controller,
-                        itemBuilder: (context, index) {
-                          return EventTile(
+                      clipBehavior: Clip.hardEdge,
+                      controller: _controller,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.fromLTRB(30, 5, 30, 5),
+                          child: EventTile(
                             evm: evm,
                             index: index,
                             event: evm.events[index],
-                          );
-                        },
-                        itemCount: evm.events.length,
-                      ),
+                          ),
+                        );
+                      },
+                      itemCount: evm.events.length,
                     ))
                   : Expanded(
                       child: Center(

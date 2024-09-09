@@ -32,12 +32,17 @@ class AuthRepo {
     }
   }
 
-  Future<UserModel?> signInWithEmailAndPassword({
-    String? email,
-    String? password,
-  }) async {
+  // Future<void> updateToken()
+  // {
+  //   //TODO: Implement this
+
+  // }
+
+  Future<UserModel?> signInWithEmailAndPassword(
+      {String? email, String? password, String? pushToken}) async {
     Response res = await http.post(BackendProperties.loginUri,
-        body: jsonEncode({"email": email, "password": password}),
+        body: jsonEncode(
+            {"email": email, "password": password, "pushToken": pushToken}),
         headers: {"Content-Type": "application/json"});
     String userToken = "";
     print("Reponse Code ${res.statusCode}");
@@ -113,13 +118,16 @@ class AuthRepo {
 
   Future<List<UserTask>?> getTasks(uid) async {
     //FIXME: Implement tits
-  }
-
-  Future<List<Rooms>?> getRoomIds(uid) async {
-    Response res = await Requests.get(BackendProperties.roomDataUri.toString(),
-        queryParameters: {"email": "shmokedev2@gmail.com"}); //TODO: FIX THIS
     return [];
   }
+
+  // Future<List<Rooms>?> getRoomIds(uid) async {
+  //   // Uri roomUri = BackendProperties.roomDataUri(email)
+  //   // http.Response res = await http.get()
+  //   // Response res = await Requests.get(BackendProperties.roomDataUri.toString(),
+  //   //     queryParameters: {"email": "shmokedev2@gmail.com"}); //TODO: FIX THIS
+  //   return [];
+  // }
 
   Future<UserModel?> getUserbyId(String uid) async {
     Response res = await Requests.get(BackendProperties.userInfoUri.toString(),
@@ -132,9 +140,9 @@ class AuthRepo {
     //USER DOES NOT HAVE TASKIDS, ENDPOINT FOR QUERYING USER'S TASK IDS
 
     var tasks = await getTasks(uid);
-    var rooms = await getRoomIds(uid);
+    // var rooms = await getRoomIds(uid);
 
-    var roomDetails = getRoomMap(rooms);
+    // var roomDetails = getRoomMap(rooms);
 
     // // List<Future<void>> futures = [];
     // // for (var e in tasks!) {
@@ -157,8 +165,8 @@ class AuthRepo {
         registered:
             user['registered']! ?? false, //SDK CONSTRAINTS MIGHT F WITH THIS
         tasks: tasks,
-        rooms: rooms,
-        roomDetails: roomDetails, // FIXME:
+        // rooms: rooms,
+        // roomDetails: roomDetails, // FIXME:
         lastSeen: user['lastSeen'] ?? {});
 
     return userMod;
@@ -173,7 +181,11 @@ class AuthRepo {
 //TODO: ADD TRY CATCH
 
     Response res = await http.post(BackendProperties.registerUri,
-        body: jsonEncode({"name": name, "email": email, "password": password}),
+        body: jsonEncode({
+          "name": name,
+          "email": email,
+          "password": password,
+        }),
         headers: {"Content-Type": "application/json"});
     print("THSHFkjsdh ${res.statusCode}");
     print("djsfkjsdf ${res.url}");

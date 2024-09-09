@@ -19,29 +19,34 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      var chatRoomView=Provider.of<ChatRoomViewModel>(context, listen: false);
-      chatRoomView.loadRooms();
-
+      var eventsView = Provider.of<EventsVm>(
+        context,
+        listen: false,
+      );
+      // eventsView.getAllEvents();
     });
     var splashVm = Provider.of<SplashVM>(context, listen: false);
-    Timer(const Duration(seconds: 4), () => splashVm.isLogged(context));
+    Timer(const Duration(seconds: 4), () {
+      splashVm.isLogged(context);
+      
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-      return Scaffold(
-        body: Container(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          decoration: const BoxDecoration(gradient: mainGrad),
-          child: const Center(
-            child: CircleAvatar(
-              radius: 75.0,
-              backgroundColor: Colors.white,
-              backgroundImage: AssetImage("assets/splash.gif"),
-            ),
+    return Scaffold(
+      body: Container(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        decoration: const BoxDecoration(gradient: mainGrad),
+        child: const Center(
+          child: CircleAvatar(
+            radius: 75.0,
+            backgroundColor: Colors.white,
+            backgroundImage: AssetImage("assets/splash.gif"),
           ),
         ),
-      );
+      ),
+    );
   }
 }

@@ -88,6 +88,8 @@ class RegisterAuthViewModel extends ChangeNotifier {
     var intValue = Random().nextInt(26) + 1;
     var reg = await myRepo.isUserReg(email);
 
+    String pushToken = await userProvider.getFirebaseMessagingToken() ?? 'null';
+
     Map data = {
       'email': _email.trim(),
       'password': _password.trim(),
@@ -95,6 +97,7 @@ class RegisterAuthViewModel extends ChangeNotifier {
       'dp': intValue,
       'type': 'user',
       'registered': reg,
+      'pushToken' : pushToken
     };
 
     setLoading(true);
@@ -116,11 +119,9 @@ class RegisterAuthViewModel extends ChangeNotifier {
           name: data['name'],
           dp: data['dp'],
           type: data['type'],
-
-          rooms:[],
+          rooms: [],
           tasks: [],
           roomids: [],
-
           registered: data['registered']);
 
       postDetailsToFirestore(userModel);

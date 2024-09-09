@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zineapp2023/models/user.dart';
 import 'package:zineapp2023/providers/user_info.dart';
 import 'package:zineapp2023/screens/chat/chat_description/chat_descp.dart';
@@ -9,29 +10,61 @@ import 'package:zineapp2023/screens/dashboard/view_models/dashboard_vm.dart';
 import 'package:zineapp2023/theme/color.dart';
 import 'package:zineapp2023/utilities/string_formatters.dart';
 import '../../../components/gradient.dart';
+import '../../../models/rooms.dart';
 import 'chat_view.dart';
+import 'package:zineapp2023/common/data_store.dart';
+
 
 class ChatRoom extends StatefulWidget {
-  final dynamic roomName;
+  // final dynamic roomName;
+  String? email;
+  // final String? roomId;
+  Rooms? roomDetail;
 
-  final String? roomId;
-
-  ChatRoom({Key? key, required this.roomName, this.roomId}) : super(key: key);
+  ChatRoom({Key? key,  this.roomDetail, this.email}) : super(key: key);
 
   @override
   State<ChatRoom> createState() => _ChatRoomState();
 }
 
+
 class _ChatRoomState extends State<ChatRoom> {
+  late ChatRoomViewModel chatRoomView;
   @override
   void initState() {
     super.initState();
+    _saveRoomNameToPreferences();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      var chatRoomView = Provider.of<ChatRoomViewModel>(context, listen: false);
-      // chatRoomView.setRoomId(widget.roomId!);
-      widget.roomId != null ? chatRoomView.fetchMessages(widget.roomId!) : "";
-      chatRoomView.setRoomId(widget.roomId!);
+      chatRoomView = Provider.of<ChatRoomViewModel>(context, listen: false);
+      widget.roomDetail?.id != null ? chatRoomView.fetchMessages(widget.roomDetail!.id.toString()!) : "";
+      chatRoomView.setRoomId(widget.roomDetail!.id.toString());
+      chatRoomView.getTotalActiveMember(widget.roomDetail!.id.toString());
     });
+  }
+
+  @override
+  void dispose()
+  {
+    super.dispose();
+    Future.microtask(() async {
+      await chatRoomView.updateSeen(
+        widget.email!.toString(),
+        widget.roomDetail!.id.toString(),
+        DateTime.now().millisecondsSinceEpoch,
+        chatRoomView.messages[0].timestamp!,
+        0,
+      );
+
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setString("roomName", " ");
+    });
+
+
+  }
+  Future<void> _saveRoomNameToPreferences() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString("roomName", widget.roomDetail!.name.toString());
+    // print('Room name saved: ${widget.roomName}');
   }
 
   final TextEditingController messageController = TextEditingController();
@@ -39,13 +72,18 @@ class _ChatRoomState extends State<ChatRoom> {
   @override
   Widget build(BuildContext context) {
     return Consumer3<ChatRoomViewModel, DashboardVm, UserProv>(
-      builder: (context, chatVm, dashVm, userProv, _) {
-        var listOfUsers = [];
+      builder: (context, chatVm, dashVm, userProv,_) {
+        // var listOfUsers = [];
         var image = null;
+        // print("chatRoom:${widget.roomName}");
+        final roomId=widget.roomDetail!.id.toString();
+        final roomName=widget.roomDetail!.name.toString();
         UserModel currUser = userProv.getUserInfo;
         bool isNotAllowedTyping = true;
+        List<ActiveMember>listOfUsers= chatVm.activeMembers;
+        //
 
-        if (currUser.type == 'user' && widget.roomName == 'Announcements') {
+        if (currUser.type == 'user' && roomName == 'Announcements') {
           isNotAllowedTyping = false;
         }
         // print("room detila");
@@ -58,7 +96,7 @@ class _ChatRoomState extends State<ChatRoom> {
 
         // var data = chatVm.getData(roomName);//earlier data from firebas
 
-        chatVm.addRouteListener(context, widget.roomName,
+        chatVm.addRouteListener(context, roomName,
             userProv.getUserInfo.email.toString(), userProv);
 
         return GestureDetector(
@@ -81,13 +119,13 @@ class _ChatRoomState extends State<ChatRoom> {
                       .push(CupertinoPageRoute(builder: (BuildContext context) {
                     // return Text("chatDesctiption remove");
                     return ChatDescription(
-                        roomName: widget.roomName,
+                        roomName: roomName,
                         image: image,
                         data: listOfUsers);
                   }));
                 },
                 child: Text(
-                  widget.roomName,
+                  roomName,
                   // "hello again",
                   style: const TextStyle(
                     color: Colors.white,
@@ -121,7 +159,7 @@ class _ChatRoomState extends State<ChatRoom> {
                     chatV(context, chatVm.messageStream, dashVm,
                         chatVm.userReplyText),
 
-                    currUser.type == 'user' && widget.roomName == 'Announcements'
+                    currUser.type == 'user' && roomName == 'Announcements'
                         ? Container()
                         : Column(
                             mainAxisAlignment: MainAxisAlignment.start,
@@ -245,7 +283,7 @@ class _ChatRoomState extends State<ChatRoom> {
                                         onPressed: () {
                                           chatVm.sendMessage(
                                               messageController.text,
-                                              widget.roomName);
+                                              roomName);
                                           messageController.text = "";
 
                                           // chatVm.send(

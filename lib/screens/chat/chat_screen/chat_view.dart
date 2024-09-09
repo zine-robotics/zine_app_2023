@@ -5,7 +5,6 @@ import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:swipe_to/swipe_to.dart';
-import 'package:zineapp2023/models/temp_message.dart';
 import 'package:zineapp2023/providers/user_info.dart';
 import 'package:zineapp2023/screens/chat/chat_screen/view_model/chat_room_view_model.dart';
 import 'package:zineapp2023/utilities/string_formatters.dart';
@@ -14,14 +13,14 @@ import '../../../models/message.dart';
 import '../../../theme/color.dart';
 import '../../../utilities/date_time.dart';
 
-Widget chatV(BuildContext context, Stream<List<TempMessageModel>> messageStream,
+Widget chatV(BuildContext context, Stream<List<MessageModel>> messageStream,
     dashVm, dynamic reply) {
   ChatRoomViewModel chatRoomViewModel =
       Provider.of<ChatRoomViewModel>(context, listen: true);
 
   UserProv userVm = Provider.of<UserProv>(context, listen: true);
 
-  return StreamBuilder<List<TempMessageModel>>(
+  return StreamBuilder<List<MessageModel>>(
     stream: messageStream,
     builder: (context, snapshot) {
       print("chat reply to :${chatRoomViewModel.replyTo}");
@@ -38,7 +37,7 @@ Widget chatV(BuildContext context, Stream<List<TempMessageModel>> messageStream,
         return Center(child: Text('No messages'),);
       }
       else if (snapshot.hasData) {
-        List<TempMessageModel> chats=snapshot.data!;
+        List<MessageModel> chats=snapshot.data!;
             // .map((doc) {
         //   MessageModel message = MessageModel.store(doc);
         //   if (message.replyTo == null) {
@@ -88,7 +87,6 @@ Widget chatV(BuildContext context, Stream<List<TempMessageModel>> messageStream,
                       chats, chats[currIndx].replyTo!.id.toString());
                   // print("checking reply content:${chats[currIndx].content}");
                 }
-                // print("replied message${repliedMessage}");
                 return chats[currIndx].content!.isEmpty
                     ? Container()
                     : Column(
@@ -176,9 +174,13 @@ Widget chatV(BuildContext context, Stream<List<TempMessageModel>> messageStream,
                                                               12.0),
                                                       child: Text(
                                                         repliedMessage != null
-                                                            ? repliedMessage
+                                                            ? (repliedMessage
                                                                 .content
-                                                                .toString()
+                                                                .toString()).length>20? repliedMessage
+                                                            .content
+                                                            .toString().substring(0,20)+'...':repliedMessage
+                                                            .content
+                                                            .toString()
                                                             : " ",
                                                         // softWrap: true,
                                                         textAlign:
