@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -24,21 +26,21 @@ Widget chatV(BuildContext context, Stream<List<MessageModel>> messageStream,
     stream: messageStream,
     builder: (context, snapshot) {
       print("chat reply to :${chatRoomViewModel.replyTo}");
-      if(snapshot.connectionState==ConnectionState.waiting)
-      {
-        return Center(child: CircularProgressIndicator(),);
-      }
-      else if(snapshot.hasError)
-      {
-        return Center(child: Text('Error:${snapshot.error}'),);
-      }
-      else if(!snapshot.hasData || snapshot.data!.isEmpty)
-      {
-        return Center(child: Text('No messages'),);
-      }
-      else if (snapshot.hasData) {
-        List<MessageModel> chats=snapshot.data!;
-            // .map((doc) {
+      if (snapshot.connectionState == ConnectionState.waiting) {
+        return Center(
+          child: CircularProgressIndicator(),
+        );
+      } else if (snapshot.hasError) {
+        return Center(
+          child: Text('Error:${snapshot.error}'),
+        );
+      } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+        return Center(
+          child: Text('No messages'),
+        );
+      } else if (snapshot.hasData) {
+        List<MessageModel> chats = snapshot.data!;
+        // .map((doc) {
         //   MessageModel message = MessageModel.store(doc);
         //   if (message.replyTo == null) {
         //     // Assuming you have access to the document reference
@@ -46,8 +48,6 @@ Widget chatV(BuildContext context, Stream<List<MessageModel>> messageStream,
         //   }
         //   return message;
         // }).toList();
-
-
 
         return Flexible(
           // Flexible prevents overflow error when keyboard is opened
@@ -71,8 +71,8 @@ Widget chatV(BuildContext context, Stream<List<MessageModel>> messageStream,
                 var currIndx = chats.length - index - 1;
                 var showDate = index == chats.length - 1 ||
                     (chats.length - index >= 2 &&
-                        getChatDate(chats[currIndx].timestamp!) !=
-                            getChatDate(
+                        validShowDate(chats[currIndx].timestamp!) !=
+                            validShowDate(
                                 chats[chats.length - index - 2].timestamp!));
 
                 bool group = index > 0 &&
@@ -80,7 +80,8 @@ Widget chatV(BuildContext context, Stream<List<MessageModel>> messageStream,
                         chats[chats.length - index].sentFrom?.name.toString() &&
                     getChatDate(chats[currIndx].timestamp!) ==
                         getChatDate(chats[chats.length - index].timestamp!);
-                dynamic repliedMessage=null ;
+
+                dynamic repliedMessage = null;
                 // print("reply to:${chats[currIndx].replyTo?.id}");
                 if (chats[currIndx].replyTo?.id.toString() != null) {
                   repliedMessage = chatRoomViewModel.userGetMessageById(
@@ -175,12 +176,20 @@ Widget chatV(BuildContext context, Stream<List<MessageModel>> messageStream,
                                                       child: Text(
                                                         repliedMessage != null
                                                             ? (repliedMessage
-                                                                .content
-                                                                .toString()).length>20? repliedMessage
-                                                            .content
-                                                            .toString().substring(0,20)+'...':repliedMessage
-                                                            .content
-                                                            .toString()
+                                                                            .content
+                                                                            .toString())
+                                                                        .length >
+                                                                    20
+                                                                ? repliedMessage
+                                                                        .content
+                                                                        .toString()
+                                                                        .substring(
+                                                                            0,
+                                                                            20) +
+                                                                    '...'
+                                                                : repliedMessage
+                                                                    .content
+                                                                    .toString()
                                                             : " ",
                                                         // softWrap: true,
                                                         textAlign:
@@ -330,8 +339,7 @@ Widget chatV(BuildContext context, Stream<List<MessageModel>> messageStream,
                                   // print(details);
                                   chatRoomViewModel
                                       .userReplyText(chats[currIndx]);
-                                  chatRoomViewModel.replyfocus
-                                      .requestFocus();
+                                  chatRoomViewModel.replyfocus.requestFocus();
                                 },
                                 // onLeftSwipe: (details) {
                                 //   // print(details);
@@ -345,17 +353,19 @@ Widget chatV(BuildContext context, Stream<List<MessageModel>> messageStream,
                                   contentPadding: EdgeInsets.zero,
                                   dense: true,
                                   leading: userVm.getUserInfo.name ==
-                                          chats[currIndx].sentFrom?.name
-                                      ? null
-                                      : CircleAvatar(
+                                              chats[currIndx].sentFrom?.name ||
+                                          group
+                                      ? CircleAvatar(
                                           backgroundColor:
-                                              const Color(0x0f2F80ED),
+                                              Color.fromARGB(15, 255, 255, 255),
+                                          radius: 20,
                                           child: Padding(
-                                            padding: const EdgeInsets.all(3.0),
-                                            child: Image.asset(
-                                                "assets/images/dp/${userVm.getUserInfo.dp}.png"),
-                                          ),
-                                        ),
+                                              padding:
+                                                  const EdgeInsets.all(3.0),
+                                              child: Container()),
+                                        )
+                                      : buildProfilePicture(
+                                          chats[currIndx].sentFrom?.dp),
 
                                   // * Because Priyansh Said So :) *
 
@@ -491,4 +501,37 @@ Widget chatV(BuildContext context, Stream<List<MessageModel>> messageStream,
       // print(MessageModel.store());
     },
   );
+}
+
+Widget buildProfilePicture(var dp) {
+  final random = Random();
+
+  if (dp is int || dp == null) {
+    final assetIndex = dp ?? (random.nextInt(26) + 1);
+    return CircleAvatar(
+      backgroundColor: const Color(0x0f2F80ED),
+      radius: 20,
+      child: Padding(
+          padding: const EdgeInsets.all(3.0),
+          child: Image.asset(
+            "assets/images/dp/$assetIndex.png",
+            fit: BoxFit.cover,
+          )),
+    );
+  } else if (dp is String &&
+      (dp.startsWith('http') || dp.startsWith('https'))) {
+    return CircleAvatar(
+      backgroundColor: const Color(0x0f2F80ED),
+      radius: 20,
+      child: Padding(
+        padding: const EdgeInsets.all(3.0),
+        child: Image.network(
+          dp,
+          fit: BoxFit.cover,
+        ),
+      ),
+    );
+  } else {
+    return const SizedBox();
+  }
 }

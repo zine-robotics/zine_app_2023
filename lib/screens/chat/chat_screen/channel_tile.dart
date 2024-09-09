@@ -5,22 +5,21 @@ import 'package:zineapp2023/models/events.dart';
 import 'package:zineapp2023/providers/user_info.dart';
 import 'package:zineapp2023/screens/chat/chat_screen/view_model/chat_room_view_model.dart';
 
-
 import '../../../models/rooms.dart';
 import '../../../models/user.dart';
 import '../../../utilities/date_time.dart';
 import 'chat_room.dart';
 
-
 class Channel extends StatelessWidget {
   Rooms? roomDetail;
 
-  Channel({super.key,this.roomDetail});
+  Channel({super.key, this.roomDetail});
 
   @override
   Widget build(BuildContext context) {
     return Consumer2<ChatRoomViewModel, UserProv>(
         builder: (context, chatVm, userProv, _) {
+
           UserModel currUser = userProv.getUserInfo;
           String? lastChatTimestamp=roomDetail?.lastMessageTimestamp !=null? DateFormat("d MMM").format(convertTimestamp(roomDetail!.lastMessageTimestamp!)):" ";
 
@@ -36,7 +35,7 @@ class Channel extends StatelessWidget {
                     builder: (context) => ChatRoom(
                           // roomName: roomDetail?.name,
                           // roomId: roomDetail!.id.toString(),
-                          email:currUser.email,
+                          email: currUser.email,
                           roomDetail: roomDetail,
                         )));
           },
@@ -61,6 +60,7 @@ class Channel extends StatelessWidget {
                         child: Padding(
                           padding: const EdgeInsets.all(3.0),
                           child:roomDetail?.dpUrl !=null? Image.network(roomDetail!.dpUrl.toString(),fit: BoxFit.fill,) :Image.asset("assets/images/zine_logo.png"),
+
                         ),
                       ),
                       const SizedBox(
@@ -82,55 +82,58 @@ class Channel extends StatelessWidget {
                     children: [
                       Row(
                         children: [
-                          roomDetail?.unreadMessages !=null
-                              ?
-                          roomDetail!.unreadMessages! > 0 ?
-                          Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color:
-                                        const Color.fromRGBO(47, 128, 237, 1),
-                                  ),
-                                  height: 15,
-                                  width: 15,
-                                  child:  Center(
-                                    child: Text(
-                                      '',
-                                      // lashChatTimestamp!.toString(),
-                                      style: TextStyle(
-                                        color: Colors.grey,
-                                        fontSize: 12,
+                          roomDetail?.unreadMessages != null
+                              ? roomDetail!.unreadMessages! > 0
+                                  ? Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: const Color.fromRGBO(
+                                            47, 128, 237, 1),
                                       ),
-                                    ),
-                                  ),
-                                )
-                              :Container(): const SizedBox(),
+                                      height: 20,
+                                      width: 20,
+                                      child: Center(
+                                        child: Text(
+                                          roomDetail!.unreadMessages.toString(),
+                                          style: TextStyle(
+                                            color: Color.fromARGB(
+                                                255, 255, 255, 255),
+                                            fontSize: 10,
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  : Container()
+                              : const SizedBox(),
                           const SizedBox(
                             width: 10,
                           )
                         ],
                       ),
-                      roomDetail?.lastMessageTimestamp !=null
+                      roomDetail!.unreadMessages! == 0
                           ? Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          // color:
-                          //     const Color.fromRGBO(47, 128, 237, 1),
-                        ),
-                        height: 30,
-                        width: 30,
-                        child:  Center(
-                          child: Text(
-                            // '',
-                            lastChatTimestamp!.toString(),
-                            style: TextStyle(
-                              color: Colors.grey,
-                              fontSize: 12,
-                            ),
-                          ),
-                        ),
-                      ) : Container()
-                            ],
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                // color:
+                                //     const Color.fromRGBO(47, 128, 237, 1),
+                              ),
+                              height: 30,
+                              width: 60,
+                              child: Align(
+                                alignment: AlignmentDirectional.centerEnd,
+                                child: Text(
+                                  // '',
+                                  // getLastSeenFormat(
+                                lastChatTimestamp=roomDetail?.lastMessageTimestamp !=null? DateFormat("d MMM").format(convertTimestamp(roomDetail!.lastMessageTimestamp!)):"null "
+                                  ,style: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ),
+                            )
+                          : Container()
+                    ],
                   )
                 ],
               ),

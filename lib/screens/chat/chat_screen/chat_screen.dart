@@ -49,6 +49,7 @@ class _ChatScreenState extends State<ChatScreen> {
         List<Rooms>? workshopDetails = chatVm.userWorkshop;
         return chatVm.isRoomLoading
             ? const Center(child: CircularProgressIndicator())
+
                 : Container(
                     color: backgroundGrey,
                     child: Padding(
@@ -114,12 +115,13 @@ class _ChatScreenState extends State<ChatScreen> {
                                       ),
                               )
 
-                          ],
-                        ),
-                      ),
-                    ),
-                  );
-      },
+                          ]
+        )
+
+
+    )));
+      }
+
     );
   }
 }

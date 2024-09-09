@@ -36,7 +36,7 @@ dependencies:
   decorated_icon: ^1.2.1
   expansion_tile_card: ^3.0.0
   firebase_auth: ^4.2.5
-  firebase_core: ^2.32.0
+  firebase_core: ^2.27.0
   firebase_messaging: ^14.2.1
   firebase_storage: ^11.1.0
   flutter:
