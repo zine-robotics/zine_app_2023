@@ -55,7 +55,7 @@ String getLastSeenFormat(int timeStamp) {
     if (dateTime.isAfter(today)) {
       return '${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}';
     } else if (dateTime.isAfter(yesterday)) {
-      return 'yesterday';
+      return 'Yesterday';
     } else {
       return '${dateTime.day.toString().padLeft(2, '0')}-${dateTime.month.toString().padLeft(2, '0')}-${dateTime.year.toString().substring(2)}';
     }

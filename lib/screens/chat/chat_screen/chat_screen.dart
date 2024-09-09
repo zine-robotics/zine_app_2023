@@ -82,7 +82,7 @@ class _ChatScreenState extends State<ChatScreen> {
                         ),
 
                         //--------------------Projects-----------------------------------R
-                        roomDetails!.any((element) => element.type == "project")
+                        roomDetails.any((element) => element.type == "project")
                             ? headingText("Project")
                             : Container(),
                         if (projectDetails != null)

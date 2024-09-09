@@ -56,7 +56,9 @@ class Channel extends StatelessWidget {
                         radius: 20,
                         child: Padding(
                           padding: const EdgeInsets.all(3.0),
-                          child: Image.asset("assets/images/zine_logo.png"),
+                          child: roomDetail!.dpUrl == null
+                              ? Image.asset("assets/images/zine_logo.png")
+                              : Image.network(roomDetail!.dpUrl!),
                         ),
                       ),
                       const SizedBox(
@@ -86,15 +88,15 @@ class Channel extends StatelessWidget {
                                         color: const Color.fromRGBO(
                                             47, 128, 237, 1),
                                       ),
-                                      height: 15,
-                                      width: 15,
+                                      height: 20,
+                                      width: 20,
                                       child: Center(
                                         child: Text(
-                                          '',
-                                          // lashChatTimestamp!.toString(),
+                                          roomDetail!.unreadMessages.toString(),
                                           style: TextStyle(
-                                            color: Colors.grey,
-                                            fontSize: 12,
+                                            color: Color.fromARGB(
+                                                255, 255, 255, 255),
+                                            fontSize: 10,
                                           ),
                                         ),
                                       ),
@@ -114,8 +116,9 @@ class Channel extends StatelessWidget {
                                 //     const Color.fromRGBO(47, 128, 237, 1),
                               ),
                               height: 30,
-                              width: 30,
-                              child: Center(
+                              width: 60,
+                              child: Align(
+                                alignment: AlignmentDirectional.centerEnd,
                                 child: Text(
                                   // '',
                                   getLastSeenFormat(

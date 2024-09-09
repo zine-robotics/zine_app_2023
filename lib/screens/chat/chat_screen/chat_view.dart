@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -353,18 +355,17 @@ Widget chatV(BuildContext context, Stream<List<MessageModel>> messageStream,
                                   leading: userVm.getUserInfo.name ==
                                               chats[currIndx].sentFrom?.name ||
                                           group
-                                      ? SizedBox(
-                                          width: 15,
-                                        )
-                                      : CircleAvatar(
+                                      ? CircleAvatar(
                                           backgroundColor:
-                                              const Color(0x0f2F80ED),
+                                              Color.fromARGB(15, 255, 255, 255),
+                                          radius: 20,
                                           child: Padding(
-                                            padding: const EdgeInsets.all(3.0),
-                                            child: Image.asset(
-                                                "assets/images/dp/${userVm.getUserInfo.dp}.png"),
-                                          ),
-                                        ),
+                                              padding:
+                                                  const EdgeInsets.all(3.0),
+                                              child: Container()),
+                                        )
+                                      : buildProfilePicture(
+                                          chats[currIndx].sentFrom?.dp),
 
                                   // * Because Priyansh Said So :) *
 
@@ -500,4 +501,37 @@ Widget chatV(BuildContext context, Stream<List<MessageModel>> messageStream,
       // print(MessageModel.store());
     },
   );
+}
+
+Widget buildProfilePicture(var dp) {
+  final random = Random();
+
+  if (dp is int || dp == null) {
+    final assetIndex = dp ?? (random.nextInt(26) + 1);
+    return CircleAvatar(
+      backgroundColor: const Color(0x0f2F80ED),
+      radius: 20,
+      child: Padding(
+          padding: const EdgeInsets.all(3.0),
+          child: Image.asset(
+            "assets/images/dp/$assetIndex.png",
+            fit: BoxFit.cover,
+          )),
+    );
+  } else if (dp is String &&
+      (dp.startsWith('http') || dp.startsWith('https'))) {
+    return CircleAvatar(
+      backgroundColor: const Color(0x0f2F80ED),
+      radius: 20,
+      child: Padding(
+        padding: const EdgeInsets.all(3.0),
+        child: Image.network(
+          dp,
+          fit: BoxFit.cover,
+        ),
+      ),
+    );
+  } else {
+    return const SizedBox();
+  }
 }
