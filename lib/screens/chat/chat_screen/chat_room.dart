@@ -46,18 +46,24 @@ class _ChatRoomState extends State<ChatRoom> {
   void dispose()
   {
     super.dispose();
-    Future.microtask(() async {
-      await chatRoomView.updateSeen(
-        widget.email!.toString(),
-        widget.roomDetail!.id.toString(),
-        DateTime.now().millisecondsSinceEpoch,
-        chatRoomView.messages[0].timestamp!,
-        0,
-      );
+    if(chatRoomView.messages.isNotEmpty) {
+      Future.microtask(() async {
+        await chatRoomView.updateSeen(
+          widget.email!.toString(),
+          widget.roomDetail!.id.toString(),
+          DateTime
+              .now()
+              .millisecondsSinceEpoch,
+          chatRoomView.messages[0].timestamp!,
+          0,
+        );
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString("roomName", " ");
+      });
+      }
 
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      await prefs.setString("roomName", " ");
-    });
+
+
 
 
   }

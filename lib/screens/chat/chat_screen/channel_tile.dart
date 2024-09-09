@@ -23,8 +23,6 @@ class Channel extends StatelessWidget {
         builder: (context, chatVm, userProv, _) {
           UserModel currUser = userProv.getUserInfo;
           String? lastChatTimestamp=roomDetail?.lastMessageTimestamp !=null? DateFormat("d MMM").format(convertTimestamp(roomDetail!.lastMessageTimestamp!)):" ";
-          print("inside the channel tile:${lastChatTimestamp}");
-          print("unseen message:${roomDetail!.unreadMessages.toString()}");
 
 
       return Padding(
@@ -62,19 +60,19 @@ class Channel extends StatelessWidget {
                         radius: 20,
                         child: Padding(
                           padding: const EdgeInsets.all(3.0),
-                          child: Image.asset("assets/images/zine_logo.png"),
+                          child:roomDetail?.dpUrl !=null? Image.network(roomDetail!.dpUrl.toString(),fit: BoxFit.fill,) :Image.asset("assets/images/zine_logo.png"),
                         ),
                       ),
                       const SizedBox(
                         width: 10,
                       ),
-                      Text(
+                      roomDetail?.dpUrl !=null? Text(
                         roomDetail!.name.toString(),
                         style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w700,
                         ),
-                      ),
+                      ):Text(""),
                     ],
                   ),
 

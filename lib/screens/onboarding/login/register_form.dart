@@ -68,31 +68,27 @@ class RegisterForm extends StatelessWidget {
                     "Email address",
                     style: TextStyle(color: greyText, fontSize: 15.0),
                   ),
-                  TextFormField(
-                    controller: _emailController,
-                    style: const TextStyle(
-                      color: Colors.black,
-                      letterSpacing: 1.5,
-                    ),
-                    onChanged: (value) => authVm.setEmail(value),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return "Please enter an email address";
-                      }
-                      // } else if (!emailReg.hasMatch(authVm.email)) {
-                      //   return "Not a valid Email. Use College Email to Login";
-                      // }
-                      return null;
-                    },
-                    textInputAction: TextInputAction.next,
-                    keyboardType: TextInputType.emailAddress,
-                    cursorColor: textColor,
-                    decoration: const InputDecoration(
-                      contentPadding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 15.0),
-                      floatingLabelBehavior: FloatingLabelBehavior.never,
-                      label: Text(
-                        "abc@iiitk/mnit.ac.in",
-                        style: TextStyle(color: Color(0xffD9D9D9)),
+                  Form(
+                    autovalidateMode: AutovalidateMode.always,
+                    child: TextFormField(
+                      controller: _emailController,
+                      style: const TextStyle(
+                        color: Colors.black,
+                        letterSpacing: 1.5,
+                      ),
+                      onChanged: (value) => authVm.setEmail(value),
+                      validator: authVm.validateEmail,
+
+                      textInputAction: TextInputAction.next,
+                      keyboardType: TextInputType.emailAddress,
+                      cursorColor: textColor,
+                      decoration: const InputDecoration(
+                        contentPadding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 15.0),
+                        floatingLabelBehavior: FloatingLabelBehavior.never,
+                        label: Text(
+                          "abc@iiitk/mnit.ac.in",
+                          style: TextStyle(color: Color(0xffD9D9D9)),
+                        ),
                       ),
                     ),
                   ),

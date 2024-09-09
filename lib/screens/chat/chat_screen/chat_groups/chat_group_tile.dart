@@ -43,6 +43,7 @@ class ChatGroupTile extends StatelessWidget {
             ),
             color: const Color.fromRGBO(170, 170, 170, 0.1),
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -68,17 +69,17 @@ class ChatGroupTile extends StatelessWidget {
                                   fit: BoxFit.cover,
                                   color: textColor.withOpacity(0.9),
                                 )
-                              : Image.network(roomDetails.dpUrl!),
+                              : Image.network(roomDetails.dpUrl!,width: 50,height: 50,),
                     ),
                   ),
                 ),
 
-                Text(
+                roomDetails.lastMessageTimestamp !=null ? Text(
                 DateFormat("d MMM").format(convertTimestamp(roomDetails.lastMessageTimestamp!)),
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: greyText.withOpacity(0.6)),
-                ),
+                ):Text(""),
                 const SizedBox(
                   height: 10,
                 ),

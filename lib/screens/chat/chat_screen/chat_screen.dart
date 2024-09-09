@@ -46,6 +46,7 @@ class _ChatScreenState extends State<ChatScreen> {
         List<Rooms>? roomDetails = chatVm.user_rooms;
         List<Rooms>? projectDetails = chatVm.userProjects;
         List<Rooms>? announcementDetails = chatVm.announcement;
+        List<Rooms>? workshopDetails = chatVm.userWorkshop;
         return chatVm.isRoomLoading
             ? const Center(child: CircularProgressIndicator())
                 : Container(
@@ -66,12 +67,23 @@ class _ChatScreenState extends State<ChatScreen> {
                               // roomDetail: [name:"Announcements",roomId:"452"],
                                   roomDetail: announcementDetails?[0],
                             ),
+                            //--------------------Workshop-------------------------------------
+                            workshopDetails != null && workshopDetails.isNotEmpty
+                                ? headingText("Workshop")
+                                : Container(),
+                            workshopDetails != null && workshopDetails.isNotEmpty
+                                ? ChatGroups(roomDetails: workshopDetails)
+                                : Container(),
+
+                            const SizedBox(
+                              height: 20,
+                            ),
 
                             //--------------------Groups/Room----------------------------------
-                            roomDetails != null
+                            roomDetails != null && roomDetails.isNotEmpty
                                 ? headingText("Groups")
                                 : Container(),
-                            roomDetails != null
+                            roomDetails != null && roomDetails.isNotEmpty
                                 ? ChatGroups(roomDetails: roomDetails)
                                 : Container(),
 
@@ -80,10 +92,10 @@ class _ChatScreenState extends State<ChatScreen> {
                             ),
 
                             //--------------------Projects-----------------------------------R
-                            projectDetails != null
+                            projectDetails != null && projectDetails.isNotEmpty
                                 ? headingText("Project")
                                 : Container(),
-                            if (projectDetails != null)
+                            if (projectDetails != null && projectDetails.isNotEmpty)
                               Container(
                                 height: MediaQuery.of(context).size.height *
                                     0.5, // You can adjust the height as needed
@@ -101,8 +113,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                         },
                                       ),
                               )
-                            else
-                              Center(child: Text('No rooms available')),
+
                           ],
                         ),
                       ),

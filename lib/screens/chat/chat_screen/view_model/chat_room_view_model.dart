@@ -219,11 +219,13 @@ class ChatRoomViewModel extends ChangeNotifier {
 
   List<Rooms>? _user_rooms;
   List<Rooms>? _userProjects;
+  List<Rooms>? _userWorkshop;
   List<Rooms>? _announcement;
   bool _isRoomLoading = false;
 
   List<Rooms>? get user_rooms => _user_rooms;
   List<Rooms>? get userProjects => _userProjects;
+  List<Rooms>? get userWorkshop => _userWorkshop;
   List<Rooms>? get announcement => _announcement;
   bool get isRoomLoading => _isRoomLoading;
 
@@ -248,6 +250,8 @@ class ChatRoomViewModel extends ChangeNotifier {
 
         _userProjects =
             allRooms.where((room) => room.type == "project").toList();
+        _userWorkshop =
+            allRooms.where((room) => room.type == "workshop").toList();
         _announcement=allAnnouncment;
       }
 

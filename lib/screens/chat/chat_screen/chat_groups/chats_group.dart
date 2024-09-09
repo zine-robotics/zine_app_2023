@@ -18,7 +18,7 @@ class ChatGroups extends StatelessWidget {
         UserModel currUser = userProv.getUserInfo;
 
         return SizedBox(
-          height: MediaQuery.of(context).size.height * 0.19,
+          height: MediaQuery.of(context).size.height * 0.21,
           child: ListView.builder(
             shrinkWrap: true,
             scrollDirection: Axis.horizontal,
