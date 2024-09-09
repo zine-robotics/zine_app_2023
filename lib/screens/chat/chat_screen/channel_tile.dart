@@ -108,7 +108,7 @@ class Channel extends StatelessWidget {
                           )
                         ],
                       ),
-                      roomDetail?.lastMessageTimestamp != null
+                      roomDetail!.unreadMessages! == 0
                           ? Container(
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
