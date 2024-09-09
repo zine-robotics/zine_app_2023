@@ -27,6 +27,7 @@ class Team {
   String? email;
   String? linkedIn;
   String? bio;
+  String? branch;
 
   Team({
     this.name = "",
@@ -34,6 +35,7 @@ class Team {
     this.email = "",
     this.linkedIn = "",
     this.bio = "",
+    this.branch = ""
   });
 
   factory Team.fromJson(Map<String, dynamic> json) {
@@ -44,6 +46,7 @@ class Team {
       linkedIn: json["linkedin"] ?? 'zine.co.in',
       bio: json["bio"] ??
           "India, officially the Republic of India, is a country in South Asia. It is the seventh-largest country by area; the most populous country as of June 2023; and from the time of its independence in 1947, the world's most populous democracy",
+      branch: json["branch"]  ?? 'Electronics and Communication'
     );
   }
 }

@@ -244,209 +244,258 @@
 			{
 				"name": "Apoorv Raj",
 				"image": "apoorv",
-				"email": "2019ume1219@mnit.ac.in"
+				"email": "2019UME1219@mnit.ac.in",
+				"branch": "Mechanical Enginnering"
 			},
 			{
 				"name": "Aryaman Singh",
 				"image": "aryaman",
-				"email": "2019uee1722@mnit.ac.in"
+				"email": "2019UEE1722@mnit.ac.in",
+				"branch": "Electrical Engineering"
 			},
 			{
 				"name": "Chirayu Rankawat",
 				"image": "chirayu",
-				"email": "2019ume1357@mnit.ac.in"
+				"email": "2019UME1357@mnit.ac.in",
+				"branch": "Mechanical Enginnering"
 			},
 			{
 				"name": "Darhsan Dusad",
 				"image": "darshan",
-				"email": "2019ucp1416@mnit.ac.in"
+				"email": "2019UCP1416@mnit.ac.in",
+				"branch": "Computer Science and Engineering"
 			},
 			{
 				"name": "Devansh Garg",
 				"image": "devansh",
-				"email": "2019ume1883@mnit.ac.in"
+				"email": "2019UME1883@mnit.ac.in",
+				"branch": "Mechanical Enginnering"
 			},
 			{
 				"name": "Harshit Garg",
 				"image": "harshit",
-				"email": "2019ume1205@mnit.ac.in"
+				"email": "2019UME1205@mnit.ac.in",
+				"branch": "Mechanical Enginnering"
 			},
 			{
 				"name": "Ishika Panwar",
 				"image": "ishika",
-				"email": "2019ucp1661@mnit.ac.in"
+				"email": "2019UCP1661@mnit.ac.in",
+				"branch": "Computer Science and Engineering"
 			},
 			{
 				"name": "Puneet Singh",
 				"image": "puneet",
-				"email": "2019uec1355@mnit.ac.in"
+				"email": "2019UEC1355@mnit.ac.in",
+				"branch": "Electronics and Communication"
 			},
 			{
 				"name": "Pavnesh Chaturvedi",
 				"image": "pavnesh",
-				"email": "2019kuec2037@iiitkota.ac.in"
+				"email": "2019kUEC2037@iiitkota.ac.in",
+				"branch": "Electronics and Communication"
 			},
 			{
 				"name": "Rahul Raj",
 				"image": "rahul",
-				"email": "2019ume1141@mnit.ac.in"
+				"email": "2019UME1141@mnit.ac.in",
+				"branch": "Mechanical Enginnering"
 			}
 		]
-
-
 	],
 	"team Removed": [
 		{
 			"name": "Granth Gupta",
 			"image": "granth",
-			"email": "2021KUCP1015@iiitkota.ac.in"
+			"email": "2021KUCP1015@iiitkota.ac.in",
+			"branch": "Computer Science and Engineering"
 		},
 		{
 			"name": "Moordhan Songade",
 			"image": "moordhan",
-			"email": "2021ucp1072@mnit.ac.in"
+			"email": "2021UCP1072@mnit.ac.in",
+			"branch": "Computer Science and Engineering"
 		},
 		{
 			"name": "Yug Modi",
 			"image": "yug",
-			"email": "2021KUCP1110@iiitkota.ac.in"
+			"email": "2021KUCP1110@iiitkota.ac.in",
+			"branch": "Computer Science and Engineering"
 		},
 		{
-
 			"name": "MOHD Anas Ansari",
 			"image": "anas",
-			"email": "2022uec1713@mnit.ac.in"
+			"email": "2022UEC1713@mnit.ac.in",
+			"branch": "Electronics and Communication"
 		}
-
 	],
 	"team": [
 		[
 			{
 				"name": "Aditya Wadje",
 				"image": "aditya",
-				"email": "2022uec1438@mnit.ac.in"
+				"email": "2022UEC1438@mnit.ac.in",
+				"branch": "Electronics and Communication",
+				"linkedin": "www.linkedin.com/in/aditya-wadje-a53140289/"
 			},
 			{
 				"name": "Alok kumar",
 				"image": "alok",
-				"email": "2022uec1721@mnit.ac.in"
+				"email": "2022UEC1721@mnit.ac.in",
+				"branch": "Electronics and Communication",
+				"linkedin": "www.linkedin.com/in/alok-kumar-994709285"
 			},
-
-
 			{
-
 				"name": "Aswin Arunkumar T.",
 				"image": "aswin",
-				"email": "2022ucp1892@mnit.ac.in"
+				"email": "2022UCP1892@mnit.ac.in",
+				"branch": "Computer Science and Engineering",
+				"linkedin": "www.linkedin.com/in/aswin-arunkumar-7b3796273/"
 			},
 			{
 				"name": "Divyansh ramola",
 				"image": "divyansh",
-				"email": "2022ume1557@mnit.ac.in"
+				"email": "2022UME1557@mnit.ac.in",
+				"branch": "Mechanical Enginnering",
+				"linkedin": "www.linkedin.com/in/divyansh-ramola-b87100299/"
 			},
 			{
 				"name": "Herschelle Mathew Thomas",
 				"image": "harshal",
-				"email": "2022ucp1894@mnit.ac.in"
+				"email": "2022UCP1894@mnit.ac.in",
+				"branch": "Computer Science and Engineering",
+				"linkedin": "www.linkedin.com/in/herschelle-thomas-37513b24b/"
 			},
 			{
 				"name": "Krishna",
 				"image": "krishna",
-				"email": "2022uee1133@mnit.ac.in"
+				"email": "2022UEE1133@mnit.ac.in",
+				"branch": "Electrical Engineering",
+				"linkedin": "www.linkedin.com/in/krishna-singh-903533290/"
 			},
 			{
 				"name": "Kushal",
 				"image": "kushal",
-				"email": "2022uec1893@mnit.ac.in"
+				"email": "2022UEC1893@mnit.ac.in",
+				"branch": "Electronics and Communication",
+				"linkedin": "www.linkedin.com/in/kushal-gajjar-a12a3a290/"
 			},
 			{
 				"name": "Mahaveer",
 				"image": "mahaveer",
-				"email": "2022uec1726@mnit.ac.in"
+				"email": "2022UEC1726@mnit.ac.in",
+				"branch": "Electronics and Communication",
+				"linkedin": "www.linkedin.com/in/mahaveer-jeenger-4a836a274/"
 			},
 			{
 				"name": "Nitin jangir",
 				"image": "nitin",
-				"email": "2022uce1480@mnit.ac.in"
+				"email": "2022UCE1480@mnit.ac.in",
+				"branch": "Civil Engineering",
+				"linkedin": "www.linkedin.com/in/nitin-jangir-860787258/"
 			},
 			{
 				"name": "Shubh Chordia",
 				"image": "shubh",
-				"email": "2022uee1016@mnit.ac.in"
+				"email": "2022UEE1016@mnit.ac.in",
+				"branch": "Electrical Engineering",
+				"linkedin": "www.linkedin.com/in/shubh-chordia-a402b2259/"
 			}
-
 		],
 		[
 			{
 				"name": "Anmol Bansal",
 				"image": "anmol",
-				"email": "2021uee1064@mnit.ac.in"
+				"email": "2021UEE1064@mnit.ac.in",
+				"branch": "Electrical Engineering",
+				"linkedin": "www.linkedin.com/in/bansalanmol1606"
 			},
-
 			{
 				"name": "Harshit Sandilya",
 				"image": "harshit",
-				"email": "2021UCP1382@mnit.ac.in"
+				"email": "2021UCP1382@mnit.ac.in",
+				"branch": "Computer Science and Engineering",
+				"linkedin": "www.linkedin.com/in/harshit-sandilya-625a47230/"
 			},
-
 			{
 				"name": "Mashaal Sayeed",
 				"image": "mashaal",
-				"email": "2021ucp1011@mnit.ac.in"
+				"email": "2021UCP1011@mnit.ac.in",
+				"branch": "Computer Science and Engineering",
+				"linkedin": "www.linkedin.com/in/mashaal-sayeed-a28b10232/"
 			},
 			{
 				"name": "Priyansh Kothari",
 				"image": "priyansh",
-				"email": "2021UCP1013@mnit.ac.in"
+				"email": "2021UCP1013@mnit.ac.in",
+				"branch": "Computer Science and Engineering",
+				"linkedin": "www.linkedin.com/in/priyansh-kothari-id/"
 			},
 			{
 				"name": "Rupesh Yadav",
 				"image": "rupesh",
-				"email": "2021UEC1533@mnit.ac.in"
+				"email": "2021UEC1533@mnit.ac.in",
+				"branch": "Electronics and Communication",
+				"linkedin": "www.linkedin.com/in/rupesh-yadav-634879229"
 			}
 		],
 		[
 			{
 				"name": "Abhinav Kumar",
 				"image": "abhinav",
-				"email": "2020uee1476@mnit.ac.in"
+				"email": "2020UEE1476@mnit.ac.in",
+				"branch": "Electrical Engineering",
+				"linkedin": "www.linkedin.com/in/abhinav-kumar-5b2097205/"
 			},
 			{
 				"name": "Ashok Saini",
 				"image": "ashok",
-				"email": "2020uee1992@mnit.ac.in"
+				"email": "2020UEE1992@mnit.ac.in",
+				"branch": "Electrical Engineering",
+				"linkedin": "www.linkedin.com/in/ashok-kumar-saini-505b9b202/"
 			},
 			{
 				"name": "Divyansh Garg",
 				"image": "divyansh",
-				"email": "2020kuec2018@iiitkota.ac.in"
+				"email": "2020kUEC2018@iiitkota.ac.in",
+				"branch": "Electronics and Communication",
+				"linkedin": "www.linkedin.com/in/dggrx/"
 			},
 			{
 				"name": "Mahak Garg",
 				"image": "mahak",
-				"email": "2020uee1312@mnit.ac.in"
+				"email": "2020UEE1312@mnit.ac.in",
+				"branch": "Electrical Engineering",
+				"linkedin": "www.linkedin.com/in/mahak-garg-825213212/"
 			},
 			{
 				"name": "Nishant Garg",
 				"image": "nishant",
-				"email": "2020ucp1869@mnit.ac.in"
+				"email": "2020UCP1869@mnit.ac.in",
+				"branch": "Computer Science and Engineering",
+				"linkedin": "www.linkedin.com/in/nishant-garg-968205208/"
 			},
 			{
 				"name": "Pranjali Srivastava",
 				"image": "pranjali",
-				"email": "2020ume1941@mnit.ac.in"
+				"email": "2020UME1941@mnit.ac.in",
+				"branch": "Mechanical Enginnering",
+				"linkedin": "www.linkedin.com/in/nishant-garg-968205208/"
 			},
 			{
 				"name": "Sudeshna Sonkar",
 				"image": "sudeshna",
-				"email": "2020ume1225@mnit.ac.in"
+				"email": "2020UME1225@mnit.ac.in",
+				"branch": "Mechanical Enginnering",
+				"linkedin": "www.linkedin.com/in/sudeshna-sonkar-56b481209"
 			},
 			{
 				"name": "Vinamra Vashistha",
 				"image": "vinamra",
-				"email": "2020kucp1046@iiitkota.ac.in"
+				"email": "2020kUCP1046@iiitkota.ac.in",
+				"branch": "Computer Science and Engineering",
+				"linkedin": "www.linkedin.com/in/vinamra-vashishth-721785201"
 			}
 		]
-
 	]
 }
