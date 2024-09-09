@@ -8,6 +8,8 @@ class ZineWhiteLogoWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double availableHeight = MediaQuery.of(context).size.height -
+        (kBottomNavigationBarHeight + kToolbarHeight);
     return Consumer<DashboardVm>(builder: (context, dashboardVm, _) {
       return SizedBox(
         height: MediaQuery.of(context).size.height / 2 - 60,
@@ -18,49 +20,49 @@ class ZineWhiteLogoWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        dashboardVm.launchUrl(
-                            'https://www.instagram.com/zine.robotics/');
-                      },
-                      child: const Padding(
-                        padding: EdgeInsets.fromLTRB(9.0, 18, 9, 18),
-                        child: FaIcon(
-                          FontAwesomeIcons.instagram,
-                          color: Colors.white,
-                        ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  InkWell(
+                    onTap: () {
+                      dashboardVm.launchUrl(
+                          'https://www.instagram.com/zine.robotics/');
+                    },
+                    child: const Padding(
+                      padding: EdgeInsets.fromLTRB(9.0, 18, 9, 18),
+                      child: FaIcon(
+                        FontAwesomeIcons.instagram,
+                        color: Colors.white,
                       ),
                     ),
-                    InkWell(
-                      onTap: () {
-                        dashboardVm.launchUrl('https://zine.co.in/');
-                      },
-                      child: const Padding(
-                        padding: EdgeInsets.fromLTRB(9.0, 18, 20, 18),
-                        child: FaIcon(
-                          FontAwesomeIcons.globe,
-                          color: Colors.white,
-                        ),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      dashboardVm.launchUrl('https://zine.co.in/');
+                    },
+                    child: const Padding(
+                      padding: EdgeInsets.fromLTRB(9.0, 18, 20, 18),
+                      child: FaIcon(
+                        FontAwesomeIcons.globe,
+                        color: Colors.white,
                       ),
-                    )
-                  ],
-                ),
+                    ),
+                  )
+                ],
               ),
               const Spacer(),
               // SizedBox(
               //   height: MediaQuery.of(context).size.height * 0.16,
               // ),
               SizedBox(
+                height: availableHeight / 6,
                 width: MediaQuery.of(context).size.width / 2,
                 child: Image.asset("assets/images/zine_logo_white.png"),
               ),
-              const SizedBox(
-                height: 20,
+              // Spacer(
+              // ),
+              SizedBox(
+                height: availableHeight * 0.027,
               ),
               const Text(
                 " ROBOTICS AND RESEARCH GROUP",

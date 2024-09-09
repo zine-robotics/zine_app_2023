@@ -35,7 +35,12 @@ class BackendProperties {
         path: '/user/$emailId/$roomId/last-seen');
   }
   static Uri activeMemberUri=baseUrl.replace(path:'/members/get');
+
   static Uri updateLastSeenUri(String emailId,String roomId){
     return baseUrl.replace(path:'/user/$emailId/$roomId/seen');
+  }
+  static Uri announcementUri(String emailId)
+  {
+    return baseUrl.replace(path: 'rooms/announcement',queryParameters: {'email':emailId});
   }
 }

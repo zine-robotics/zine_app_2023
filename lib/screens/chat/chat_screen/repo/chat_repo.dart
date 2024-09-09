@@ -55,6 +55,33 @@ class ChatRepo {
     }
   }
 
+  //---------------------------------Announcement_details----------------------------//
+  Future<List<Rooms>> fetchAnnouncement(String emailId)async
+  {
+    print("inside Announcement");
+    List<Rooms> announcements = [];
+    try
+        {
+          Uri url =BackendProperties.announcementUri(emailId);
+          final response=await http.get(url);
+
+          if(response.statusCode==200)
+            {
+              final Map<String, dynamic> responseData = json.decode(response.body);
+              if(responseData.containsKey('announcementRoom'))
+              {
+                final Map<String, dynamic> announcement = responseData['announcementRoom'];
+                Rooms announcement1=Rooms.fromJson(announcement);
+                announcements.add(announcement1);
+        }
+      }
+        }
+    catch(e)
+    {
+      print("An error occurred while fetching announcement: $e");
+    }
+    return announcements;
+  }
   //--------------------------------check LastSeen----------------------------------//
   Future<LastSeen?> fetchLastSeen(String emailId, String roomId) async {
     print("inside fetchLastSeen");

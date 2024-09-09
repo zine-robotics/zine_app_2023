@@ -1,4 +1,6 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_file.dart';
 import 'package:provider/provider.dart';
 import 'package:zineapp2023/models/user.dart';
 import 'package:zineapp2023/providers/user_info.dart';
@@ -30,13 +32,14 @@ class _DashboardState extends State<Dashboard> {
 
   @override
   Widget build(BuildContext context) {
+    double availableHeight = MediaQuery.of(context).size.height -
+        (kBottomNavigationBarHeight + kToolbarHeight);
     return Consumer4<DashboardVm, UserProv, EventsVm, ChatRoomViewModel>(
       builder: (context, dashboardVm, userProv, eventVm, chatVm, _) {
         // dashboardVm.getRecentEvent();
         UserModel currUser = userProv.getUserInfo;
         // eventVm.tempGetAllEvent();
         String month = DateFormat.MMMM().format(DateTime.now());
-
         return Scaffold(
           extendBody: true,
           body: Center(
@@ -99,7 +102,7 @@ class _DashboardState extends State<Dashboard> {
                         ),
                       ),
                       const SizedBox(
-                        height: 40.0,
+                        height: 40,
                       ),
 
                       // * Priyansh ko Gaaliya :) *
@@ -114,9 +117,9 @@ class _DashboardState extends State<Dashboard> {
                       //           fontWeight: FontWeight.w700,
                       //           color: greyText)),
                       // ),
-                      const SizedBox(
-                        height: 15,
-                      ),
+                      // const SizedBox(
+                      //   height: 0,
+                      // ),
                       Padding(
                         padding: const EdgeInsets.fromLTRB(30.0, 0, 30.0, 0),
                         child: Row(
@@ -130,7 +133,7 @@ class _DashboardState extends State<Dashboard> {
                                   onTap: () => Navigator.of(context)
                                       .push(Routes.publicEvents()),
                                   child: Container(
-                                    height: 200,
+                                    height: availableHeight * 0.3,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(24.0),
                                       color: Colors.white,
@@ -173,7 +176,7 @@ class _DashboardState extends State<Dashboard> {
                                           style: TextStyle(
                                               fontSize: MediaQuery.of(context)
                                                       .textScaleFactor *
-                                                  90,
+                                                  60,
                                               fontWeight: FontWeight.w700,
                                               color: const Color(0xff0C72B0)),
                                           textAlign: TextAlign.center,
@@ -206,7 +209,8 @@ class _DashboardState extends State<Dashboard> {
                                       .push(Routes.publicEvents())
                                 },
                                 child: Container(
-                                  height: 200,
+                                  // height: 200,
+                                  height: availableHeight * 0.3,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(24.0),
                                     color: const Color.fromARGB(
@@ -266,9 +270,9 @@ class _DashboardState extends State<Dashboard> {
                                               textAlign: TextAlign.center,
                                             )
                                           : Container(),
-                                      const SizedBox(
-                                        height: 10,
-                                      ),
+                                      // const SizedBox(
+                                      //   height: 10,
+                                      // ),
                                       eventVm.tempEvents.length != 0
                                           ? Container(
                                               margin: const EdgeInsets.all(5),
@@ -276,7 +280,9 @@ class _DashboardState extends State<Dashboard> {
                                                       .size
                                                       .width /
                                                   2.3,
-                                              height: 110,
+                                              height: availableHeight *
+                                                  0.3 *
+                                                  0.5, // Half of previous height
                                               decoration: const BoxDecoration(
                                                 borderRadius: BorderRadius.only(
                                                     bottomLeft:
@@ -313,14 +319,16 @@ class _DashboardState extends State<Dashboard> {
                                                   const SizedBox(
                                                     height: 10,
                                                   ),
-                                                  Text(
+                                                  AutoSizeText(
                                                     eventVm.tempEvents[0]
                                                                 .startDateTime !=
                                                             null
-                                                        ? '${DateFormat.jm().format(convertTimestamp(eventVm.tempEvents[0]!.startDateTime!))}\n ${eventVm.tempEvents[0]!.venue.toString()}'
-                                                        : "Venue",
-                                                    style: const TextStyle(
-                                                        fontSize: 18.0,
+                                                        ? '${DateFormat.jm().format(convertTimestamp(eventVm.tempEvents[0]!.startDateTime!))} \n ${eventVm.tempEvents[0]!.venue.toString()}'
+                                                        : '',
+                                                    maxFontSize: 18,
+                                                    minFontSize: 10,
+                                                    style: TextStyle(
+                                                        // fontSize: 18,
                                                         fontWeight:
                                                             FontWeight.w700,
                                                         color: Color.fromARGB(
@@ -347,7 +355,9 @@ class _DashboardState extends State<Dashboard> {
                       ),
                       CarouselSlider(
                         options: CarouselOptions(
-                            height: 200.0, viewportFraction: 0.87),
+                            // height: 200,
+                            height: availableHeight * 0.3,
+                            viewportFraction: 0.87),
                         items: [
                           "ALGORITHMS",
                           "BEE",
@@ -411,7 +421,7 @@ class _DashboardState extends State<Dashboard> {
                           children: <Widget>[
                             Container(
                               width: MediaQuery.of(context).size.width / 2.45,
-                              height: 125.0,
+                              height: availableHeight * 0.18,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(24.0),
                                 color: Colors.white,
@@ -466,7 +476,7 @@ class _DashboardState extends State<Dashboard> {
                               },
                               child: Container(
                                 width: MediaQuery.of(context).size.width / 2.45,
-                                height: 125.0,
+                                height: availableHeight * 0.18,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(24.0),
                                   color: Colors.white,

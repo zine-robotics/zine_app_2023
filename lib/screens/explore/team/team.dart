@@ -46,9 +46,9 @@ class TeamScreen extends StatelessWidget {
                 indicatorSize: TabBarIndicatorSize.label,
                 indicatorColor: Colors.white,
                 tabs: [
-                  WhiteTabTile(label: "2nd Year"),
                   WhiteTabTile(label: "3rd Year"),
                   WhiteTabTile(label: "4th Year"),
+                  WhiteTabTile(label: "5th Year"),
                 ],
               ),
             ),
@@ -70,7 +70,9 @@ class TeamScreen extends StatelessWidget {
                               name: dict.teamScreen.team![i][index].name!,
                               id: dict.teamScreen.team![i][index].email!,
                               bio: dict.teamScreen.team![i][index].bio!,
-                              linkedin: dict.teamScreen.team![i][index].linkedIn!,
+                              linkedin:
+                                  dict.teamScreen.team![i][index].linkedIn!,
+                              branch: "Electronics & Communication",
                             );
                     },
                   )

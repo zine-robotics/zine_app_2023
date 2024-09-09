@@ -133,6 +133,7 @@ class _TaskScreenState extends State<TaskScreen> {
                       indicatorColor: Colors.transparent,
                       tabs: [
                         Text("All Task"),
+                        Text("Review"),
                         Text("In Progress"),
                         Text("Completed"),
                       ]),

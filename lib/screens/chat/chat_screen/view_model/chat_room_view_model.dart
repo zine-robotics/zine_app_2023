@@ -219,10 +219,12 @@ class ChatRoomViewModel extends ChangeNotifier {
 
   List<Rooms>? _user_rooms;
   List<Rooms>? _userProjects;
+  List<Rooms>? _announcement;
   bool _isRoomLoading = false;
 
   List<Rooms>? get user_rooms => _user_rooms;
   List<Rooms>? get userProjects => _userProjects;
+  List<Rooms>? get announcement => _announcement;
   bool get isRoomLoading => _isRoomLoading;
 
   var fMessaging = FirebaseMessaging.instance;
@@ -236,6 +238,7 @@ class ChatRoomViewModel extends ChangeNotifier {
     notifyListeners();
     try {
       List<Rooms>? allRooms = await chatP.fetchRooms(email);
+      List<Rooms>? allAnnouncment=await chatP.fetchAnnouncement(email);
       if (allRooms != null) {
         for (Rooms room in allRooms!) {
           print('Subscribing to room${room.id}');
@@ -245,6 +248,7 @@ class ChatRoomViewModel extends ChangeNotifier {
 
         _userProjects =
             allRooms.where((room) => room.type == "project").toList();
+        _announcement=allAnnouncment;
       }
 
       // _error =null;

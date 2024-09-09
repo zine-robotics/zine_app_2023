@@ -46,6 +46,7 @@ class EventsScreen extends StatelessWidget {
         centerTitle: true,
         backgroundColor: backgroundGrey,
         surfaceTintColor: backgroundGrey,
+
         //
         // leading: IconButton(
         //   icon: const Icon(
@@ -57,6 +58,7 @@ class EventsScreen extends StatelessWidget {
         //     // Navigator.canPop(context);
         //   },
         // ),
+
 
         leading: (Navigator.canPop(context))
             ? IconButton(
