@@ -142,6 +142,7 @@ class _TaskScreenState extends State<TaskScreen> {
 
 
                         Text("All Task"),
+                        Text("Review"),
                         Text("In Progress"),
                         Text("Completed"),
 

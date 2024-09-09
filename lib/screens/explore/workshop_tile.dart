@@ -3,18 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:timelines/timelines.dart';
-import 'package:zineapp2023/models/temp_events.dart';
 import '../../models/events.dart';
 import '../../theme/color.dart';
 import '../events/view_models/events_vm.dart';
 
 class WorkshopTile extends StatelessWidget {
-  List<TempEvents> events;
+  List<Events> events;
   WorkshopTile({required this.events, super.key});
 
   @override
   Widget build(BuildContext context) {
-    List<TempEvents> event = events;
+    List<Events> event = events;
     // print(image[i]);
 
     //print("image error handling:${events[0].image}");

@@ -23,7 +23,7 @@ class _SplashScreenState extends State<SplashScreen> {
         context,
         listen: false,
       );
-      eventsView.getAllEvents();
+      // eventsView.getAllEvents();
     });
     var splashVm = Provider.of<SplashVM>(context, listen: false);
     Timer(const Duration(seconds: 4), () {

@@ -121,13 +121,13 @@ class AuthRepo {
     return [];
   }
 
-  Future<List<Rooms>?> getRoomIds(uid) async {
-    // Uri roomUri = BackendProperties.roomDataUri(email)
-    // http.Response res = await http.get()
-    // Response res = await Requests.get(BackendProperties.roomDataUri.toString(),
-    //     queryParameters: {"email": "shmokedev2@gmail.com"}); //TODO: FIX THIS
-    return [];
-  }
+  // Future<List<Rooms>?> getRoomIds(uid) async {
+  //   // Uri roomUri = BackendProperties.roomDataUri(email)
+  //   // http.Response res = await http.get()
+  //   // Response res = await Requests.get(BackendProperties.roomDataUri.toString(),
+  //   //     queryParameters: {"email": "shmokedev2@gmail.com"}); //TODO: FIX THIS
+  //   return [];
+  // }
 
   Future<UserModel?> getUserbyId(String uid) async {
     Response res = await Requests.get(BackendProperties.userInfoUri.toString(),
@@ -140,9 +140,9 @@ class AuthRepo {
     //USER DOES NOT HAVE TASKIDS, ENDPOINT FOR QUERYING USER'S TASK IDS
 
     var tasks = await getTasks(uid);
-    var rooms = await getRoomIds(uid);
+    // var rooms = await getRoomIds(uid);
 
-    var roomDetails = getRoomMap(rooms);
+    // var roomDetails = getRoomMap(rooms);
 
     // // List<Future<void>> futures = [];
     // // for (var e in tasks!) {
@@ -165,8 +165,8 @@ class AuthRepo {
         registered:
             user['registered']! ?? false, //SDK CONSTRAINTS MIGHT F WITH THIS
         tasks: tasks,
-        rooms: rooms,
-        roomDetails: roomDetails, // FIXME:
+        // rooms: rooms,
+        // roomDetails: roomDetails, // FIXME:
         lastSeen: user['lastSeen'] ?? {});
 
     return userMod;

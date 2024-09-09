@@ -35,7 +35,7 @@ class _TeamTileState extends State<TeamTile> {
   Widget build(BuildContext context) {
     double availableHeight = MediaQuery.of(context).size.height -
         (kBottomNavigationBarHeight + kToolbarHeight);
-    print("Available Height $availableHeight");
+
     const duration = Duration(milliseconds: 500);
     return Consumer<DashboardVm>(builder: (context, dashboardVm, _) {
       return InkWell(
