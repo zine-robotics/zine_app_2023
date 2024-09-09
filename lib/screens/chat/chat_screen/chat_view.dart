@@ -78,6 +78,7 @@ Widget chatV(BuildContext context, Stream<List<MessageModel>> messageStream,
                         chats[chats.length - index].sentFrom?.name.toString() &&
                     getChatDate(chats[currIndx].timestamp!) ==
                         getChatDate(chats[chats.length - index].timestamp!);
+
                 dynamic repliedMessage = null;
                 // print("reply to:${chats[currIndx].replyTo?.id}");
                 if (chats[currIndx].replyTo?.id.toString() != null) {
@@ -350,8 +351,11 @@ Widget chatV(BuildContext context, Stream<List<MessageModel>> messageStream,
                                   contentPadding: EdgeInsets.zero,
                                   dense: true,
                                   leading: userVm.getUserInfo.name ==
-                                          chats[currIndx].sentFrom?.name
-                                      ? null
+                                              chats[currIndx].sentFrom?.name ||
+                                          group
+                                      ? SizedBox(
+                                          width: 15,
+                                        )
                                       : CircleAvatar(
                                           backgroundColor:
                                               const Color(0x0f2F80ED),

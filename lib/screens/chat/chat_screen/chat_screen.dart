@@ -45,6 +45,7 @@ class _ChatScreenState extends State<ChatScreen> {
       builder: (context, chatVm, userProv, _) {
         List<Rooms>? roomDetails = chatVm.user_rooms;
         List<Rooms>? projectDetails = chatVm.userProjects;
+        List<Rooms>? announcementDetails = chatVm.announcement;
         return chatVm.isRoomLoading
             ? const Center(child: CircularProgressIndicator())
             : Container(
@@ -60,17 +61,19 @@ class _ChatScreenState extends State<ChatScreen> {
                         headingText("Channels"),
 
                         ///MODIFY:api problem
-                        // Channel(
-                        //   // name: "Announcements",
-                        //   // roomId: "452",
-                        //   roomDetail: [name:"Announcements",roomId:"452"],
-                        // ),
+                        Channel(
+                          // name: "Announcements",
+                          // roomId: "452",
+                          // roomDetail: [name:"Announcements",roomId:"452"],
+                          roomDetail: announcementDetails?[0],
+                        ),
 
                         //--------------------Groups/Room----------------------------------
-                        roomDetails != null
+                        roomDetails!.any((element) => element.type == "group")
                             ? headingText("Groups")
                             : Container(),
-                        roomDetails != null
+
+                        roomDetails.any((element) => element.type == "group")
                             ? ChatGroups(roomDetails: roomDetails)
                             : Container(),
 
@@ -79,7 +82,7 @@ class _ChatScreenState extends State<ChatScreen> {
                         ),
 
                         //--------------------Projects-----------------------------------R
-                        projectDetails != null
+                        roomDetails!.any((element) => element.type == "project")
                             ? headingText("Project")
                             : Container(),
                         if (projectDetails != null)

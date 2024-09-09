@@ -111,7 +111,7 @@ class _TaskScreenState extends State<TaskScreen> {
             ),
           ),
           DefaultTabController(
-            length: 3,
+            length: 4,
             initialIndex: 0,
             child: Expanded(
               child: Column(

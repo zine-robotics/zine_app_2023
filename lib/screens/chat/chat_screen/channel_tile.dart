@@ -5,27 +5,21 @@ import 'package:zineapp2023/models/events.dart';
 import 'package:zineapp2023/providers/user_info.dart';
 import 'package:zineapp2023/screens/chat/chat_screen/view_model/chat_room_view_model.dart';
 
-
 import '../../../models/rooms.dart';
 import '../../../models/user.dart';
 import '../../../utilities/date_time.dart';
 import 'chat_room.dart';
 
-
 class Channel extends StatelessWidget {
   Rooms? roomDetail;
 
-  Channel({super.key,this.roomDetail});
+  Channel({super.key, this.roomDetail});
 
   @override
   Widget build(BuildContext context) {
     return Consumer2<ChatRoomViewModel, UserProv>(
         builder: (context, chatVm, userProv, _) {
-          UserModel currUser = userProv.getUserInfo;
-          String? lastChatTimestamp=roomDetail?.lastMessageTimestamp !=null? DateFormat("d MMM").format(convertTimestamp(roomDetail!.lastMessageTimestamp!)):" ";
-          print("inside the channel tile:${lastChatTimestamp}");
-          print("unseen message:${roomDetail!.unreadMessages.toString()}");
-
+      UserModel currUser = userProv.getUserInfo;
 
       return Padding(
         padding: const EdgeInsets.all(5.0),
@@ -38,7 +32,7 @@ class Channel extends StatelessWidget {
                     builder: (context) => ChatRoom(
                           // roomName: roomDetail?.name,
                           // roomId: roomDetail!.id.toString(),
-                          email:currUser.email,
+                          email: currUser.email,
                           roomDetail: roomDetail,
                         )));
           },
@@ -84,55 +78,57 @@ class Channel extends StatelessWidget {
                     children: [
                       Row(
                         children: [
-                          roomDetail?.unreadMessages !=null
-                              ?
-                          roomDetail!.unreadMessages! > 0 ?
-                          Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color:
-                                        const Color.fromRGBO(47, 128, 237, 1),
-                                  ),
-                                  height: 15,
-                                  width: 15,
-                                  child:  Center(
-                                    child: Text(
-                                      '',
-                                      // lashChatTimestamp!.toString(),
-                                      style: TextStyle(
-                                        color: Colors.grey,
-                                        fontSize: 12,
+                          roomDetail?.unreadMessages != null
+                              ? roomDetail!.unreadMessages! > 0
+                                  ? Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: const Color.fromRGBO(
+                                            47, 128, 237, 1),
                                       ),
-                                    ),
-                                  ),
-                                )
-                              :Container(): const SizedBox(),
+                                      height: 15,
+                                      width: 15,
+                                      child: Center(
+                                        child: Text(
+                                          '',
+                                          // lashChatTimestamp!.toString(),
+                                          style: TextStyle(
+                                            color: Colors.grey,
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  : Container()
+                              : const SizedBox(),
                           const SizedBox(
                             width: 10,
                           )
                         ],
                       ),
-                      roomDetail?.lastMessageTimestamp !=null
+                      roomDetail?.lastMessageTimestamp != null
                           ? Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          // color:
-                          //     const Color.fromRGBO(47, 128, 237, 1),
-                        ),
-                        height: 30,
-                        width: 30,
-                        child:  Center(
-                          child: Text(
-                            // '',
-                            lastChatTimestamp!.toString(),
-                            style: TextStyle(
-                              color: Colors.grey,
-                              fontSize: 12,
-                            ),
-                          ),
-                        ),
-                      ) : Container()
-                            ],
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                // color:
+                                //     const Color.fromRGBO(47, 128, 237, 1),
+                              ),
+                              height: 30,
+                              width: 30,
+                              child: Center(
+                                child: Text(
+                                  // '',
+                                  getLastSeenFormat(
+                                      roomDetail!.lastMessageTimestamp!),
+                                  style: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ),
+                            )
+                          : Container()
+                    ],
                   )
                 ],
               ),
