@@ -4,7 +4,6 @@ import 'package:flutter_notification_channel/notification_importance.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
 
 import './screens/onboarding/splash/splash.dart';
 import './app_providers.dart';
@@ -18,7 +17,7 @@ final Language _language = Language();
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await _language.init();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await Firebase.initializeApp();
   await FlutterNotificationChannel.registerNotificationChannel(
       description: 'For Showing Message Notification',
       id: 'chats',
