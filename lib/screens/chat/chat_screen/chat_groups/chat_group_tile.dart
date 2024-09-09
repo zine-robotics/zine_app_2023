@@ -38,7 +38,7 @@ class ChatGroupTile extends StatelessWidget {
             top: 0,
             left: 0,
             child: roomDetails.unreadMessages != null &&
-                    roomDetails.unreadMessages! <= 0
+                    roomDetails.unreadMessages! > 0
                 ? Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
