@@ -26,8 +26,7 @@ class EventCalendar extends StatelessWidget {
       eventLoader: evm.getEvents,
       focusedDay: !(evm.isLoaded && !evm.isError && evm.events.isNotEmpty)
           ? DateTime.now()
-          : DateTime.fromMillisecondsSinceEpoch(
-              evm.selectedEvent.startDateTime!),
+          : evm.getFirstEventDate(),
       selectedDayPredicate: (day) {
         if (evm.isError || !evm.isLoaded || evm.events.isEmpty) {
           return false;
@@ -39,6 +38,7 @@ class EventCalendar extends StatelessWidget {
         }
       },
       firstDay: evm.getFirstEventDate(),
+      // firstDay: DateTime.now(),
       lastDay: evm.getLastEventDate(),
       onDaySelected: evm.selectEvent,
       headerStyle: const HeaderStyle(

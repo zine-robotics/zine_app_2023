@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:zineapp2023/models/events.dart';
 import 'package:zineapp2023/screens/explore/public_events/view_models/public_events_vm.dart';
@@ -94,7 +95,7 @@ class _EventTileState extends State<EventTile> {
                                   .day
                                   .toString(),
                               style: TextStyle(
-                                  fontSize: 40,
+                                  fontSize: 35,
                                   fontWeight: FontWeight.bold,
                                   // color: expanded ? textDarkBlue : Colors.white),
                                   color: textDarkBlue),
@@ -117,11 +118,12 @@ class _EventTileState extends State<EventTile> {
                           // left: widget.index.isEven ? null : 20,
                           // right: widget.index.isEven ? 20 : null,
                           right: 20,
-                          child: Text(
+                          child: AutoSizeText(
                             widget.event.name!,
                             textAlign: TextAlign.center,
+                            maxFontSize: 28,
+                            minFontSize: 16,
                             style: TextStyle(
-                                fontSize: 28,
                                 fontWeight: FontWeight.bold,
                                 color: textDarkBlue),
                             // color: expanded ? Colors.white : textDarkBlue),
