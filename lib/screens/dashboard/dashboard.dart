@@ -27,6 +27,7 @@ class _DashboardState extends State<Dashboard> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<EventsVm>(context, listen: false).tempGetAllEvent();
+      Provider.of<ChatRoomViewModel>(context, listen: false).loadRooms();
     });
   }
 
@@ -488,8 +489,8 @@ class _DashboardState extends State<Dashboard> {
                                   children: [
                                     Text(
                                       // userProv.currUser.roomids!.length
-                                      chatVm.user_rooms?.length != null
-                                          ? chatVm.user_rooms!.length.toString()
+                                      chatVm.allData?.length != null
+                                          ? chatVm.allData!.length.toString()
                                           : "0",
                                       style: TextStyle(
                                           height: 0.9,

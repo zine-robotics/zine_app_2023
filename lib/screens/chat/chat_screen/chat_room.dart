@@ -14,19 +14,17 @@ import '../../../models/rooms.dart';
 import 'chat_view.dart';
 import 'package:zineapp2023/common/data_store.dart';
 
-
 class ChatRoom extends StatefulWidget {
   // final dynamic roomName;
   String? email;
   // final String? roomId;
   Rooms? roomDetail;
 
-  ChatRoom({Key? key,  this.roomDetail, this.email}) : super(key: key);
+  ChatRoom({Key? key, this.roomDetail, this.email}) : super(key: key);
 
   @override
   State<ChatRoom> createState() => _ChatRoomState();
 }
-
 
 class _ChatRoomState extends State<ChatRoom> {
   late ChatRoomViewModel chatRoomView;
@@ -36,37 +34,33 @@ class _ChatRoomState extends State<ChatRoom> {
     _saveRoomNameToPreferences();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       chatRoomView = Provider.of<ChatRoomViewModel>(context, listen: false);
-      widget.roomDetail?.id != null ? chatRoomView.fetchMessages(widget.roomDetail!.id.toString()!) : "";
+      widget.roomDetail?.id != null
+          ? chatRoomView.fetchMessages(widget.roomDetail!.id.toString()!)
+          : "";
       chatRoomView.setRoomId(widget.roomDetail!.id.toString());
       chatRoomView.getTotalActiveMember(widget.roomDetail!.id.toString());
     });
   }
 
   @override
-  void dispose()
-  {
+  void dispose() {
     super.dispose();
-    if(chatRoomView.messages.isNotEmpty) {
+    if (chatRoomView.messages.isNotEmpty) {
       Future.microtask(() async {
         await chatRoomView.updateSeen(
           widget.email!.toString(),
           widget.roomDetail!.id.toString(),
-          DateTime
-              .now()
-              .millisecondsSinceEpoch,
+          DateTime.now().millisecondsSinceEpoch,
           chatRoomView.messages[0].timestamp!,
           0,
         );
         SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setString("roomName", " ");
+        chatRoomView.loadRooms();
       });
-      }
-
-
-
-
-
+    }
   }
+
   Future<void> _saveRoomNameToPreferences() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString("roomName", widget.roomDetail!.name.toString());
@@ -78,15 +72,15 @@ class _ChatRoomState extends State<ChatRoom> {
   @override
   Widget build(BuildContext context) {
     return Consumer3<ChatRoomViewModel, DashboardVm, UserProv>(
-      builder: (context, chatVm, dashVm, userProv,_) {
+      builder: (context, chatVm, dashVm, userProv, _) {
         // var listOfUsers = [];
         var image = null;
         // print("chatRoom:${widget.roomName}");
-        final roomId=widget.roomDetail!.id.toString();
-        final roomName=widget.roomDetail!.name.toString();
+        final roomId = widget.roomDetail!.id.toString();
+        final roomName = widget.roomDetail!.name.toString();
         UserModel currUser = userProv.getUserInfo;
         bool isNotAllowedTyping = true;
-        List<ActiveMember>listOfUsers= chatVm.activeMembers;
+        List<ActiveMember> listOfUsers = chatVm.activeMembers;
         //
 
         if (currUser.type == 'user' && roomName == 'Announcements') {
@@ -102,8 +96,8 @@ class _ChatRoomState extends State<ChatRoom> {
 
         // var data = chatVm.getData(roomName);//earlier data from firebas
 
-        chatVm.addRouteListener(context, roomName,
-            userProv.getUserInfo.email.toString(), userProv);
+        chatVm.addRouteListener(
+            context, roomName, userProv.getUserInfo.email.toString(), userProv);
 
         return GestureDetector(
           onTap: () {
@@ -125,9 +119,7 @@ class _ChatRoomState extends State<ChatRoom> {
                       .push(CupertinoPageRoute(builder: (BuildContext context) {
                     // return Text("chatDesctiption remove");
                     return ChatDescription(
-                        roomName: roomName,
-                        image: image,
-                        data: listOfUsers);
+                        roomName: roomName, image: image, data: listOfUsers);
                   }));
                 },
                 child: Text(
@@ -288,8 +280,7 @@ class _ChatRoomState extends State<ChatRoom> {
                                         padding: EdgeInsets.zero,
                                         onPressed: () {
                                           chatVm.sendMessage(
-                                              messageController.text,
-                                              roomName);
+                                              messageController.text, roomName);
                                           messageController.text = "";
 
                                           // chatVm.send(
@@ -297,7 +288,6 @@ class _ChatRoomState extends State<ChatRoom> {
                                           //     roomId: roomName);
                                           //
                                           chatVm.replyTo = null;
-
                                         },
                                         iconSize: 20.0,
                                         icon: const ImageIcon(
