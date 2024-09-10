@@ -27,7 +27,7 @@ Widget chatV(BuildContext context, Stream<List<MessageModel>> messageStream,
     builder: (context, snapshot) {
       print("chat reply to :${chatRoomViewModel.replyTo}");
       if (snapshot.connectionState == ConnectionState.waiting) {
-        return Center(
+        return const Center(
           child: CircularProgressIndicator(),
         );
       } else if (snapshot.hasError) {
@@ -35,8 +35,26 @@ Widget chatV(BuildContext context, Stream<List<MessageModel>> messageStream,
           child: Text('Error:${snapshot.error}'),
         );
       } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-        return Center(
-          child: Text('No messages'),
+        return const Expanded(
+          child: Center(
+            child: Column(
+              children: [
+                Spacer(),
+                Icon(
+                  Icons.message,
+                  size: 50,
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                Text(
+                  'No Messages',
+                  style: TextStyle(fontSize: 20),
+                ),
+                Spacer()
+              ],
+            ),
+          ),
         );
       } else if (snapshot.hasData) {
         List<MessageModel> chats = snapshot.data!;

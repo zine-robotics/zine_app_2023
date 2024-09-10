@@ -19,10 +19,11 @@ class Channel extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer2<ChatRoomViewModel, UserProv>(
         builder: (context, chatVm, userProv, _) {
-
-          UserModel currUser = userProv.getUserInfo;
-          String? lastChatTimestamp=roomDetail?.lastMessageTimestamp !=null? DateFormat("d MMM").format(convertTimestamp(roomDetail!.lastMessageTimestamp!)):" ";
-
+      UserModel currUser = userProv.getUserInfo;
+      String? lastChatTimestamp = roomDetail?.lastMessageTimestamp != null
+          ? DateFormat("d MMM")
+              .format(convertTimestamp(roomDetail!.lastMessageTimestamp!))
+          : " ";
 
       return Padding(
         padding: const EdgeInsets.all(5.0),
@@ -54,25 +55,32 @@ class Channel extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      CircleAvatar(
-                        backgroundColor: Colors.white,
-                        radius: 20,
-                        child: Padding(
-                          padding: const EdgeInsets.all(3.0),
-                          child:roomDetail?.dpUrl !=null? Image.network(roomDetail!.dpUrl.toString(),fit: BoxFit.fill,) :Image.asset("assets/images/zine_logo.png"),
-
-                        ),
-                      ),
+                      roomDetail?.dpUrl != null
+                          ? CircleAvatar(
+                              backgroundColor: Colors.white,
+                              radius: 25,
+                              foregroundImage: NetworkImage(
+                                roomDetail!.dpUrl.toString(),
+                              ),
+                            )
+                          : CircleAvatar(
+                              backgroundColor: Colors.white,
+                              radius: 20,
+                              foregroundImage:
+                                  AssetImage("assets/images/zine_logo.png"),
+                            ),
                       const SizedBox(
                         width: 10,
                       ),
-                      roomDetail?.dpUrl !=null? Text(
-                        roomDetail!.name.toString(),
-                        style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ):Text(""),
+                      roomDetail?.name != null
+                          ? Text(
+                              roomDetail!.name.toString(),
+                              style: const TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            )
+                          : Text(""),
                     ],
                   ),
 
@@ -110,29 +118,36 @@ class Channel extends StatelessWidget {
                           )
                         ],
                       ),
-                      roomDetail?.unreadMessages !=null ?
-                      roomDetail!.unreadMessages! == 0
-                          ? Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                // color:
-                                //     const Color.fromRGBO(47, 128, 237, 1),
-                              ),
-                              height: 30,
-                              width: 60,
-                              child: Align(
-                                alignment: AlignmentDirectional.centerEnd,
-                                child: Text(
-                                  // '',
-                                  // getLastSeenFormat(
-                                lastChatTimestamp=roomDetail?.lastMessageTimestamp !=null? DateFormat("d MMM").format(convertTimestamp(roomDetail!.lastMessageTimestamp!)):"null "
-                                  ,style: TextStyle(
-                                    color: Colors.grey,
-                                    fontSize: 12,
+                      roomDetail?.unreadMessages != null
+                          ? roomDetail!.unreadMessages! == 0
+                              ? Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    // color:
+                                    //     const Color.fromRGBO(47, 128, 237, 1),
                                   ),
-                                ),
-                              ),
-                            ):Container()
+                                  height: 30,
+                                  width: 60,
+                                  child: Align(
+                                    alignment: AlignmentDirectional.centerEnd,
+                                    child: Text(
+                                      // '',
+                                      // getLastSeenFormat(
+                                      lastChatTimestamp =
+                                          roomDetail?.lastMessageTimestamp !=
+                                                  null
+                                              ? DateFormat("d MMM").format(
+                                                  convertTimestamp(roomDetail!
+                                                      .lastMessageTimestamp!))
+                                              : "null ",
+                                      style: TextStyle(
+                                        color: Colors.grey,
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              : Container()
                           : Container()
                     ],
                   )
