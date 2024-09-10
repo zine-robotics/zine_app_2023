@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:zineapp2023/models/temp_rooms.dart';
 import 'package:zineapp2023/screens/chat/chat_screen/view_model/chat_room_view_model.dart';
 
+import '../../../models/rooms.dart';
 import '../../../providers/user_info.dart';
 import '../../../theme/color.dart';
 import 'chat_groups/chats_group.dart';
@@ -43,16 +43,13 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     return Consumer2<ChatRoomViewModel, UserProv>(
       builder: (context, chatVm, userProv, _) {
-        // var currUser = userProv.currUser;
-        List<TempRooms>? roomDetails = chatVm.user_rooms;
-        List<TempRooms>? projectDetails = chatVm.userProjects;
-        // var roomDetails = currUser.roomDetails;
-        // var projects = roomDetails['project'].values.toList();
-
+        List<Rooms>? roomDetails = chatVm.user_rooms;
+        List<Rooms>? projectDetails = chatVm.userProjects;
+        List<Rooms>? announcementDetails = chatVm.announcement;
+        List<Rooms>? workshopDetails = chatVm.userWorkshop;
         return chatVm.isRoomLoading
             ? const Center(child: CircularProgressIndicator())
-            : chatVm.isError
-                ? const Text("An Error Occured")
+
                 : Container(
                     color: backgroundGrey,
                     child: Padding(
@@ -64,16 +61,30 @@ class _ChatScreenState extends State<ChatScreen> {
                           children: [
                             // --------------------Channels-------------------------------
                             headingText("Channels"),
+                            ///MODIFY:api problem
                             Channel(
-                              name: "Announcements",
-                              roomId: "452",
+                              // name: "Announcements",
+                              // roomId: "452",
+                              // roomDetail: [name:"Announcements",roomId:"452"],
+                                  roomDetail: announcementDetails?[0],
+                            ),
+                            //--------------------Workshop-------------------------------------
+                            workshopDetails != null && workshopDetails.isNotEmpty
+                                ? headingText("Workshop")
+                                : Container(),
+                            workshopDetails != null && workshopDetails.isNotEmpty
+                                ? ChatGroups(roomDetails: workshopDetails)
+                                : Container(),
+
+                            const SizedBox(
+                              height: 20,
                             ),
 
                             //--------------------Groups/Room----------------------------------
-                            roomDetails != null
+                            roomDetails != null && roomDetails.isNotEmpty
                                 ? headingText("Groups")
                                 : Container(),
-                            roomDetails != null
+                            roomDetails != null && roomDetails.isNotEmpty
                                 ? ChatGroups(roomDetails: roomDetails)
                                 : Container(),
 
@@ -82,10 +93,10 @@ class _ChatScreenState extends State<ChatScreen> {
                             ),
 
                             //--------------------Projects-----------------------------------R
-                            projectDetails != null
+                            projectDetails != null && projectDetails.isNotEmpty
                                 ? headingText("Project")
                                 : Container(),
-                            if (projectDetails != null)
+                            if (projectDetails != null && projectDetails.isNotEmpty)
                               Container(
                                 height: MediaQuery.of(context).size.height *
                                     0.5, // You can adjust the height as needed
@@ -95,23 +106,22 @@ class _ChatScreenState extends State<ChatScreen> {
                                         itemCount: projectDetails?.length,
                                         itemBuilder:
                                             (BuildContext context, int index) {
-                                          TempRooms item =
+                                          Rooms item =
                                               projectDetails[index];
                                           return Channel(
-                                            name: item.name ?? " ",
-                                            roomId: item.id.toString(),
+                                            roomDetail:projectDetails[index],
                                           );
                                         },
                                       ),
                               )
-                            else
-                              Center(child: Text('No rooms available')),
-                          ],
-                        ),
-                      ),
-                    ),
-                  );
-      },
+
+                          ]
+        )
+
+
+    )));
+      }
+
     );
   }
 }

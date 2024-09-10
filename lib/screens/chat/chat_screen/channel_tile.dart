@@ -1,31 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:zineapp2023/models/events.dart';
 import 'package:zineapp2023/providers/user_info.dart';
 import 'package:zineapp2023/screens/chat/chat_screen/view_model/chat_room_view_model.dart';
 
-
+import '../../../models/rooms.dart';
 import '../../../models/user.dart';
+import '../../../utilities/date_time.dart';
 import 'chat_room.dart';
 
-const announceChannelId = 'Hn9GSQnvi5zh9wabLGuT';
-const announceChannelName = 'Zine Channel';
-
 class Channel extends StatelessWidget {
-  final name;
+  Rooms? roomDetail;
 
-  final String? roomId;
-
-  const Channel({super.key, required this.name, this.roomId});
+  Channel({super.key, this.roomDetail});
 
   @override
   Widget build(BuildContext context) {
     return Consumer2<ChatRoomViewModel, UserProv>(
         builder: (context, chatVm, userProv, _) {
+
           UserModel currUser = userProv.getUserInfo;
-      // chatVm.getLastMessages(name);
-      // var lastChat = chatVm.lastChatRoom(name);
-      // bool unSeen = chatVm.unread(name, userProv.currUser);
-      // chatVm.listenChanges(name);
+          String? lastChatTimestamp=roomDetail?.lastMessageTimestamp !=null? DateFormat("d MMM").format(convertTimestamp(roomDetail!.lastMessageTimestamp!)):" ";
 
 
       return Padding(
@@ -37,9 +33,10 @@ class Channel extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                     builder: (context) => ChatRoom(
-                          roomName: name,
-                          roomId: roomId,
-                          email:currUser.email,
+                          // roomName: roomDetail?.name,
+                          // roomId: roomDetail!.id.toString(),
+                          email: currUser.email,
+                          roomDetail: roomDetail,
                         )));
           },
           child: Container(
@@ -62,64 +59,83 @@ class Channel extends StatelessWidget {
                         radius: 20,
                         child: Padding(
                           padding: const EdgeInsets.all(3.0),
-                          child: Image.asset("assets/images/zine_logo.png"),
+                          child:roomDetail?.dpUrl !=null? Image.network(roomDetail!.dpUrl.toString(),fit: BoxFit.fill,) :Image.asset("assets/images/zine_logo.png"),
+
                         ),
                       ),
                       const SizedBox(
                         width: 10,
                       ),
-                      Text(
-                        name,
+                      roomDetail?.dpUrl !=null? Text(
+                        roomDetail!.name.toString(),
                         style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w700,
                         ),
-                      ),
+                      ):Text(""),
                     ],
                   ),
 
                   // -------------------modification for new unseen and lastseen--------------//
 
-                  // Row(
-                  //   children: [
-                  //     Row(
-                  //       children: [
-                  //         unSeen
-                  //             ? Container(
-                  //                 decoration: BoxDecoration(
-                  //                   borderRadius: BorderRadius.circular(10),
-                  //                   color:
-                  //                       const Color.fromRGBO(47, 128, 237, 1),
-                  //                 ),
-                  //                 height: 20,
-                  //                 width: 20,
-                  //                 // child: const Center(
-                  //                 //   child: Text(
-                  //                 //     '',
-                  //                 //     // chats[index]["newMsg"].toString(),
-                  //                 //     style: TextStyle(
-                  //                 //       color: Colors.white,
-                  //                 //       fontSize: 12,
-                  //                 //     ),
-                  //                 //   ),
-                  //                 // ),
-                  //               )
-                  //             : const SizedBox(),
-                  //         const SizedBox(
-                  //           width: 10,
-                  //         )
-                  //       ],
-                  //     ),
-                  //     Text(
-                  //       lastChat,
-                  //       style: const TextStyle(
-                  //         fontSize: 10,
-                  //         fontWeight: FontWeight.w400,
-                  //         color: Color.fromRGBO(51, 51, 51, 0.5),
-                  //       ),
-                  //     ),
-                  //   ],
-                  // )
+                  Row(
+                    children: [
+                      Row(
+                        children: [
+                          roomDetail?.unreadMessages != null
+                              ? roomDetail!.unreadMessages! > 0
+                                  ? Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: const Color.fromRGBO(
+                                            47, 128, 237, 1),
+                                      ),
+                                      height: 20,
+                                      width: 20,
+                                      child: Center(
+                                        child: Text(
+                                          roomDetail!.unreadMessages.toString(),
+                                          style: TextStyle(
+                                            color: Color.fromARGB(
+                                                255, 255, 255, 255),
+                                            fontSize: 10,
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  : Container()
+                              : const SizedBox(),
+                          const SizedBox(
+                            width: 10,
+                          )
+                        ],
+                      ),
+                      roomDetail?.unreadMessages !=null ?
+                      roomDetail!.unreadMessages! == 0
+                          ? Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                // color:
+                                //     const Color.fromRGBO(47, 128, 237, 1),
+                              ),
+                              height: 30,
+                              width: 60,
+                              child: Align(
+                                alignment: AlignmentDirectional.centerEnd,
+                                child: Text(
+                                  // '',
+                                  // getLastSeenFormat(
+                                lastChatTimestamp=roomDetail?.lastMessageTimestamp !=null? DateFormat("d MMM").format(convertTimestamp(roomDetail!.lastMessageTimestamp!)):"null "
+                                  ,style: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ),
+                            ):Container()
+                          : Container()
+                    ],
+                  )
                 ],
               ),
             ),

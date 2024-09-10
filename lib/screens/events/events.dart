@@ -17,7 +17,7 @@ class Events extends StatelessWidget {
       // eventsVm.getAllEvents();
 
       var tempEvents = eventsVm.tempEvents;
-      var events = eventsVm.events;
+      // var events = eventsVm.events;
       print("tempevents in events:${tempEvents[0].recruitment?.id}");
 
       return Scaffold(

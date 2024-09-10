@@ -47,12 +47,10 @@ class _TaskScreenState extends State<TaskScreen> {
               child: Stack(
                 children: [
                   taskVm.tasks!.length == 0
-
                       ? SizedBox(
                           height: 220.0,
                           child: Transform.rotate(
                             angle: math.pi / 90,
-
                             child: const Card(
                               shape: RoundedRectangleBorder(
                                   borderRadius:
@@ -82,10 +80,7 @@ class _TaskScreenState extends State<TaskScreen> {
                           ),
                         ),
                   taskVm.tasks!.length == 0
-
-
                       ? const Card(
-
                           shape: RoundedRectangleBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(15.0))),
@@ -95,7 +90,6 @@ class _TaskScreenState extends State<TaskScreen> {
                             height: 220.0,
                             child: Center(
                               child: Text(
-
                                 //"No tasks to show ${taskVm.tasks?.length}  ",
 
                                 "No tasks to show",
@@ -138,13 +132,10 @@ class _TaskScreenState extends State<TaskScreen> {
                           fontSize: 12.5, fontWeight: FontWeight.w700),
                       indicatorColor: Colors.transparent,
                       tabs: [
-
-
-
                         Text("All Task"),
+                        Text("Review"),
                         Text("In Progress"),
                         Text("Completed"),
-
                       ]),
                   Expanded(
                     child: TabBarView(

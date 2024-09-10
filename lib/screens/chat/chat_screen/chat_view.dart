@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -5,7 +7,6 @@ import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:swipe_to/swipe_to.dart';
-import 'package:zineapp2023/models/temp_message.dart';
 import 'package:zineapp2023/providers/user_info.dart';
 import 'package:zineapp2023/screens/chat/chat_screen/view_model/chat_room_view_model.dart';
 import 'package:zineapp2023/utilities/string_formatters.dart';
@@ -14,32 +15,32 @@ import '../../../models/message.dart';
 import '../../../theme/color.dart';
 import '../../../utilities/date_time.dart';
 
-Widget chatV(BuildContext context, Stream<List<TempMessageModel>> messageStream,
+Widget chatV(BuildContext context, Stream<List<MessageModel>> messageStream,
     dashVm, dynamic reply) {
   ChatRoomViewModel chatRoomViewModel =
       Provider.of<ChatRoomViewModel>(context, listen: true);
 
   UserProv userVm = Provider.of<UserProv>(context, listen: true);
 
-  return StreamBuilder<List<TempMessageModel>>(
+  return StreamBuilder<List<MessageModel>>(
     stream: messageStream,
     builder: (context, snapshot) {
       print("chat reply to :${chatRoomViewModel.replyTo}");
-      if(snapshot.connectionState==ConnectionState.waiting)
-      {
-        return Center(child: CircularProgressIndicator(),);
-      }
-      else if(snapshot.hasError)
-      {
-        return Center(child: Text('Error:${snapshot.error}'),);
-      }
-      else if(!snapshot.hasData || snapshot.data!.isEmpty)
-      {
-        return Center(child: Text('No messages'),);
-      }
-      else if (snapshot.hasData) {
-        List<TempMessageModel> chats=snapshot.data!;
-            // .map((doc) {
+      if (snapshot.connectionState == ConnectionState.waiting) {
+        return Center(
+          child: CircularProgressIndicator(),
+        );
+      } else if (snapshot.hasError) {
+        return Center(
+          child: Text('Error:${snapshot.error}'),
+        );
+      } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+        return Center(
+          child: Text('No messages'),
+        );
+      } else if (snapshot.hasData) {
+        List<MessageModel> chats = snapshot.data!;
+        // .map((doc) {
         //   MessageModel message = MessageModel.store(doc);
         //   if (message.replyTo == null) {
         //     // Assuming you have access to the document reference
@@ -47,8 +48,6 @@ Widget chatV(BuildContext context, Stream<List<TempMessageModel>> messageStream,
         //   }
         //   return message;
         // }).toList();
-
-
 
         return Flexible(
           // Flexible prevents overflow error when keyboard is opened
@@ -72,8 +71,8 @@ Widget chatV(BuildContext context, Stream<List<TempMessageModel>> messageStream,
                 var currIndx = chats.length - index - 1;
                 var showDate = index == chats.length - 1 ||
                     (chats.length - index >= 2 &&
-                        getChatDate(chats[currIndx].timestamp!) !=
-                            getChatDate(
+                        validShowDate(chats[currIndx].timestamp!) !=
+                            validShowDate(
                                 chats[chats.length - index - 2].timestamp!));
 
                 bool group = index > 0 &&
@@ -81,7 +80,8 @@ Widget chatV(BuildContext context, Stream<List<TempMessageModel>> messageStream,
                         chats[chats.length - index].sentFrom?.name.toString() &&
                     getChatDate(chats[currIndx].timestamp!) ==
                         getChatDate(chats[chats.length - index].timestamp!);
-                dynamic repliedMessage=null ;
+
+                dynamic repliedMessage = null;
                 // print("reply to:${chats[currIndx].replyTo?.id}");
                 if (chats[currIndx].replyTo?.id.toString() != null) {
                   repliedMessage = chatRoomViewModel.userGetMessageById(
@@ -176,12 +176,20 @@ Widget chatV(BuildContext context, Stream<List<TempMessageModel>> messageStream,
                                                       child: Text(
                                                         repliedMessage != null
                                                             ? (repliedMessage
-                                                                .content
-                                                                .toString()).length>20? repliedMessage
-                                                            .content
-                                                            .toString().substring(0,20)+'...':repliedMessage
-                                                            .content
-                                                            .toString()
+                                                                            .content
+                                                                            .toString())
+                                                                        .length >
+                                                                    20
+                                                                ? repliedMessage
+                                                                        .content
+                                                                        .toString()
+                                                                        .substring(
+                                                                            0,
+                                                                            20) +
+                                                                    '...'
+                                                                : repliedMessage
+                                                                    .content
+                                                                    .toString()
                                                             : " ",
                                                         // softWrap: true,
                                                         textAlign:
@@ -331,8 +339,7 @@ Widget chatV(BuildContext context, Stream<List<TempMessageModel>> messageStream,
                                   // print(details);
                                   chatRoomViewModel
                                       .userReplyText(chats[currIndx]);
-                                  chatRoomViewModel.replyfocus
-                                      .requestFocus();
+                                  chatRoomViewModel.replyfocus.requestFocus();
                                 },
                                 // onLeftSwipe: (details) {
                                 //   // print(details);
@@ -346,17 +353,19 @@ Widget chatV(BuildContext context, Stream<List<TempMessageModel>> messageStream,
                                   contentPadding: EdgeInsets.zero,
                                   dense: true,
                                   leading: userVm.getUserInfo.name ==
-                                          chats[currIndx].sentFrom?.name
-                                      ? null
-                                      : CircleAvatar(
+                                              chats[currIndx].sentFrom?.name ||
+                                          group
+                                      ? CircleAvatar(
                                           backgroundColor:
-                                              const Color(0x0f2F80ED),
+                                              Color.fromARGB(15, 255, 255, 255),
+                                          radius: 20,
                                           child: Padding(
-                                            padding: const EdgeInsets.all(3.0),
-                                            child: Image.asset(
-                                                "assets/images/dp/${userVm.getUserInfo.dp}.png"),
-                                          ),
-                                        ),
+                                              padding:
+                                                  const EdgeInsets.all(3.0),
+                                              child: Container()),
+                                        )
+                                      : buildProfilePicture(
+                                          chats[currIndx].sentFrom?.dp),
 
                                   // * Because Priyansh Said So :) *
 
@@ -492,4 +501,37 @@ Widget chatV(BuildContext context, Stream<List<TempMessageModel>> messageStream,
       // print(MessageModel.store());
     },
   );
+}
+
+Widget buildProfilePicture(var dp) {
+  final random = Random();
+
+  if (dp is int || dp == null) {
+    final assetIndex = dp ?? (random.nextInt(26) + 1);
+    return CircleAvatar(
+      backgroundColor: const Color(0x0f2F80ED),
+      radius: 20,
+      child: Padding(
+          padding: const EdgeInsets.all(3.0),
+          child: Image.asset(
+            "assets/images/dp/$assetIndex.png",
+            fit: BoxFit.cover,
+          )),
+    );
+  } else if (dp is String &&
+      (dp.startsWith('http') || dp.startsWith('https'))) {
+    return CircleAvatar(
+      backgroundColor: const Color(0x0f2F80ED),
+      radius: 20,
+      child: Padding(
+        padding: const EdgeInsets.all(3.0),
+        child: Image.network(
+          dp,
+          fit: BoxFit.cover,
+        ),
+      ),
+    );
+  } else {
+    return const SizedBox();
+  }
 }

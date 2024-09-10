@@ -48,15 +48,15 @@ class EventsScreen extends StatelessWidget {
         surfaceTintColor: backgroundGrey,
         leading: (Navigator.canPop(context))
             ? IconButton(
-                icon: const Icon(
-                  color: greyText,
-                  Icons.arrow_back_rounded,
-                  size: 40,
-                ),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              )
+          icon: const Icon(
+            color: greyText,
+            Icons.arrow_back_rounded,
+            size: 40,
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        )
             : null,
         title: const Text(
           "UPCOMING EVENTS",
@@ -94,34 +94,34 @@ class EventsScreen extends StatelessWidget {
               const SizedBox(height: 10),
               (evm.events.isNotEmpty)
                   ? Expanded(
-                      child: ListView.builder(
-                      clipBehavior: Clip.hardEdge,
-                      controller: _controller,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.fromLTRB(30, 5, 30, 5),
-                          child: EventTile(
-                            evm: evm,
-                            index: index,
-                            event: evm.events[index],
-                          ),
-                        );
-                      },
-                      itemCount: evm.events.length,
-                    ))
-                  : Expanded(
-                      child: Center(
-                        child: Text(
-                          'SOMETHINGS COOKING',
-                          style: TextStyle(
-                              height: 0.9,
-                              letterSpacing: 0.3,
-                              fontSize: 30.0,
-                              fontWeight: FontWeight.w700,
-                              color: greyText),
+                  child: ListView.builder(
+                    clipBehavior: Clip.hardEdge,
+                    controller: _controller,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.fromLTRB(30, 5, 30, 5),
+                        child: EventTile(
+                          evm: evm,
+                          index: index,
+                          event: evm.events[index],
                         ),
-                      ),
-                    )
+                      );
+                    },
+                    itemCount: evm.events.length,
+                  ))
+                  : Expanded(
+                child: Center(
+                  child: Text(
+                    'SOMETHINGS COOKING',
+                    style: TextStyle(
+                        height: 0.9,
+                        letterSpacing: 0.3,
+                        fontSize: 30.0,
+                        fontWeight: FontWeight.w700,
+                        color: greyText),
+                  ),
+                ),
+              )
             ],
           );
         },

@@ -7,8 +7,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:zineapp2023/background/firebase_setup.dart';
 import 'package:zineapp2023/background/notification_handle.dart';
-import 'firebase_options.dart';
-
 import './screens/onboarding/splash/splash.dart';
 import './app_providers.dart';
 import './common/data_store.dart';
@@ -19,17 +17,30 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 final Language _language = Language();
 
-
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-FlutterLocalNotificationsPlugin();
+    FlutterLocalNotificationsPlugin();
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await _language.init();
-  await initializeFirebase();
-  await initializeNotifications();
-  setupForegroundMessageListener();
-  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+  await Firebase.initializeApp();
+  await FlutterNotificationChannel.registerNotificationChannel(
+      description: 'For Showing Message Notification',
+      id: 'chats',
+      importance: NotificationImportance.IMPORTANCE_HIGH,
+      name: 'Chats');
+  // log('\nNotification Channel Result: $result');
+  // FirebaseMessaging messaging = FirebaseMessaging.instance;
+  // NotificationSettings settings = await messaging.requestPermission(
+  //   alert: true,
+  //   announcement: false,
+  //   badge: true,
+  //   carPlay: false,
+  //   criticalAlert: false,
+  //   provisional: false,
+  //   sound: true,
+  // );
+  // ignore: unused_local_variable
   DataStore store = DefaultStore();
   UserProv userProv = UserProv(dataStore: store);
   FlutterSecureStorage secureStorage = const FlutterSecureStorage();
@@ -66,4 +77,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
