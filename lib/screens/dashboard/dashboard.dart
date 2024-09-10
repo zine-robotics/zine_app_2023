@@ -13,6 +13,7 @@ import 'package:zineapp2023/utilities/string_formatters.dart';
 import 'package:intl/intl.dart';
 import '../../common/routing.dart';
 import '../../utilities/date_time.dart';
+import '../chat/chat_screen/chat_view.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
@@ -88,13 +89,14 @@ class _DashboardState extends State<Dashboard> {
                                 ],
                               ),
                               const Spacer(),
-                              CircleAvatar(
-                                radius: 30,
-                                backgroundColor: iconTile,
-                                backgroundImage: AssetImage(
-                                  "assets/images/dp/${currUser.dp}.png",
-                                ),
-                              ),
+                              buildProfilePicture(currUser.dp,size:30),
+                              // CircleAvatar(
+                              //   radius: 30,
+                              //   backgroundColor: iconTile,
+                              //   backgroundImage: AssetImage(
+                              //     "assets/images/dp/${currUser.dp}.png",
+                              //   ),
+                              // ),
                               const SizedBox(
                                 width: 10.0,
                               ),

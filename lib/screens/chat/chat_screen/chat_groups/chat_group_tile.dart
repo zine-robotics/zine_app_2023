@@ -102,13 +102,13 @@ class ChatGroupTile extends StatelessWidget {
                         ),
                       ),
                     ),
-
+                    roomDetails.lastMessageTimestamp != null ?
                     Text(
                       getLastSeenFormat(roomDetails.lastMessageTimestamp!),
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: greyText.withOpacity(0.6)),
-                    ),
+                    ):Text(""),
                     const SizedBox(
                       height: 10,
                     ),

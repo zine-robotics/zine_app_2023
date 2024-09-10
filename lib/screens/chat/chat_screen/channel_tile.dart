@@ -51,19 +51,17 @@ class Channel extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      CircleAvatar(
-                        backgroundColor: Colors.white,
-                        radius: 20,
-                        child: Padding(
-                          padding: const EdgeInsets.all(3.0),
-                          child: roomDetail?.dpUrl != null
-                              ? Image.network(
-                                  roomDetail!.dpUrl.toString(),
-                                  fit: BoxFit.fill,
-                                )
-                              : Image.asset("assets/images/zine_logo.png"),
-                        ),
-                      ),
+                      roomDetail?.dpUrl != null
+                          ? CircleAvatar(
+                              backgroundColor: Colors.white,
+                              radius: 20,
+                              foregroundImage:
+                                  NetworkImage(roomDetail!.dpUrl!))
+                          : CircleAvatar(
+                              backgroundColor: Colors.white,
+                              radius: 20,
+                              foregroundImage:
+                                  AssetImage("assets/images/zine_logo.png")),
                       const SizedBox(
                         width: 10,
                       ),

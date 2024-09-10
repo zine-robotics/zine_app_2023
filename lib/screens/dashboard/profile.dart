@@ -10,6 +10,7 @@ import 'package:zineapp2023/theme/color.dart';
 import 'package:zineapp2023/utilities/string_formatters.dart';
 
 import '../../common/routing.dart';
+import '../chat/chat_screen/chat_view.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -105,13 +106,8 @@ class ProfileScreen extends StatelessWidget {
                                             "assets/images/card_image.png")
                                         : null,
                                   ),
-                                  CircleAvatar(
-                                    backgroundColor: Colors.white,
-                                    backgroundImage: AssetImage(
-                                      "assets/images/dp/${currUser.dp}.png",
-                                    ),
-                                    radius: 45.0,
-                                  ),
+                                  buildProfilePicture(currUser.dp,size:45),
+
                                 ],
                               ),
                               const SizedBox(

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:async';
+import 'dart:math';
 
 import 'package:http/http.dart';
 import 'package:requests/requests.dart';
@@ -160,10 +161,12 @@ class AuthRepo {
         id: user['id'],
         email: user['email'],
         name: user['name'],
-        dp: int.tryParse(user['dp'] ?? "1"),
+        dp: user['dp'].toString().startsWith("http")
+            ? user['dp']
+            : "${Random().nextInt(25) + 1}",
         type: user['type'],
-        registered:
-            user['registered']! ?? false, //SDK CONSTRAINTS MIGHT F WITH THIS
+        registered: user['registered']! ?? false,
+        //SDK CONSTRAINTS MIGHT F WITH THIS
         tasks: tasks,
         // rooms: rooms,
         // roomDetails: roomDetails, // FIXME:
