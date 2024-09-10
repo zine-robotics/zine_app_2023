@@ -110,6 +110,7 @@ class Channel extends StatelessWidget {
                           )
                         ],
                       ),
+                      roomDetail?.unreadMessages !=null ?
                       roomDetail!.unreadMessages! == 0
                           ? Container(
                               decoration: BoxDecoration(
@@ -131,7 +132,7 @@ class Channel extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                            )
+                            ):Container()
                           : Container()
                     ],
                   )
