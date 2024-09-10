@@ -17,7 +17,7 @@ class TeamScreen extends StatelessWidget {
     return Consumer<Language>(
       builder: (context, dict, _) {
         return DefaultTabController(
-          length: 3,
+          length: 2,
           child: Scaffold(
             backgroundColor: backgroundGrey,
             appBar: AppBar(
@@ -48,14 +48,14 @@ class TeamScreen extends StatelessWidget {
                 tabs: [
                   WhiteTabTile(label: "3rd Year"),
                   WhiteTabTile(label: "4th Year"),
-                  WhiteTabTile(label: "5th Year"),
+                  // WhiteTabTile(label: "5th Year"),
                 ],
               ),
             ),
             body: TabBarView(
               children: [
                 // TabBarView Creates views with one child per Tab (each ListView.Builder)
-                for (int i = 0; i < 3; i++)
+                for (int i = 0; i < 2; i++)
                   ListView.builder(
                     shrinkWrap: true,
                     itemCount: dict.teamScreen.team![i].length + 1,
@@ -72,12 +72,10 @@ class TeamScreen extends StatelessWidget {
                               bio: dict.teamScreen.team![i][index].bio!,
                               linkedin:
                                   dict.teamScreen.team![i][index].linkedIn!,
+                              branch: dict.teamScreen.team![i][index]
+                                  .branch! //=null? dict.teamScreen.team![i][index].branch! : " "
 
-
-
-                              branch:dict.teamScreen.team![i][index].branch ! //=null? dict.teamScreen.team![i][index].branch! : " "
-
-                            );
+                              );
                     },
                   )
               ],
