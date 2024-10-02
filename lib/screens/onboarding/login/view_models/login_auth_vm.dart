@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -97,16 +98,16 @@ class LoginAuthViewModel with ChangeNotifier {
           errorText = "Your email address appears to be malformed";
           break;
         case "wrong-password":
-          errorText = "Your password is wrong";
+          errorText = "Incorrect Password";
           break;
-        case "user-not-found":
-          errorText = "User with this email doesn't exist";
+        case "user-not-exist":
+          errorText = "User Not Found";
           break;
         case "user-disabled":
-          errorText = "User with this email has been disabled";
+          errorText = "Account has been disabled";
           break;
         case "too-many-requests":
-          errorText = "Too many requests";
+          errorText = "Please Try Again Later";
           break;
         case "operation-not-allowed":
           errorText = "Signing in with Email and Password is not enabled";
@@ -115,22 +116,24 @@ class LoginAuthViewModel with ChangeNotifier {
           errorText = "Quota Exceeded. Please contact Team Zine.";
           break;
         case "timeout":
-          errorText = "Timeout. Please check you internet and try again later";
+          errorText = "Please try again later";
           break;
-          case "error-sending-email":
-          errorText = "Please re-registered yourself";
+        case "error-sending-email":
+          errorText = "Please register yourself again";
           break;
         case "user_not_verified":
-          errorText = "Please verify your email and login";
+          errorText = "Please verify yourself (check your email)";
           break;
-          case "user_not_verified_email_resent":
+        case "user_not_verified_email_resent":
           errorText = "Please verify yourself (check your email)";
           break;
         default:
-          print(
-              "Errors are probably not being proccessed probably. Check login_auth_vm.dart");
-          errorText = "An undefined Error happened";
-          // print("error:${e.toString()}");
+          if (kDebugMode) {
+            print(
+                "Errors are probably not being proccessed probably. Check login_auth_vm.dart");
+          }
+          errorText = "An undefined Error occured";
+        // print("error:${e.toString()}");
       }
       setLoading(false);
 
@@ -139,10 +142,8 @@ class LoginAuthViewModel with ChangeNotifier {
           toastLength: Toast.LENGTH_LONG,
           backgroundColor: Colors.red);
     }
-
-
-
   }
+
   String? validateEmail(String? value) {
     const pattern = r"(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'"
         r'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-'
@@ -157,6 +158,4 @@ class LoginAuthViewModel with ChangeNotifier {
         ? 'Enter a valid email address'
         : null;
   }
-
-
 }

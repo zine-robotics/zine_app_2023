@@ -51,16 +51,25 @@ class AuthRepo {
     switch (res.statusCode) {
       case 403:
         Map<String, dynamic> resBody = jsonDecode(res.body);
-        if (resBody['failureReason'] == 'USER_NOT_VERIFIED_EMAIL_RESENT' ||
-            resBody['failureReason'] == 'USER_NOT_VERIFIED') {
-          throw AuthException(code: 'unverified-emai');
+        if ((resBody['failureReason'] as String) ==
+                'user_not_verified_email_resent' ||
+            (resBody['failureReason'] as String) == 'user_not_verified') {
+          throw AuthException(code: resBody['failureReason']);
         }
 
         throw AuthException(code: '403 Error');
 
+      case 429:
+        throw AuthException(code: 'too-many-requests');
       case 400:
-        throw AuthException(code: 'user-not-exist');
-
+        Map<String, dynamic> resBody = jsonDecode(res.body);
+        if ((resBody['failureReason'] as String) == 'wrong-password') {
+          throw AuthException(code: 'wrong-password');
+        }
+        if ((resBody['failureReason'] as String) == 'user-not-found') {
+          throw AuthException(code: 'user-not-exist');
+        }
+        throw AuthException(code: 'unknown');
       case 200:
         Map<String, dynamic> resBody = jsonDecode(res.body);
         if (!resBody.containsKey('jwt')) {
@@ -68,6 +77,15 @@ class AuthRepo {
         } else {
           userToken = (resBody['jwt'] as String);
         }
+        break;
+
+      default:
+        Map<String, dynamic> resBody = jsonDecode(res.body);
+        if (resBody.containsKey('failureReason')) {
+          throw AuthException(code: resBody['failureReason'].toString());
+        }
+
+        throw AuthException(code: 'unknown');
     }
 
     return getUserbyId(userToken);
