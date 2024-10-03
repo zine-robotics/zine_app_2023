@@ -24,6 +24,7 @@ class LoginForm extends StatelessWidget {
         ? 'Enter a valid email address'
         : null;
   }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<LoginAuthViewModel>(
@@ -51,6 +52,9 @@ class LoginForm extends StatelessWidget {
                         letterSpacing: 1.5,
                       ),
                       controller: _emailController,
+                      onSaved: (value) {
+                        authVm.setEmail(value!);
+                      },
                       onChanged: (value) {
                         authVm.setEmail(value);
                       },
@@ -59,7 +63,8 @@ class LoginForm extends StatelessWidget {
                       keyboardType: TextInputType.emailAddress,
                       cursorColor: textColor,
                       decoration: const InputDecoration(
-                        contentPadding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 15.0),
+                        contentPadding:
+                            EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 15.0),
                         floatingLabelBehavior: FloatingLabelBehavior.never,
                         label: Text(
                           "abc@iiitk/mnit.ac.in",
@@ -82,6 +87,7 @@ class LoginForm extends StatelessWidget {
                       letterSpacing: 1.5,
                     ),
                     onChanged: (value) => authVm.setPassword(value),
+                    onSaved: (value) => authVm.setPassword(value!),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return "Please enter a password";
@@ -133,6 +139,7 @@ class LoginForm extends StatelessWidget {
                   ElevatedButton(
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
+                        _formKey.currentState!.save();
                         await authVm.loginApi(context);
                       }
                     },
