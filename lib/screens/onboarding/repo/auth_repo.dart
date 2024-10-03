@@ -48,44 +48,45 @@ class AuthRepo {
     print("Reponse Code ${res.statusCode}");
     // String toastText = 'An Undefined Error Occured';
 
-    switch (res.statusCode) {
-      case 403:
-        Map<String, dynamic> resBody = jsonDecode(res.body);
-        if ((resBody['failureReason'] as String) ==
-                'user_not_verified_email_resent' ||
-            (resBody['failureReason'] as String) == 'user_not_verified') {
-          throw AuthException(code: resBody['failureReason']);
-        }
+    Map<String, dynamic> resBody = jsonDecode(res.body);
+    try {
+      switch (res.statusCode) {
+        case 403:
+          if ((resBody['failureReason'] as String) ==
+                  'user_not_verified_email_resent' ||
+              (resBody['failureReason'] as String) == 'user_not_verified') {
+            throw AuthException(code: resBody['failureReason']);
+          }
 
-        throw AuthException(code: '403 Error');
+          throw AuthException(code: '403 Error');
 
-      case 429:
-        throw AuthException(code: 'too-many-requests');
-      case 400:
-        Map<String, dynamic> resBody = jsonDecode(res.body);
-        if ((resBody['failureReason'] as String) == 'wrong-password') {
-          throw AuthException(code: 'wrong-password');
-        }
-        if ((resBody['failureReason'] as String) == 'user-not-found') {
-          throw AuthException(code: 'user-not-exist');
-        }
-        throw AuthException(code: 'unknown');
-      case 200:
-        Map<String, dynamic> resBody = jsonDecode(res.body);
-        if (!resBody.containsKey('jwt')) {
-          throw AuthException(code: 'backend-not-responding');
-        } else {
-          userToken = (resBody['jwt'] as String);
-        }
-        break;
+        case 429:
+          throw AuthException(code: 'too-many-requests');
+        case 400:
+          if ((resBody['failureReason'] as String) == 'wrong-password') {
+            throw AuthException(code: 'wrong-password');
+          }
+          if ((resBody['failureReason'] as String) == 'user-not-found') {
+            throw AuthException(code: 'user-not-exist');
+          }
+          throw AuthException(code: 'unknown');
+        case 200:
+          if (!resBody.containsKey('jwt')) {
+            throw AuthException(code: 'backend-not-responding');
+          } else {
+            userToken = (resBody['jwt'] as String);
+          }
+          break;
 
-      default:
-        Map<String, dynamic> resBody = jsonDecode(res.body);
-        if (resBody.containsKey('failureReason')) {
-          throw AuthException(code: resBody['failureReason'].toString());
-        }
+        default:
+          if (resBody.containsKey('failureReason')) {
+            throw AuthException(code: resBody['failureReason'].toString());
+          }
 
-        throw AuthException(code: 'unknown');
+          throw AuthException(code: 'unknown');
+      }
+    } catch (e) {
+      throw AuthException(code: 'unknown');
     }
 
     return getUserbyId(userToken);
