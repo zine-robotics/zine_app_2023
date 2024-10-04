@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:zineapp2023/models/user.dart';
 import 'package:zineapp2023/screens/onboarding/repo/auth_repo.dart';
@@ -20,31 +21,36 @@ class UserProv extends ChangeNotifier {
   Future<String?> getFirebaseMessagingToken() async {
     await fMessaging.requestPermission();
 
-    var token = await fMessaging.getToken();
-    print("TOken $token");
+    try {
+      var token = await fMessaging.getToken(); // add error handlinig
+      print("TOken $token");
 
-    _currUser.pushToken = token;
-    // print('Push Token: $t');
-    // updatePushToken();
-    // fMessaging.subscribeToTopic("Announcements");
-    // for (var rooms in _currUser.rooms!) {
-    //   fMessaging.subscribeToTopic(rooms);
-    // }
-    // }
+      _currUser.pushToken = token;
+      // print('Push Token: $t');
+      // updatePushToken();
+      // fMessaging.subscribeToTopic("Announcements");
+      // for (var rooms in _currUser.rooms!) {
+      //   fMessaging.subscribeToTopic(rooms);
+      // }
+      // }
 
-    // TODO- Create a Handler for ForeGround Messages
-    // for handling foreground messages
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      // print('Got a message whilst in the foreground!');
-      // print('Message data: ${message.data}');
+      // TODO- Create a Handler for ForeGround Messages
+      // for handling foreground messages
+      FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+        // print('Got a message whilst in the foreground!');
+        // print('Message data: ${message.data}');
 
-      if (message.notification != null) {
-        //   print(
-        //       'Message also contained a notification: ${message.notification?.title}');
-        // }
-      }
-    });
-    return token;
+        if (message.notification != null) {
+          //   print(
+          //       'Message also contained a notification: ${message.notification?.title}');
+          // }
+        }
+      });
+      return token;
+    } on FirebaseException catch (e) {
+      if (kDebugMode) print('Error in getFirebaseMessagingToken');
+      return null;
+    }
     // }
   }
 

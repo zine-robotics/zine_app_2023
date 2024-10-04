@@ -94,13 +94,16 @@ class LoginAuthViewModel with ChangeNotifier {
     } on AuthException catch (e) {
       switch (e.code) {
         //TODO: ENSURE THAT ERRORS ARE BEING caught here
+        case "no-connect":
+          errorText = "Connection error. Is your internet working?";
+          break;
         case "invalid-email":
           errorText = "Your email address appears to be malformed";
           break;
         case "wrong-password":
           errorText = "Incorrect Password";
           break;
-        case "user-not-exist":
+        case "user-not-found":
           errorText = "User Not Found";
           break;
         case "user-disabled":

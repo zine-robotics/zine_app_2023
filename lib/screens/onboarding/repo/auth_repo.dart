@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:async';
+import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart';
 import 'package:requests/requests.dart';
 import 'package:zineapp2023/models/rooms.dart';
@@ -40,16 +42,18 @@ class AuthRepo {
 
   Future<UserModel?> signInWithEmailAndPassword(
       {String? email, String? password, String? pushToken}) async {
-    Response res = await http.post(BackendProperties.loginUri,
-        body: jsonEncode(
-            {"email": email, "password": password, "pushToken": pushToken}),
-        headers: {"Content-Type": "application/json"});
-    String userToken = "";
-    print("Reponse Code ${res.statusCode}");
     // String toastText = 'An Undefined Error Occured';
 
-    Map<String, dynamic> resBody = jsonDecode(res.body);
     try {
+      Response res = await http.post(BackendProperties.loginUri,
+          body: jsonEncode(
+              {"email": email, "password": password, "pushToken": pushToken}),
+          headers: {"Content-Type": "application/json"});
+      Map<String, dynamic> resBody = jsonDecode(res.body);
+      if (kDebugMode) {
+        print("Reponse Code ${res.statusCode}");
+      }
+      String userToken = "";
       switch (res.statusCode) {
         case 403:
           if ((resBody['failureReason'] as String) ==
@@ -66,8 +70,8 @@ class AuthRepo {
           if ((resBody['failureReason'] as String) == 'wrong-password') {
             throw AuthException(code: 'wrong-password');
           }
-          if ((resBody['failureReason'] as String) == 'user-not-found') {
-            throw AuthException(code: 'user-not-exist');
+          if ((resBody['failureReason'] as String) == "user-not-found") {
+            throw AuthException(code: "user-not-found");
           }
           throw AuthException(code: 'unknown');
         case 200:
@@ -85,11 +89,10 @@ class AuthRepo {
 
           throw AuthException(code: 'unknown');
       }
-    } catch (e) {
-      throw AuthException(code: 'unknown');
+      return getUserbyId(userToken);
+    } on SocketException {
+      throw AuthException(code: 'no-connect');
     }
-
-    return getUserbyId(userToken);
   }
 
   Future<bool> isUserReg(String email) async {
@@ -198,23 +201,25 @@ class AuthRepo {
   }) async {
     //Verification mail is sent automatically.
 //TODO: ADD TRY CATCH
+    try {
+      Response res = await http.post(BackendProperties.registerUri,
+          body: jsonEncode({
+            "name": name,
+            "email": email,
+            "password": password,
+          }),
+          headers: {"Content-Type": "application/json"});
 
-    Response res = await http.post(BackendProperties.registerUri,
-        body: jsonEncode({
-          "name": name,
-          "email": email,
-          "password": password,
-        }),
-        headers: {"Content-Type": "application/json"});
-    print("THSHFkjsdh ${res.statusCode}");
-    print("djsfkjsdf ${res.url}");
-    switch (res.statusCode) {
-      case 409: //TODO: ADD COMMON CASES
-        throw AuthException(code: 'email-already-in-use');
+      switch (res.statusCode) {
+        case 409: //TODO: ADD COMMON CASES
+          throw AuthException(code: 'email-already-in-use');
 
-      default:
+        default:
+      }
+      return UserModel();
+    } on SocketException catch (e) {
+      throw AuthException(code: 'no-connect');
     }
-    return UserModel();
   }
 
   Future<void> signOut() async {

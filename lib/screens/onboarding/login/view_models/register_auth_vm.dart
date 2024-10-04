@@ -135,6 +135,9 @@ class RegisterAuthViewModel extends ChangeNotifier {
     } on AuthException catch (e) {
       // FIXME: add these codes
       switch (e.code) {
+        case "no-connect":
+          errorText = "Connection error. Is your internet working?";
+          break;
         case "email-already-in-use":
           errorText = "This email is already in use, Contact Team Zine";
           break;
