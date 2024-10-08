@@ -18,15 +18,13 @@ import 'package:zineapp2023/providers/user_info.dart';
 import 'package:zineapp2023/utilities/date_time.dart';
 import 'package:zineapp2023/backend_properties.dart';
 
-
 import '../../../../models/events.dart';
 import '../../../../models/rooms.dart';
 import '../repo/chat_repo.dart';
-import 'package:http/http.dart'as http;
+import 'package:http/http.dart' as http;
 
 class ChatRoomViewModel extends ChangeNotifier {
   final UserProv userProv;
-
 
   ChatRoomViewModel({required this.userProv}) {
     initializeWebSocket(); //constructor to initialize the webSocket for single time only!!
@@ -56,12 +54,14 @@ class ChatRoomViewModel extends ChangeNotifier {
   List<MessageModel> _messages = [];
   List<MessageModel> _tempMessages = [];
   bool _isLoading = false;
+  bool _isError = false;
   final StreamController<List<MessageModel>> _messageStreamController =
       StreamController<List<MessageModel>>.broadcast();
   List<MessageModel> get messages => _messages;
   Set<String> activeRoomSubscriptions = {};
 
   bool get isLoading => _isLoading;
+  bool get isError => _isError;
   Stream<List<MessageModel>> get messageStream =>
       _messageStreamController.stream;
   Future<void> fetchMessages(String TemproomId) async {
@@ -75,6 +75,7 @@ class ChatRoomViewModel extends ChangeNotifier {
     } catch (e) {
       print(e);
       _messageStreamController.addError('Failed to load data');
+      _isError = true;
       // _error ='Failed to load data';
     } finally {
       _isLoading = false;
@@ -89,8 +90,6 @@ class ChatRoomViewModel extends ChangeNotifier {
   bool isConnected = false;
 
   // late final messageData;
-
-  
 
   void initializeWebSocket() {
     print("\n----------initializing web socket------------\n ");
@@ -128,8 +127,7 @@ class ChatRoomViewModel extends ChangeNotifier {
         // print("frame.body:${frame.body}");
         try {
           final Map<String, dynamic> messageData = json.decode(frame.body!);
-          MessageModel messageData1 =
-          MessageModel.fromJson(messageData);
+          MessageModel messageData1 = MessageModel.fromJson(messageData);
 
           _messages.add(messageData1);
           _messageStreamController.add(List.from(_messages));
@@ -230,17 +228,18 @@ class ChatRoomViewModel extends ChangeNotifier {
   bool get isRoomLoading => _isRoomLoading;
 
   var fMessaging = FirebaseMessaging.instance;
-  
+
   Future<void> loadRooms() async {
     UserModel currUser = userProv.getUserInfo;
-    String email =currUser.email.toString();//currUser.email.toString();  //FIXME : Fix this
+    String email = currUser.email
+        .toString(); //currUser.email.toString();  //FIXME : Fix this
 
     _isRoomLoading = true;
 
     notifyListeners();
     try {
       List<Rooms>? allRooms = await chatP.fetchRooms(email);
-      List<Rooms>? allAnnouncment=await chatP.fetchAnnouncement(email);
+      List<Rooms>? allAnnouncment = await chatP.fetchAnnouncement(email);
       if (allRooms != null) {
         for (Rooms room in allRooms!) {
           print('Subscribing to room${room.id}');
@@ -252,7 +251,7 @@ class ChatRoomViewModel extends ChangeNotifier {
             allRooms.where((room) => room.type == "project").toList();
         _userWorkshop =
             allRooms.where((room) => room.type == "workshop").toList();
-        _announcement=allAnnouncment;
+        _announcement = allAnnouncment;
       }
 
       // _error =null;
@@ -298,17 +297,17 @@ class ChatRoomViewModel extends ChangeNotifier {
   }
 
   //-----------------------------------------------------Update LastSeen to Room------------------------------------//
-  dynamic updateSeen(String email_id, String room_id, int userLastSeen,int lastMessageTimestamp,int unreadMessages)
-  async{
-   Uri url = BackendProperties.updateLastSeenUri(email_id, room_id);
+  dynamic updateSeen(String email_id, String room_id, int userLastSeen,
+      int lastMessageTimestamp, int unreadMessages) async {
+    Uri url = BackendProperties.updateLastSeenUri(email_id, room_id);
     print("inside teh updateSeen for email:$email_id and roomid:$room_id");
-    try{
+    try {
       final Map<String, dynamic> jsonData = {
-      'info': {
-      'userLastSeen': userLastSeen,
-      'lastMessageTimestamp':lastMessageTimestamp  ,
-        'unreadMessages':unreadMessages
-      }
+        'info': {
+          'userLastSeen': userLastSeen,
+          'lastMessageTimestamp': lastMessageTimestamp,
+          'unreadMessages': unreadMessages
+        }
       };
       final response = await http.put(
         url,
@@ -322,24 +321,24 @@ class ChatRoomViewModel extends ChangeNotifier {
       } else {
         print("error occure:During put operation");
       }
-    }
-    catch(e)
-    {
+    } catch (e) {
       print("some error During put operation:$e");
     }
   }
+
   //-----------------------------------------------------INFO about lastMessageSeen------------------------------------//
   LastSeen? _lastSeen;
-  LastSeen? get lastSeen=>_lastSeen;
+  LastSeen? get lastSeen => _lastSeen;
 
   dynamic getLastSeen(String emailId, String roomId) async {
     print("inside the getlastseen for roomid:$roomId");
     _lastSeen = await chatP.fetchLastSeen(emailId, roomId);
     notifyListeners();
   }
+
 //------------------------------------------------------INFO about Active member-----------------------------//
   List<ActiveMember> _activeMembers = [];
-  List<ActiveMember>  get activeMembers=>_activeMembers;
+  List<ActiveMember> get activeMembers => _activeMembers;
   dynamic getTotalActiveMember(String roomId) async {
     print("inside the totalactivemember");
     _activeMembers = await chatP.fetchTotalActiveMember(roomId);
@@ -355,7 +354,6 @@ class ChatRoomViewModel extends ChangeNotifier {
   }
   //=====================================================older code===================================================================//
 
-
   void addRouteListener(
       BuildContext context, var room, var user, UserProv userProv) {
     ModalRoute.of(context)?.addScopedWillPopCallback(() {
@@ -363,7 +361,6 @@ class ChatRoomViewModel extends ChangeNotifier {
       return Future.value(true);
     });
   }
-
 
   void disconnect() {
     for (var roomId in _subscriptions.keys) {
