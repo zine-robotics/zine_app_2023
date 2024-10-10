@@ -64,10 +64,13 @@ class AppProviders extends StatelessWidget {
             create: (_) => DashboardVm(store: store, userProv: userProv)),
         ChangeNotifierProvider<EventsVm>(create: (_) => EventsVm()),
 
-        ChangeNotifierProvider<TaskVm>(create: (_) => TaskVm(taskRepo: TaskRepo(userProv: userProv))),
+        ChangeNotifierProvider<TaskVm>(
+            create: (_) => TaskVm(
+                userProv: userProv, taskRepo: TaskRepo(userProv: userProv))),
 
         ChangeNotifierProvider<TaskVm>(
-            create: (_) => TaskVm(taskRepo: TaskRepo(userProv: userProv))),
+            create: (_) => TaskVm(
+                userProv: userProv, taskRepo: TaskRepo(userProv: userProv))),
 
         ChangeNotifierProvider<TimelineVm>(create: (_) => TimelineVm()),
         ChangeNotifierProvider<HomeVm>(create: (_) => HomeVm()),
