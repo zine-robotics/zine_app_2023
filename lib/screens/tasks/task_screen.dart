@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import "package:flutter/material.dart";
 import 'package:provider/provider.dart';
+import 'package:zineapp2023/models/task_instance.dart';
 import 'package:zineapp2023/models/userTask.dart';
 import 'package:zineapp2023/providers/user_info.dart';
 
@@ -23,12 +24,28 @@ class TaskScreen extends StatefulWidget {
 
 class _TaskScreenState extends State<TaskScreen> {
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      var tasksVM = Provider.of<TaskVm>(context, listen: false);
+      tasksVM.getTasks();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Consumer2<UserProv, TaskVm>(builder: (context, userProv, taskVm, _) {
-      List<UserTask>? tasks = userProv.getUserInfo.tasks;
+      if (taskVm.isLoading)
+        return Center(
+          child: CircularProgressIndicator(),
+        );
+      // List<UserTask>? tasks = userProv.getUserInfo.tasks;
 
-      taskVm.tasks = tasks;
+      // taskVm.taskInstances = tasks;
 
+      List<UserTaskInstance> tasks = taskVm.taskInstances;
+      if (taskVm.isError) tasks = [];
       return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -46,7 +63,7 @@ class _TaskScreenState extends State<TaskScreen> {
               padding: const EdgeInsets.all(18.0),
               child: Stack(
                 children: [
-                  taskVm.tasks!.length == 0
+                  tasks.length == 0
                       ? SizedBox(
                           height: 220.0,
                           child: Transform.rotate(
@@ -58,7 +75,7 @@ class _TaskScreenState extends State<TaskScreen> {
                               color: Color(0x69D9D9D9),
                               elevation: 0,
                               child: Center(
-                                child: Text(""),
+                                child: Text("Firts"),
                               ),
                             ),
                           ),
@@ -74,12 +91,12 @@ class _TaskScreenState extends State<TaskScreen> {
                               color: Color(0x66268CCB),
                               elevation: 0,
                               child: Center(
-                                child: Text(""),
+                                child: Text("Hi"),
                               ),
                             ),
                           ),
                         ),
-                  taskVm.tasks!.length == 0
+                  tasks.length == 0
                       ? const Card(
                           shape: RoundedRectangleBorder(
                               borderRadius:
@@ -143,7 +160,7 @@ class _TaskScreenState extends State<TaskScreen> {
                         SingleChildScrollView(
                           child: Column(
                             children: [
-                              if (taskVm.tasks!.length == 0)
+                              if (tasks.length == 0)
                                 Column(
                                   children: [
                                     SizedBox(
@@ -158,9 +175,9 @@ class _TaskScreenState extends State<TaskScreen> {
                                     ),
                                   ],
                                 ),
-                              for (int i = 0; i < taskVm.tasks!.length; i++)
+                              for (int i = 0; i < tasks.length; i++)
                                 TaskCard(
-                                  curr: taskVm.tasks![i],
+                                  curr: tasks[i],
                                   index: i,
                                 ),
                             ],

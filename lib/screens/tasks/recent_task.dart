@@ -1,6 +1,9 @@
+import 'package:flutter/foundation.dart';
 import "package:flutter/material.dart";
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:zineapp2023/models/newTask.dart';
+import 'package:zineapp2023/models/task_instance.dart';
 
 import 'package:zineapp2023/models/userTask.dart';
 
@@ -13,8 +16,15 @@ class RecentTask extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<TaskVm>(builder: (context, taskVm, _) {
-      UserTask? latest = taskVm.findLatest();
-      print("recent_task called ,latest task is $latest");
+      UserTaskInstance? latest = taskVm.findLatest();
+      if (kDebugMode) {
+        if (latest == null) {
+          print('Latest is null');
+        } else {
+          print('Latest task is ${latest.title}');
+        }
+      }
+
       return Card(
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(15.0))),
@@ -29,7 +39,7 @@ class RecentTask extends StatelessWidget {
               Spacer(),
 
               Text(
-                latest != null ? latest.template!.title.toString() : "",
+                latest != null ? latest.task.title.toString() : "Testtt",
                 style: const TextStyle(
                   fontFamily: "Poppins-ExtraBold",
                   color: Colors.white,
@@ -71,7 +81,8 @@ class RecentTask extends StatelessWidget {
                           horizontal: 38.0, vertical: 12.0),
                       child: Text(
                         latest != null
-                            ? latest.status.toString().toUpperCase()
+                            //FIXME: GET STATUS
+                            ? "Status Pending"
                             : "",
                         // 'In progress',
                         style: const TextStyle(
@@ -84,7 +95,7 @@ class RecentTask extends StatelessWidget {
                   ),
                   Text(
                     latest != null
-                        ? "${getDate(latest.template!.dueDate!)}\n${DateFormat.y().format(latest.template!.dueDate!.toDate())}"
+                        ? "${DateFormat(DateFormat.MONTH_DAY).format(latest.task.dueDate!)}\n${DateFormat.y().format(latest.task.dueDate!)}"
                         : "",
                     textAlign: TextAlign.right,
                     style: const TextStyle(

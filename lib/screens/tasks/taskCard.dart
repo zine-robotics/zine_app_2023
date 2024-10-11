@@ -3,19 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:zineapp2023/common/routing.dart';
+import 'package:zineapp2023/models/task_instance.dart';
 import 'package:zineapp2023/models/userTask.dart';
 import 'package:zineapp2023/screens/tasks/view_models/task_vm.dart';
-import 'package:zineapp2023/utilities/date_time.dart';
 
 // import '/screens/tasks/problem_statement.dart';
 import '../../theme/color.dart';
 
 class TaskCard extends StatelessWidget {
-  final UserTask curr;
+  final UserTaskInstance curr;
+  // final UserTask curr;
   final int index;
 
-  const TaskCard({Key? key, required this.curr, required this.index})
-      : super(key: key);
+  const TaskCard({super.key, required this.curr, required this.index});
 
   @override
   Widget build(BuildContext context) {
@@ -47,9 +47,7 @@ class TaskCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Text(
-                      curr.template != null
-                          ? curr.template!.title.toString()
-                          : "",
+                      curr.task.title.toString(),
                       style: const TextStyle(
                         color: textColor,
                         fontSize: 25.0,
@@ -84,10 +82,11 @@ class TaskCard extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 38.0, vertical: 10.0),
                             child: Text(
-                              curr.status != null
-                                  ? curr.status.toString().toUpperCase()
-                                  : "",
-                              // 'In progress',
+                              // curr.status != null
+                              //     ? curr.status.toString().toUpperCase()
+                              //     : "",
+
+                              'progress',
                               style: TextStyle(
                                   color: textColor.withOpacity(0.9),
                                   fontSize: 15.0,
@@ -96,9 +95,7 @@ class TaskCard extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          curr.template != null
-                              ? "${getDate(curr.template!.dueDate as Timestamp)} \n${DateFormat.y().format((curr.template!.dueDate as Timestamp).toDate())}"
-                              : "",
+                          "${DateFormat(DateFormat.MONTH_DAY).format(curr.task.dueDate!)}\n${DateFormat.y().format(curr.task.dueDate!)}",
                           textAlign: TextAlign.right,
                           style: const TextStyle(
                             height: 1.3,
