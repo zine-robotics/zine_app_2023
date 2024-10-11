@@ -11,6 +11,7 @@ import 'package:http/http.dart' as http;
 import 'package:zineapp2023/models/userTask.dart';
 import 'package:zineapp2023/providers/user_info.dart';
 import 'package:zineapp2023/backend_properties.dart';
+import '../../../models/task_instance.dart';
 import '/common/data_store.dart';
 import '../../../models/user.dart';
 
@@ -91,6 +92,7 @@ class AuthRepo {
       }
       return getUserbyId(userToken);
     } on SocketException {
+      if (kDebugMode) print('no-connect');
       throw AuthException(code: 'no-connect');
     }
   }
@@ -138,10 +140,7 @@ class AuthRepo {
   //   return data;
   // }
 
-  Future<List<UserTask>?> getTasks(uid) async {
-    //FIXME: Implement tits
-    return [];
-  }
+  
 
   // Future<List<Rooms>?> getRoomIds(uid) async {
   //   // Uri roomUri = BackendProperties.roomDataUri(email)
@@ -152,46 +151,53 @@ class AuthRepo {
   // }
 
   Future<UserModel?> getUserbyId(String uid) async {
-    Response res = await Requests.get(BackendProperties.userInfoUri.toString(),
-        headers: {'Authorization': 'Bearer $uid'});
+    try {
+      Response res = await Requests.get(
+          BackendProperties.userInfoUri.toString(),
+          headers: {'Authorization': 'Bearer $uid'});
 
-    if (res.statusCode != 200 || res.body.isEmpty) return null;
-    print('User Body ${res.body}');
-    Map<String, dynamic> user = jsonDecode(res.body);
+      if (res.statusCode != 200 || res.body.isEmpty) return null;
+      print('User Body ${res.body}');
+      Map<String, dynamic> user = jsonDecode(res.body);
 
-    //USER DOES NOT HAVE TASKIDS, ENDPOINT FOR QUERYING USER'S TASK IDS
+      //USER DOES NOT HAVE TASKIDS, ENDPOINT FOR QUERYING USER'S TASK IDS
 
-    var tasks = await getTasks(uid);
-    // var rooms = await getRoomIds(uid);
+      
+      // var rooms = await getRoomIds(uid);
 
-    // var roomDetails = getRoomMap(rooms);
+      // var roomDetails = getRoomMap(rooms);
 
-    // // List<Future<void>> futures = [];
-    // // for (var e in tasks!) {
-    // futures.add(getTemp(e).then((value) => e.template = value));
-    // // }
+      // // List<Future<void>> futures = [];
+      // // for (var e in tasks!) {
+      // futures.add(getTemp(e).then((value) => e.template = value));
+      // // }
 
-    // await Future.wait(futures);
+      // await Future.wait(futures);
 
-    // // print(tasks);
+      // // print(tasks);
 
-    // Above code just set User's links to empty, if the key wasnt created
+      // Above code just set User's links to empty, if the key wasnt created
 
-    UserModel userMod = UserModel(
-        uid: uid,
-        id: user['id'],
-        email: user['email'],
-        name: user['name'],
-        dp: int.tryParse(user['dp'] ?? "1"),
-        type: user['type'],
-        registered:
-            user['registered']! ?? false, //SDK CONSTRAINTS MIGHT F WITH THIS
-        tasks: tasks,
-        // rooms: rooms,
-        // roomDetails: roomDetails, // FIXME:
-        lastSeen: user['lastSeen'] ?? {});
+      UserModel userMod = UserModel(
+          uid: uid,
+          id: user['id'],
+          email: user['email'],
+          name: user['name'],
+          dp: int.tryParse(user['dp'] ?? "1"),
+          type: user['type'],
+          registered:
+              user['registered']! ?? false, //SDK CONSTRAINTS MIGHT F WITH THIS
+          tasks: [],
+          // rooms: rooms,
+          // roomDetails: roomDetails, // FIXME:
+          lastSeen: user['lastSeen'] ?? {});
 
-    return userMod;
+      return userMod;
+    } on TimeoutException {
+      throw AuthException(code: 'no-connect');
+    } catch (e) {
+      throw AuthException(code: 'unknown');
+    }
   }
 
   Future<UserModel?> createUserWithEmailAndPassword({

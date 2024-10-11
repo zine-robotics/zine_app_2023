@@ -41,28 +41,33 @@ class TaskVm extends ChangeNotifier {
     _isLoading = true;
     String _uid = userProv.getUserInfo.uid!;
     //TODO: ADD ERROR HANDLING
-    Response res = await http.get(BackendProperties.taskByIdUri,
-        headers: {'Authorization': 'Bearer $_uid'});
-    print("Called get Tasks");
-    print(res.body);
 
-    Map<String, dynamic> resBody = jsonDecode(res.body);
-    var instances = resBody['instances'] as List;
-    if (res.statusCode == 200 && res.body.isNotEmpty) {
-      taskInstances = instances
-          .map((instance) => UserTaskInstance(
-              instanceId: instance['id'],
-              title: instance['name'],
-              roomId: 0,
-              task: UserNewTask.fromJson(
-                instance['task'],
-              )))
-          .toList();
-      print("Final TaskInstance = $taskInstances");
-    } else {
+    try {
+      Response res = await http.get(BackendProperties.taskByIdUri,
+          headers: {'Authorization': 'Bearer $_uid'});
+      print("Called get Tasks");
+      print(res.body);
+
+      Map<String, dynamic> resBody = jsonDecode(res.body);
+      var instances = resBody['instances'] as List;
+      if (res.statusCode == 200 && res.body.isNotEmpty) {
+        taskInstances = instances
+            .map((instance) => UserTaskInstance(
+                instanceId: instance['id'],
+                title: instance['name'],
+                roomId: 0,
+                task: UserNewTask.fromJson(
+                  instance['task'],
+                )))
+            .toList();
+        print("Final TaskInstance = $taskInstances");
+      } else {
+        _isError = true;
+      }
+      _isLoading = false;
+    } catch (e) {
       _isError = true;
     }
-    _isLoading = false;
     notifyListeners();
   }
   //   String? uid = await getCurrentUserUid();
@@ -77,8 +82,8 @@ class TaskVm extends ChangeNotifier {
   //     }
   //   }
 
-  UserTask getCurr() {
-    return tasks![curr];
+  UserTaskInstance getCurr() {
+    return taskInstances[curr];
   }
 
   UserTaskInstance? findLatest() {
