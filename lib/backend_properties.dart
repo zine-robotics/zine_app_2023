@@ -19,9 +19,18 @@ class BackendProperties {
       path: 'messages/roomMsg', queryParameters: {'roomId': tempRoomId});
 
   static Uri allTasksUri = baseUrl.replace(path: '/tasks');
-  static Uri taskByIdUri = baseUrl.replace(path: '/tasks/user');
+  static Uri taskInstanceByIdUri = baseUrl.replace(path: '/tasks/user');
+
   static Uri taskDetailUri(String taskId) =>
       baseUrl.replace(path: '/tasks/$taskId');
+
+  static Uri instanceCheckpointUri(int instanceId) => // getting all checkpoints and updating checkpoints is done on the same URI.
+      baseUrl.replace(path: '/instance/$instanceId/checkpoints');
+  static Uri addCheckpointUri(int instanceId) => // getting all checkpoints and updating checkpoints is done on the same URI.
+      baseUrl.replace(path: '/instance/$instanceId/checkpoints');
+    
+
+  
 
   static Uri eventsUri = baseUrl.replace(path: '/event');
   static Uri websocketUri = baseUrl.replace(path: '/ws');

@@ -5,6 +5,7 @@ import 'package:zineapp2023/screens/chat/chat_screen/view_model/chat_room_view_m
 import 'package:zineapp2023/screens/events/view_models/events_vm.dart';
 import 'package:zineapp2023/screens/explore/public_events/view_models/public_events_vm.dart';
 import 'package:zineapp2023/screens/explore/view_model/timeline_vm.dart';
+import 'package:zineapp2023/screens/tasks/repo/task_instance_repo.dart';
 import 'package:zineapp2023/screens/tasks/repo/task_repo.dart';
 import 'package:zineapp2023/screens/tasks/view_models/task_vm.dart';
 
@@ -44,7 +45,10 @@ class AppProviders extends StatelessWidget {
       providers: [
         Provider<AuthRepo>(create: (_) => AuthRepo(store: store)),
         Provider<ChatRepo>(create: (_) => ChatRepo()),
-        Provider<TaskRepo>(create: (_) => TaskRepo(userProv:userProv)),
+        Provider<TaskRepo>(create: (_) => TaskRepo(userProv: userProv)),
+        Provider<TaskInstanceRepo>(
+          create: (_) => TaskInstanceRepo(userProv: userProv),
+        ),
         //Provider<TaskRepo>(create: (_)=>,)
         ChangeNotifierProvider(create: (_) => userProv),
         ChangeNotifierProvider(
@@ -66,11 +70,15 @@ class AppProviders extends StatelessWidget {
 
         ChangeNotifierProvider<TaskVm>(
             create: (_) => TaskVm(
-                userProv: userProv, taskRepo: TaskRepo(userProv: userProv))),
+                userProv: userProv,
+                taskRepo: TaskRepo(userProv: userProv),
+                taskInstanceRepo: TaskInstanceRepo(userProv: userProv))),
 
         ChangeNotifierProvider<TaskVm>(
             create: (_) => TaskVm(
-                userProv: userProv, taskRepo: TaskRepo(userProv: userProv))),
+                userProv: userProv,
+                taskRepo: TaskRepo(userProv: userProv),
+                taskInstanceRepo: TaskInstanceRepo(userProv: userProv))),
 
         ChangeNotifierProvider<TimelineVm>(create: (_) => TimelineVm()),
         ChangeNotifierProvider<HomeVm>(create: (_) => HomeVm()),

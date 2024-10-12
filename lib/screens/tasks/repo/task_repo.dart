@@ -28,7 +28,7 @@ class TaskRepo {
 
   dynamic getTasks(uid) async {
     try {
-      http.Response res = await http.get(BackendProperties.taskByIdUri,
+      http.Response res = await http.get(BackendProperties.taskInstanceByIdUri,
           headers: {'Authorization': 'Bearer $uid'});
       print("Get Tasks Response ${res.body}");
 
@@ -38,12 +38,6 @@ class TaskRepo {
     }
 
     print("getTasks is finished");
-  }
-
-  dynamic getDocRef(ref) async {
-    var doc = await _firebaseFirestore.doc(ref).get();
-    Tasks docData = Tasks.store(doc);
-    return docData;
   }
 
   dynamic addCheckpoints(String message, String docRefId, int curr) async {

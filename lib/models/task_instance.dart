@@ -52,3 +52,23 @@ class UserTaskInstance {
 }
 
 enum InstanceType { group, individual }
+
+class Checkpoint {
+  late int id;
+  late String content;
+  late bool remark;
+  late DateTime timestamp;
+
+  Checkpoint(
+      {required this.id,
+      required this.content,
+      required this.remark,
+      required this.timestamp});
+
+  Checkpoint.fromJson(Map<String, dynamic> json) {
+    id = json['id'] ?? 0;
+    remark = json['remark'] ?? false;
+    content = json['content'] ?? '';
+    timestamp = DateTime.fromMillisecondsSinceEpoch(json['timestamp'] ?? 0);
+  }
+}

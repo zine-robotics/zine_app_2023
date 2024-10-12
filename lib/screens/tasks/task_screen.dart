@@ -29,7 +29,7 @@ class _TaskScreenState extends State<TaskScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       var tasksVM = Provider.of<TaskVm>(context, listen: false);
-      tasksVM.getTasks();
+      tasksVM.getTaskInstances();
     });
   }
 
@@ -135,10 +135,10 @@ class _TaskScreenState extends State<TaskScreen> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     height: 15.0,
                   ),
-                  TabBar(
+                  const TabBar(
                       padding: EdgeInsets.all(8.0),
                       indicatorWeight: 0.1,
                       labelColor: blurBlue,
@@ -160,8 +160,8 @@ class _TaskScreenState extends State<TaskScreen> {
                         SingleChildScrollView(
                           child: Column(
                             children: [
-                              if (tasks.length == 0)
-                                Column(
+                              if (tasks.isEmpty)
+                                const Column(
                                   children: [
                                     SizedBox(
                                       height: 130.0,
@@ -183,7 +183,7 @@ class _TaskScreenState extends State<TaskScreen> {
                             ],
                           ),
                         ),
-                        Column(
+                        const Column(
                           children: [
                             SizedBox(
                               height: 130.0,
@@ -197,7 +197,7 @@ class _TaskScreenState extends State<TaskScreen> {
                             ),
                           ],
                         ),
-                        Column(
+                        const Column(
                           children: [
                             SizedBox(
                               height: 130.0,
@@ -211,7 +211,7 @@ class _TaskScreenState extends State<TaskScreen> {
                             ),
                           ],
                         ),
-                        Column(
+                        const Column(
                           children: [
                             SizedBox(
                               height: 130.0,

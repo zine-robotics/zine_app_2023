@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import "package:flutter/material.dart";
 import 'package:http/http.dart';
 import 'package:requests/requests.dart';
@@ -9,6 +10,7 @@ import 'package:zineapp2023/models/task_instance.dart';
 import 'package:zineapp2023/models/tasks.dart';
 import 'package:zineapp2023/models/userTask.dart';
 import 'package:zineapp2023/providers/user_info.dart';
+import 'package:zineapp2023/screens/tasks/repo/task_instance_repo.dart';
 import 'package:zineapp2023/screens/tasks/repo/task_repo.dart';
 import 'package:zineapp2023/utilities/date_time.dart';
 import 'package:http/http.dart' as http;
@@ -18,59 +20,61 @@ import '../../../models/userTask.dart';
 
 class TaskVm extends ChangeNotifier {
   final TaskRepo taskRepo;
+  final TaskInstanceRepo taskInstanceRepo;
   final UserProv userProv;
-  TaskVm({required this.taskRepo, required this.userProv});
+  TaskVm(
+      {required this.taskRepo,
+      required this.taskInstanceRepo,
+      required this.userProv});
 
   List<UserTask>? tasks = [];
   List<UserTaskInstance> taskInstances = []; //[UserTask.fromJson(json)];
-  List<UserTask>? _checkpoint;
-  List<dynamic> newTask = [];
+  List<Checkpoint> _currCheckpoints = [];
 
   bool _isLoading = false;
   get isLoading => _isLoading;
 
   bool _isError = false;
   get isError => _isError;
+
+  bool _isCheckpointLoading = false;
+  get isCheckpointLoading => _isCheckpointLoading;
+
+  bool _isCheckpointError = false;
+  get isChcekpointError => _isCheckpointError;
+
+  List<Checkpoint> get currCheckpoints => _currCheckpoints;
+
   int curr = 0;
   int prevLen = 0;
 
   // get tasks => _tasks;
 
-  void getTasks() async {
-    print("CAlled GetTAsks in TaskVM");
+  void getTaskInstances() async {
+    //TODO: FAILED HOST LOOKUP
     _isLoading = true;
-    String _uid = userProv.getUserInfo.uid!;
-    //TODO: ADD ERROR HANDLING
 
     try {
-      Response res = await http.get(BackendProperties.taskByIdUri,
-          headers: {'Authorization': 'Bearer $_uid'});
-      print("Called get Tasks");
-      print(res.body);
-
-      Map<String, dynamic> resBody = jsonDecode(res.body);
-      var instances = resBody['instances'] as List;
-      if (res.statusCode == 200 && res.body.isNotEmpty) {
-        taskInstances = instances
-            .map((instance) => UserTaskInstance(
-                instanceId: instance['id'],
-                title: instance['name'],
-                roomId: 0,
-                task: UserNewTask.fromJson(
-                  instance['task'],
-                )))
-            .toList();
-        print("Final TaskInstance = $taskInstances");
-      } else {
-        _isError = true;
-      }
-      _isLoading = false;
+      taskInstances = await taskInstanceRepo.getTaskInstances();
     } catch (e) {
       _isError = true;
     }
+    _isLoading = false;
     notifyListeners();
   }
-  //   String? uid = await getCurrentUserUid();
+
+  void getCurrCheckpoints() async {
+    _isCheckpointLoading = true;
+    int instanceId = taskInstances[curr].instanceId!;
+    try {
+      _currCheckpoints = await taskInstanceRepo.getCheckpoints(instanceId);
+      print("Final checkpointst $_currCheckpoints");
+    } catch (e) {
+      if (kDebugMode) print("Get Checkpoint Error");
+      _isCheckpointError = true;
+    }
+    _isCheckpointLoading = false;
+  }
   //   print("uid from function :$uid");
   //   if (uid != null) {
   //     _tasks = await taskRepo.getTasks(uid);
@@ -118,9 +122,13 @@ class TaskVm extends ChangeNotifier {
   //   return ans;
   // }
 
-  void addCheckpoints(String message) async {
-    await taskRepo.addCheckpoints(message, tasks![curr].docId.toString(), curr);
+  void addCurrCheckpoints(String message) async {
+    await taskInstanceRepo.addCheckpoints(
+        message, taskInstances[curr].instanceId!);
 
+    currCheckpoints.add(Checkpoint(
+        content: message, remark: false, id: 0, timestamp: DateTime.now()));
+    print("Added into curr");
     notifyListeners();
   }
 
