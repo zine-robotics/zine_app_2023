@@ -78,4 +78,39 @@ class TaskInstanceRepo {
       if (kDebugMode) print("Add checkpoint error");
     }
   }
+
+  Future<List<Link>> getLinks(int instanceId) async {
+    Response res = await http.get(
+        BackendProperties.instanceLinksUri(instanceId),
+        headers: {'Authorization': 'Bearer $_uid'});
+
+    if (res.statusCode == 200 && res.body.isNotEmpty) {
+      Map<String, dynamic> resBody = jsonDecode(res.body);
+      var linksJson = resBody['links'] as List;
+      return linksJson.map((link) => Link.fromJson(link)).toList();
+    }
+
+    return [];
+  }
+
+  Future<void> addLinks(String heading, String link, int instanceId) async {
+    try {
+      Response res = await http.post(
+          BackendProperties.addInstanceLinkUri(instanceId),
+          body:
+              jsonEncode({"type": heading, "link": Uri.parse(link).toString()}),
+          headers: {
+            'Authorization': 'Bearer $_uid',
+            'Content-Type': 'application/json',
+          });
+
+      if (res.statusCode == 200) {
+        if (kDebugMode) print(res.body);
+      } else {
+        if (kDebugMode) print("Add link reponse error ${res.body}");
+      }
+    } catch (e) {
+      if (kDebugMode) print("Add link error");
+    }
+  }
 }

@@ -30,6 +30,7 @@ class TaskVm extends ChangeNotifier {
   List<UserTask>? tasks = [];
   List<UserTaskInstance> taskInstances = []; //[UserTask.fromJson(json)];
   List<Checkpoint> _currCheckpoints = [];
+  List<Link> _currLinks = [];
 
   bool _isLoading = false;
   get isLoading => _isLoading;
@@ -43,7 +44,14 @@ class TaskVm extends ChangeNotifier {
   bool _isCheckpointError = false;
   get isChcekpointError => _isCheckpointError;
 
+  bool _isLinkLoading = false;
+  get isLinkLoading => _isCheckpointLoading;
+
+  bool _isLinkError = false;
+  get isLinkError => _isCheckpointError;
+
   List<Checkpoint> get currCheckpoints => _currCheckpoints;
+  List<Link> get currLinks => _currLinks;
 
   int curr = 0;
   int prevLen = 0;
@@ -74,6 +82,7 @@ class TaskVm extends ChangeNotifier {
       _isCheckpointError = true;
     }
     _isCheckpointLoading = false;
+    notifyListeners();
   }
   //   print("uid from function :$uid");
   //   if (uid != null) {
@@ -122,6 +131,21 @@ class TaskVm extends ChangeNotifier {
   //   return ans;
   // }
 
+  void getLinks() async {
+    _isLinkLoading = true;
+
+    int instanceId = taskInstances[curr].instanceId!;
+    try {
+      _currLinks = await taskInstanceRepo.getLinks(instanceId);
+      print("Final linksdsad $_currLinks");
+    } catch (e) {
+      if (kDebugMode) print("Get Links Error");
+      _isLinkError = true;
+    }
+    _isLinkLoading = false;
+    notifyListeners();
+  }
+
   void addCurrCheckpoints(String message) async {
     await taskInstanceRepo.addCheckpoints(
         message, taskInstances[curr].instanceId!);
@@ -132,8 +156,11 @@ class TaskVm extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addLink(heading, link) async {
-    await taskRepo.addLinks(heading, link, tasks![curr].docId.toString(), curr);
+  void addLink(String heading, String link) async {
+    await taskInstanceRepo.addLinks(
+        heading, link, taskInstances[curr].instanceId!);
+
+    currLinks.add(Link(link, id: 0, timestamp: DateTime.now(), type: heading));
     notifyListeners();
   }
 }

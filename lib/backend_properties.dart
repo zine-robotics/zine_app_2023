@@ -28,9 +28,11 @@ class BackendProperties {
       baseUrl.replace(path: '/instance/$instanceId/checkpoints');
   static Uri addCheckpointUri(int instanceId) => // getting all checkpoints and updating checkpoints is done on the same URI.
       baseUrl.replace(path: '/instance/$instanceId/checkpoints');
-    
 
-  
+  static Uri instanceLinksUri(int instanceId) =>
+      baseUrl.replace(path: '/instance/$instanceId/links');
+  static Uri addInstanceLinkUri(int instanceId) =>
+      baseUrl.replace(path: '/instance/$instanceId/links');
 
   static Uri eventsUri = baseUrl.replace(path: '/event');
   static Uri websocketUri = baseUrl.replace(path: '/ws');

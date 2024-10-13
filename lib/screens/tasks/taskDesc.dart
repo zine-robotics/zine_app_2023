@@ -38,6 +38,7 @@ class _TaskDescState extends State<TaskDesc> {
     super.initState();
     TaskVm tvm = Provider.of<TaskVm>(context, listen: false);
     tvm.getCurrCheckpoints();
+    tvm.getLinks();
   }
 
   final GlobalKey<ExpansionTileCardState> cardA = GlobalKey();
@@ -514,8 +515,11 @@ class _TaskDescState extends State<TaskDesc> {
     );
   }
 
-  Widget linksWidget(BuildContext context, dynamic links, dynamic latestLink) {
+  Widget linksWidget(BuildContext context) {
     TaskVm taskVm = Provider.of<TaskVm>(context, listen: true);
+    List<Link> links = taskVm.currLinks;
+    UserProv userProv = Provider.of<UserProv>(context, listen: false);
+    String userName = userProv.getUserInfo.name!;
     print(links);
 
     return Padding(
@@ -554,82 +558,80 @@ class _TaskDescState extends State<TaskDesc> {
                   horizontal: 16.0,
                   vertical: 8.0,
                 ),
-                // child: Column(
-                //   children: [
-                //     if (taskVm.tasks![taskVm.curr].links!.isNotEmpty)
-                //       for (int i = 0;
-                //           i < taskVm.tasks![taskVm.curr].links![i].length;
-                //           i++)
-                //         Column(
-                //           crossAxisAlignment: CrossAxisAlignment.start,
-                //           children: [
-                //             Row(
-                //               //crossAxisAlignment: CrossAxisAlignment.stretch,
-                //               children: [
-                //                 Text(
-                //                     '${taskVm.tasks![taskVm.curr].links![i]["heading"].toString()}',
-                //                     style: TextStyle(
-                //                         color: Colors.grey,
-                //                         fontSize: 10,
-                //                         fontWeight: FontWeight.bold)),
-                //                 SizedBox(
-                //                   width:
-                //                       MediaQuery.of(context).size.width * 0.3,
-                //                 ),
-                //                 Text(
-                //                     '${taskVm.tasks![taskVm.curr].links![i]['user']}@${getTime(taskVm.tasks![taskVm.curr].links![i]['timeDate'])} :${getDMY(taskVm.tasks![taskVm.curr].links![i]['timeDate']).toString()}',
-                //                     style: TextStyle(
-                //                         color: Colors.grey, fontSize: 9)),
-                //               ],
-                //             ),
-                //             InkWell(
-                //                 child: new Text(
-                //                   "${links[i]['link']}\n",
-                //                   style: TextStyle(
-                //                       fontSize: 13, color: Colors.blue),
-                //                 ),
-                //                 onTap: () => launch('${links[i]['link']}')),
-                //           ],
-                //         ),
-                //     if (taskVm.tasks![taskVm.curr].links!.isEmpty)
-                //       for (int i = 0;
-                //           i < taskVm.tasks![taskVm.curr].links!.length;
-                //           i++)
-                //         Column(
-                //           crossAxisAlignment: CrossAxisAlignment.start,
-                //           children: [
-                //             Row(
-                //               //crossAxisAlignment: CrossAxisAlignment.stretch,
-                //               children: [
-                //                 Text(
-                //                     '${taskVm.tasks![taskVm.curr].links![i].header}',
-                //                     style: TextStyle(
-                //                         color: Colors.grey,
-                //                         fontSize: 10,
-                //                         fontWeight: FontWeight.bold)),
-                //                 SizedBox(
-                //                   width:
-                //                       MediaQuery.of(context).size.width * 0.3,
-                //                 ),
-                //                 Text(
-                //                     '${taskVm.tasks![taskVm.curr].links![i]['user']}@${taskVm.tasks![taskVm.curr].links![i]['timeDate']}',
-                //                     style: TextStyle(
-                //                         color: Colors.grey, fontSize: 9)),
-                //               ],
-                //             ),
-                //             InkWell(
-                //                 child: new Text(
-                //                   "${tempLink[i]}\n",
-                //                   style: TextStyle(
-                //                       fontSize: 13, color: Colors.blue),
-                //                 ),
-                //                 onTap: () => launch(
-                //                     '${taskVm.tasks![taskVm.curr].links![i]['link']}')),
-                //           ],
-                //         ),
-                //   ],
-                // ),
-                // child: Placeholder(),
+                child: Column(
+                  children: [
+                    if (links.isNotEmpty)
+                      for (Link link in links)
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              // crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                Text(link.type,
+                                    style: TextStyle(
+                                        color: Colors.grey,
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.bold)),
+                                SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.3,
+                                ),
+                                Text(
+                                    '$userName@${DateFormat(DateFormat.HOUR24_MINUTE).format(link.timestamp)} :${DateFormat("dd.MM.yyyy").format(link.timestamp)}',
+                                    style: TextStyle(
+                                        color: Colors.grey, fontSize: 9)),
+                              ],
+                            ),
+                            InkWell(
+                                child: Text(
+                                  link.link.toString(),
+                                  style: TextStyle(
+                                      fontSize: 13, color: Colors.blue),
+                                ),
+                                onTap: () => launch(link.link.toString())),
+                          ],
+                        ),
+                    // if (taskVm.tasks![taskVm.curr].links!.isEmpty)
+                    //   for (int i = 0;
+                    //       i < taskVm.tasks![taskVm.curr].links!.length;
+                    //       i++)
+                    //     Column(
+                    //       crossAxisAlignment: CrossAxisAlignment.start,
+                    //       children: [
+                    //         Row(
+                    //           //crossAxisAlignment: CrossAxisAlignment.stretch,
+                    //           children: [
+                    //             Text(
+                    //                 '${taskVm.tasks![taskVm.curr].links![i].header}',
+                    //                 style: TextStyle(
+                    //                     color: Colors.grey,
+                    //                     fontSize: 10,
+                    //                     fontWeight: FontWeight.bold)),
+                    //             SizedBox(
+                    //               width:
+                    //                   MediaQuery.of(context).size.width * 0.3,
+                    //             ),
+                    //             Text(
+                    //                 '${taskVm.tasks![taskVm.curr].links![i]['user']}@${taskVm.tasks![taskVm.curr].links![i]['timeDate']}',
+                    //                 style: TextStyle(
+                    //                     color: Colors.grey, fontSize: 9)),
+                    //           ],
+                    //         ),
+                    //         InkWell(
+                    //             child: new Text(
+                    //               "${tempLink[i]}\n",
+                    //               style: TextStyle(
+                    //                   fontSize: 13, color: Colors.blue),
+                    //             ),
+                    //             onTap: () => launch(
+                    //                 '${taskVm.tasks![taskVm.curr].links![i]['link']}')),
+                    //       ],
+                    //     ),
+                  ],
+                ),
               ),
             ),
             //TaskDescRepo()
@@ -741,6 +743,7 @@ class _TaskDescState extends State<TaskDesc> {
     return Consumer2<TaskVm, DashboardVm>(
       builder: (context, taskVm, dashVm, _) {
         List<Checkpoint> checkpoints = taskVm.currCheckpoints;
+        List<Link> links = taskVm.currLinks;
         UserNewTask curr = taskVm.getCurr().task;
         print("taskDesc is rebuilt");
         UserTaskInstance? latest = taskVm.findLatest();
@@ -786,17 +789,17 @@ class _TaskDescState extends State<TaskDesc> {
                   SizedBox(
                     height: MediaQuery.of(context).size.width * 0.05,
                   ), //TODO: ADD theme back
-                  arr[0]
-                      ? Expanded(child: descripWidget(context))
-                      : descripWidget(context),
-                  // descripWidget(context),
+                  // arr[0]
+                  //     ? Expanded(child: descripWidget(context))
+                  //     : descripWidget(context),
+                  descripWidget(context),
                   arr[1]
                       ? Expanded(child: checkPointWidget(context, checkpoints))
                       : checkPointWidget(context, checkpoints),
 
-                  // arr[2]
-                  //     ? Expanded(child: linksWidget(context, curr, latestLink))
-                  //     : linksWidget(context, curr.psLink, latestLink),
+                  arr[2]
+                      ? Expanded(child: linksWidget(context))
+                      : linksWidget(context),
 
                   // arr[2]
                   //     ? Expanded(

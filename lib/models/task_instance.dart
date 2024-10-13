@@ -72,3 +72,26 @@ class Checkpoint {
     timestamp = DateTime.fromMillisecondsSinceEpoch(json['timestamp'] ?? 0);
   }
 }
+
+class Link {
+  late int id;
+  late String type;
+  late DateTime timestamp;
+  late Uri link;
+
+  Link(
+    String link, {
+    required this.id,
+    required this.timestamp,
+    required this.type,
+  }) {
+    this.link = Uri.tryParse(link) ?? Uri.parse('https://zine.co.in');
+  }
+
+  Link.fromJson(Map<String, dynamic> json) {
+    id = json['id'] ?? 0;
+    type = json['type'] ?? 'Link';
+    link = Uri.tryParse(json['link']) ?? Uri.parse('https://zine.co.in');
+    timestamp = DateTime.fromMillisecondsSinceEpoch(json['timestamp'] ?? 0);
+  }
+}
