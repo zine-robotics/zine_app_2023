@@ -149,7 +149,7 @@ class _EventTileState extends State<EventTile> {
                           child: AnimatedContainer(
                             duration: duration,
                             height: expanded ? 0 : 130,
-                            width: MediaQuery.of(context).size.width - 20 - 160,
+                            width: MediaQuery.of(context).size.width - 210,
                             child: Column(
                               children: [
                                 Flexible(

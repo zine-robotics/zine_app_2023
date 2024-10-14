@@ -51,7 +51,7 @@ class TimelineVm extends ChangeNotifier {
     //       .where((element) => element.stage == i.toString())
     //       .where((element) => element.recruitment == 'true')
     //       .toList();
-
+    sortedEvents.clear();
     for (Events event in recruitmentEvents) {
       if (sortedEvents.containsKey(event.recruitment!.stage!)) {
         sortedEvents[event.recruitment!.stage!]!.add(event);

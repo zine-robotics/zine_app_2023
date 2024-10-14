@@ -7,6 +7,7 @@ import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:swipe_to/swipe_to.dart';
+import 'package:xml/xml.dart';
 import 'package:zineapp2023/providers/user_info.dart';
 import 'package:zineapp2023/screens/chat/chat_screen/view_model/chat_room_view_model.dart';
 import 'package:zineapp2023/utilities/string_formatters.dart';
@@ -27,16 +28,37 @@ Widget chatV(BuildContext context, Stream<List<MessageModel>> messageStream,
     builder: (context, snapshot) {
       print("chat reply to :${chatRoomViewModel.replyTo}");
       if (snapshot.connectionState == ConnectionState.waiting) {
-        return Center(
-          child: CircularProgressIndicator(),
+        return Expanded(
+          child: const Center(
+            child: CircularProgressIndicator(),
+          ),
         );
       } else if (snapshot.hasError) {
         return Center(
           child: Text('Error:${snapshot.error}'),
         );
       } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-        return Center(
-          child: Text('No messages'),
+        return const Expanded(
+          child: Center(
+            child: Column(
+              children: [
+                Spacer(),
+                Icon(
+                  Icons.message,
+                  size: 50,
+                  color: textDarkBlue,
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                Text(
+                  'No Messages',
+                  style: TextStyle(fontSize: 20),
+                ),
+                Spacer()
+              ],
+            ),
+          ),
         );
       } else if (snapshot.hasData) {
         List<MessageModel> chats = snapshot.data!;
@@ -503,14 +525,14 @@ Widget chatV(BuildContext context, Stream<List<MessageModel>> messageStream,
   );
 }
 
-Widget buildProfilePicture(var dp) {
+Widget buildProfilePicture(var dp, {double size = 20}) {
   final random = Random();
 
-  if (dp is int || dp == null) {
+  if ((dp is int || dp == null) && size == 20) {
     final assetIndex = dp ?? (random.nextInt(26) + 1);
     return CircleAvatar(
       backgroundColor: const Color(0x0f2F80ED),
-      radius: 20,
+      radius: size,
       child: Padding(
           padding: const EdgeInsets.all(3.0),
           child: Image.asset(
@@ -522,7 +544,7 @@ Widget buildProfilePicture(var dp) {
       (dp.startsWith('http') || dp.startsWith('https'))) {
     return CircleAvatar(
       backgroundColor: const Color(0x0f2F80ED),
-      radius: 20,
+      radius: size,
       child: Padding(
         padding: const EdgeInsets.all(3.0),
         child: Image.network(
@@ -531,7 +553,19 @@ Widget buildProfilePicture(var dp) {
         ),
       ),
     );
-  } else {
-    return const SizedBox();
+  } else if (size != 20) {
+    final assetIndex = dp;
+    return CircleAvatar(
+      backgroundColor: const Color(0x0f2F80ED),
+      radius: size,
+      child: Padding(
+          padding: const EdgeInsets.all(3.0),
+          child: Image.asset(
+            "assets/images/dp/$assetIndex.png",
+            fit: BoxFit.cover,
+          )),
+    );
+  }else{
+    return SizedBox();
   }
 }

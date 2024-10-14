@@ -48,18 +48,18 @@ class EventsScreen extends StatelessWidget {
         surfaceTintColor: backgroundGrey,
         leading: (Navigator.canPop(context))
             ? IconButton(
-          icon: const Icon(
-            color: greyText,
-            Icons.arrow_back_rounded,
-            size: 40,
-          ),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        )
+                icon: const Icon(
+                  color: greyText,
+                  Icons.arrow_back_rounded,
+                  size: 40,
+                ),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              )
             : null,
         title: const Text(
-          "UPCOMING EVENTS",
+          "ZINE CALENDAR",
           style: TextStyle(
               height: 0.9,
               letterSpacing: 0.3,
@@ -81,10 +81,12 @@ class EventsScreen extends StatelessWidget {
                 // height: availableHeight / 2,
                 color: backgroundGrey,
                 padding: const EdgeInsets.fromLTRB(30, 5, 30, 5),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(25),
-                  child: Card(
-                    color: Colors.white,
+                child: Card(
+                  shape: ContinuousRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(20))),
+                  color: Colors.white,
+                  child: Padding(
+                    padding: const EdgeInsets.all(15.0),
                     child: EventCalendar(
                       evm: evm,
                     ),
@@ -94,34 +96,34 @@ class EventsScreen extends StatelessWidget {
               const SizedBox(height: 10),
               (evm.events.isNotEmpty)
                   ? Expanded(
-                  child: ListView.builder(
-                    clipBehavior: Clip.hardEdge,
-                    controller: _controller,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.fromLTRB(30, 5, 30, 5),
-                        child: EventTile(
-                          evm: evm,
-                          index: index,
-                          event: evm.events[index],
-                        ),
-                      );
-                    },
-                    itemCount: evm.events.length,
-                  ))
+                      child: ListView.builder(
+                      clipBehavior: Clip.hardEdge,
+                      controller: _controller,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.fromLTRB(30, 5, 30, 5),
+                          child: EventTile(
+                            evm: evm,
+                            index: index,
+                            event: evm.events[index],
+                          ),
+                        );
+                      },
+                      itemCount: evm.events.length,
+                    ))
                   : Expanded(
-                child: Center(
-                  child: Text(
-                    'SOMETHINGS COOKING',
-                    style: TextStyle(
-                        height: 0.9,
-                        letterSpacing: 0.3,
-                        fontSize: 30.0,
-                        fontWeight: FontWeight.w700,
-                        color: greyText),
-                  ),
-                ),
-              )
+                      child: Center(
+                        child: Text(
+                          'Something\'s cooking. . .',
+                          style: TextStyle(
+                              height: 0.9,
+                              letterSpacing: 0.3,
+                              fontSize: 30.0,
+                              fontWeight: FontWeight.w700,
+                              color: greyText),
+                        ),
+                      ),
+                    )
             ],
           );
         },
