@@ -66,7 +66,7 @@ class ActiveMember {
   String? name;
   String? email;
   String? role;
-  Null? dpUrl;
+  String? dpUrl;
 
   ActiveMember({this.name, this.email, this.role, this.dpUrl});
 

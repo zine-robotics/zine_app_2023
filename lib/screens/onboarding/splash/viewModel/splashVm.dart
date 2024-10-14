@@ -25,8 +25,9 @@ class SplashVM extends ChangeNotifier {
     String? uid = await store.getString('uid');
 
     if (uid != null && logged != null && logged.toString() == 'true') {
-      print(uid);
+
       UserModel? currUser = await authRepo.getUserbyId(uid.toString());
+      print("check currUser$currUser.");
       userProv.updateUserInfo(currUser as UserModel);
       await Navigator.of(NavigationService.navigatorKey.currentContext!,
               rootNavigator: true)
