@@ -29,6 +29,9 @@ Future<void> main() async {
       id: 'chats',
       importance: NotificationImportance.IMPORTANCE_HIGH,
       name: 'Chats');
+  await initializeNotifications();
+  setupForegroundMessageListener();
+
   // log('\nNotification Channel Result: $result');
   // FirebaseMessaging messaging = FirebaseMessaging.instance;
   // NotificationSettings settings = await messaging.requestPermission(
@@ -41,6 +44,7 @@ Future<void> main() async {
   //   sound: true,
   // );
   // ignore: unused_local_variable
+
   DataStore store = DefaultStore();
   UserProv userProv = UserProv(dataStore: store);
   FlutterSecureStorage secureStorage = const FlutterSecureStorage();

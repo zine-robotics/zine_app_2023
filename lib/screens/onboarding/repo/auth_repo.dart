@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:async';
 import 'dart:io';
+import 'dart:math';
 
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart';
@@ -140,8 +141,6 @@ class AuthRepo {
   //   return data;
   // }
 
-  
-
   // Future<List<Rooms>?> getRoomIds(uid) async {
   //   // Uri roomUri = BackendProperties.roomDataUri(email)
   //   // http.Response res = await http.get()
@@ -162,7 +161,6 @@ class AuthRepo {
 
       //USER DOES NOT HAVE TASKIDS, ENDPOINT FOR QUERYING USER'S TASK IDS
 
-      
       // var rooms = await getRoomIds(uid);
 
       // var roomDetails = getRoomMap(rooms);

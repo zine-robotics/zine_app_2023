@@ -20,10 +20,6 @@ class Channel extends StatelessWidget {
     return Consumer2<ChatRoomViewModel, UserProv>(
         builder: (context, chatVm, userProv, _) {
       UserModel currUser = userProv.getUserInfo;
-      String? lastChatTimestamp = roomDetail?.lastMessageTimestamp != null
-          ? DateFormat("d MMM")
-              .format(convertTimestamp(roomDetail!.lastMessageTimestamp!))
-          : " ";
 
       return Padding(
         padding: const EdgeInsets.all(5.0),
@@ -58,29 +54,24 @@ class Channel extends StatelessWidget {
                       roomDetail?.dpUrl != null
                           ? CircleAvatar(
                               backgroundColor: Colors.white,
-                              radius: 25,
-                              foregroundImage: NetworkImage(
-                                roomDetail!.dpUrl.toString(),
-                              ),
-                            )
+                              radius: 20,
+                              foregroundImage:
+                                  NetworkImage(roomDetail!.dpUrl!))
                           : CircleAvatar(
                               backgroundColor: Colors.white,
                               radius: 20,
                               foregroundImage:
-                                  AssetImage("assets/images/zine_logo.png"),
-                            ),
+                                  AssetImage("assets/images/zine_logo.png")),
                       const SizedBox(
                         width: 10,
                       ),
-                      roomDetail?.name != null
-                          ? Text(
-                              roomDetail!.name.toString(),
-                              style: const TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            )
-                          : Text(""),
+                      Text(
+                        roomDetail!.name.toString(),
+                        style: const TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
                     ],
                   ),
 
@@ -90,29 +81,28 @@ class Channel extends StatelessWidget {
                     children: [
                       Row(
                         children: [
-                          roomDetail?.unreadMessages != null
-                              ? roomDetail!.unreadMessages! > 0
-                                  ? Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        color: const Color.fromRGBO(
-                                            47, 128, 237, 1),
+                          roomDetail?.unreadMessages != null &&
+                                  roomDetail!.unreadMessages! > 0
+                              ? Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color:
+                                        const Color.fromRGBO(47, 128, 237, 1),
+                                  ),
+                                  height: 20,
+                                  width: 20,
+                                  child: Center(
+                                    child: Text(
+                                      roomDetail!.unreadMessages.toString(),
+                                      style: TextStyle(
+                                        color:
+                                            Color.fromARGB(255, 255, 255, 255),
+                                        fontSize: 10,
                                       ),
-                                      height: 20,
-                                      width: 20,
-                                      child: Center(
-                                        child: Text(
-                                          roomDetail!.unreadMessages.toString(),
-                                          style: TextStyle(
-                                            color: Color.fromARGB(
-                                                255, 255, 255, 255),
-                                            fontSize: 10,
-                                          ),
-                                        ),
-                                      ),
-                                    )
-                                  : Container()
-                              : const SizedBox(),
+                                    ),
+                                  ),
+                                )
+                              : Container(),
                           const SizedBox(
                             width: 10,
                           )
@@ -131,17 +121,13 @@ class Channel extends StatelessWidget {
                                   child: Align(
                                     alignment: AlignmentDirectional.centerEnd,
                                     child: Text(
-                                      // '',
-                                      // getLastSeenFormat(
-                                      lastChatTimestamp =
-                                          roomDetail?.lastMessageTimestamp !=
-                                                  null
-                                              ? DateFormat("d MMM").format(
-                                                  convertTimestamp(roomDetail!
-                                                      .lastMessageTimestamp!))
-                                              : "null ",
+                                      roomDetail?.lastMessageTimestamp != null
+                                          ? getLastSeenFormat(
+                                              roomDetail!.lastMessageTimestamp!)
+                                          : "",
                                       style: TextStyle(
-                                        color: Colors.grey,
+                                        color: const Color.fromARGB(
+                                            255, 75, 74, 74),
                                         fontSize: 12,
                                       ),
                                     ),

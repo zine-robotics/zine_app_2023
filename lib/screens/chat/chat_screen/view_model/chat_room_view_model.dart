@@ -221,7 +221,6 @@ class ChatRoomViewModel extends ChangeNotifier {
   List<Rooms>? _announcement;
   bool _isRoomLoading = false;
 
-  List<Rooms>? get user_rooms => _user_rooms;
   List<Rooms>? get userProjects => _userProjects;
   List<Rooms>? get userWorkshop => _userWorkshop;
   List<Rooms>? get announcement => _announcement;
@@ -236,7 +235,6 @@ class ChatRoomViewModel extends ChangeNotifier {
 
     _isRoomLoading = true;
 
-    notifyListeners();
     try {
       List<Rooms>? allRooms = await chatP.fetchRooms(email);
       List<Rooms>? allAnnouncment = await chatP.fetchAnnouncement(email);
@@ -245,10 +243,11 @@ class ChatRoomViewModel extends ChangeNotifier {
           print('Subscribing to room${room.id}');
           fMessaging.subscribeToTopic("room${room.id}");
         }
-        _user_rooms = allRooms.where((room) => room.type == "group").toList();
 
-        _userProjects =
-            allRooms.where((room) => room.type == "project").toList();
+        _userProjects = allRooms
+            .where((room) => room.type == "group" || room.type == "project")
+            .toList();
+        print(_userProjects![0].name);
         _userWorkshop =
             allRooms.where((room) => room.type == "workshop").toList();
         _announcement = allAnnouncment;

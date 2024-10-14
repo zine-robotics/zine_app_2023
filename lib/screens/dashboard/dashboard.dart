@@ -13,6 +13,7 @@ import 'package:zineapp2023/utilities/string_formatters.dart';
 import 'package:intl/intl.dart';
 import '../../common/routing.dart';
 import '../../utilities/date_time.dart';
+import '../chat/chat_screen/chat_view.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
@@ -27,6 +28,7 @@ class _DashboardState extends State<Dashboard> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<EventsVm>(context, listen: false).tempGetAllEvent();
+      Provider.of<ChatRoomViewModel>(context, listen: false).loadRooms();
     });
   }
 
@@ -87,13 +89,14 @@ class _DashboardState extends State<Dashboard> {
                                 ],
                               ),
                               const Spacer(),
-                              CircleAvatar(
-                                radius: 30,
-                                backgroundColor: iconTile,
-                                backgroundImage: AssetImage(
-                                  "assets/images/dp/${currUser.dp}.png",
-                                ),
-                              ),
+                              buildProfilePicture(currUser.dp,size:30),
+                              // CircleAvatar(
+                              //   radius: 30,
+                              //   backgroundColor: iconTile,
+                              //   backgroundImage: AssetImage(
+                              //     "assets/images/dp/${currUser.dp}.png",
+                              //   ),
+                              // ),
                               const SizedBox(
                                 width: 10.0,
                               ),
@@ -488,8 +491,8 @@ class _DashboardState extends State<Dashboard> {
                                   children: [
                                     Text(
                                       // userProv.currUser.roomids!.length
-                                      chatVm.user_rooms?.length != null
-                                          ? chatVm.user_rooms!.length.toString()
+                                      chatVm.allData?.length != null
+                                          ? chatVm.allData!.length.toString()
                                           : "0",
                                       style: TextStyle(
                                           height: 0.9,
